@@ -115,7 +115,7 @@ const rechargedetailScreen = (props) => {
                     </View>
                 </View >
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
-                    <TouchableOpacity style={styles.addmoney} onPress={() => { props.navigation.navigate("selectCategoryScreen") }}>
+                    <TouchableOpacity style={styles.addmoney} >
                         <Text style={{ color: '#FFFFFF', fontSize: hp('3%') }}>Procceed</Text>
                     </TouchableOpacity>
                 </View>
