@@ -2,7 +2,7 @@ import React from 'react'
 import { StatusBar, View, Text, SafeAreaView, StyleSheet, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 
-const registerScreen = (props) => {
+const loginwithemailScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
@@ -10,9 +10,6 @@ const registerScreen = (props) => {
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={styles.circle}>
                         <Image source={require('../../assets/Images/icon1.png')} style={styles.imageView} />
-                    </View>
-                    <View style={{ marginTop: hp('5%') }}>
-                        <Text style={styles.registertext}>Register</Text>
                     </View>
                     <View style={styles.centeView}>
                         <View style={styles.boxView}>
@@ -26,14 +23,8 @@ const registerScreen = (props) => {
                                         placeholderTextColor="#B5B5B5"
                                     />
                                 </View>
-                                <View style={styles.inputView}>
-                                    <TextInput
-                                        style={styles.TextInput}
-                                        placeholder="Full Name"
-                                        type='clear'
-                                        returnKeyType="next"
-                                        placeholderTextColor="#B5B5B5"
-                                    />
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
+                                    <Text style={{ fontSize: hp('2.5%'), fontWeight: 'bold' }}>OR</Text>
                                 </View>
                                 <View style={styles.inputView}>
                                     <TextInput
@@ -71,25 +62,16 @@ const registerScreen = (props) => {
                                     </View>
 
                                 </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                                    <TouchableOpacity style={styles.otpBtn} onPress={() => { }} >
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('4%') }}>
+                                    <TouchableOpacity style={styles.otpBtn} onPress={() => { props.navigation.navigate('homeScreen') }} >
                                         <Text style={styles.otpbtnText}>Verify OTP</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                                    <Text style={{ fontSize: hp('2.5%'), fontWeight: 'bold' }}>OR</Text>
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                                    <TouchableOpacity style={styles.googleBtn} onPress={() => { }} >
-                                        <Text style={styles.googlebtnText}>Register with Google</Text>
-                                        <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: wp('5%') }} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                         <View style={styles.centeView} >
-                            <TouchableOpacity onPress={() => props.navigation.navigate("forgotpasswordScreen")} >
-                                <Text style={styles.createText}>Already have an Account?</Text>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('registerScreen')}>
+                                <Text style={styles.createText}>Don't have an Account?</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -99,7 +81,7 @@ const registerScreen = (props) => {
     )
 }
 
-export default registerScreen;
+export default loginwithemailScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -117,7 +99,7 @@ const styles = StyleSheet.create({
         marginLeft: wp('15%')
     },
     boxView: {
-        height: hp('62  %'),
+        height: hp('48%'),
         width: wp('95%'),
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -129,7 +111,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
-        marginTop: hp('4%')
+        marginTop: hp('20%')
     },
     inputView: {
         flexDirection: 'row',
@@ -164,35 +146,11 @@ const styles = StyleSheet.create({
         fontSize: hp('2.5%'),
         fontWeight: 'bold'
     },
-    googleBtn: {
-        flexDirection: 'row',
-        width: wp('80%'),
-        borderRadius: 50,
-        height: hp('6%'),
-        alignItems: "center",
-        justifyContent: 'center',
-        borderColor: '#00D9CE',
-        borderWidth: hp('0.1%')
-    },
-    googlebtnText: {
-        color: '#000000',
-        fontSize: hp('2%')
-    },
     createText: {
         color: '#FFFFFF',
         fontSize: hp('2.5%'),
         marginTop: hp('2%'),
         fontWeight: '900'
-    },
-    supportText: {
-        color: '#4E4E4E',
-        fontSize: hp('2%'),
-        textDecorationLine: 'underline',
-        fontWeight: 'bold'
-    },
-    centerView: {
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     backgroundImage: {
         flex: 1,
@@ -213,11 +171,5 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         marginTop: hp('-35'),
         marginLeft: wp('-10')
-    },
-    registertext: {
-        fontSize: hp('4%'),
-        color: '#FFFFFF',
-        fontWeight: '900',
-        marginLeft: wp('4%')
     }
 })

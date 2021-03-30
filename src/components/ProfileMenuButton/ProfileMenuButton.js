@@ -5,7 +5,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 export default function MenuButton(props) {
     return (
         <TouchableOpacity style={styles.categoryIcon} onPress={props.onPress} >
-            <Image source={require('../../assets/Images/profilemenuicon.png')}
+            <Image source={require('../../assets/Images/menuicon.png')}
                 style={{ alignItems: 'center', height: 50, width: 60 }}
             />
         </TouchableOpacity>

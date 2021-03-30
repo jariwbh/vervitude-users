@@ -19,17 +19,17 @@ const homeScreen = (props) => {
                         <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 30, width: 25 }} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={{ height: hp('7'), width: wp('35%'), backgroundColor: '#FFFFFF', flexDirection: 'row', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', marginLeft: wp('20%') }}>
-                        <Text style={{ fontSize: hp('2.8%'), color: '#00D9CE' }}>5324.00</Text>
+                        style={{ height: hp('7%'), width: wp('35%'), backgroundColor: '#FFFFFF', flexDirection: 'row', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', marginLeft: wp('20%') }}>
+                        <Text style={{ fontSize: hp('2.8%'), color: '#04DE71' }}>₹5,300</Text>
                         <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>
-                            <MaterialIcons name="account-balance-wallet" size={25} color='#00D9CE' />
+                            <MaterialIcons name="account-balance-wallet" size={30} color='#04DE71' />
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.statusbar}>
                     <TouchableOpacity >
-                        <AntDesign name="search1" size={20} color='#3399ff' style={{ marginLeft: hp('2%') }} />
+                        <AntDesign name="search1" size={20} color='#04DE71' style={{ marginLeft: hp('2%') }} />
                     </TouchableOpacity>
                     <TextInput
                         style={styles.statInput}
@@ -48,12 +48,12 @@ const homeScreen = (props) => {
                     <SliderScreen />
                 </View>
                 <TouchableOpacity style={{ marginTop: hp('3%'), marginLeft: wp('5%') }} onPress={() => { props.navigation.navigate("selectCategoryScreen") }}>
-                    <Text style={{ fontSize: hp('3%') }}>Cetegories</Text>
+                    <Text style={{ fontSize: hp('3.5%'), textDecorationLine: 'underline', color: '#00D9CE', fontWeight: 'bold' }}>Categories</Text>
                 </TouchableOpacity>
-                <View style={{ marginTop: hp('0%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
+                <View style={{ marginTop: hp('-2%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
                         <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%'), }}>
-                            <Image source={require('../../assets/Images/entypoareagraph.png')}
+                            <Image source={require('../../assets/Images/entypoareagraph1.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
                         <View style={{ marginTop: hp('1%') }}>
@@ -62,7 +62,7 @@ const homeScreen = (props) => {
                     </View>
                     <View>
                         <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%'), }}>
-                            <Image source={require('../../assets/Images/grommeticonstechnology.png')}
+                            <Image source={require('../../assets/Images/grommeticonstechnology1.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
                         <View style={{ marginTop: hp('1%') }}>
@@ -71,7 +71,7 @@ const homeScreen = (props) => {
                     </View>
                     <View>
                         <TouchableOpacity style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
-                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')}
+                            <Image source={require('../../assets/Images/icoutlinedesignservices1.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
                         <View style={{ marginTop: hp('1%') }}>
@@ -80,7 +80,7 @@ const homeScreen = (props) => {
                     </View>
                     <View>
                         <TouchableOpacity style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')}
+                            <Image source={require('../../assets/Images/icroundbusinesscenter1.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
                         <View style={{ marginTop: hp('1%') }}>
@@ -89,7 +89,7 @@ const homeScreen = (props) => {
                     </View>
                     <View>
                         <TouchableOpacity style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')}
+                            <Image source={require('../../assets/Images/allicon.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
                         <View style={{ marginTop: hp('1%') }}>
@@ -98,7 +98,7 @@ const homeScreen = (props) => {
                     </View>
                 </View>
                 <TouchableOpacity style={{ marginTop: hp('3%'), marginLeft: wp('5%') }}>
-                    <Text style={{ fontSize: hp('3%') }}>Top Consultants</Text>
+                    <Text style={{ fontSize: hp('3.5%'), textDecorationLine: 'underline', color: '#00D9CE' }}>Top Consultants</Text>
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', marginBottom: hp('5%') }}>
                     <ScrollView
@@ -108,16 +108,19 @@ const homeScreen = (props) => {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("myProfileScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ alignItems: 'center', borderColor: '#FFFFFF', borderWidth: hp('0.2%'), height: 100, width: 100, marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', borderColor: '#2294FA', borderWidth: hp('0.3%'), height: 100, width: 100, marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Ranjan</Text>
+                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: hp('-1%') }}>Ranjan</Text>
                                 <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
                                     <StarRating
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={4}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -125,16 +128,19 @@ const homeScreen = (props) => {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
-                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#FFFFFF', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#2294FA', borderWidth: hp('0.3%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Maria</Text>
+                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: hp('-1%') }}>Maria</Text>
                                 <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
                                     <StarRating
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={3}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -142,16 +148,19 @@ const homeScreen = (props) => {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#FFFFFF', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#2294FA', borderWidth: hp('0.3%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Sunita</Text>
+                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: hp('-1%') }}>Sunita</Text>
                                 <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
                                     <StarRating
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={5}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -159,16 +168,19 @@ const homeScreen = (props) => {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
-                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#FFFFFF', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#2294FA', borderWidth: hp('0.3%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Georgle</Text>
+                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: hp('-1%') }}>Georgle</Text>
                                 <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
                                     <StarRating
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={3.5}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -176,7 +188,7 @@ const homeScreen = (props) => {
                     </ScrollView>
                 </View>
             </ScrollView>
-        </SafeAreaView >
+        </SafeAreaView>
     )
 }
 
