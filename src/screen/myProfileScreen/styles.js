@@ -4,11 +4,11 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-na
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#5AC8FA'
+        backgroundColor: '#00D9CE'
     },
     cardview: {
         width: wp('95%'),
-        height: hp('110%'),
+        height: hp('105%'),
         backgroundColor: '#FFFFFF',
         borderRadius: hp('3%'),
         marginTop: hp('3%'),
@@ -83,7 +83,8 @@ export const styles = StyleSheet.create({
         height: hp('13%'),
         marginTop: hp('-1%'),
         borderWidth: hp('0.3%'),
-        borderColor: '#000000'
+        borderColor: '#EEEEEE',
+        marginRight: wp('5%')
     },
     savebtn: {
         flexDirection: 'row',

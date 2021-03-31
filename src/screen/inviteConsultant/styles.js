@@ -4,7 +4,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-na
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EEEEEE'
+        backgroundColor: '#00D9CE'
     },
     invitetitle: {
         fontSize: hp('3'),
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     submitBtn: {
         flexDirection: 'row',
         width: wp('40%'),
-        backgroundColor: "#5AC8FA",
+        backgroundColor: "#00D9CE",
         borderRadius: 50,
         height: hp('5%'),
         alignItems: "center",

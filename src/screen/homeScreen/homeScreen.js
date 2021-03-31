@@ -10,12 +10,12 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-na
 const homeScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('22%'), marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
-                <View style={{ marginTop: hp('3%'), justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }} >
+            <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('25%'), marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+                <View style={{ marginTop: hp('5%'), justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ marginRight: hp('2%') }}>
-                        <MenuButton onPress={() => { }} />
+                        <MenuButton onPress={() => { props.navigation.navigate("myProfileScreen") }} />
                     </View>
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate("notificationScreen") }}>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate("notificationScreen") }}>
                         <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 30, width: 25 }} />
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -29,13 +29,13 @@ const homeScreen = (props) => {
 
                 <View style={styles.statusbar}>
                     <TouchableOpacity >
-                        <AntDesign name="search1" size={20} color='#04DE71' style={{ marginLeft: hp('2%') }} />
+                        <AntDesign name="search1" size={20} color='#00D9CE' style={{ marginLeft: hp('2%') }} />
                     </TouchableOpacity>
                     <TextInput
                         style={styles.statInput}
                         placeholder="Search App"
                         type='clear'
-                        placeholderTextColor="#737373"
+                        placeholderTextColor="#999999"
                         returnKeyType="done"
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -43,8 +43,8 @@ const homeScreen = (props) => {
                     />
                 </View>
             </View>
-            <ScrollView>
-                <View style={{ marginTop: hp('5%') }}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ marginTop: hp('3%') }}>
                     <SliderScreen />
                 </View>
                 <TouchableOpacity style={{ marginTop: hp('3%'), marginLeft: wp('5%') }} onPress={() => { props.navigation.navigate("selectCategoryScreen") }}>

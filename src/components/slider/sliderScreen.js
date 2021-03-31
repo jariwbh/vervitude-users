@@ -15,7 +15,7 @@ export default function SliderScreen() {
         <SliderBox
             images={images}
             sliderBoxHeight={230}
-            inactiveDotColor="#90A4AE"
+            inactiveDotColor="#00D9CE"
             paginationBoxVerticalPadding={0}
             autoplay
             circleLoop
