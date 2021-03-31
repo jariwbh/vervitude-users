@@ -21,7 +21,7 @@ const myWalletScreen = (props) => {
             </View>
             <ScrollView>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: hp('3%') }}>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate("rechargedetailScreen") }}>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate("rechargepaymentScreen") }}>
                         <Text style={{ fontSize: hp('4%') }}>₹ Amount</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ marginTop: hp('2%') }}>

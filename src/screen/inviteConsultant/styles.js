@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     boxView: {
         height: hp('75%'),
-        width: wp('95%'),
+        width: wp('90%'),
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 4,
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     },
     submitbtnText: {
         color: '#FFFFFF',
-        fontSize: hp('2%')
+        fontSize: hp('2.5%')
     },
     centeView: {
         justifyContent: 'center',
