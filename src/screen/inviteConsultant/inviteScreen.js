@@ -15,11 +15,11 @@ const inviteScreen = (props) => {
         <SafeAreaView style={STYLES.styles.container}>
             <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginLeft: wp('3%'), marginTop: hp('5%'), marginRight: hp('3%') }}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
-                    <AntDesign name="arrowleft" color="#5AC8FA" size={24} />
+                    <AntDesign name="arrowleft" color="#FFFFFF" size={24} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-30%') }}>Invite</Text>
+                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-30%'), color: '#FFFFFF' }}>Invite</Text>
                 <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
-                    <Entypo name="home" color="#5AC8FA" size={24} />
+                    <Entypo name="home" color="#FFFFFF" size={24} />
                 </TouchableOpacity>
             </View>
             <View style={STYLES.styles.centeView}>

@@ -22,7 +22,7 @@ const homeScreen = (props) => {
                         style={{ height: hp('7'), width: wp('35%'), backgroundColor: '#FFFFFF', flexDirection: 'row', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', marginLeft: wp('20%') }}>
                         <Text style={{ fontSize: hp('2.8%'), color: '#00D9CE' }}>5324.00</Text>
                         <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>
-                            <MaterialIcons name="account-balance-wallet" size={25} color='#00D9CE' />
+                            <MaterialIcons name="account-balance-wallet" size={30} color='#00D9CE' />
                         </View>
                     </TouchableOpacity>
                 </View>
