@@ -91,12 +91,12 @@ export default class myProfileScreen extends Component {
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Mode Seettings</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { }}
-                                style={{ flexDirection: 'row', marginTop: hp('3.5%') }}>
+                                style={{ flexDirection: 'row', marginTop: hp('3.5%') }} >
                                 <Image source={require('../../assets/Images/conversation.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My conversations</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }}
-                                onPress={() => { }}>
+                                onPress={() => { this.props.navigation.navigate("myspendsScreen") }}>
                                 <Image source={require('../../assets/Images/Group.png')} style={{ height: 20, width: 29, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Spends</Text>
                             </TouchableOpacity>
@@ -113,7 +113,7 @@ export default class myProfileScreen extends Component {
                                 <Image source={require('../../assets/Images/invite.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Invite a Consultant</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }} onPress={() => { this.props.navigation.navigate("disputesScreen") }}>
                                 <FontAwesome name="exclamation-triangle" size={30} color='#5AC8FA' style={{ marginLeft: hp('3%') }} />
                                 {/* <Image source={require('../../assets/Images/invite.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} /> */}
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Disputes</Text>

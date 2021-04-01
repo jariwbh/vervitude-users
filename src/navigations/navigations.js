@@ -14,6 +14,10 @@ import rechargedetailScreen from '../screen/myWalletScreen/rechargedetailScreen'
 import selectCategoryScreen from '../screen/selectCategoryScreen/selectCategoryScreen'
 import rechargepaymentScreen from '../screen/myWalletScreen/rechargepaymentScreen'
 import loginwithemailScreen from '../screen/loginScreen/loginwithemailScreen';
+import promocodeScreen from '../screen/promocodeScreen/promocodeScreen';
+import disputesScreen from '../screen/disputesScreen/disputesScreen';
+import disputesdetailsScreen from '../screen/disputesScreen/disputesdetailsScreen'
+import myspendsScreen from '../screen/myspendsScreen/myspendsScreen'
 
 const Stack = createStackNavigator();
 
@@ -34,6 +38,10 @@ const navigationsApp = () => {
                 <Stack.Screen name="selectCategoryScreen" component={selectCategoryScreen} />
                 <Stack.Screen name="rechargepaymentScreen" component={rechargepaymentScreen} />
                 <Stack.Screen name="loginwithemailScreen" component={loginwithemailScreen} />
+                <Stack.Screen name="promocodeScreen" component={promocodeScreen} />
+                <Stack.Screen name="disputesScreen" component={disputesScreen} />
+                <Stack.Screen name="disputesdetailsScreen" component={disputesdetailsScreen} />
+                <Stack.Screen name="myspendsScreen" component={myspendsScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

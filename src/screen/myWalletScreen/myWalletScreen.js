@@ -24,7 +24,7 @@ const myWalletScreen = (props) => {
                     <TouchableOpacity onPress={() => { props.navigation.navigate("rechargepaymentScreen") }}>
                         <Text style={{ fontSize: hp('4%') }}>₹ Amount</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: hp('2%') }}>
+                    <TouchableOpacity style={{ marginTop: hp('2%') }} onPress={() => { props.navigation.navigate("promocodeScreen") }}>
                         <Text style={{ fontSize: hp('2%'), color: 'blue' }}>Apply Promo Code</Text>
                     </TouchableOpacity>
                 </View>
