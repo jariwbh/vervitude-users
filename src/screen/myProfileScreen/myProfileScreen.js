@@ -89,7 +89,7 @@ export default class myProfileScreen extends Component {
                                 <Image source={require('../../assets/Images/modeicon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Mode Settings</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { }}
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate("recentchatScreen") }}
                                 style={{ flexDirection: 'row', marginTop: hp('3.5%') }} >
                                 <Image source={require('../../assets/Images/conversation.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My conversations</Text>

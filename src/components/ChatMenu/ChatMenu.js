@@ -6,7 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 export default function ChatMenu(props) {
     return (
         <TouchableOpacity style={styles.categoryIcon} onPress={props.onPress} >
-            <Image source={require('../../assets/images/chaticon.png')}
+            <Image source={require('../../assets/Images/chaticon.png')}
                 style={{ alignItems: 'center', height: 25, width: 27, }}
             />
         </TouchableOpacity>
