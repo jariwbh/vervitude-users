@@ -21,22 +21,69 @@ const myspendsScreen = () => {
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={styles.walletview}>
-                    <Text style={{ fontSize: hp('2%'), color: '#9D9D9D' }}>Wallet Balance</Text>
-                    <Text style={{ fontSize: hp('4%'), color: '#04DE71' }}>₹ 5000.00</Text>
-                </View>
-            </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={styles.walletview}>
-                    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#000000' }} >
-                        {/* <Image source={require('../../assets/Images/Ellipse4.png')}
-                            style={{ width: 20, height: 20,}}
-                        /> */}
+            <ScrollView>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={styles.walletview}>
+                        <Text style={{ fontSize: hp('2%'), color: '#9D9D9D' }}>Wallet Balance</Text>
+                        <Text style={{ fontSize: hp('4%'), color: '#04DE71' }}>₹ 5000.00</Text>
                     </View>
                 </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={styles.counsultantview}>
+                        {/* <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end', }}>
+                            <View style={styles.pro}>
 
-            </View>
+                            </View>
+                        </View> */}
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%'), flex: 1 }}>
+                            <Image source={require('../../assets/Images/Ellipse4.png')}
+                                style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                            />
+                            <View>
+                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', }}>Ravindra</Text>
+                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
+                                </View>
+                                <Text style={{ fontSize: hp('2%'), }}>Speciliazition</Text>
+                                <Text le={{ fontSize: hp('2%'), }}>CRM,Digital Marketing,Marketing</Text>
+                                <View style={{ justifyContent: 'space-evenly', flexDirection: 'row', marginTop: hp('1%') }}>
+                                    <Text style={{ fontSize: hp('2.5%'), color: '#FB3267', fontWeight: 'bold' }}>₹ 2,000</Text>
+                                    <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>2h10min</Text>
+                                </View>
+                            </View>
+
+                        </View>
+                    </View>
+                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={styles.counsultantview}>
+                        <View >
+
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
+                            <Image source={require('../../assets/Images/user1.png')}
+                                style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                            />
+                            <View>
+                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', }}>Ruby</Text>
+                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
+                                </View>
+                                <Text style={{ fontSize: hp('2%'), }}>Speciliazition</Text>
+                                <Text le={{ fontSize: hp('2%'), }}>CRM,Digital Marketing,Marketing</Text>
+                                <View style={{ justifyContent: 'space-evenly', flexDirection: 'row', marginTop: hp('1%') }}>
+                                    <Text style={{ fontSize: hp('2.5%'), color: '#FB3267', fontWeight: 'bold' }}>₹ 2,000</Text>
+                                    <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>2h10min</Text>
+                                </View>
+                            </View>
+
+                        </View>
+                    </View>
+                </View>
+                <View style={{ marginBottom: hp('5%') }}></View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -64,4 +111,42 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    counsultantview: {
+        flex: 1,
+        height: hp('30%'),
+        width: wp('90%'),
+        backgroundColor: '#FFFFFF',
+        borderRadius: hp('3%'),
+        marginTop: hp('1.5%'),
+        shadowOpacity: 10,
+        shadowRadius: 20,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 15,
+    },
+    // pro: {
+    //     marginTop: hp('-5'),
+    //     marginRight: wp('-10%'),
+    //     overflow: 'hidden',
+    //     // borderBottomColor: "red",
+    //     borderTopColor: "transparent",
+    //     width: 100,
+    //     height: 100,
+    //     backgroundColor: 'transparent',
+    //     borderTopWidth: 0,
+
+    //     borderLeftColor: "red",
+    //     borderLeftWidth: 60,
+    //     borderTopColor: "transparent",
+    //     borderRightColor: "transparent",
+    //     borderRightWidth: 0,
+
+    //     borderBottomWidth: 0,
+    //     borderTopLeftRadius: 60,
+    //     borderTopRightRadius: 60,
+    //     borderBottomRightRadius: 0,
+    //     borderBottomLeftRadius: 60,
+    // },
 })
