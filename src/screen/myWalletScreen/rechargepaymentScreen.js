@@ -10,7 +10,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const rechargepaymentScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: 'green', width: wp('100%'), height: hp('15%'), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+            <View style={{ backgroundColor: '#04DE71', width: wp('100%'), height: hp('15%'), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
                 </TouchableOpacity>
@@ -25,28 +25,28 @@ const rechargepaymentScreen = (props) => {
                     <Text style={{ fontSize: hp('4%'), fontWeight: 'bold' }}>₹ 1,500</Text>
                 </View>
                 <View style={{ marginLeft: hp('3%') }}>
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: 'green' }}>Recharge Summary</Text>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: '#34A853' }}>Recharge Summary</Text>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.gamountview}>
-                        <Text style={{ fontSize: hp('2.5%'), marginLeft: wp('2%') }}>Balance Post Recharge </Text>
-                        <Text style={{ fontSize: hp('3%'), marginLeft: wp('17%'), color: '#35A453' }}>1730</Text>
+                        <Text style={{ fontSize: hp('2%'), marginLeft: wp('5%') }}>Balance Post Recharge </Text>
+                        <Text style={{ fontSize: hp('3%'), marginLeft: wp('17%'), color: '#35A453' }}>₹ 1,730</Text>
                         <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
-                            <AntDesign name="upsquare" color="#35A453" size={30} style={{ marginRight: wp('3%'), }} />
+                            <AntDesign name="downsquare" color="#35A453" size={20} style={{ marginRight: wp('3%'), }} />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{ marginLeft: hp('3%'), marginTop: hp('3%') }}>
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: 'green' }}>Payment Options</Text>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: '#34A853' }}>Payment Options</Text>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
                         <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Credit Card</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-on" color="#35A453" size={30} style={{ marginRight: hp('3%') }} />
+                            <Ionicons name="radio-button-on" color="#04DE71" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
                         <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Debit Card</Text>
@@ -54,7 +54,7 @@ const rechargepaymentScreen = (props) => {
                             <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
                         <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Net Banking</Text>
@@ -62,7 +62,7 @@ const rechargepaymentScreen = (props) => {
                             <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
                         <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Wallet</Text>
@@ -70,7 +70,7 @@ const rechargepaymentScreen = (props) => {
                             <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
                         <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>UPI</Text>
@@ -78,15 +78,16 @@ const rechargepaymentScreen = (props) => {
                             <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
                     <TouchableOpacity style={styles.addmoney} onPress={() => { props.navigation.navigate("rechargedetailScreen") }}>
                         <Text style={{ color: '#FFFFFF', fontSize: hp('3%') }}>Procceed</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}>Current Balanced ₹ 1,000</Text>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}>Current Balance ₹ 1,000</Text>
                 </View>
+                <View style={{ marginBottom: hp('10%') }}></View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         borderRadius: hp('2%'),
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: 'green',
+        borderColor: '#04DE71',
         borderWidth: hp('0.3%')
     },
     gamountview: {
@@ -151,6 +152,8 @@ const styles = StyleSheet.create({
         borderRadius: hp('3%'),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'green'
+        backgroundColor: '#04DE71',
+        borderWidth: hp('0.2'),
+        borderColor: '#2094FA'
     },
 })
