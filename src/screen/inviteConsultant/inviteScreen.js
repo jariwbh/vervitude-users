@@ -8,18 +8,18 @@ import Entypo from 'react-native-vector-icons/Entypo'
 const inviteScreen = (props) => {
     function onPressSubmit() {
         ToastAndroid.show('User invited!', ToastAndroid.SHORT);
-        props.navigation.replace(myProfileScreen);
+        props.navigation.replace('myProfileScreen');
     }
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginLeft: wp('3%'), marginTop: hp('5%'), marginRight: hp('3%') }}>
-                <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
+            <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginLeft: wp('3%'), marginTop: hp('5%'), marginRight: hp('3%') }}>
+                <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-30%'), color: '#FFFFFF' }}>Invite</Text>
-                <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
-                    <Entypo name="home" color="#FFFFFF" size={24} />
+                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-35%'), color: '#FFFFFF', fontWeight: 'bold' }}>Invite</Text>
+                <TouchableOpacity onPress={() => { props.navigation.navigate('homeScreen') }}>
+                    <Entypo name="home" color="#FFFFFF" size={30} />
                 </TouchableOpacity>
             </View>
             <View style={STYLES.styles.centeView}>
@@ -33,7 +33,7 @@ const inviteScreen = (props) => {
                                 placeholder="Email Address"
                                 type='clear'
                                 returnKeyType="next"
-                                placeholderTextColor="#404040"
+                                placeholderTextColor="#999999"
                             />
                         </View>
 
@@ -44,7 +44,7 @@ const inviteScreen = (props) => {
                                 placeholder="Phone Number"
                                 type='clear'
                                 returnKeyType="next"
-                                placeholderTextColor="#404040"
+                                placeholderTextColor="#999999"
                             />
                         </View>
 
@@ -55,7 +55,7 @@ const inviteScreen = (props) => {
                                 placeholder="Full Name"
                                 type='clear'
                                 returnKeyType="next"
-                                placeholderTextColor="#404040"
+                                placeholderTextColor="#999999"
                             />
                         </View>
 

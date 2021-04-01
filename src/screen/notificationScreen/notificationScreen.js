@@ -4,21 +4,23 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Ima
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-
 const notificationScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-
-                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
-                        <AntDesign name="arrowleft" size={24} color='#FFFFFF' style={{ marginLeft: hp('3%') }} />
-                    </TouchableOpacity>
-                    <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 30, width: 25, marginLeft: hp('-18%') }} />
-                    <TouchableOpacity
-                        style={styles.submitbtn}>
-                        <Text style={{ fontSize: hp('2%'), color: '#00D9CE' }}>Clear</Text>
-                    </TouchableOpacity>
+                <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('14%'), borderBottomLeftRadius: hp('4%'), borderBottomRightRadius: hp('4%') }}>
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
+                        <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
+                            <AntDesign name="arrowleft" size={24} color='#FFFFFF' style={{ marginLeft: hp('3%') }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginLeft: hp('-18%') }} >
+                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 30, width: 25 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.submitbtn}>
+                            <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Clear</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%') }}>
                     <View style={styles.notificationview}>
@@ -27,7 +29,7 @@ const notificationScreen = (props) => {
                         </View>
                         <View style={{ flexDirection: 'row', flex: 1, marginTop: hp('-5%'), marginLeft: hp('2%'), alignItems: 'center' }}>
                             <View style={{ width: 40, height: 40, backgroundColor: 'red', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
-                                <FontAwesome name="rupee" size={25} color='#FFFFFF' />
+                                <FontAwesome name="rupee" size={20} color='#FFFFFF' />
                             </View>
                             <View style={{ flex: 1, marginLeft: hp('2%') }}>
                                 <Text style={{ color: '#F67742' }} >#Transaction</Text>
@@ -43,8 +45,8 @@ const notificationScreen = (props) => {
                             <Text style={{ fontSize: hp('1.8%'), marginRight: hp('3%'), color: '#999999' }}>Just now</Text>
                         </View>
                         <View style={{ flexDirection: 'row', flex: 1, marginTop: hp('-5%'), marginLeft: hp('2%'), alignItems: 'center' }}>
-                            <View style={{ width: 40, height: 40, backgroundColor: '#EEEEEE', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
-                                <FontAwesome name="rupee" size={25} color='#04DE71' />
+                            <View style={{ width: 40, height: 40, backgroundColor: '#04DE71', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
+                                <FontAwesome name="rupee" size={20} color='#FFFFFF' />
                             </View>
                             <View style={{ flex: 1, marginLeft: hp('2%') }}>
                                 <Text style={{ color: '#F67742' }} >#Transaction</Text>
@@ -60,8 +62,8 @@ const notificationScreen = (props) => {
                             <Text style={{ fontSize: hp('1.8%'), marginRight: hp('3%'), color: '#999999' }}>Yesterday</Text>
                         </View>
                         <View style={{ flexDirection: 'row', flex: 1, marginTop: hp('-5%'), marginLeft: hp('2%'), alignItems: 'center' }}>
-                            <View style={{ width: 40, height: 40, backgroundColor: '#EEEEEE', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
-                                <FontAwesome name="rupee" size={25} color='#04DE71' />
+                            <View style={{ width: 40, height: 40, backgroundColor: '#04DE71', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
+                                <FontAwesome name="rupee" size={25} color='#FFFFFF' />
                             </View>
                             <View style={{ flex: 1, marginLeft: hp('2%') }}>
                                 <Text style={{ color: '#F67742' }} >#Transaction</Text>
@@ -70,6 +72,8 @@ const notificationScreen = (props) => {
                         </View>
                     </View>
                 </TouchableOpacity>
+
+                <View style={{ marginBottom: hp('5%') }}></View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -80,7 +84,7 @@ export default notificationScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#5AC8FA",
+        //backgroundColor: "#FFFFFF",
     },
     notificationview: {
         height: hp('15%'),

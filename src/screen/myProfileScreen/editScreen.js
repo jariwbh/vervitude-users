@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, ScrollView } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -11,13 +10,13 @@ export default function editScreen(props) {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('5%') }}>
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}>
                         <AntDesign name="arrowleft" size={24} color='#FFFFFF' style={{ marginLeft: hp('2%') }} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { }}
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}
                         style={styles.submitbtn}>
-                        <Text style={{ fontSize: hp('2%'), color: '#5AC8FA' }}>Submit</Text>
+                        <Text style={{ fontSize: hp('2%'), color: '#00D9CE' }}>Submit</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -123,7 +122,7 @@ export default function editScreen(props) {
                                 blurOnSubmit={false}
                                 defaultValue="Mumbai"
                             />
-                            <Ionicons name="location" size={24} color='#000000' style={{ marginLeft: hp('0%') }} />
+                            <Ionicons name="location" size={20} color='#000000' style={{ marginRight: hp('1%') }} />
                         </View>
 
                         <View style={{ marginLeft: hp('2.5%'), marginTop: hp('1%') }}>
@@ -154,7 +153,7 @@ export default function editScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#5AC8FA",
+        backgroundColor: "#00D9CE",
     },
     profileview: {
         width: wp('95%'),
@@ -233,7 +232,7 @@ const styles = StyleSheet.create({
         height: hp('5%'),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#5AC8FA',
+        backgroundColor: '#00D9CE',
         borderRadius: hp('3%'),
         shadowColor: "#000000",
         shadowOffset: {
