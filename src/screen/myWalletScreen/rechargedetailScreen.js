@@ -1,31 +1,29 @@
 import React from 'react'
-import { Text, View, ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, ToastAndroid, StatusBar } from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const rechargedetailScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
-
-            <View style={{ backgroundColor: 'green', width: wp('100%'), height: hp('15%'), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+            <View style={{ backgroundColor: '#04DE71', width: wp('100%'), height: hp('15%'), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
                 </TouchableOpacity>
                 <Text style={{ fontSize: hp('4%'), marginLeft: hp('-25%'), color: '#FFFFFF' }}>My Wallet</Text>
-                <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
+                <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
                     <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%'), }} />
                 </TouchableOpacity>
             </View>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ marginTop: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: hp('2%'), fontWeight: 'bold' }}>Recharge Amount</Text>
-                    <Text style={{ fontSize: hp('4%'), fontWeight: 'bold' }}>₹ 1,500</Text>
+                    <Text style={{ fontSize: hp('2.5%'), fontWeight: 'bold', color: '#000000' }}>Recharge Amount</Text>
+                    <Text style={{ fontSize: hp('4%'), fontWeight: 'bold', color: '#555555' }}>₹ 1,500</Text>
                 </View>
-                <View style={{ marginLeft: hp('3%') }}>
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: 'green' }}>Recharge History</Text>
+                <View style={{ marginTop: hp('3%'), marginLeft: hp('3%') }}>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: '#34A853' }}>Recharge Summary</Text>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.gamountview}>
@@ -33,97 +31,95 @@ const rechargedetailScreen = (props) => {
                             <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: hp('2%') }}>
                                 <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 20, width: 20, marginRight: hp('2%') }} />
                             </View>
-                            <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
-                                <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
-                            </View>
-                            <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
+                            <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('2%') }}>
                                 <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>Recharge Amount</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#04DE71', marginRight: hp('3%') }}> ₹ 1500</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000', marginRight: hp('3%') }}> ₹ 1500</Text>
                             </View>
                             <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
                             </View>
                             <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
                                 <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>Coupon Applied (FirstRecharge - + ₹ 500)</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#04DE71', marginRight: hp('3%') }}> ₹ 500.00</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000', marginRight: hp('3%') }}> ₹ 500.00</Text>
                             </View>
                             <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                             </View>
                             <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
                                 <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>GST (18%) </Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999', marginRight: hp('3%') }}>- ₹  270</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000', marginRight: hp('3%') }}>- ₹  270</Text>
                             </View>
                             <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                             </View>
                             <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
                                 <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>Balance Added </Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999', marginRight: hp('3%') }}> ₹ 1730</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#04DE71', marginRight: hp('3%') }}> ₹ 1,730</Text>
                             </View>
                             <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                             </View>
                             <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
                                 <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>New Balance </Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999', marginRight: hp('3%') }}> ₹ 1730</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#04DE71', marginRight: hp('3%') }}> ₹ 1,730</Text>
                             </View>
                         </View>
                     </View>
                 </View>
                 <View style={{ marginLeft: hp('3%'), marginTop: hp('3%') }}>
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: 'green' }}>Payment Options</Text>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: '#34A853' }}>Payment Options</Text>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
-                        <Text style={{ fontSize: hp('3%'), color: '#04DE71', marginTop: hp('0%'), marginLeft: hp('3%') }}>Credit Card</Text>
+                        <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Credit Card</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-on" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
+                            <Ionicons name="radio-button-on" color="#04DE71" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
-                        <Text style={{ fontSize: hp('3%'), color: '#04DE71', marginTop: hp('0%'), marginLeft: hp('3%') }}>Debit Card</Text>
+                        <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Debit Card</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
+                            <Ionicons name="radio-button-off" color="#04DE71" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
-                        <Text style={{ fontSize: hp('3%'), color: '#04DE71', marginTop: hp('0%'), marginLeft: hp('3%') }}>Net Banking</Text>
+                        <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Net Banking</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
+                            <Ionicons name="radio-button-off" color="#04DE71" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
-                        <Text style={{ fontSize: hp('3%'), color: '#04DE71', marginTop: hp('0%'), marginLeft: hp('3%') }}>Wallet</Text>
+                        <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>Wallet</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
+                            <Ionicons name="radio-button-off" color="#04DE71" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%'), }}>
                     <View style={styles.bankview}>
-                        <Text style={{ fontSize: hp('3%'), color: '#04DE71', marginTop: hp('0%'), marginLeft: hp('3%') }}>UPI</Text>
+                        <Text style={{ fontSize: hp('3%'), color: '#000000', marginTop: hp('0%'), marginLeft: hp('3%') }}>UPI</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#000000" size={30} style={{ marginRight: hp('3%') }} />
+                            <Ionicons name="radio-button-off" color="#04DE71" size={30} style={{ marginRight: hp('3%') }} />
                         </TouchableOpacity>
                     </View>
-                </View >
+                </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
                     <TouchableOpacity style={styles.addmoney} >
                         <Text style={{ color: '#FFFFFF', fontSize: hp('3%') }}>Procceed</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}>Current Balanced ₹ 1,000</Text>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}>Current Balance ₹ 1,000</Text>
                 </View>
+                <View style={{ marginBottom: hp('10%') }}></View>
             </ScrollView>
-        </SafeAreaView >
+        </SafeAreaView>
     )
 }
 
@@ -170,7 +166,6 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -181,6 +176,8 @@ const styles = StyleSheet.create({
         borderRadius: hp('3%'),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'green'
+        backgroundColor: '#04DE71',
+        borderWidth: hp('0.2'),
+        borderColor: '#2094FA'
     },
 })

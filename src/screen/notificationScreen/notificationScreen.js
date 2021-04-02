@@ -8,7 +8,7 @@ const notificationScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('14%'), borderBottomLeftRadius: hp('4%'), borderBottomRightRadius: hp('4%') }}>
+                <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('14%'), borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
                         <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
                             <AntDesign name="arrowleft" size={24} color='#FFFFFF' style={{ marginLeft: hp('3%') }} />
@@ -95,10 +95,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
-            height: 0,
-            width: 0,
+            height: 5,
+            width: 5,
         },
         elevation: 4,
+        shadowColor: '#FBF0D9'
     },
     submitbtn: {
         flexDirection: 'row',

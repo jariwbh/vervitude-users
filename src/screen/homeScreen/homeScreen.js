@@ -10,7 +10,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-na
 const homeScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('25%'), marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+            <View style={{ backgroundColor: '#00D9CE', width: wp('100%'), height: hp('25%'), borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
                 <View style={{ marginTop: hp('5%'), justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ marginRight: hp('2%') }}>
                         <MenuButton onPress={() => { props.navigation.navigate("myProfileScreen") }} />
@@ -88,7 +88,8 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
+                        <TouchableOpacity onPress={() => { props.navigation.navigate("selectCategoryScreen") }}
+                            style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
                             <Image source={require('../../assets/Images/allicon.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>

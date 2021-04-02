@@ -10,16 +10,16 @@ function selectCategoryScreen(props) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ backgroundColor: '#0066ff', width: wp('100%'), height: hp('22%'), marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
-                    <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('5%') }}>
-                        <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
+                <View style={{ backgroundColor: '#2094FA', width: wp('100%'), height: hp('22%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
+                        <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
                             <AntDesign name="arrowleft" color="#66ccff" size={24} style={{ marginLeft: hp('3%') }} />
                         </TouchableOpacity>
-                        <Text style={{ fontSize: hp('3%'), color: '#5AC8FA', marginLeft: hp('0%'), color: '#FFFFFF' }}>Categories</Text>
+                        <Text style={{ fontSize: hp('3%'), color: '#5AC8FA', marginLeft: wp('-15%'), fontWeight: 'bold', color: '#FFFFFF' }}>Categories</Text>
                         <TouchableOpacity style={styles.category}>
-                            <Text style={{ fontSize: hp('2.8%'), color: '#00ff00' }}>₹ 5000.00</Text>
+                            <Text style={{ fontSize: hp('2.8%'), color: '#04DE71' }}>₹5,000</Text>
                             <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>
-                                <MaterialIcons name="account-balance-wallet" size={25} color='#00ff00' />
+                                <MaterialIcons name="account-balance-wallet" size={25} color='#04DE71' />
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -31,22 +31,22 @@ function selectCategoryScreen(props) {
                             style={styles.statInput}
                             placeholder="Search App"
                             type='clear'
-                            placeholderTextColor="#737373"
+                            placeholderTextColor="#999999"
                             returnKeyType="done"
                             autoCapitalize="none"
                             autoCorrect={false}
 
                         />
                         <TouchableOpacity >
-                            <Image source={require('../../assets/Images/filter.png')} style={{ width: 20, height: 22, marginRight: hp('2%') }} />
+                            <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: hp('2%') }} />
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 <View style={{ marginTop: hp('3%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: hp('1%') }} />
+                        <TouchableOpacity style={styles.categoryview}>
+                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
                             <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>TECHNOLOGY</Text>
@@ -58,7 +58,7 @@ function selectCategoryScreen(props) {
                     <View >
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
-                                marginTop: hp('0%'), width: 70, height: 70, borderRadius: hp('1%'), marginLeft: hp('0%'),
+                                marginTop: hp('0%'), width: 70, height: 70, borderRadius: hp('1%'), marginLeft: hp('0%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -70,7 +70,7 @@ function selectCategoryScreen(props) {
                     </View>
                     <View>
                         <TouchableOpacity style={styles.categoryview}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), }} />
+                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
                             <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>BUSINESS</Text>
@@ -82,7 +82,7 @@ function selectCategoryScreen(props) {
                     <View>
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -98,7 +98,7 @@ function selectCategoryScreen(props) {
                     <View >
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -111,7 +111,7 @@ function selectCategoryScreen(props) {
                     <View>
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -124,7 +124,7 @@ function selectCategoryScreen(props) {
                     <View >
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -137,7 +137,7 @@ function selectCategoryScreen(props) {
                     <View>
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -152,7 +152,7 @@ function selectCategoryScreen(props) {
                     <View >
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -165,7 +165,7 @@ function selectCategoryScreen(props) {
                     <View>
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -178,7 +178,7 @@ function selectCategoryScreen(props) {
                     <View >
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -191,7 +191,7 @@ function selectCategoryScreen(props) {
                     <View>
                         <TouchableOpacity style={styles.categoryview}>
                             <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'),
+                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -205,15 +205,12 @@ function selectCategoryScreen(props) {
                 <TouchableOpacity style={{ marginTop: hp('3%'), marginLeft: wp('5%') }}>
                     <Text style={{ fontSize: hp('3%'), color: '#3399ff' }}>Top Consultants</Text>
                 </TouchableOpacity>
-                <View style={{ flexDirection: 'row', marginBottom: hp('5%') }}>
-                    <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    >
+                <View style={{ flexDirection: 'row' }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("myProfileScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ alignItems: 'center', borderColor: '#3399ff', borderWidth: hp('0.2%'), height: 100, width: 100, marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', borderColor: '#3399ff', borderWidth: hp('0.2%'), height: 80, width: 80, marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
@@ -223,6 +220,9 @@ function selectCategoryScreen(props) {
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={3}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -230,7 +230,7 @@ function selectCategoryScreen(props) {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
-                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
@@ -240,6 +240,9 @@ function selectCategoryScreen(props) {
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={3}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -247,7 +250,7 @@ function selectCategoryScreen(props) {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
@@ -257,6 +260,9 @@ function selectCategoryScreen(props) {
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={3}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -264,7 +270,7 @@ function selectCategoryScreen(props) {
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
                             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
-                                    style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
+                                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
                             </TouchableOpacity>
                             <View>
@@ -274,6 +280,9 @@ function selectCategoryScreen(props) {
                                         disabled={false}
                                         maxStars={5}
                                         starSize={15}
+                                        rating={3}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
                                     />
                                 </View>
                             </View>
@@ -291,9 +300,10 @@ export default selectCategoryScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFFFFF'
     },
     category: {
-        height: hp('5'),
+        height: hp('6'),
         width: wp('35%'),
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
@@ -308,8 +318,7 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        marginRight: hp('2%'),
-
+        marginRight: hp('2%')
     },
     statusbar: {
         flexDirection: 'row',
@@ -328,7 +337,7 @@ const styles = StyleSheet.create({
         height: hp('6.5%'),
         marginLeft: hp('2.5%'),
         alignItems: "center",
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     statInput: {
         fontSize: hp('2.5%'),
@@ -339,7 +348,5 @@ const styles = StyleSheet.create({
     categoryview: {
         justifyContent: 'center',
         alignItems: 'center',
-
-    },
-
+    }
 })

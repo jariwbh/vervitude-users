@@ -9,7 +9,7 @@ export default function editScreen(props) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('5%') }}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
                     <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}>
                         <AntDesign name="arrowleft" size={24} color='#FFFFFF' style={{ marginLeft: hp('2%') }} />
                     </TouchableOpacity>
