@@ -10,10 +10,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const recentchatScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#FFB629', width: wp('100%'), height: hp('22%'), flexDirection: 'column', marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: hp('3%') }}>
+            <View style={{ backgroundColor: '#FFB629', width: wp('100%'), height: hp('22%'), flexDirection: 'column', borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: hp('0%') }}>
                     <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
-                        <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
+                        <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('0 %'), }} />
                     </TouchableOpacity>
                     <Text style={{ fontSize: hp('4%'), marginLeft: hp('-25%'), color: '#FFFFFF' }}>My Wallet</Text>
                     <TouchableOpacity onPress={() => { }}>
@@ -43,7 +43,7 @@ const recentchatScreen = (props) => {
             </View>
             <ScrollView>
                 <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <View style={styles.counsultantview}>
+                    <TouchableOpacity style={styles.counsultantview} onPress={() => { props.navigation.navigate("ranjanchatScreen") }}>
                         <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: hp('1%'), marginRight: wp('2%') }}>
                             <Text>2:30 PM</Text>
                         </View>
@@ -57,7 +57,7 @@ const recentchatScreen = (props) => {
                                 <Text style={{ fontSize: hp('2.5%'), }}>Design / UX Design</Text>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                     <View style={styles.counsultantview}>
