@@ -22,6 +22,7 @@ import recentchatScreen from '../screen/chatScreen/recentchatScreen'
 import newchatsScreen from '../screen/chatScreen/newchatsScreen'
 import subcategoryScreen from '../screen/selectCategoryScreen/subcategoryScreen'
 import ranjanchatScreen from '../screen/chatScreen/ranjanchatScreen'
+import consultantsScreen from '../screen/consultantsScreen/consultantsScreen'
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,7 @@ const navigationsApp = () => {
                 <Stack.Screen name="newchatsScreen" component={newchatsScreen} />
                 <Stack.Screen name="subcategoryScreen" component={subcategoryScreen} />
                 <Stack.Screen name="ranjanchatScreen" component={ranjanchatScreen} />
+                <Stack.Screen name="consultantsScreen" component={consultantsScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

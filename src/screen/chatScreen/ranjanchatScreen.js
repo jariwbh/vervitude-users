@@ -12,26 +12,27 @@ const ranjanchatScreen = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ backgroundColor: '#FFB629', width: wp('100%'), height: hp('22%'), flexDirection: 'column', marginTop: hp('0%'), marginRight: hp('0%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
-                    <View style={{ justifyContent: 'space-between', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
-                        <TouchableOpacity style={styles.chatIcon} onPress={() => { }} >
-                            <AntDesign name="arrowleft" size={24} color="#5AC8FA" />
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%'), marginLeft: hp('1%') }}>
+                        <TouchableOpacity style={styles.chatIcon} onPress={() => { props.navigation.navigate(SCREEN.CHATHISTORYSCREEN) }} >
+                            <AntDesign name="arrowleft" size={24} color="#FFFFFF" />
                         </TouchableOpacity>
 
-                        <Image source={require('../../assets/Images/profile.png')}
-                            style={{ width: 50, height: 50, borderRadius: hp('7%'), marginLeft: hp('1%') }} />
-                        <FontAwesome name="circle" size={15} color="#5AC8FA" style={{ marginLeft: wp('-4%'), marginTop: wp('-10%') }} />
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: hp('2%') }}>
-                            <Text style={{ fontSize: hp('2.5%'), color: '#FFFFFF' }}>Ruby</Text>
+                        <Image source={require('../../assets/Images/Ellipse4.png')}
+                            style={{ width: 50, height: 52, borderRadius: hp('7%'), marginLeft: hp('-25%') }} />
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: wp('-38%') }}>
+                            <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Ranjan</Text>
                             <Text style={{ fontSize: hp('1.5%'), color: '#000000' }}>Online</Text>
                         </View>
-                        <TouchableOpacity onPress={() => { }}>
+                        <TouchableOpacity style={styles.categoryIcon} onPress={() => { props.navigation.navigate(SCREEN.CHATHISTORYSCREEN) }} >
                             <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%'), }} />
                         </TouchableOpacity>
+
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: hp('2%') }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: hp('2%'), marginLeft: hp('3%'), marginRight: hp('3%') }}>
                         <TouchableOpacity onPress={() => { }}
                             style={{ width: wp('35%'), height: hp('6%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', margin: hp('0%') }}>
-                            <Text style={{ fontSize: hp('2%'), color: '#FFB629' }}>Find a Consultant</Text>
+                            <Text style={{ fontSize: hp('2%'), color: '#FFB629' }}>Start a Project</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => { }}
                             style={{ alignItems: 'center', justifyContent: 'center', }}>

@@ -45,7 +45,7 @@ function selectCategoryScreen(props) {
 
                 <View style={{ marginTop: hp('3%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} >
                             <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
