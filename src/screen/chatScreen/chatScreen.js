@@ -41,7 +41,7 @@ export default class chatScreen extends Component {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ backgroundColor: '#FFB629', width: wp('100%'), height: hp('22%'), flexDirection: 'column', borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
                         <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%'), marginLeft: hp('3%') }}>
-                            <TouchableOpacity style={styles.chatIcon} onPress={() => { props.navigation.navigate("recentchatScreen") }} >
+                            <TouchableOpacity style={styles.chatIcon} onPress={() => { this.props.navigation.navigate("recentchatScreen") }} >
                                 <AntDesign name="arrowleft" size={24} color="#FFFFFF" />
                             </TouchableOpacity>
 
@@ -52,7 +52,7 @@ export default class chatScreen extends Component {
                                 <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Ranjan</Text>
                                 <Text style={{ fontSize: hp('1.5%'), color: '#000000', marginLeft: wp('-8%') }}>Online</Text>
                             </View>
-                            <TouchableOpacity style={styles.categoryIcon} onPress={() => { props.navigation.navigate("homeScreen") }} >
+                            <TouchableOpacity style={styles.categoryIcon} onPress={() => { this.props.navigation.navigate("homeScreen") }} >
                                 <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%') }} />
                             </TouchableOpacity>
 

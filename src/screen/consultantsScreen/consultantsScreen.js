@@ -5,7 +5,7 @@ import StarRating from 'react-native-star-rating'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { ScrollView } from 'react-native-gesture-handler';
 
-const consultantsScreen = () => {
+const consultantsScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: hp('3%'), marginRight: wp('2%') }}>

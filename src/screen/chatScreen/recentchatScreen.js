@@ -14,7 +14,7 @@ const recentchatScreen = (props) => {
                         <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
                     </TouchableOpacity>
                     <Text style={{ fontSize: hp('4%'), marginLeft: hp('-20%'), color: '#FFFFFF', fontWeight: 'bold' }}>Recent Chats</Text>
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('homeScreen') }}>
                         <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%') }} />
                     </TouchableOpacity>
                 </View>
