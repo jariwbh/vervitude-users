@@ -107,7 +107,7 @@ const homeScreen = (props) => {
                         showsHorizontalScrollIndicator={false}
                     >
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("myProfileScreen")}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
                                     style={{ alignItems: 'center', borderColor: '#2294FA', borderWidth: hp('0.3%'), height: 100, width: 100, marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
