@@ -10,12 +10,12 @@ function selectCategoryScreen(props) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ backgroundColor: '#2094FA', width: wp('100%'), height: hp('22%'), borderBottomLeftRadius: hp('5%'), borderBottomRightRadius: hp('5%') }}>
+                <View style={{ backgroundColor: '#2094FA', width: wp('100%'), height: hp('25%'), borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
                         <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
                             <AntDesign name="arrowleft" color="#66ccff" size={24} style={{ marginLeft: hp('3%') }} />
                         </TouchableOpacity>
-                        <Text style={{ fontSize: hp('3%'), color: '#5AC8FA', marginLeft: wp('-15%'), fontWeight: 'bold', color: '#FFFFFF' }}>Categories</Text>
+                        <Text style={{ fontSize: hp('4%'), color: '#5AC8FA', marginLeft: wp('-12%'), fontWeight: 'bold', color: '#FFFFFF' }}>Categories</Text>
                         <TouchableOpacity style={styles.category}>
                             <Text style={{ fontSize: hp('2.8%'), color: '#04DE71' }}>₹5,000</Text>
                             <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>
@@ -45,7 +45,7 @@ function selectCategoryScreen(props) {
 
                 <View style={{ marginTop: hp('3%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
-                        <TouchableOpacity style={styles.categoryview} >
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -56,7 +56,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View >
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
                                 marginTop: hp('0%'), width: 70, height: 70, borderRadius: hp('1%'), marginLeft: hp('0%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -69,7 +69,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
@@ -80,7 +80,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -96,7 +96,7 @@ function selectCategoryScreen(props) {
                 </View>
                 <View style={{ marginTop: hp('5%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View >
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -109,7 +109,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -122,7 +122,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View >
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -135,7 +135,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -150,7 +150,7 @@ function selectCategoryScreen(props) {
                 </View>
                 <View style={{ marginTop: hp('5%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View >
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -163,7 +163,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -176,7 +176,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View >
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -189,7 +189,7 @@ function selectCategoryScreen(props) {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.categoryview}>
+                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
                             <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
                                 width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
                             }} />
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     category: {
-        height: hp('6'),
+        height: hp('7'),
         width: wp('35%'),
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',

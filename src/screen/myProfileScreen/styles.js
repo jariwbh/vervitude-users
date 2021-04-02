@@ -25,8 +25,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     modeView: {
-        marginTop: hp('50%'),
-        height: hp('35%'),
+        marginTop: hp('40%'),
+        height: hp('25%'),
         width: wp('80%'),
         borderRadius: 20,
         backgroundColor: "white",
@@ -39,18 +39,15 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-
-
-
     },
     modalView: {
-        marginTop: hp('50%'),
+        marginTop: hp('40%'),
         height: hp('35%'),
         width: wp('80%'),
         borderRadius: 20,
         backgroundColor: "white",
         alignItems: "center",
-        shadowColor: "#000",
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
             height: 2
@@ -60,7 +57,7 @@ export const styles = StyleSheet.create({
         elevation: 5
     },
     msgModalView: {
-        marginTop: hp('50%'),
+        marginTop: hp('40%'),
         height: hp('25%'),
         width: wp('80%'),
         borderRadius: 20,
@@ -91,7 +88,7 @@ export const styles = StyleSheet.create({
         marginRight: hp('10%'),
         width: wp('30%'),
         height: hp('5%'),
-        backgroundColor: '#5AC8FA',
+        backgroundColor: '#00D9CE',
         borderRadius: hp('5%'),
         alignItems: 'center',
         justifyContent: 'center',

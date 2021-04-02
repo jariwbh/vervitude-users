@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
+import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput, StatusBar, Switch } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen';
 import MenuButton from '../../components/ProfileMenuButton/ProfileMenuButton';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Fontisto from 'react-native-vector-icons/Fontisto'
-// import * as SCREEN from '../../context/screen/screenName';
 import * as STYLES from './styles';
+// import * as SCREEN from '../../context/screen/screenName';
 
 export default class myProfileScreen extends Component {
     constructor(props) {
@@ -16,10 +14,17 @@ export default class myProfileScreen extends Component {
             loading: false,
             showModalVisible: false,
             showMessageModalVisible: false,
-            showModeVisible: false,
+            showdarkModeVisible: false,
             showMessageModeVisible: false,
+            vervitudeModalVisible: false,
+            toggleSwitchAll: false
         };
     }
+
+    showVervitudeModalVisible = (visible) => {
+        this.setState({ vervitudeModalVisible: visible });
+    }
+
     showModalVisible = (visible) => {
         this.setState({ showModalVisible: visible });
     }
@@ -32,23 +37,30 @@ export default class myProfileScreen extends Component {
     showMessageModalVisible = (visible) => {
         this.setState({ showMessageModalVisible: visible });
     }
-    showModeVisible = (visible) => {
-        this.setState({ showModeVisible: visible });
-    }
 
-    showModeVisibleSubmit = (visible) => {
-        this.setState({ showModeVisible: visible });
-        this.showMessageModeVisible(true);
+    showModeVisible = (visible) => {
+        this.setState({ showdarkModeVisible: visible });
     }
 
     showMessageModeVisible = (visible) => {
         this.setState({ showMessageModeVisible: visible });
     }
 
+    toggleSwitchAll = (toggle) => {
+        if (toggle == true) {
+            this.setState({ toggleSwitchAll: false });
+        }
+
+        if (toggle == false) {
+            this.setState({ toggleSwitchAll: true });
+        }
+    }
+
     render() {
-        const { showModalVisible, showMessageModalVisible, showModeVisible, showMessageModeVisible } = this.state;
+        const { showModalVisible, showMessageModalVisible, showdarkModeVisible, vervitudeModalVisible, toggleSwitchAll } = this.state;
         return (
             <SafeAreaView style={STYLES.styles.container}>
+                <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View>
                         <View style={{ marginTop: hp('5%'), justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row' }} >
@@ -84,7 +96,7 @@ export default class myProfileScreen extends Component {
                                 <Image source={require('../../assets/Images/profileicon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Profile</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.showModeVisible(true)}
+                            <TouchableOpacity onPress={() => { this.showModeVisible(true) }}
                                 style={{ flexDirection: 'row', marginTop: hp('3.5%') }}>
                                 <Image source={require('../../assets/Images/modeicon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Mode Settings</Text>
@@ -120,7 +132,7 @@ export default class myProfileScreen extends Component {
                                 <Image source={require('../../assets/Images/logout.png')} style={{ height: 25, width: 30, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>LogOut</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%'), alignItems: 'center' }} onPress={() => { }}>
+                            <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%'), alignItems: 'center' }} onPress={() => { this.showVervitudeModalVisible(true) }}>
                                 <Image source={require('../../assets/Images/2.png')} style={{ height: 40, width: 45, marginLeft: hp('3%') }} />
                                 <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%'), fontWeight: 'bold' }}>Vervitude</Text>
                             </TouchableOpacity>
@@ -133,48 +145,55 @@ export default class myProfileScreen extends Component {
                     </View>
                     <View style={{ marginBottom: hp('5%') }}></View>
                 </ScrollView>
-
                 {/* Moad setting */}
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={showModeVisible}
-                    onRequestClose={() => { this.showModeVisible(!showModeVisible) }}
+                    visible={showdarkModeVisible}
+                    onRequestClose={() => { this.showModeVisible(!showdarkModeVisible) }}
                 >
-
                     <View style={STYLES.styles.centerView}>
                         <View style={STYLES.styles.modeView}>
-                            <View style={{ marginTop: hp('5%'), flexDirection: 'row', justifyContent: 'space-around', }}>
-                                <Text style={{ fontSize: hp('3%') }}>Bright Moad</Text>
-                                <TouchableOpacity>
-                                    <Fontisto name="toggle-on" size={30} color='#5AC8FA' style={{ marginLeft: hp('4%') }} />
-                                </TouchableOpacity>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', padding: hp('2%'), }}>
+                                <Text style={{ textAlign: 'center', color: '#000000' }}>Bright Mode</Text>
+                                <Switch
+                                    style={{ marginLeft: wp('45%') }}
+                                    trackColor={{ false: "#C4C4C4", true: "#00D9CE" }}
+                                    onValueChange={() => this.toggleSwitchAll(toggleSwitchAll)}
+                                    value={toggleSwitchAll} />
                             </View>
-                            <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
-                                <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }}></View>
+                            <View style={{ marginTop: hp('0%'), flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }}></View>
                             </View>
-                            <View style={{ marginTop: hp('5%'), flexDirection: 'row', justifyContent: 'space-around', }}>
-                                <Text style={{ fontSize: hp('3%') }}>Dark Moad</Text>
-                                <TouchableOpacity>
-                                    <Fontisto name="toggle-on" size={30} color='#5AC8FA' style={{ marginLeft: hp('4%') }} />
-                                </TouchableOpacity>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', padding: hp('2%'), }}>
+                                <Text style={{ textAlign: 'center', color: '#000000' }}>Dark Mode</Text>
+                                <Switch
+                                    style={{ marginLeft: wp('47%') }}
+                                    trackColor={{ false: "#C4C4C4", true: "#00D9CE" }}
+                                    onValueChange={() => this.toggleSwitchAll(toggleSwitchAll)}
+                                    value={toggleSwitchAll} />
                             </View>
-                            <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
-                                <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }}></View>
+                            <View style={{ marginTop: hp('0%'), flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }}></View>
                             </View>
-                            <View style={{ marginTop: hp('5%'), flexDirection: 'row', justifyContent: 'space-around', }}>
-                                <Text style={{ fontSize: hp('3%') }}>System Default</Text>
-                                <TouchableOpacity>
-                                    <Fontisto name="toggle-off" size={30} color='#5AC8FA' style={{ marginLeft: hp('0%') }} />
-                                </TouchableOpacity>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', padding: hp('2%'), }}>
+                                <Text style={{ textAlign: 'center', color: '#000000' }}>System Default</Text>
+                                <Switch
+                                    style={{ marginLeft: wp('41%') }}
+                                    trackColor={{ false: "#C4C4C4", true: "#00D9CE" }}
+                                    onValueChange={() => this.toggleSwitchAll(toggleSwitchAll)}
+                                    value={toggleSwitchAll} />
                             </View>
                         </View>
                         <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={() => { this.showModeVisibleSubmit(!showModalVisible) }}
+                            <TouchableOpacity onPress={() => { this.showModeVisible(!showdarkModeVisible) }}
                                 style={STYLES.styles.savebtn}>
                                 <Text style={{ fontSize: hp('2%'), color: '#FFFFFF' }}>Save</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { this.showModeVisible(!showModalVisible) }}
+                            <TouchableOpacity onPress={() => { this.showModeVisible(!showdarkModeVisible) }}
                                 style={STYLES.styles.cancelbtn}>
                                 <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Cancel</Text>
                             </TouchableOpacity>
@@ -189,7 +208,6 @@ export default class myProfileScreen extends Component {
                     visible={showModalVisible}
                     onRequestClose={() => { this.showModalVisible(!showModalVisible) }}
                 >
-
                     <View style={STYLES.styles.centerView}>
                         <View style={STYLES.styles.modalView}>
                             <View style={{ marginTop: hp('5%') }}></View>
@@ -202,7 +220,6 @@ export default class myProfileScreen extends Component {
                                     placeholderTextColor="#999999"
                                 />
                             </View>
-
                             <View style={STYLES.styles.textAreainputView}>
                                 <TextInput
                                     style={STYLES.styles.TextareaInput}
@@ -215,7 +232,6 @@ export default class myProfileScreen extends Component {
                                     multiline={true}
                                 />
                             </View>
-
                         </View>
                         <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
                             <TouchableOpacity onPress={() => { this.showModalVisibleSubmit(!showModalVisible) }}
@@ -245,9 +261,63 @@ export default class myProfileScreen extends Component {
                             <Text style={{ marginTop: hp('2%'), fontSize: hp('2%') }}>You will hear from us very soon</Text>
                         </View>
                         <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: hp('2%') }}>
-                            <TouchableOpacity onPress={() => { }}
+                            <TouchableOpacity onPress={() => { this.showMessageModalVisible(!showMessageModalVisible) }}
                                 style={STYLES.styles.cancelbtn}>
                                 <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Ok</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
+                {/* Vervitude model Pop */}
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={vervitudeModalVisible}
+                    onRequestClose={() => { this.showVervitudeModalVisible(!vervitudeModalVisible) }}
+                >
+                    <View style={STYLES.styles.centerView}>
+                        <View style={STYLES.styles.modalView}>
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>About Us</Text>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Terms of use</Text>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Privacy Policy</Text>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Contact & Legas</Text>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Copyright @2021</Text>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+                        </View>
+
+                        <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => { this.showVervitudeModalVisible(!vervitudeModalVisible) }}
+                                style={STYLES.styles.cancelbtn}>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
