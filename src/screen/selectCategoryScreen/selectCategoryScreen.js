@@ -208,7 +208,7 @@ function selectCategoryScreen(props) {
                 <View style={{ flexDirection: 'row' }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("myProfileScreen")}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
                                     style={{ alignItems: 'center', borderColor: '#3399ff', borderWidth: hp('0.2%'), height: 80, width: 80, marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
@@ -228,7 +228,7 @@ function selectCategoryScreen(props) {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
                                     style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
@@ -248,7 +248,7 @@ function selectCategoryScreen(props) {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
                                     style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
@@ -268,7 +268,7 @@ function selectCategoryScreen(props) {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
                                     style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />

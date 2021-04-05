@@ -127,7 +127,7 @@ const homeScreen = (props) => {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
                                     style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#2294FA', borderWidth: hp('0.3%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
@@ -147,7 +147,7 @@ const homeScreen = (props) => {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
                                     style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#2294FA', borderWidth: hp('0.3%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
@@ -167,7 +167,7 @@ const homeScreen = (props) => {
                             </View>
                         </View>
                         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => { }}>
+                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
                                 <Image source={require('../../assets/Images/Ellipse32.png')}
                                     style={{ alignItems: 'center', height: 100, width: 100, borderColor: '#2294FA', borderWidth: hp('0.3%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
                                 />
@@ -199,7 +199,6 @@ export default homeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
     },
     category: {
         height: hp('5'),

@@ -4,6 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { ScrollView } from 'react-native-gesture-handler';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const consultantsScreen = (props) => {
     return (
@@ -12,51 +13,60 @@ const consultantsScreen = (props) => {
                 <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: '#FFFFFF' }}>Consultant</Text>
-                <Image source={require('../../assets/Images/chaticon.png')}
-                    style={{ width: 10, height: 10 }}
-                />
-                <TouchableOpacity style={{ width: wp('35%'), height: hp('6%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', }}>
-                    <Text style={{ fontSize: hp('2%'), color: '#5AC8FA' }}>Find a Consultant</Text>
+                <Text style={{ fontSize: hp('4%'), fontWeight: 'bold', color: '#FFFFFF' }}>Consultant</Text>
+                <TouchableOpacity onPress={() => { props.navigation.navigate("recentchatScreen") }}>
+                    <Image source={require('../../assets/Images/chaticon.png')}
+                        style={{ width: 26, height: 25 }}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate('chatScreen')}
+                    style={{ width: wp('30%'), height: hp('5%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', }}>
+                    <Text style={{ fontSize: hp('2%'), color: '#5AC8FA' }}>Start Chat</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView>
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                     <View style={styles.counsultantview}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: hp('3%'), alignItems: 'center' }}>
+                        <View style={styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                            />
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: hp('-6%'), alignItems: 'center' }}>
                             <Image source={require('../../assets/Images/Ellipse4.png')}
                                 style={{ width: 100, height: 100, borderColor: '#D1E8EA', borderRadius: hp('15%'), borderWidth: hp('1%') }}
                             />
                             <View style={{ justifyContent: 'center' }}>
-                                <Text style={{ fontSize: hp('3%') }}>Ranjan</Text>
-                                <Text style={{ fontSize: hp('3%') }}>Design Coach</Text>
+                                <Text style={{ fontSize: hp('3.5%'), color: '#000000', fontWeight: 'bold' }}>Ranjan</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>Design Coach</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Mumbai, India</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: hp('3%'), justifyContent: 'space-between', marginRight: hp('2%'), marginLeft: hp('2%') }}>
                             <View>
                                 <Text style={{ fontSize: hp('2%'), textAlign: 'center', color: '#000000' }}>23</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#9B9DA0' }}>Happy Users</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Happy Users</Text>
                             </View>
                             <View style={styles.verticleLine}></View>
                             <View>
                                 <Text style={{ fontSize: hp('2%'), textAlign: 'center', color: '#000000' }}>25</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#9B9DA0' }}>Charges Per Minute </Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Charges Per Minute </Text>
                             </View>
                             <View style={styles.verticleLine}></View>
                             <View>
-                                <Text style={{ fontSize: hp('2%'), textAlign: 'center', color: '#000000' }}>4.5</Text>
-                                <View style={{ marginTop: hp('0%'), flexDirection: 'row' }}>
-
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                     <StarRating
                                         disabled={false}
                                         maxStars={5}
-                                        starSize={15}
+                                        starSize={10}
                                         rating={3}
                                         fullStarColor={'#F1C40E'}
                                         emptyStarColor={'#000000'}
                                     />
                                 </View>
-                                <Text style={{ fontSize: hp('2%') }}>1.2K Ratings</Text>
+                                <Text style={{ fontSize: hp('2.5%'), textAlign: 'center', color: '#000000' }}>4.5</Text>
+                                <Text style={{ fontSize: hp('1.5%'), color: '#000000' }}>1.2K Ratings</Text>
                             </View>
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', }}>
@@ -173,6 +183,7 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
+        overflow: 'hidden'
     },
     verticleLine: {
         height: '100%',
@@ -193,4 +204,12 @@ const styles = StyleSheet.create({
         },
         elevation: 2,
     },
+    cauve: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        marginRight: hp('-5%'),
+        marginTop: hp('-6%'),
+        overflow: 'hidden',
+        backgroundColor: 'transparent'
+    }
 })

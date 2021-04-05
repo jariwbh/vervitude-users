@@ -5,6 +5,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import StarRating from 'react-native-star-rating'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const subcategoryScreen = (props) => {
     return (
@@ -91,7 +92,13 @@ const subcategoryScreen = (props) => {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.counsultantview}>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('3%'), flex: 1 }}>
+                        <View style={styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
                                     style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
@@ -110,7 +117,7 @@ const subcategoryScreen = (props) => {
                             </View>
                             <View>
                                 <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Ravindra</Text>
-                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
                                 </View>
@@ -132,7 +139,13 @@ const subcategoryScreen = (props) => {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.counsultantview}>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('3%'), flex: 1 }}>
+                        <View style={styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#EEEEEE' />
+                            <Image source={require('../../assets/Images/medal2.png')}
+                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user4.png')}
                                     style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
@@ -151,7 +164,7 @@ const subcategoryScreen = (props) => {
                             </View>
                             <View>
                                 <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Ruby</Text>
-                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
                                 </View>
@@ -173,7 +186,13 @@ const subcategoryScreen = (props) => {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.counsultantview}>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('3%'), flex: 1 }}>
+                        <View style={styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user1.png')}
                                     style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
@@ -192,7 +211,7 @@ const subcategoryScreen = (props) => {
                             </View>
                             <View>
                                 <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Sofia</Text>
-                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
                                 </View>
@@ -214,7 +233,13 @@ const subcategoryScreen = (props) => {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.counsultantview}>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('3%'), flex: 1 }}>
+                        <View style={styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#EEEEEE' />
+                            <Image source={require('../../assets/Images/medal2.png')}
+                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user4.png')}
                                     style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
@@ -233,7 +258,7 @@ const subcategoryScreen = (props) => {
                             </View>
                             <View>
                                 <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Miranda</Text>
-                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
                                 </View>
@@ -255,7 +280,13 @@ const subcategoryScreen = (props) => {
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.counsultantview}>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('3%'), flex: 1 }}>
+                        <View style={styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#9DF9FF' />
+                            <Image source={require('../../assets/Images/medal3.png')}
+                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user4.png')}
                                     style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
@@ -274,7 +305,7 @@ const subcategoryScreen = (props) => {
                             </View>
                             <View>
                                 <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Miranda</Text>
-                                <Text style={{ fontSize: hp('2.5%'), }}>Business Counsultant</Text>
+                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
                                 </View>
@@ -367,6 +398,14 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
+        overflow: 'hidden',
     },
-
+    cauve: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        marginRight: hp('-5%'),
+        marginTop: hp('-6%'),
+        overflow: 'hidden',
+        backgroundColor: 'transparent'
+    }
 })
