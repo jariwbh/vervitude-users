@@ -8,7 +8,7 @@ function LoginService(data) {
             "criteria": "eq",
             "datatype": "text"
         }, {
-            "searchfield": "property.primaryemail",
+            "searchfield": "membernumber",
             "searchvalue": data.email,
             "criteria": "eq",
             "datatype": "text"

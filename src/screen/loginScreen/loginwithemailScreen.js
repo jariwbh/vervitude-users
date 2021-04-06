@@ -1,12 +1,12 @@
-import React from 'react'
-import { StatusBar, View, Text, SafeAreaView, StyleSheet, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
+import React, { Component } from 'react'
+import { StatusBar, View, Text, SafeAreaView, StyleSheet, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import LoginService from '../../services/LoginService/LoginService'
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader';
-
+import OtpInputs from 'react-native-otp-inputs';
 
 export default class loginwithemailScreen extends Component {
     constructor(props) {
@@ -18,10 +18,14 @@ export default class loginwithemailScreen extends Component {
             mobile_numbererror: null,
             loading: false,
             showModalVisible: false,
-            showMessageModalVisible: false
+            showMessageModalVisible: false,
+            verifyOtpNumber: null,
+            inputOtpNumber: null,
+            userDetails: null,
+            verifybtnDisable: true
         };
         this.setEmail = this.setEmail.bind(this);
-        this.setPassword = this.setPassword.bind(this);
+        this.setMobileNumber = this.setMobileNumber.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
     }
 
@@ -48,7 +52,8 @@ export default class loginwithemailScreen extends Component {
             usererror: null,
             mobile_number: null,
             mobile_numbererror: null,
-            loading: false
+            loading: false,
+            verifybtnDisable: true
         });
     }
 
@@ -57,63 +62,81 @@ export default class loginwithemailScreen extends Component {
         AsyncStorage.setItem(AUTHUSER, JSON.stringify(user))
     )
 
-    //SIGN IN BUTTON ONPRESS TO PROCESS
-    onPressSubmit = () => {
-        const { username, password } = this.state;
-        if (!username || !password) {
-            this.setEmail(username);
-            this.setPassword(password);
-            return;
+    //user input Code set
+    handleChange(code) {
+        const { verifyOtpNumber } = this.state;
+        this.setState({ inputOtpNumber: code })
+        if (Number(code) === Number(verifyOtpNumber)) {
+            this.setState({ verifybtnDisable: false })
         }
-        const body = {
-            username: username,
-            password: password
-        }
-        this.setState({ loading: true });
+    }
 
-        setTimeout(() => {
+    //OTP verify function
+    otpVerify() {
+        const { inputOtpNumber, verifyOtpNumber, userDetails } = this.state;
+        if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+            } else {
+                alert("SignIn Success!");
+            }
+            let token = userDetails._id;
+            //set header auth user key
+            axiosConfig(token);
+            this.authenticateUser(userDetails);
+            return this.props.navigation.navigate('homeScreen');
+        } else {
             this.setState({ loading: false });
             if (Platform.OS === 'android') {
-                ToastAndroid.show("Username and Password Invalid!", ToastAndroid.LONG)
+                ToastAndroid.show("User not exits!", ToastAndroid.LONG)
             } else {
-                alert("Username and Password Invalid!");
+                alert("User not exits!");
             }
             this.resetScreen();
             return;
-        }, 6000);
+        }
+    }
+
+    //SIGN IN BUTTON ONPRESS TO PROCESS
+    onPressSubmit = () => {
+        const { username, mobile_number } = this.state;
+        if (!username && !mobile_number) {
+            this.setEmail(username);
+            this.setMobileNumber(mobile_number);
+            return;
+        }
+        const body = {
+            email: username,
+            mobile: mobile_number
+        }
+        this.setState({ loading: true });
 
         try {
             LoginService(body)
                 .then(response => {
-                    if (response.data.type && response.data.type == 'Error' && response.status == 500) {
-                        this.setState({ loading: false })
-                        if (Platform.OS === 'android') {
-                            ToastAndroid.show("User not exits!", ToastAndroid.LONG)
+                    if (response && response.data != null && response.data != 'undefind') {
+                        let userDetails = response.data[0];
+                        if (userDetails == null && userDetails == undefined) {
+                            if (Platform.OS === 'android') {
+                                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                            } else {
+                                alert("User not exits!");
+                            }
+                            this.resetScreen();
+                            return;
                         } else {
-                            alert("User not exits!");
+                            const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
+                            this.setState({
+                                loading: false,
+                                verifyOtpNumber: verifyOtpNumber,
+                                userDetails: userDetails
+                            });
+                            return;
                         }
-                        this.resetScreen();
-                        return;
-                    }
-
-                    if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                        let token = response.data.user._id;
-                        //set header auth user key
-                        axiosConfig(token);
-                        this.authenticateUser(response.data.user);
-                        this.setState({ loading: false })
-                        if (Platform.OS === 'android') {
-                            ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
-                        } else {
-                            alert("SignIn Success!");
-                        }
-                        this.props.navigation.navigate(MAINSCREEN);
-                        return;
                     }
                 })
         }
         catch (error) {
-            console.log('error', error);
             this.setState({ loading: false });
             this.resetScreen();
             if (Platform.OS === 'android') {
@@ -137,59 +160,47 @@ export default class loginwithemailScreen extends Component {
                         <View style={styles.centeView}>
                             <View style={styles.boxView}>
                                 <View style={{ marginTop: hp('4%') }}>
-                                    <View style={styles.inputView}>
+                                    <View style={usererror == null ? styles.inputView : styles.inputErrorView}>
                                         <TextInput
+                                            defaultValue={this.state.username}
                                             style={styles.TextInput}
                                             placeholder="Email Address"
                                             type='clear'
-                                            returnKeyType="next"
+                                            returnKeyType="done"
                                             placeholderTextColor="#B5B5B5"
+                                            onSubmitEditing={() => this.onPressSubmit()}
+                                            onChangeText={(email) => this.setEmail(email)}
                                         />
                                     </View>
                                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
                                         <Text style={{ fontSize: hp('2.5%'), fontWeight: 'bold' }}>OR</Text>
                                     </View>
-                                    <View style={styles.inputView}>
+                                    <View style={mobile_numbererror == null ? styles.inputView : styles.inputErrorView}>
                                         <TextInput
                                             style={styles.TextInput}
+                                            defaultValue={this.state.mobile_number}
                                             placeholder="Phone Number"
                                             type='clear'
                                             returnKeyType="done"
                                             placeholderTextColor="#B5B5B5"
+                                            onSubmitEditing={() => this.onPressSubmit()}
+                                            onChangeText={(mobile_number) => this.setMobileNumber(mobile_number)}
                                         />
                                     </View>
 
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: wp('1.5'), marginRight: wp('1.5') }}>
-                                        <View style={styles.inputView1}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                            />
-                                        </View>
-
-                                        <View style={styles.inputView1}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                            />
-                                        </View>
-
-                                        <View style={styles.inputView1}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                            />
-                                        </View>
-
-                                        <View style={styles.inputView1}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                            />
-                                        </View>
-
+                                    <View style={{ flex: 0.5, marginTop: hp('3%'), marginLeft: hp('1%'), marginRight: hp('1%') }}>
+                                        <OtpInputs
+                                            handleChange={(code) => this.handleChange(code)}
+                                            numberOfInputs={4}
+                                            inputStyles={styles.inputView1}
+                                        />
                                     </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('4%') }}>
-                                        <TouchableOpacity style={styles.otpBtn} onPress={() => this.onPressSubmit()}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('8%') }}>
+                                        <TouchableOpacity style={this.state.verifybtnDisable ? styles.otpBtndisable : styles.otpBtn} disabled={this.state.verifybtnDisable} onPress={() => this.otpVerify()}>
                                             <Text style={styles.otpbtnText}>Verify OTP</Text>
                                         </TouchableOpacity>
                                     </View>
+                                    <Text>{this.state.verifyOtpNumber}</Text>
                                 </View>
                             </View>
                             <View style={styles.centeView} >
@@ -205,8 +216,6 @@ export default class loginwithemailScreen extends Component {
         )
     }
 }
-
-export default loginwithemailScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -246,21 +255,41 @@ const styles = StyleSheet.create({
         width: wp('80%'),
         height: hp('6%'),
         margin: hp('1%'),
-        borderWidth: wp('0.1%'),
+        borderWidth: wp('0.2%'),
+    },
+    inputErrorView: {
+        flexDirection: 'row',
+        backgroundColor: "#FFFFFF",
+        borderRadius: wp('0%'),
+        borderColor: 'red',
+        width: wp('80%'),
+        height: hp('6%'),
+        margin: hp('1%'),
+        borderWidth: wp('0.2%'),
     },
     inputView1: {
-        marginTop: hp('2%'),
-        flexDirection: 'row',
+        marginTop: hp('4%'),
         backgroundColor: "#FFFFFF",
         borderColor: '#555555',
         width: wp('10%'),
         height: hp('6%'),
-        borderWidth: wp('0.1%')
+        borderWidth: wp('0.2%'),
+        textAlign: 'center',
+        fontSize: hp('3%')
     },
     otpBtn: {
         flexDirection: 'row',
         width: wp('80%'),
         backgroundColor: "#00D9CE",
+        borderRadius: 50,
+        height: hp('6%'),
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+    otpBtndisable: {
+        flexDirection: 'row',
+        width: wp('80%'),
+        backgroundColor: "#99fffa",
         borderRadius: 50,
         height: hp('6%'),
         alignItems: "center",
