@@ -21,7 +21,7 @@ const inviteScreen = (props) => {
                     <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}>
                         <AntDesign name="arrowleft" color="#FFFFFF" size={24} />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: hp('4%'), marginLeft: hp('-30%'), color: '#FFFFFF', fontWeight: 'bold' }}>Invite</Text>
+                    <Text style={{ fontSize: hp('3%'), marginLeft: hp('-25%'), color: '#FFFFFF', fontWeight: 'bold' }}>Invite</Text>
                     <TouchableOpacity onPress={() => { props.navigation.navigate('homeScreen') }}>
                         <Entypo name="home" color="#FFFFFF" size={30} />
                     </TouchableOpacity>

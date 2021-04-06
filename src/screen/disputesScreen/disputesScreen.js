@@ -12,7 +12,7 @@ const disputesScreen = (props) => {
                 <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('4%'), fontWeight: 'bold', marginLeft: hp('3%'), color: '#FFFFFF' }}>Chat Disputes</Text>
+                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', marginLeft: hp('3%'), color: '#FFFFFF' }}>Chat Disputes</Text>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View style={styles.chatdisputeview}>

@@ -33,7 +33,7 @@ const notificationScreen = (props) => {
                             </View>
                             <View style={{ flex: 1, marginLeft: hp('2%') }}>
                                 <Text style={{ color: '#F67742' }} >#Transaction</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>Your balance is low please rechatge to continue talking to the consultant</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Your balance is low please rechatge to continue talking to the consultant</Text>
                             </View>
                         </View>
                     </View>
@@ -50,7 +50,7 @@ const notificationScreen = (props) => {
                             </View>
                             <View style={{ flex: 1, marginLeft: hp('2%') }}>
                                 <Text style={{ color: '#F67742' }} >#Transaction</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>Your Feb transaction have been completed please check your account</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Your Feb transaction have been completed please check your account</Text>
                             </View>
                         </View>
                     </View>
@@ -67,7 +67,7 @@ const notificationScreen = (props) => {
                             </View>
                             <View style={{ flex: 1, marginLeft: hp('2%') }}>
                                 <Text style={{ color: '#F67742' }} >#Transaction</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>Your jan transaction have been completed please check your account</Text>
+                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>Your jan transaction have been completed please check your account</Text>
                             </View>
                         </View>
                     </View>

@@ -11,7 +11,7 @@ const myspendsScreen = (props) => {
                 <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('4%'), marginLeft: hp('-8%'), color: '#FFFFFF', fontWeight: 'bold' }}>My Spends</Text>
+                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-8%'), color: '#FFFFFF', fontWeight: 'bold' }}>My Spends</Text>
                 <TouchableOpacity
                     style={{ height: hp('7%'), width: wp('35%'), backgroundColor: '#FFFFFF', flexDirection: 'row', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', marginRight: wp('2%') }}>
                     <Text style={{ fontSize: hp('2.8%'), color: '#04DE71' }}>₹ 5,000</Text>

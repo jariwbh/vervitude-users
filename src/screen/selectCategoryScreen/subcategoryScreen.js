@@ -15,7 +15,7 @@ const subcategoryScreen = (props) => {
                     <TouchableOpacity onPress={() => { props.navigation.navigate("selectCategoryScreen") }}>
                         <AntDesign name="arrowleft" color="#66ccff" size={24} style={{ marginLeft: hp('3%') }} />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: hp('4%'), color: '#5AC8FA', marginLeft: hp('0%'), fontWeight: 'bold', color: '#FFFFFF' }}>Sub Category</Text>
+                    <Text style={{ fontSize: hp('3%'), color: '#5AC8FA', marginLeft: hp('0%'), fontWeight: 'bold', color: '#FFFFFF' }}>Sub Category</Text>
                     <TouchableOpacity style={styles.category}>
                         <Text style={{ fontSize: hp('2.8%'), color: '#00ff00' }}>₹ 5000</Text>
                         <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>

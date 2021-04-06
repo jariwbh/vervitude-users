@@ -10,7 +10,7 @@ const disputesdetailsScreen = (props) => {
                 <TouchableOpacity onPress={() => { props.navigation.navigate("disputesScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('4%'), fontWeight: 'bold', marginLeft: hp('3%'), color: '#FFFFFF' }}>Chat Disputes</Text>
+                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', marginLeft: hp('3%'), color: '#FFFFFF' }}>Chat Disputes</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%') }}>
@@ -51,7 +51,7 @@ const disputesdetailsScreen = (props) => {
                                 <Text style={{ fontSize: hp('2%'), color: '#999999', marginLeft: hp('2%') }}>14/02/2021 , 2:30 PM</Text>
                             </View>
 
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate("disputesdetailsScreen") }}
+                            <TouchableOpacity onPress={() => { }}
                                 style={{ width: wp('27%'), height: hp('4%'), backgroundColor: '#04DE71', marginRight: hp('3%'), borderRadius: wp('4%'), justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ fontSize: hp('2%'), color: '#FFFFFF' }}>Dipute Lost</Text>
                             </TouchableOpacity>

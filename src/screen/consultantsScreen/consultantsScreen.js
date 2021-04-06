@@ -9,22 +9,23 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 const consultantsScreen = (props) => {
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: hp('3%'), marginRight: wp('2%') }}>
-                <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
-                    <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: hp('4%'), fontWeight: 'bold', color: '#FFFFFF' }}>Consultant</Text>
-                <TouchableOpacity onPress={() => { props.navigation.navigate("recentchatScreen") }}>
-                    <Image source={require('../../assets/Images/chaticon.png')}
-                        style={{ width: 26, height: 25 }}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('chatScreen')}
-                    style={{ width: wp('30%'), height: hp('5%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', }}>
-                    <Text style={{ fontSize: hp('2%'), color: '#5AC8FA' }}>Start Chat</Text>
-                </TouchableOpacity>
-            </View>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: hp('3%'), marginRight: wp('2%') }}>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
+                        <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: '#FFFFFF' }}>Consultant</Text>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate("recentchatScreen") }}>
+                        <Image source={require('../../assets/Images/chaticon.png')}
+                            style={{ width: 26, height: 25 }}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('chatScreen')}
+                        style={{ width: wp('25%'), height: hp('4%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', }}>
+                        <Text style={{ fontSize: hp('2%'), color: '#5AC8FA' }}>Start Chat</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                     <View style={styles.counsultantview}>
                         <View style={styles.cauve}>

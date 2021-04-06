@@ -11,7 +11,7 @@ const promocodeScreen = (props) => {
                 <TouchableOpacity onPress={() => { props.navigation.navigate("myWalletScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('4%'), fontWeight: 'bold', marginLeft: hp('-20%'), color: '#FFFFFF' }}>Promo Code</Text>
+                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', marginLeft: hp('-20%'), color: '#FFFFFF' }}>Promo Code</Text>
                 <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
                     <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%'), }} />
                 </TouchableOpacity>

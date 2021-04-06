@@ -70,7 +70,7 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
+                        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices1.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
@@ -79,7 +79,7 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
+                        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter1.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>
@@ -89,7 +89,7 @@ const homeScreen = (props) => {
                     </View>
                     <View>
                         <TouchableOpacity onPress={() => { props.navigation.navigate("selectCategoryScreen") }}
-                            style={{ width: wp('15%'), height: hp('10%'), justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', marginTop: hp('5%'), }}>
+                            style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
                             <Image source={require('../../assets/Images/allicon.png')}
                                 style={{ height: 70, width: 70 }} />
                         </TouchableOpacity>

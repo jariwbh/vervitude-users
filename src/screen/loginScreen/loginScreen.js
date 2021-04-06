@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     TextInput: {
-        fontSize: hp('2.5%'),
+        fontSize: hp('2%'),
         textAlign: 'center',
         fontWeight: 'bold'
     },

@@ -94,52 +94,52 @@ export default class myProfileScreen extends Component {
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate("editScreen") }}
                                 style={{ flexDirection: 'row', marginTop: hp('1%') }}>
                                 <Image source={require('../../assets/Images/profileicon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Profile</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>My Profile</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { this.showModeVisible(true) }}
                                 style={{ flexDirection: 'row', marginTop: hp('3.5%') }}>
                                 <Image source={require('../../assets/Images/modeicon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Mode Settings</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>Mode Settings</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate("recentchatScreen") }}
                                 style={{ flexDirection: 'row', marginTop: hp('3.5%') }} >
                                 <Image source={require('../../assets/Images/conversation.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My conversations</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>My conversations</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }}
                                 onPress={() => { this.props.navigation.navigate("myspendsScreen") }}>
                                 <Image source={require('../../assets/Images/Group.png')} style={{ height: 20, width: 29, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Spends</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>My Spends</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('4%') }}
                                 onPress={() => { this.props.navigation.navigate("myWalletScreen") }}>
                                 <Image source={require('../../assets/Images/walleticon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Wallet</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>My Wallet</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }} onPress={() => this.showModalVisible(true)}>
                                 <Image source={require('../../assets/Images/Help.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Help & Support</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>Help & Support</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }} onPress={() => { this.props.navigation.navigate("inviteScreen") }}>
                                 <Image source={require('../../assets/Images/invite.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>Invite a Friend</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>Invite a Friend</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }} onPress={() => { this.props.navigation.navigate("disputesScreen") }}>
                                 <Image source={require('../../assets/Images/disputesicon.png')} style={{ height: 30, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>My Disputes</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>My Disputes</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%') }} onPress={() => { this.props.navigation.navigate('loginScreen') }}>
                                 <Image source={require('../../assets/Images/logout.png')} style={{ height: 25, width: 30, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%') }}>LogOut</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%') }}>LogOut</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flexDirection: 'row', marginTop: hp('3.5%'), alignItems: 'center' }} onPress={() => { this.showVervitudeModalVisible(true) }}>
                                 <Image source={require('../../assets/Images/2.png')} style={{ height: 40, width: 45, marginLeft: hp('3%') }} />
-                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2.5%'), fontWeight: 'bold' }}>Vervitude</Text>
+                                <Text style={{ marginLeft: wp('4%'), color: '#4D4D4D', fontSize: hp('2%'), fontWeight: 'bold' }}>Vervitude</Text>
                             </TouchableOpacity>
                             <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: hp('0.5%'), marginRight: hp('2%') }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>© Copyright 2020</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>E-Quest Counsulting Solutions Pvt. Ltd.</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#000000' }}>All Rights Reserved</Text>
+                                <Text style={{ fontSize: hp('1.8%'), color: '#000000' }}>© Copyright 2020</Text>
+                                <Text style={{ fontSize: hp('1.8%'), color: '#000000' }}>E-Quest Counsulting Solutions Pvt. Ltd.</Text>
+                                <Text style={{ fontSize: hp('1.8%'), color: '#000000' }}>All Rights Reserved</Text>
                             </View>
                         </View>
                     </View>

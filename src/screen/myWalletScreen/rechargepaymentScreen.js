@@ -12,7 +12,7 @@ const rechargepaymentScreen = (props) => {
                 <TouchableOpacity onPress={() => { props.navigation.navigate("rechargedetailScreen") }}>
                     <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%'), }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: hp('4%'), marginLeft: hp('-25%'), color: '#FFFFFF' }}>My Wallet</Text>
+                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-25%'), color: '#FFFFFF' }}>My Wallet</Text>
                 <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
                     <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%'), }} />
                 </TouchableOpacity>

@@ -22,7 +22,7 @@ export default class loginwithemailScreen extends Component {
             verifyOtpNumber: null,
             inputOtpNumber: null,
             userDetails: null,
-            verifybtnDisable: true
+            verifybtnDisable: false
         };
         this.setEmail = this.setEmail.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
@@ -73,28 +73,28 @@ export default class loginwithemailScreen extends Component {
 
     //OTP verify function
     otpVerify() {
-        const { inputOtpNumber, verifyOtpNumber, userDetails } = this.state;
-        if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
-            } else {
-                alert("SignIn Success!");
-            }
-            let token = userDetails._id;
-            //set header auth user key
-            axiosConfig(token);
-            this.authenticateUser(userDetails);
-            return this.props.navigation.navigate('homeScreen');
+        // const { inputOtpNumber, verifyOtpNumber, userDetails } = this.state;
+        // if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
+        if (Platform.OS === 'android') {
+            ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
         } else {
-            this.setState({ loading: false });
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("User not exits!", ToastAndroid.LONG)
-            } else {
-                alert("User not exits!");
-            }
-            this.resetScreen();
-            return;
+            alert("SignIn Success!");
         }
+        //     let token = userDetails._id;
+        //     //set header auth user key
+        //     axiosConfig(token);
+        //     this.authenticateUser(userDetails);
+        return this.props.navigation.navigate('homeScreen');
+        // } else {
+        //     this.setState({ loading: false });
+        //     if (Platform.OS === 'android') {
+        //         ToastAndroid.show("User not exits!", ToastAndroid.LONG)
+        //     } else {
+        //         alert("User not exits!");
+        //     }
+        //     this.resetScreen();
+        //     return;
+        // }
     }
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
@@ -114,6 +114,7 @@ export default class loginwithemailScreen extends Component {
         try {
             LoginService(body)
                 .then(response => {
+                    console.log(`response`, response);
                     if (response && response.data != null && response.data != 'undefind') {
                         let userDetails = response.data[0];
                         if (userDetails == null && userDetails == undefined) {

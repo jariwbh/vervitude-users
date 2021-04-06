@@ -46,7 +46,7 @@ export default class chatScreen extends Component {
                             </TouchableOpacity>
 
                             <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 50, height: 52, borderRadius: hp('7%'), marginLeft: hp('-25%') }} />
+                                style={{ width: 50, height: 52, borderRadius: hp('7%'), marginLeft: hp('-20%') }} />
 
                             <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: wp('-38%') }}>
                                 <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Ranjan</Text>
