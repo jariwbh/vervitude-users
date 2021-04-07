@@ -1,9 +1,8 @@
 import React from 'react'
 import { SliderBox } from 'react-native-image-slider-box';
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from 'react-native-responsive-screen'
+import { Dimensions, View } from 'react-native'
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 export default function SliderScreen() {
     const images = [
@@ -12,14 +11,16 @@ export default function SliderScreen() {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREiT7T2XDQZyH-P_3xgx69fy7c5Cjv3GXxHg&usqp=CAU',
     ]
     return (
-        <SliderBox
-            images={images}
-            sliderBoxHeight={230}
-            inactiveDotColor="#00D9CE"
-            paginationBoxVerticalPadding={0}
-            autoplay
-            circleLoop
-            ImageComponentStyle={{ borderRadius: wp('6%'), width: wp('90%') }}
-        />
+        <View style={{ marginTop: 20 }}>
+            <SliderBox
+                images={images}
+                sliderBoxHeight={220}
+                inactiveDotColor="#00D9CE"
+                paginationBoxVerticalPadding={0}
+                autoplay
+                circleLoop
+                ImageComponentStyle={{ borderRadius: 10, width: WIDTH - 30 }}
+            />
+        </View>
     )
 }
