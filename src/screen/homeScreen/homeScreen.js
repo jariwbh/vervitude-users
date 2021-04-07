@@ -7,7 +7,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 import * as STYLE from './styles'
 
-
 const homeScreen = (props) => {
     return (
         <SafeAreaView style={STYLE.styles.container}>
