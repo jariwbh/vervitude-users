@@ -73,7 +73,7 @@ export default class loginwithemailScreen extends Component {
 
     //OTP verify function
     otpVerify() {
-        // const { inputOtpNumber, verifyOtpNumber, userDetails } = this.state;
+         const { inputOtpNumber, verifyOtpNumber, userDetails } = this.state;
         // if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
         if (Platform.OS === 'android') {
             ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
@@ -83,7 +83,7 @@ export default class loginwithemailScreen extends Component {
         //     let token = userDetails._id;
         //     //set header auth user key
         //     axiosConfig(token);
-        //     this.authenticateUser(userDetails);
+             this.authenticateUser(userDetails);
         return this.props.navigation.navigate('homeScreen');
         // } else {
         //     this.setState({ loading: false });
