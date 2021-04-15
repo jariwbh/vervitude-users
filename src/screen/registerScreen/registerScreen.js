@@ -1,43 +1,43 @@
 import React from 'react'
 import { StatusBar, View, Text, SafeAreaView, StyleSheet, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import * as STYLES from './styles';
 
 const registerScreen = (props) => {
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={STYLES.styles.container}>
             <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
-            <ImageBackground source={require('../../assets/Images/background.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                    <View style={styles.circle}>
-                        <Image source={require('../../assets/Images/icon1.png')} style={styles.imageView} />
+                    <View style={STYLES.styles.circle}>
+                        <Image source={require('../../assets/Images/icon1.png')} style={STYLES.styles.imageView} />
                     </View>
-                    <View style={{ marginTop: hp('5%') }}>
-                        <Text style={styles.registertext}>Register</Text>
+                    <View style={{ marginTop: 20 }}>
+                        <Text style={STYLES.styles.registertext}>Register</Text>
                     </View>
-                    <View style={styles.centeView}>
-                        <View style={styles.boxView}>
-                            <View style={{ marginTop: hp('4%') }}>
-                                <View style={styles.inputView}>
+                    <View style={STYLES.styles.centeView}>
+                        <View style={STYLES.styles.boxView}>
+                            <View style={{ marginTop: 15 }}>
+                                <View style={STYLES.styles.inputView}>
                                     <TextInput
-                                        style={styles.TextInput}
+                                        style={STYLES.styles.TextInput}
                                         placeholder="Email Address"
                                         type='clear'
                                         returnKeyType="next"
                                         placeholderTextColor="#B5B5B5"
                                     />
                                 </View>
-                                <View style={styles.inputView}>
+                                <View style={STYLES.styles.inputView}>
                                     <TextInput
-                                        style={styles.TextInput}
+                                        style={STYLES.styles.TextInput}
                                         placeholder="Full Name"
                                         type='clear'
                                         returnKeyType="next"
                                         placeholderTextColor="#B5B5B5"
                                     />
                                 </View>
-                                <View style={styles.inputView}>
+                                <View style={STYLES.styles.inputView}>
                                     <TextInput
-                                        style={styles.TextInput}
+                                        style={STYLES.styles.TextInput}
                                         placeholder="Phone Number"
                                         type='clear'
                                         returnKeyType="done"
@@ -45,51 +45,51 @@ const registerScreen = (props) => {
                                     />
                                 </View>
 
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: wp('1.5'), marginRight: wp('1.5') }}>
-                                    <View style={styles.inputView1}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 5, marginRight: 5 }}>
+                                    <View style={STYLES.styles.inputView1}>
                                         <TextInput
-                                            style={styles.TextInput}
+                                            style={STYLES.styles.TextInput}
                                         />
                                     </View>
 
-                                    <View style={styles.inputView1}>
+                                    <View style={STYLES.styles.inputView1}>
                                         <TextInput
-                                            style={styles.TextInput}
+                                            style={STYLES.styles.TextInput}
                                         />
                                     </View>
 
-                                    <View style={styles.inputView1}>
+                                    <View style={STYLES.styles.inputView1}>
                                         <TextInput
-                                            style={styles.TextInput}
+                                            style={STYLES.styles.TextInput}
                                         />
                                     </View>
 
-                                    <View style={styles.inputView1}>
+                                    <View style={STYLES.styles.inputView1}>
                                         <TextInput
-                                            style={styles.TextInput}
+                                            style={STYLES.styles.TextInput}
                                         />
                                     </View>
 
                                 </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                                    <TouchableOpacity style={styles.otpBtn} onPress={() => { }} >
-                                        <Text style={styles.otpbtnText}>Verify OTP</Text>
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                    <TouchableOpacity style={STYLES.styles.otpBtn} onPress={() => { }} >
+                                        <Text style={STYLES.styles.otpbtnText}>Verify OTP</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                                    <Text style={{ fontSize: hp('2.5%'), fontWeight: 'bold' }}>OR</Text>
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>OR</Text>
                                 </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                                    <TouchableOpacity style={styles.googleBtn} onPress={() => { }} >
-                                        <Text style={styles.googlebtnText}>Register with Google</Text>
-                                        <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: wp('5%') }} />
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                                    <TouchableOpacity style={STYLES.styles.googleBtn} onPress={() => { }} >
+                                        <Text style={STYLES.styles.googlebtnText}>Register with Google</Text>
+                                        <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: 15 }} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
-                        <View style={styles.centeView} >
+                        <View style={STYLES.styles.centeView} >
                             <TouchableOpacity onPress={() => props.navigation.navigate("forgotpasswordScreen")} >
-                                <Text style={styles.createText}>Already have an Account?</Text>
+                                <Text style={STYLES.styles.createText}>Already have an Account?</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -101,123 +101,3 @@ const registerScreen = (props) => {
 
 export default registerScreen;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#00ff99",
-    },
-    centeView: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    textColor: {
-        fontSize: hp('5%'),
-        color: '#FFFFFF',
-        fontWeight: 'bold',
-        marginLeft: wp('15%')
-    },
-    boxView: {
-        height: hp('62  %'),
-        width: wp('95%'),
-        shadowOpacity: 0.5,
-        shadowRadius: 1,
-        elevation: 4,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        borderRadius: 20,
-        backgroundColor: '#FFFFFF',
-        alignItems: 'center',
-        marginTop: hp('4%')
-    },
-    inputView: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
-        borderRadius: wp('0%'),
-        borderColor: '#555555',
-        width: wp('80%'),
-        height: hp('6%'),
-        margin: hp('1%'),
-        borderWidth: wp('0.1%'),
-    },
-    inputView1: {
-        marginTop: hp('2%'),
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
-        borderColor: '#555555',
-        width: wp('10%'),
-        height: hp('6%'),
-        borderWidth: wp('0.1%')
-    },
-    otpBtn: {
-        flexDirection: 'row',
-        width: wp('80%'),
-        backgroundColor: "#00D9CE",
-        borderRadius: 50,
-        height: hp('6%'),
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    otpbtnText: {
-        color: '#FFFFFF',
-        fontSize: hp('2.5%'),
-        fontWeight: 'bold'
-    },
-    googleBtn: {
-        flexDirection: 'row',
-        width: wp('80%'),
-        borderRadius: 50,
-        height: hp('6%'),
-        alignItems: "center",
-        justifyContent: 'center',
-        borderColor: '#00D9CE',
-        borderWidth: hp('0.1%')
-    },
-    googlebtnText: {
-        color: '#000000',
-        fontSize: hp('2%')
-    },
-    createText: {
-        color: '#FFFFFF',
-        fontSize: hp('2.5%'),
-        marginTop: hp('2%'),
-        fontWeight: '900'
-    },
-    supportText: {
-        color: '#4E4E4E',
-        fontSize: hp('2%'),
-        textDecorationLine: 'underline',
-        fontWeight: 'bold'
-    },
-    centerView: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
-        height: hp('100%'),
-        width: wp('100%')
-    },
-    imageView: {
-        marginLeft: ('20%'),
-        marginTop: ('70%'),
-        height: hp('10%'),
-        width: wp('45%')
-    },
-    circle: {
-        height: hp('50%'),
-        width: hp('50%'),
-        borderRadius: hp('50%'),
-        backgroundColor: "#FFFFFF",
-        marginTop: hp('-35'),
-        marginLeft: wp('-10')
-    },
-    registertext: {
-        fontSize: hp('4%'),
-        color: '#FFFFFF',
-        fontWeight: '900',
-        marginLeft: wp('4%')
-    }
-})
