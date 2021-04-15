@@ -24,18 +24,19 @@ import { renderDay, renderBubble, renderInputToolbar } from './customChatProps';
 import firestore from '@react-native-firebase/firestore';
 //
 const chatScreen = ({ navigation }) => {
-	const [ loading, setloading ] = useState(false);
-	const [ chatId, setchatId ] = useState(null);
-	const [ sender, setsender ] = useState(null);
-	const [ showStartProjectVisible, setshowStartProjectVisible ] = useState(false);
-	const [ showMessageModalVisible, setshowMessageModalVisible ] = useState(false);
-	const [ filterModalVisible, setfilterModalVisible ] = useState(false);
-	const [ messages, setMessages ] = useState([]);
+	const [loading, setloading] = useState(false);
+	const [chatId, setchatId] = useState(null);
+	const [sender, setsender] = useState(null);
+	const [showStartProjectVisible, setshowStartProjectVisible] = useState(false);
+	const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
+	const [filterModalVisible, setfilterModalVisible] = useState(false);
+	const [messages, setMessages] = useState([]);
 
 	// chat portion
 	useEffect(
 		() => {
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
+				console.log(`JSON.parse(res)._id`, JSON.parse(res)._id);
 				let sender = JSON.parse(res)._id;
 				setsender(sender);
 				newChat(sender, '606abd8799e17f1678300c12').then((id) => {
@@ -52,17 +53,17 @@ const chatScreen = ({ navigation }) => {
 				});
 			});
 		},
-		[ navigation ]
+		[navigation]
 	);
 
 	const newChat = async (sender, item) => {
 		let getChatId = firestore().collection('chat');
-		let snap = await getChatId.where('member', 'in', [ [ sender, item ] ]).get();
+		let snap = await getChatId.where('member', 'in', [[sender, item]]).get();
 		if (snap.empty) {
-			let snap2 = await getChatId.where('member', 'in', [ [ item, sender ] ]).get();
+			let snap2 = await getChatId.where('member', 'in', [[item, sender]]).get();
 			if (snap2.empty) {
 				let ref = await getChatId.add({
-					member: [ sender, item ],
+					member: [sender, item],
 					createdAt: '',
 					previewMessage: ''
 				});

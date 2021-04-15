@@ -86,7 +86,7 @@ const consultantsScreen = (props) => {
             </View>
             <View style={{ justifyContent: 'space-around', flexDirection: 'row', marginTop: hp('2%'), }}>
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/A.png')} style={{
+                <Image source={require('../../assets/Images/a1.png')} style={{
                   width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%')
                 }} />
               </TouchableOpacity>
@@ -95,14 +95,14 @@ const consultantsScreen = (props) => {
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/B.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
+                <Image source={require('../../assets/Images/b1.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: hp('-11%') }}>
                 <AntDesign name="closecircleo" size={24} color='#000000' />
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/c.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
+                <Image source={require('../../assets/Images/c1.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: hp('-11%') }}>
                 <AntDesign name="closecircleo" size={20} color='#000000' />
@@ -110,7 +110,7 @@ const consultantsScreen = (props) => {
             </View>
             <View style={{ justifyContent: 'space-around', flexDirection: 'row', marginTop: hp('2%'), }}>
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/D.png')} style={{
+                <Image source={require('../../assets/Images/d1.png')} style={{
                   width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%')
                 }} />
               </TouchableOpacity>
@@ -119,13 +119,13 @@ const consultantsScreen = (props) => {
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/E.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
+                <Image source={require('../../assets/Images/e1.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: hp('-11%') }} >
                 <AntDesign name="closecircleo" size={24} color='#000000' />
               </TouchableOpacity>
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/c.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
+                <Image source={require('../../assets/Images/c1.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: hp('-11%') }} >
                 <AntDesign name="closecircleo" size={24} color='#000000' />
@@ -133,7 +133,7 @@ const consultantsScreen = (props) => {
             </View>
             <View style={{ justifyContent: 'space-around', flexDirection: 'row', marginTop: hp('2%'), }}>
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/D.png')} style={{
+                <Image source={require('../../assets/Images/d1.png')} style={{
                   width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%')
                 }} />
               </TouchableOpacity>
@@ -142,13 +142,13 @@ const consultantsScreen = (props) => {
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/E.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
+                <Image source={require('../../assets/Images/e1.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: hp('-11%') }} >
                 <AntDesign name="closecircleo" size={24} color='#000000' />
               </TouchableOpacity>
               <TouchableOpacity style={styles.brandstyle}>
-                <Image source={require('../../assets/Images/c.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
+                <Image source={require('../../assets/Images/c1.png')} style={{ width: 80, height: 80, borderRadius: hp('15%'), borderColor: '#AAAAAA', borderWidth: hp('0.3%') }} />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: hp('-11%') }} >
                 <AntDesign name="closecircleo" size={24} color='#000000' />

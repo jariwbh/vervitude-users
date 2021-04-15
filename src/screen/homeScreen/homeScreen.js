@@ -46,20 +46,11 @@ const homeScreen = (props) => {
                 </View>
 
                 <View style={{ justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                    <CategoryBox />
-                    <CategoryBox />
-                    <CategoryBox />
-                    <CategoryBox />
-                    <View>
-                        <TouchableOpacity onPress={() => { props.navigation.navigate("selectCategoryScreen") }}
-                            style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <Image source={require('../../assets/Images/allicon.png')}
-                                style={{ height: 70, width: 70 }} />
-                        </TouchableOpacity>
-                        <View style={{ marginTop: 4 }}>
-                            <Text>All Cetegory</Text>
-                        </View>
-                    </View>
+                    <CategoryBox onPress={() => { props.navigation.navigate("selectCategoryScreen") }} />
+                    <CategoryBox onPress={() => { props.navigation.navigate("selectCategoryScreen") }} />
+                    <CategoryBox onPress={() => { props.navigation.navigate("selectCategoryScreen") }} />
+                    <CategoryBox onPress={() => { props.navigation.navigate("selectCategoryScreen") }} />
+                    <CategoryBox onPress={() => { props.navigation.navigate("selectCategoryScreen") }} />
                 </View>
 
                 <TouchableOpacity style={STYLE.styles.categoriesText}>
@@ -80,10 +71,10 @@ const homeScreen = (props) => {
 }
 
 export default homeScreen;
-const CategoryBox = () => {
+const CategoryBox = (props) => {
     return (
         <View>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+            <TouchableOpacity onPress={props.onPress} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                 <Image source={require('../../assets/Images/entypoareagraph1.png')}
                     style={{ height: 70, width: 70 }} />
             </TouchableOpacity>
