@@ -1,6 +1,6 @@
 import Axios from '../../helpers/appConfig'
 
-function LoginService(data) {
+function LoginService(email) {
     const body = {
         "search": [{
             "searchfield": "status",
@@ -9,7 +9,7 @@ function LoginService(data) {
             "datatype": "text"
         }, {
             "searchfield": "property.primaryemail",
-            "searchvalue": data.email,
+            "searchvalue": email,
             "criteria": "eq",
             "datatype": "text"
         }]
@@ -17,4 +17,21 @@ function LoginService(data) {
     return Axios.post('members/filter', body);
 }
 
-export default LoginService;
+function LoginWithMobileService(mobile) {
+    const body = {
+        "search": [{
+            "searchfield": "status",
+            "searchvalue": "active",
+            "criteria": "eq",
+            "datatype": "text"
+        }, {
+            "searchfield": "property.mobile",
+            "searchvalue": mobile,
+            "criteria": "eq",
+            "datatype": "text"
+        }]
+    }
+    return Axios.post('members/filter', body);
+}
+
+export { LoginService, LoginWithMobileService }
