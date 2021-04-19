@@ -221,7 +221,7 @@ export default class forgotpasswordScreen extends Component {
                         </View>
                         <View style={STYLE.Loginemailstyle.centeView}>
                             <View style={STYLE.Loginemailstyle.boxView}>
-                                <View style={{ marginTop: 35 }}>
+                                <View style={{ marginTop: 30 }}>
                                     <View style={usererror == null ? STYLE.Loginemailstyle.inputView : STYLE.Loginemailstyle.inputErrorView}>
                                         <TextInput
                                             defaultValue={this.state.username}
@@ -234,8 +234,9 @@ export default class forgotpasswordScreen extends Component {
                                             onChangeText={(email) => this.setEmail(email)}
                                         />
                                     </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
                                         <Text style={{ fontSize: 16, fontWeight: '900' }}>OR</Text>
+
                                     </View>
                                     <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                         <View style={mobile_numbererror == null ? STYLE.Loginemailstyle.inputView2 : STYLE.Loginemailstyle.inputErrorView2}>
@@ -255,7 +256,7 @@ export default class forgotpasswordScreen extends Component {
                                             <Text style={STYLE.Loginemailstyle.otpbtnText1}>Send OTP</Text>
                                         </TouchableOpacity>
                                     </View>
-
+                                    <Text>{this.state.verifyOtpNumber}</Text>
                                     <View style={{ flex: 0.5, marginTop: 30, marginLeft: 5, marginRight: 5 }}>
                                         <OtpInputs
                                             handleChange={(code) => this.handleChange(code)}
@@ -269,7 +270,7 @@ export default class forgotpasswordScreen extends Component {
                                             <Text style={STYLE.Loginemailstyle.otpbtnText}>Verify OTP</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <Text>{this.state.verifyOtpNumber}</Text>
+
                                 </View>
                             </View>
                             <View style={STYLE.Loginemailstyle.centeView} >

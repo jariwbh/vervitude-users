@@ -39,20 +39,22 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH / 2 - 170,
-        height: 45,
+        height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
-        fontSize: 18
+        fontSize: 18,
+        marginHorizontal: 34
     },
     inputViewError1: {
         marginTop: 25,
         backgroundColor: '#FFFFFF',
-        borderColor: '#FF0000',
+        borderColor: '#555555',
         width: WIDTH / 2 - 170,
-        height: 45,
+        height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
-        fontSize: 18
+        fontSize: 18,
+        marginHorizontal: 34
     },
     otpBtn: {
         flexDirection: 'row',
