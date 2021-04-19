@@ -28,7 +28,7 @@ function loginScreen(props) {
                                         <Text style={STYLES.styles.TextInput}>Sign in with Google</Text>
                                         <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: 20 }} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={STYLES.styles.inputView1} onPress={() => props.navigation.navigate('loginwithemailScreen')}>
+                                    <TouchableOpacity style={STYLES.styles.inputView1} onPress={() => props.navigation.navigate('LoginWithPasswordScreen')}>
                                         <Text style={STYLES.styles.TextInput1}>Login with Mobile or Email</Text>
                                     </TouchableOpacity>
                                 </View>

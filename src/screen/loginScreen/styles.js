@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
         marginLeft: 60
     },
     boxView: {
-        height: 220,
+        height: 250,
         width: WIDTH - 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -171,7 +171,7 @@ export const Loginemailstyle = StyleSheet.create({
         marginTop: 25,
         backgroundColor: "#FFFFFF",
         borderColor: '#555555',
-        width: WIDTH / 2 - 170,
+        width: 40,
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
@@ -181,8 +181,8 @@ export const Loginemailstyle = StyleSheet.create({
         marginTop: 25,
         backgroundColor: "#FFFFFF",
         borderColor: '#FF0000',
-        width: WIDTH / 2 - 170,
-        height: 45,
+        width: 40,
+        height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
         fontSize: 18
@@ -267,4 +267,31 @@ export const Loginemailstyle = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 10
     }
+})
+
+export const Loginpasswordstyle = StyleSheet.create({
+    loginText: {
+        marginTop: 10,
+        color: '#4E4E4E',
+        fontSize: 14,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold'
+    },
+    loginBtn: {
+        marginTop: 10,
+        flexDirection: 'row',
+        width: WIDTH - 60,
+        backgroundColor: "#00D9CE",
+        borderColor: '#5EA2FC',
+        borderRadius: 50,
+        borderWidth: 0.5,
+        height: 45,
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+    loginBtnText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
 })

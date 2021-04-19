@@ -23,6 +23,7 @@ import newchatsScreen from '../screen/chatScreen/newchatsScreen'
 import subcategoryScreen from '../screen/selectCategoryScreen/subcategoryScreen'
 import chatScreen from '../screen/chatScreen/chatScreen'
 import consultantsScreen from '../screen/consultantsScreen/consultantsScreen'
+import LoginWithPasswordScreen from '../screen/loginScreen/LoginWithPasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,7 @@ const navigationsApp = () => {
                 <Stack.Screen name="subcategoryScreen" component={subcategoryScreen} />
                 <Stack.Screen name="chatScreen" component={chatScreen} />
                 <Stack.Screen name="consultantsScreen" component={consultantsScreen} />
+                <Stack.Screen name="LoginWithPasswordScreen" component={LoginWithPasswordScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

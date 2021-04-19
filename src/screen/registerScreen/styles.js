@@ -38,18 +38,18 @@ export const styles = StyleSheet.create({
         marginTop: 25,
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH / 2 - 170,
+        width: 40,
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
         fontSize: 18,
-        marginHorizontal: 34
+        marginHorizontal: 30
     },
     inputViewError1: {
         marginTop: 25,
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH / 2 - 170,
+        width: 40,
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
@@ -138,7 +138,6 @@ export const styles = StyleSheet.create({
         borderColor: '#555555',
         width: WIDTH / 2 + 20,
         height: 45,
-        marginLeft: 5,
         borderWidth: 0.5
     },
     inputErrorView2: {
