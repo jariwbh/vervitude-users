@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     container: {
@@ -7,22 +8,22 @@ export const styles = StyleSheet.create({
         backgroundColor: '#00D9CE'
     },
     invitetitle: {
-        fontSize: hp('3'),
+        fontSize: 20,
         fontWeight: 'bold',
         color: '#000000',
-        marginTop: hp('10%'),
+        marginTop: 80,
         textAlign: 'center',
-        marginBottom: hp('5%')
+        marginBottom: 30
     },
     fieldtitle: {
-        fontSize: hp('2'),
+        fontSize: 12,
         color: '#666666',
-        marginLeft: hp('3%'),
-        marginBottom: hp('1%')
+        marginLeft: 20,
+        marginBottom: 5
     },
     boxView: {
-        height: hp('75%'),
-        width: wp('90%'),
+        height: HEIGHT / 2 + 150,
+        width: WIDTH - 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 4,
@@ -32,20 +33,20 @@ export const styles = StyleSheet.create({
         },
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
-        marginTop: hp('5%')
+        marginTop: 50
     },
     submitBtn: {
         flexDirection: 'row',
-        width: wp('40%'),
-        backgroundColor: "#00D9CE",
+        width: 150,
+        backgroundColor: '#00D9CE',
         borderRadius: 50,
-        height: hp('5%'),
-        alignItems: "center",
+        height: 35,
+        alignItems: 'center',
         justifyContent: 'center'
     },
     submitbtnText: {
         color: '#FFFFFF',
-        fontSize: hp('2.5%')
+        fontSize: 14
     },
     centeView: {
         justifyContent: 'center',
@@ -53,19 +54,30 @@ export const styles = StyleSheet.create({
     },
     inputView: {
         flexDirection: 'row',
-        backgroundColor: "#F4F4F4",
-        borderWidth: wp('0.1%'),
-        borderColor: '#000000',
-        width: wp('80%'),
-        height: hp('6%'),
-        marginLeft: hp('3%'),
-        borderRadius: hp('0.5%'),
-        marginBottom: hp('3%')
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.2)',
+        width: WIDTH - 60,
+        height: 40,
+        marginLeft: 20,
+        borderRadius: 5,
+        marginBottom: 20
+    },
+    inputViewError: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#ff0000',
+        width: WIDTH - 60,
+        height: 40,
+        marginLeft: 20,
+        borderRadius: 5,
+        marginBottom: 20
     },
     TextInput: {
-        fontSize: hp('2%'),
+        fontSize: 14,
         flex: 1,
         backgroundColor: '#F4F4F4',
-        marginLeft: hp('1%')
+        marginLeft: 10
     }
 })

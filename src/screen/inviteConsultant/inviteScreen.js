@@ -1,9 +1,7 @@
 import React from 'react'
-import { Text, View, SafeAreaView, TouchableOpacity, TextInput, ScrollView, ToastAndroid, Platform } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { Text, View, SafeAreaView, TouchableOpacity, TextInput, ScrollView, ToastAndroid, Platform, Image } from 'react-native'
 import * as STYLES from './styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo'
 
 const inviteScreen = (props) => {
     function onPressSubmit() {
@@ -17,14 +15,22 @@ const inviteScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginLeft: wp('3%'), marginTop: hp('5%'), marginRight: hp('3%') }}>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}>
-                        <AntDesign name="arrowleft" color="#FFFFFF" size={24} />
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: hp('3%'), marginLeft: hp('-25%'), color: '#FFFFFF', fontWeight: 'bold' }}>Invite</Text>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('homeScreen') }}>
-                        <Entypo name="home" color="#FFFFFF" size={30} />
-                    </TouchableOpacity>
+                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                            <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                            <Text style={{ fontSize: 28, color: '#FFFFFF', fontWeight: 'bold' }}>Invite</Text>
+                        </View>
+                    </View>
+
+                    <View style={{ justifyContent: 'flex-start', marginRight: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('homeScreen')}>
+                            <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 35, width: 35 }} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={STYLES.styles.centeView}>
                     <View style={STYLES.styles.boxView}>
@@ -64,7 +70,7 @@ const inviteScreen = (props) => {
                             </View>
 
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                             <TouchableOpacity style={STYLES.styles.submitBtn} onPress={() => onPressSubmit()} >
                                 <Text style={STYLES.styles.submitbtnText}>Submit</Text>
                             </TouchableOpacity>
