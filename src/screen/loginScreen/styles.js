@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
         marginLeft: 60
     },
     boxView: {
-        height: 250,
+        height: 220,
         width: WIDTH - 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -278,7 +278,7 @@ export const Loginpasswordstyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     loginBtn: {
-        marginTop: 10,
+        marginTop: 20,
         flexDirection: 'row',
         width: WIDTH - 60,
         backgroundColor: "#00D9CE",
@@ -294,4 +294,19 @@ export const Loginpasswordstyle = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold'
     },
+    boxView: {
+        height: 250,
+        width: WIDTH - 20,
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        elevation: 4,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        borderRadius: 20,
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
+        marginTop: 20
+    }
 })

@@ -15,8 +15,8 @@ export default function ChatMenu(props) {
 
 const styles = StyleSheet.create({
     categoryIcon: {
-        width: wp("7%"),
-        height: wp("7%"),
+        width: wp('7%'),
+        height: wp('7%'),
         marginRight: wp('10%'),
         alignItems: 'center',
         justifyContent: 'center'

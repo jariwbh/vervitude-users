@@ -1,6 +1,5 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 export default function MenuButton(props) {
     return (
@@ -14,9 +13,7 @@ export default function MenuButton(props) {
 
 const styles = StyleSheet.create({
     categoryIcon: {
-        marginLeft: wp('-5%'),
-        flexDirection: 'row',
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center',
         shadowOffset: {
             width: 0,
@@ -25,7 +22,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 4,
-        borderRadius: hp('3%')
+        borderRadius: 100
     },
 });
 

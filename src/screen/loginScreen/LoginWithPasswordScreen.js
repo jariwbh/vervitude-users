@@ -22,8 +22,8 @@ function LoginWithPasswordScreen(props) {
                             <Text style={STYLES.styles.textColor}>Experts</Text>
                         </View>
                         <View style={STYLES.styles.centeView}>
-                            <View style={STYLES.styles.boxView}>
-                                <View style={{ marginTop: 25 }}>
+                            <View style={STYLES.Loginpasswordstyle.boxView}>
+                                <View style={{ marginTop: 20 }}>
                                     <View style={STYLES.Loginemailstyle.inputView}>
                                         <TextInput
                                             style={STYLES.Loginemailstyle.TextInput}
@@ -54,7 +54,7 @@ function LoginWithPasswordScreen(props) {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <TouchableOpacity style={STYLES.Loginpasswordstyle.loginBtn} onPress={() => { }}>
+                                    <TouchableOpacity style={STYLES.Loginpasswordstyle.loginBtn} onPress={() => props.navigation.navigate('homeScreen')}>
                                         <Text style={STYLES.Loginpasswordstyle.loginBtnText}>Login</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -66,6 +66,7 @@ function LoginWithPasswordScreen(props) {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <View style={{ marginVertical: 80 }} />
                 </ScrollView>
             </ImageBackground>
         </SafeAreaView>

@@ -7,8 +7,8 @@ export default function WallateButton() {
         <TouchableOpacity
             style={styles.btnstyle}>
             <Text style={styles.btntext}>₹5,300</Text>
-            <View style={{ marginLeft: 20, justifyContent: 'center' }}>
-                <MaterialIcons name="account-balance-wallet" size={30} color='#04DE71' />
+            <View style={{ justifyContent: 'center' }}>
+                <MaterialIcons name='account-balance-wallet' size={30} color='#04DE71' />
             </View>
         </TouchableOpacity>
     )
@@ -17,13 +17,13 @@ export default function WallateButton() {
 const styles = StyleSheet.create({
     btnstyle: {
         height: 50,
-        width: 150,
+        width: 130,
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
-        borderRadius: 30,
+        borderRadius: 100,
         alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 100
+        justifyContent: 'space-around',
+        marginRight: 10
     },
     btntext: {
         fontSize: 20,

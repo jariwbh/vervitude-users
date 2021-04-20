@@ -7,7 +7,7 @@ export default function SwitchButton(props) {
     return (
         <TouchableOpacity style={styles.submitBtn} onPress={props.onPress} >
             <Text style={styles.submitbtnText}>Online</Text>
-            <AntDesign name="setting" size={24} color="#00D9CD" />
+            <AntDesign name='setting' size={24} color='#00D9CD' />
         </TouchableOpacity>
     );
 }
@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
     submitBtn: {
         flexDirection: 'row',
         width: wp('30%'),
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderRadius: 50,
         height: hp('5%'),
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     submitbtnText: {

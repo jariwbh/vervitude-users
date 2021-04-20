@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
         },
         elevation: 2,
         marginTop: 20,
-        width: WIDTH - 40,
-        height: 45,
+        width: WIDTH - 20,
+        height: 50,
         alignItems: 'center',
     },
     statInput: {
@@ -33,8 +33,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#00D9CE',
         width: WIDTH,
         height: 180,
-        borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30
+        borderBottomLeftRadius: 35,
+        borderBottomRightRadius: 35
     },
     centerView: {
         alignItems: 'center',

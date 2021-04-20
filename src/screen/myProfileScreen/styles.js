@@ -1,8 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-
 
 export const styles = StyleSheet.create({
     container: {
@@ -10,11 +8,11 @@ export const styles = StyleSheet.create({
         backgroundColor: '#00D9CE'
     },
     cardview: {
-        width: WIDTH - 15,
-        height: HEIGHT + 12,
+        width: WIDTH - 20,
+        height: 700,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
-        marginTop: 25,
+        marginTop: 30,
         shadowOffset: {
             width: 0,
             height: 2,
@@ -28,12 +26,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     modeView: {
-        marginTop: 400,
-        height: HEIGHT / 4,
-        width: WIDTH - 60,
+        marginTop: HEIGHT / 2 - 150,
+        height: 170,
+        width: WIDTH - 90,
         borderRadius: 20,
-        backgroundColor: "white",
-        shadowColor: "#000",
+        backgroundColor: 'white',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2
@@ -43,13 +41,13 @@ export const styles = StyleSheet.create({
         elevation: 5,
     },
     modalView: {
-        marginTop: 300,
-        height: HEIGHT / 3,
-        width: WIDTH - 60,
+        marginTop: HEIGHT / 2 - 150,
+        height: 200,
+        width: WIDTH - 90,
         borderRadius: 20,
-        backgroundColor: "white",
-        alignItems: "center",
-        shadowColor: "#000000",
+        backgroundColor: 'white',
+        alignItems: 'center',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2
@@ -58,43 +56,72 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
-    // msgModalView: {
-    //     marginTop: hp('40%'),
-    //     height: hp('25%'),
-    //     width: wp('80%'),
-    //     borderRadius: 20,
-    //     backgroundColor: "white",
-    //     alignItems: "center",
-    //     shadowColor: "#000",
-    //     shadowOffset: {
-    //         width: 0,
-    //         height: 2
-    //     },
-    //     shadowOpacity: 0.25,
-    //     shadowRadius: 4,
-    //     elevation: 5
-    // },
+    vervitudemodalView: {
+        marginTop: HEIGHT / 2 - 150,
+        height: 250,
+        width: WIDTH - 90,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    msgModalView: {
+        marginTop: HEIGHT / 2 - 150,
+        height: 200,
+        width: WIDTH - 90,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    profileImageView: {
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+        width: 90,
+        height: 90,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 4,
+        borderRadius: 100,
+        borderColor: '#000000'
+    },
     profileImage: {
-        borderRadius: 50,
+        borderRadius: 100,
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        width: 100,
-        height: 100,
-        marginTop: -5,
-        borderWidth: 1,
-        borderColor: '#EEEEEE',
-        marginRight: 17
+        width: 80,
+        height: 80
     },
     savebtn: {
         flexDirection: 'row',
-        marginRight: 70,
-        width: 120,
+        marginRight: 50,
+        width: 100,
         height: 35,
         backgroundColor: '#00D9CE',
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -105,13 +132,13 @@ export const styles = StyleSheet.create({
     },
     cancelbtn: {
         flexDirection: 'row',
-        width: 120,
+        width: 100,
         height: 35,
         backgroundColor: '#EEEEEE',
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -120,40 +147,134 @@ export const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
-    // inputView: {
-    //     flexDirection: 'row',
-    //     backgroundColor: "#F4F4F4",
-    //     borderWidth: 1,
-    //     borderColor: '#000000',
-    //     width: wp('35%'),
-    //     height: hp('6%'),
-    //     borderRadius: hp('0.5%'),
-    //     marginBottom: hp('3%')
-    // },
-    // TextInput: {
-    //     fontSize: hp('2%'),
-    //     flex: 1,
-    //     backgroundColor: '#F4F4F4',
-    //     marginLeft: hp('1%')
-    // },
-    textAreainputView: {
+    inputView: {
         flexDirection: 'row',
-        backgroundColor: "#F4F4F4",
-        borderWidth: wp('0.1%'),
+        backgroundColor: '#F4F4F4',
+        borderWidth: 0.5,
         borderColor: '#000000',
-        width: wp('70%'),
-        height: hp('15%'),
-        borderRadius: hp('0.5%')
+        width: WIDTH - 120,
+        height: 40,
+        borderRadius: 5,
+        marginBottom: 20
     },
-    TextareaInput: {
-        fontSize: hp('2%'),
+    TextInput: {
+        fontSize: 14,
         flex: 1,
         backgroundColor: '#F4F4F4',
-        marginLeft: hp('1%'),
+        marginLeft: 5
+    },
+    textAreainputView: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#000000',
+        width: WIDTH - 120,
+        height: 100,
+        borderRadius: 5
+    },
+    TextareaInput: {
+        fontSize: 14,
+        flex: 1,
+        backgroundColor: '#F4F4F4',
+        marginLeft: 5,
     },
     icontextView: {
-        paddingLeft: 17,
+        marginLeft: 20,
         color: '#4D4D4D',
-        fontSize: 14
+        fontSize: 16
+    }
+})
+
+export const Editstyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#00D9CE',
+    },
+    profileview: {
+        width: WIDTH - 20,
+        backgroundColor: '#FFFFFF',
+        marginTop: 30,
+        borderRadius: 20,
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 2
+    },
+    inputView: {
+        flexDirection: 'row',
+        backgroundColor: '#EFEFEF',
+        borderColor: '#FFFFFF',
+        width: WIDTH - 40,
+        height: 35,
+        marginTop: 2,
+        alignItems: 'center',
+        borderRadius: 3,
+        marginLeft: 10
+    },
+    textAreainputView: {
+        flexDirection: 'row',
+        backgroundColor: '#EFEFEF',
+        borderColor: '#FFFFFF',
+        width: WIDTH - 40,
+        height: 80,
+        marginTop: 1,
+        alignItems: 'center',
+        borderRadius: 3,
+        marginLeft: 10
+    },
+    TextInput: {
+        fontSize: 14,
+        flex: 1,
+        padding: 5
+    },
+    TextInputbold: {
+        fontSize: 18,
+        flex: 1,
+        padding: 5,
+        fontWeight: 'bold'
+    },
+    TextareaInput: {
+        fontSize: 14,
+        flex: 1,
+        padding: 5,
+        height: 150,
+        justifyContent: 'flex-start'
+    },
+    submitbtn: {
+        flexDirection: 'row',
+        marginRight: 15,
+        width: 90,
+        height: 30,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    generalinfitext: {
+        width: WIDTH - 40,
+        height: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00D9CE',
+        borderRadius: 100,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 3,
+        shadowRadius: 2,
+        elevation: 0,
     }
 })
