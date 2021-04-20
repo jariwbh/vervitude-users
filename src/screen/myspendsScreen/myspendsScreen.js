@@ -1,151 +1,99 @@
-import React from 'react'
-import { Text, View, ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, ToastAndroid, StatusBar } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import React from 'react';
+import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
+import WallateButton from '../../components/WallateButton/WallateButton';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import * as STYLES from './styles';
 
 const myspendsScreen = (props) => {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#FA114F', width: wp('100%'), height: hp('15%'), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
-                <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
-                    <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-8%'), color: '#FFFFFF', fontWeight: 'bold' }}>My Spends</Text>
-                <TouchableOpacity
-                    style={{ height: hp('7%'), width: wp('35%'), backgroundColor: '#FFFFFF', flexDirection: 'row', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', marginRight: wp('2%') }}>
-                    <Text style={{ fontSize: hp('2.8%'), color: '#04DE71' }}>₹ 5,000</Text>
-                    <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>
-                        <MaterialIcons name="account-balance-wallet" size={25} color='#04DE71' />
+        <SafeAreaView style={STYLES.styles.container}>
+            <View style={STYLES.styles.headerstyle}>
+                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                            <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                            <Text style={{ fontSize: 28, color: '#FFFFFF', fontWeight: 'bold' }}>My Spends</Text>
+                        </View>
                     </View>
-                </TouchableOpacity>
+                    <View style={{ justifyContent: 'flex-end' }}>
+                        <WallateButton />
+                    </View>
+                </View>
             </View>
+
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.walletview}>
-                        <Text style={{ fontSize: hp('2%'), color: '#9D9D9D' }}>Wallet Balance</Text>
-                        <Text style={{ fontSize: hp('4%'), color: '#04DE71', fontWeight: 'bold' }}>₹ 5000.00</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                    <View style={STYLES.styles.walletview}>
+                        <Text style={{ fontSize: 14, color: '#9D9D9D' }}>Wallet Balance</Text>
+                        <Text style={{ fontSize: 26, color: '#04DE71', fontWeight: 'bold' }}>₹ 5000.00</Text>
                     </View>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                    <View style={styles.counsultantview}>
-                        {/* <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end', }}>
-                            <View style={styles.pro}>
-
-                            </View>
-                        </View> */}
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%'), flex: 1 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.styles.counsultantview}>
+                        <View style={STYLES.styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                             />
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', color: '#000000', marginTop: hp('-3%') }}>Ravindra</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000', marginTop: -20 }}>Ravindra</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('1.8%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2.5%'), color: '#FB3267', fontWeight: 'bold' }}>₹ 2,000</Text>
-                                    <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>2h10min</Text>
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 16, color: '#FB3267', fontWeight: 'bold' }}>₹ 2,000</Text>
+                                    <Text style={{ fontSize: 16, color: '#000000', fontWeight: 'bold' }}>2h10min</Text>
                                 </View>
                             </View>
 
                         </View>
                     </View>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.counsultantview}>
-                        <View >
 
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.styles.counsultantview}>
+                        <View style={STYLES.styles.cauve}>
+                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
                         </View>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <Image source={require('../../assets/Images/user1.png')}
-                                style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                             />
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', color: '#000000', marginTop: hp('-2%') }}>Ruby</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000000', marginTop: -20 }}>Ruby</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('1.8%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2.5%'), color: '#FB3267', fontWeight: 'bold' }}>₹ 2,000</Text>
-                                    <Text style={{ fontSize: hp('2.5%'), color: '#000000' }}>2h10min</Text>
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 16, color: '#FB3267', fontWeight: 'bold' }}>₹ 2,000</Text>
+                                    <Text style={{ fontSize: 16, color: '#000000', fontWeight: 'bold' }}>2h10min</Text>
                                 </View>
                             </View>
 
                         </View>
                     </View>
                 </View>
-                <View style={{ marginBottom: hp('5%') }}></View>
+                <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
         </SafeAreaView>
     )
 }
 
 export default myspendsScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#FFFFFF",
-    },
-    walletview: {
-        height: hp('25%'),
-        width: wp('90%'),
-        backgroundColor: '#FFFFFF',
-        borderRadius: hp('3%'),
-        marginTop: hp('1.5%'),
-        shadowOpacity: 10,
-        shadowRadius: 20,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 15,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    counsultantview: {
-        flex: 1,
-        height: hp('25%'),
-        width: wp('90%'),
-        backgroundColor: '#FFFFFF',
-        borderRadius: hp('3%'),
-        marginTop: hp('1.5%'),
-        shadowOpacity: 10,
-        shadowRadius: 20,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 15,
-    },
-    // pro: {
-    //     marginTop: hp('-5'),
-    //     marginRight: wp('-10%'),
-    //     overflow: 'hidden',
-    //     // borderBottomColor: "red",
-    //     borderTopColor: "transparent",
-    //     width: 100,
-    //     height: 100,
-    //     backgroundColor: 'transparent',
-    //     borderTopWidth: 0,
-
-    //     borderLeftColor: "red",
-    //     borderLeftWidth: 60,
-    //     borderTopColor: "transparent",
-    //     borderRightColor: "transparent",
-    //     borderRightWidth: 0,
-
-    //     borderBottomWidth: 0,
-    //     borderTopLeftRadius: 60,
-    //     borderTopRightRadius: 60,
-    //     borderBottomRightRadius: 0,
-    //     borderBottomLeftRadius: 60,
-    // },
-})

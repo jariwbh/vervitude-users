@@ -1,18 +1,53 @@
-import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { StyleSheet, Dimensions } from 'react-native';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
-export const styles = StyleSheet.create({
+export const myWalletStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#EEEEEE"
+        backgroundColor: "#FFFFFF",
     },
-    abalanceview: {
-        height: hp('25%'),
-        width: wp('95%'),
-        backgroundColor: '#FFFFFF',
-        marginTop: hp('3%'),
-        borderRadius: hp('3%'),
+    amount: {
+        width: 80,
+        height: 40,
+        borderRadius: 10,
+        justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#04DE71'
+    },
+    addmoney: {
+        width: WIDTH / 2 - 50,
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#04DE71',
+        borderColor: '#2094FA',
+    },
+    rechargeview: {
+        width: WIDTH,
+        height: HEIGHT - 50,
+        backgroundColor: '#FFFFFF',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        marginTop: 20,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+
+    },
+    bankview: {
+        height: 70,
+        width: WIDTH - 20,
+        backgroundColor: '#FFFFFF',
+        marginTop: 5,
+        borderRadius: 20,
         justifyContent: 'center',
         shadowOpacity: 0.5,
         shadowRadius: 3,
@@ -20,14 +55,42 @@ export const styles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 3
+        elevation: 2,
     },
     gamountview: {
-        height: hp('40%'),
-        width: wp('95%'),
+        height: 300,
+        width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        borderRadius: hp('3%'),
-        marginTop: hp('3%'),
+        borderRadius: 20,
+        marginTop: 7,
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        elevation: 2,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        }
+    },
+    headerstyle: {
+        backgroundColor: '#04DE71',
+        width: WIDTH,
+        height: 100,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30
+    }
+})
+
+export const rechargeDetailStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#FFFFFF",
+    },
+    gamountview: {
+        height: 250,
+        width: WIDTH - 20,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 20,
+        marginTop: 7,
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 2,
@@ -37,18 +100,104 @@ export const styles = StyleSheet.create({
         },
     },
     bankview: {
-        height: hp('10%'),
-        width: wp('95%'),
+        height: 50,
+        width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        borderRadius: hp('3%'),
-        marginTop: hp('3%'),
+        marginTop: 5,
+        borderRadius: 20,
         shadowOpacity: 0.5,
-        shadowRadius: 1,
-        elevation: 2,
+        shadowRadius: 3,
         shadowOffset: {
             height: 0,
             width: 0,
         },
+        elevation: 2,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    addmoney: {
+        width: WIDTH / 2 - 50,
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 100,
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#04DE71',
+        borderColor: '#2094FA',
+    },
+    headerstyle: {
+        backgroundColor: '#04DE71',
+        width: WIDTH,
+        height: 100,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30
+    }
+})
+
+export const rechargePaymentStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#FFFFFF",
+    },
+    amount: {
+        width: 80,
+        height: 40,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#04DE71',
+        borderWidth: 1
+    },
+    gamountview: {
+        height: 50,
+        width: WIDTH - 20,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 20,
+        marginTop: 5,
+        shadowOpacity: 0.5,
+        shadowRadius: 12,
+        elevation: 5,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    bankview: {
+        height: 50,
+        width: WIDTH - 20,
+        backgroundColor: '#FFFFFF',
+        marginTop: 5,
+        borderRadius: 20,
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 2,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    addmoney: {
+        width: WIDTH / 2 - 50,
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#04DE71',
+        borderColor: '#2094FA'
+    },
+    headerstyle: {
+        backgroundColor: '#04DE71',
+        width: WIDTH,
+        height: 100,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30
     }
 })

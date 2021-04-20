@@ -1,149 +1,163 @@
 import React from 'react'
-import { Text, View, ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, ToastAndroid, StatusBar } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image, ScrollView, } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as STYLES from './styles';
 
 const myWalletScreen = (props) => {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#04DE71', width: wp('100%'), height: hp('15%'), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', borderBottomLeftRadius: hp('4%'), borderBottomRightRadius: hp('4%') }}>
-                <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
-                    <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: hp('3%'), marginLeft: hp('-25%'), color: '#FFFFFF', fontWeight: 'bold' }}>My Wallet</Text>
-                <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
-                    <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%'), }} />
-                </TouchableOpacity>
+        <SafeAreaView style={STYLES.myWalletStyles.container}>
+            <View style={STYLES.myWalletStyles.headerstyle}>
+                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                            <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                            <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>My Wallet</Text>
+                        </View>
+                    </View>
+                    <View style={{ justifyContent: 'flex-start', marginRight: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('homeScreen')}>
+                            <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
+
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: hp('3%') }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 20 }}>
                     <View >
-                        <Text style={{ fontSize: hp('4%'), color: '#999999' }}>₹ Amount</Text>
+                        <Text style={{ fontSize: 26, color: '#999999' }}>₹ Amount</Text>
                     </View>
-                    <TouchableOpacity style={{ marginTop: hp('2%') }} onPress={() => { props.navigation.navigate("promocodeScreen") }}>
-                        <Text style={{ fontSize: hp('2%'), color: 'blue' }}>Apply Promo Code</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: hp('3%') }}>
-                    <TouchableOpacity style={styles.amount}>
-                        <Text style={{ fontSize: hp('2.5%') }}>₹ 500</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.amount}>
-                        <Text style={{ fontSize: hp('2.5%') }}>₹ 1,000</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.amount}>
-                        <Text style={{ fontSize: hp('2.5%') }}>₹ 3,000</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.amount}>
-                        <Text style={{ fontSize: hp('2.5%') }}>₹ 10,000</Text>
+                    <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate("promocodeScreen")}>
+                        <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('3%') }}>
-                    <TouchableOpacity style={styles.addmoney} onPress={() => { props.navigation.navigate("rechargedetailScreen") }}>
-                        <Text style={{ color: '#FFFFFF', fontSize: hp('3%') }}>Add Money</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                        <Text style={{ fontSize: 16 }}>₹ 500</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                        <Text style={{ fontSize: 16 }}>₹ 1,000</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                        <Text style={{ fontSize: 16 }}>₹ 3,000</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                        <Text style={{ fontSize: 16 }}>₹ 10,000</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('2%') }}>
-                    <Text style={{ fontSize: hp('2.5%'), fontWeight: 'bold' }}>Current Balanced ₹ 1,000</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => props.navigation.navigate("rechargedetailScreen")}>
+                        <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
+                    </TouchableOpacity>
                 </View>
 
-                <View style={styles.rechargeview}>
-                    <Text style={{ textAlign: 'center', fontSize: hp('3%'), fontWeight: 'bold', color: '#34A853', marginTop: hp('2%') }}>Recharge History</Text>
-                    <View style={{ marginLeft: hp('2%'), marginTop: hp('2%') }}>
-                        <Text style={{ fontSize: hp('2%'), color: "#999999" }}>14th March 2021</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balanced ₹ 1,000</Text>
+                </View>
+
+                <View style={STYLES.myWalletStyles.rechargeview}>
+                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#34A853', marginTop: 15 }}>Recharge History</Text>
+                    <View style={{ marginLeft: 15, marginTop: 15 }}>
+                        <Text style={{ fontSize: 14, color: "#999999" }}>14th March 2021</Text>
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%') }}>
-                        <View style={styles.bankview}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+                        <View style={STYLES.myWalletStyles.bankview}>
                             <TouchableOpacity onPress={() => { }}
-                                style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                <View style={{ width: 40, height: 40, marginLeft: hp('2%'), backgroundColor: '#04DE71', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
+                                style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                <View style={{ width: 50, height: 50, marginLeft: 15, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                                     <FontAwesome name="rupee" size={20} color='#FFFFFF' />
                                 </View>
-                                <View style={{ flexDirection: 'column', marginLeft: wp('-25%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#000000', marginLeft: hp('2%') }}>Credit Card</Text>
-                                    <Text style={{ fontSize: hp('1.8%'), color: '#000000', marginLeft: hp('2%') }}>Success</Text>
-                                    <Text style={{ fontSize: hp('1.8%'), color: '#999999', marginLeft: hp('2%') }}> 2:30PM</Text>
+                                <View style={{ flexDirection: 'column', marginLeft: -100 }}>
+                                    <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Credit Card</Text>
+                                    <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>Success</Text>
+                                    <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}> 2:30PM</Text>
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#34A853', marginTop: hp('1%'), marginRight: hp('3%') }}> ₹ 2000.00</Text>
+                                <Text style={{ fontSize: 14, color: '#34A853', marginTop: 5, marginRight: 20 }}> ₹ 2000.00</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('1%') }}>
-                        <View style={styles.bankview}>
+
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+                        <View style={STYLES.myWalletStyles.bankview}>
                             <TouchableOpacity onPress={() => { }}
-                                style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                <View style={{ width: 40, height: 40, marginLeft: hp('2%'), backgroundColor: 'red', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
+                                style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                <View style={{ width: 50, height: 50, marginLeft: 15, backgroundColor: '#FF114F', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                                     <FontAwesome name="rupee" size={20} color='#FFFFFF' />
                                 </View>
-                                <View style={{ flexDirection: 'column', marginLeft: wp('-25%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#000000', marginLeft: hp('2%') }}>UPI </Text>
-                                    <Text style={{ fontSize: hp('1.8%'), color: '#000000', marginLeft: hp('2%') }}>Failed</Text>
-                                    <Text style={{ fontSize: hp('1.8%'), color: '#999999', marginLeft: hp('2%') }}>2:30PM</Text>
+                                <View style={{ flexDirection: 'column', marginLeft: -120 }}>
+                                    <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>UPI</Text>
+                                    <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>Failed</Text>
+                                    <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}> 2:30PM</Text>
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#34A853', marginTop: hp('1%'), marginRight: hp('3%') }}> ₹ 1500.00</Text>
+                                <Text style={{ fontSize: 14, color: '#34A853', marginTop: 5, marginRight: 20 }}> ₹ 1500.00</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ marginLeft: hp('2%'), marginTop: hp('2%') }}>
-                        <Text style={{ fontSize: hp('2%'), color: "#999999" }}>27th Feburary 2021</Text>
+
+                    <View style={{ marginLeft: 15, marginTop: 15 }}>
+                        <Text style={{ fontSize: 14, color: "#999999" }}>27th Feburary 2021</Text>
                     </View>
 
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={styles.gamountview}>
-                            <View style={{ marginLeft: wp('3%'), marginRight: wp('3%') }}>
-                                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: hp('2%') }}>
-                                    <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 12, width: 12, marginRight: hp('2%') }} />
+                        <View style={STYLES.myWalletStyles.gamountview}>
+                            <View style={{ marginLeft: 20, marginRight: 20 }}>
+                                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15 }}>
+                                    <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 12, width: 12, marginRight: 15 }} />
                                 </View>
+
                                 <TouchableOpacity onPress={() => { }}
-                                    style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('0%') }}>
-                                    <View style={{ width: 40, height: 40, marginTop: hp('-3%'), backgroundColor: '#04DE71', borderRadius: hp('5%'), justifyContent: 'center', alignItems: 'center' }}>
+                                    style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                                    <View style={{ width: 50, height: 50, marginTop: -10, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                                         <FontAwesome name="rupee" size={20} color='#FFFFFF' />
                                     </View>
-                                    <View style={{ flexDirection: 'column', marginLeft: wp('-25%') }}>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginTop: hp('-3%'), marginLeft: hp('2%') }}>Credit Card</Text>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginLeft: hp('2%') }}>Success</Text>
-                                        <Text style={{ fontSize: hp('2%'), color: '#999999', marginLeft: hp('2%') }}> 2:30PM</Text>
+                                    <View style={{ flexDirection: 'column', marginLeft: -90 }}>
+                                        <Text style={{ fontSize: 14, color: '#000000', marginTop: -20, marginLeft: 15 }}>Credit Card</Text>
+                                        <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Success</Text>
+                                        <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}> 2:30PM</Text>
                                     </View>
-                                    <Text style={{ fontSize: hp('2%'), color: '#04DE71', marginTop: hp('1%'), marginRight: hp('3%') }}> ₹ 1,500.00</Text>
+                                    <Text style={{ fontSize: 14, color: '#04DE71', marginTop: 5, marginRight: 20 }}> ₹ 1,500.00</Text>
                                 </TouchableOpacity>
-                                <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+
+                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
                                 </View>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>Recharge Amount</Text>
-                                    <Text style={{ fontSize: hp('2%'), color: '#000000', marginRight: hp('3%') }}> ₹ 1,500</Text>
+
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Recharge Amount</Text>
+                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ 1,500</Text>
                                 </View>
-                                <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 14, flexDirection: 'row' }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
                                 </View>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>Coupon Applied (FirstRecharge - + ₹ 500)</Text>
-                                    <Text style={{ fontSize: hp('2%'), color: '#000000', marginRight: hp('3%') }}> ₹ 500.00</Text>
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Coupon Applied (FirstRecharge - + ₹ 500)</Text>
+                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ 500.00</Text>
                                 </View>
-                                <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                                 </View>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>GST (18%) </Text>
-                                    <Text style={{ fontSize: hp('2%'), color: '#000000', marginRight: hp('3%') }}>- ₹  270</Text>
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>GST (18%) </Text>
+                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹  270</Text>
                                 </View>
-                                <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                                 </View>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>Balance Added </Text>
-                                    <Text style={{ fontSize: hp('2.5%'), color: '#04DE71', marginRight: hp('3%') }}> ₹ 1,730</Text>
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Balance Added </Text>
+                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ 1,730</Text>
                                 </View>
-                                <View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 14, flexDirection: 'row' }}>
                                     <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                                 </View>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), marginLeft: hp('2%'), color: '#999999' }}>New Balance </Text>
-                                    <Text style={{ fontSize: hp('2.5%'), color: '#04DE71', marginRight: hp('3%') }}> ₹ 1,730</Text>
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
+                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ 1,730</Text>
                                 </View>
                             </View>
                         </View>
@@ -154,75 +168,5 @@ const myWalletScreen = (props) => {
     )
 }
 
-export default myWalletScreen
+export default myWalletScreen;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#FFFFFF",
-    },
-    amount: {
-        width: wp('20%'),
-        height: hp('6%'),
-        borderRadius: hp('1%'),
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: hp('0.1%'),
-        borderColor: '#04DE71'
-    },
-    addmoney: {
-        width: wp('40%'),
-        height: hp('7%'),
-        borderWidth: hp('0.1%'),
-        borderRadius: hp('5%'),
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#04DE71',
-        borderColor: '#2094FA',
-    },
-    rechargeview: {
-        width: wp('100%'),
-        height: hp('90%'),
-        backgroundColor: '#FFFFFF',
-        borderTopLeftRadius: hp('3%'),
-        borderTopRightRadius: hp('3%'),
-        marginTop: hp('3%'),
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-
-    },
-    bankview: {
-        height: hp('10%'),
-        width: wp('95%'),
-        backgroundColor: '#FFFFFF',
-        marginTop: hp('0.5%'),
-        borderRadius: hp('3%'),
-        justifyContent: 'center',
-        shadowOpacity: 0.5,
-        shadowRadius: 3,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-    },
-    gamountview: {
-        height: hp('42%'),
-        width: wp('95%'),
-        backgroundColor: '#FFFFFF',
-        borderRadius: hp('3%'),
-        marginTop: hp('1.5%'),
-        shadowOpacity: 0.5,
-        shadowRadius: 1,
-        elevation: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-    }
-})

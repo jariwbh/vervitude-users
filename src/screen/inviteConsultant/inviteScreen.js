@@ -28,7 +28,7 @@ const inviteScreen = (props) => {
 
                     <View style={{ justifyContent: 'flex-start', marginRight: 20 }}>
                         <TouchableOpacity onPress={() => props.navigation.navigate('homeScreen')}>
-                            <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 35, width: 35 }} />
+                            <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
