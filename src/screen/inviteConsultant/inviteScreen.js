@@ -6,18 +6,18 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const inviteScreen = (props) => {
     function onPressSubmit() {
         if (Platform.OS === 'android') {
-            ToastAndroid.show("User invited!", ToastAndroid.SHORT);
+            ToastAndroid.show('User invited!', ToastAndroid.SHORT);
         } else {
-            alert("User invited!");
+            alert('User invited!');
         }
         props.navigation.replace('myProfileScreen');
     }
     return (
         <SafeAreaView style={STYLES.styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
                         <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
                             <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
                         </TouchableOpacity>
@@ -40,10 +40,10 @@ const inviteScreen = (props) => {
                             <View style={STYLES.styles.inputView}>
                                 <TextInput
                                     style={STYLES.styles.TextInput}
-                                    placeholder="Email Address"
+                                    placeholder='Email Address'
                                     type='clear'
-                                    returnKeyType="next"
-                                    placeholderTextColor="#999999"
+                                    returnKeyType='next'
+                                    placeholderTextColor='#999999'
                                 />
                             </View>
 
@@ -51,10 +51,10 @@ const inviteScreen = (props) => {
                             <View style={STYLES.styles.inputView}>
                                 <TextInput
                                     style={STYLES.styles.TextInput}
-                                    placeholder="Phone Number"
+                                    placeholder='Phone Number'
                                     type='clear'
-                                    returnKeyType="next"
-                                    placeholderTextColor="#999999"
+                                    returnKeyType='next'
+                                    placeholderTextColor='#999999'
                                 />
                             </View>
 
@@ -62,10 +62,10 @@ const inviteScreen = (props) => {
                             <View style={STYLES.styles.inputView}>
                                 <TextInput
                                     style={STYLES.styles.TextInput}
-                                    placeholder="Full Name"
+                                    placeholder='Full Name'
                                     type='clear'
-                                    returnKeyType="next"
-                                    placeholderTextColor="#999999"
+                                    returnKeyType='next'
+                                    placeholderTextColor='#999999'
                                 />
                             </View>
 

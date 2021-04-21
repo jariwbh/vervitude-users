@@ -1,182 +1,215 @@
-import React from 'react'
-import { View, Text, SafeAreaView, TextInput, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import React from 'react';
+import { View, Text, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as STYLES from './styles';
 
 const recentchatScreen = (props) => {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#FFB629', width: wp('100%'), height: hp('22%'), flexDirection: 'column', borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: hp('5%') }}>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate("myProfileScreen") }}>
-                        <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: hp('3%'), marginLeft: hp('-15%'), color: '#FFFFFF', fontWeight: 'bold' }}>Recent Chats</Text>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('homeScreen') }}>
-                        <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%') }} />
-                    </TouchableOpacity>
+        <SafeAreaView style={STYLES.recentChatStyles.container}>
+            <View style={STYLES.recentChatStyles.headerstyle}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                            <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                            <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>Recent Chats</Text>
+                        </View>
+                    </View>
+                    <View style={{ justifyContent: 'flex-start', marginRight: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('homeScreen')}>
+                            <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <TouchableOpacity onPress={() => { props.navigation.navigate("newchatsScreen") }}
-                    style={{ width: wp('35%'), height: hp('5%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', margin: hp('3%') }}>
-                    <Text style={{ fontSize: hp('2%'), color: '#FFB629' }}>Find a Consultant</Text>
+                <TouchableOpacity
+                    onPress={() => { props.navigation.navigate("newchatsScreen") }}
+                    style={{ width: 150, height: 40, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
+                    <Text style={{ fontSize: 14, color: '#FFB629' }}>Find a Consultant</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.statusbar}>
-                <TouchableOpacity >
-                    <AntDesign name="search1" size={20} color='#FFB629' style={{ marginLeft: hp('2%') }} />
-                </TouchableOpacity>
-                <TextInput
-                    style={styles.statInput}
-                    placeholder="Search Chats"
-                    type='clear'
-                    placeholderTextColor="#999999"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
+            <View style={STYLES.recentChatStyles.centerView}>
+                <View style={STYLES.recentChatStyles.statusbar}>
+                    <TouchableOpacity >
+                        <AntDesign name='search1' size={20} color='#FFB629' style={{ marginLeft: 20 }} />
+                    </TouchableOpacity>
+                    <TextInput
+                        style={STYLES.newChatStyles.statInput}
+                        placeholder='Search Chats'
+                        type='clear'
+                        placeholderTextColor='#999999'
+                        returnKeyType='done'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                    />
+                </View>
             </View>
+
             <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
+                            <Image source={require('../../assets/Images/user1.png')}
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: -30 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ranjan</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Design / UX Design</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: wp('2%') }}>
-                            <Text style={{ color: "#999999", fontSize: hp('1.8%'), marginTop: hp('2%') }}>2:30 PM</Text>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
                         </View>
-                        <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: hp('2%'), marginTop: hp('-3%') }}>
-                            <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 80, height: 80, borderRadius: hp('15%') }}
-                            />
-                            <FontAwesome name="circle" size={16} color="#EEEEEE" style={{ marginTop: wp('-14%'), marginLeft: hp('-2') }} />
-                            <View style={{ marginLeft: hp('3%'), flex: 1 }}>
-                                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: "#000000" }}>Ranjan</Text>
-                                <Text style={{ fontSize: hp('2%'), color: "#999999" }}>Design / UX Design</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableOpacity style={styles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: wp('2%') }}>
-                            <Text style={{ color: "#999999", fontSize: hp('1.8%'), marginTop: hp('2%') }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: hp('2%'), marginTop: hp('-3%') }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                             <Image source={require('../../assets/Images/user4.png')}
-                                style={{ width: 80, height: 80, borderRadius: hp('15%') }}
-                            />
-                            <FontAwesome name="circle" size={16} color="#00D9CE" style={{ marginTop: wp('-14%'), marginLeft: hp('-2') }} />
-                            <View style={{ marginLeft: hp('3%'), flex: 1 }}>
-                                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: "#000000" }}>Ruby</Text>
-                                <Text style={{ fontSize: hp('2%'), color: "#999999" }}>Business Consultant/ Marketing</Text>
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ruby</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableOpacity style={styles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: wp('2%') }}>
-                            <Text style={{ color: "#999999", fontSize: hp('1.8%'), marginTop: hp('2%') }}>2:30 PM</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
                         </View>
-                        <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: hp('2%'), marginTop: hp('-3%') }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                             <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 80, height: 80, borderRadius: hp('15%') }}
-                            />
-                            <FontAwesome name="circle" size={16} color="#00D9CE" style={{ marginTop: wp('-14%'), marginLeft: hp('-2') }} />
-                            <View style={{ marginLeft: hp('3%'), flex: 1 }}>
-                                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: "#000000" }}>Michele</Text>
-                                <Text style={{ fontSize: hp('2%'), color: "#999999" }}>Business Consultant/ Marketing</Text>
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Michele</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableOpacity style={styles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: wp('2%') }}>
-                            <Text style={{ color: "#999999", fontSize: hp('1.8%'), marginTop: hp('2%') }}>2:30 PM</Text>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
                         </View>
-                        <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: hp('2%'), marginTop: hp('-3%') }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                             <Image source={require('../../assets/Images/Ellipse32.png')}
-                                style={{ width: 80, height: 80, borderRadius: hp('15%') }}
-                            />
-                            <FontAwesome name="circle" size={16} color="#EEEEEE" style={{ marginTop: wp('-14%'), marginLeft: hp('-2') }} />
-                            <View style={{ marginLeft: hp('3%'), flex: 1 }}>
-                                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: "#000000" }}>Maria</Text>
-                                <Text style={{ fontSize: hp('2%'), color: "#999999" }}>Business Consultant/ Marketing</Text>
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Maria</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableOpacity style={styles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: wp('2%') }}>
-                            <Text style={{ color: "#999999", fontSize: hp('1.8%'), marginTop: hp('2%') }}>2:30 PM</Text>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
                         </View>
-                        <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: hp('2%'), marginTop: hp('-3%') }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
+                            <Image source={require('../../assets/Images/user4.png')}
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Maya</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
+                            <Image source={require('../../assets/Images/user4.png')}
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ruby</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                             <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 80, height: 80, borderRadius: hp('15%') }}
-                            />
-                            <FontAwesome name="circle" size={16} color="#EEEEEE" style={{ marginTop: wp('-14%'), marginLeft: hp('-2') }} />
-                            <View style={{ marginLeft: hp('3%'), flex: 1 }}>
-                                <Text style={{ fontSize: hp('3%'), fontWeight: 'bold', color: "#000000" }}>Ranjan</Text>
-                                <Text style={{ fontSize: hp('2%'), color: "#999999" }}>Design / UX Design</Text>
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Michele</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{ marginBottom: hp('5%') }}></View>
+
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
+                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
+                            <Image source={require('../../assets/Images/Ellipse32.png')}
+                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Maria</Text>
+                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
         </SafeAreaView>
     )
 }
 
-export default recentchatScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#EEEEEE"
-    },
-    counsultantview: {
-        height: hp('15%'),
-        width: wp('90%'),
-        backgroundColor: '#FFFFFF',
-        borderRadius: hp('2%'),
-        marginTop: hp('2%'),
-        shadowOpacity: 10,
-        shadowRadius: 20,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-    },
-    statusbar: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
-        borderColor: '#737373',
-        borderRadius: hp('2%'),
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        marginTop: hp('3%'),
-        width: wp('90%'),
-        height: hp('7%'),
-        marginLeft: hp('2.5%'),
-        alignItems: "center",
-        justifyContent: 'center',
-    },
-    statInput: {
-        fontSize: hp('2.5%'),
-        flex: 1,
-        marginLeft: hp('2%'),
-        alignItems: "center",
-    },
-})
+export default recentchatScreen;

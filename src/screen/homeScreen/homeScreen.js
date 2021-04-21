@@ -125,7 +125,7 @@ const Consultants = (props) => {
         <View style={{ flexDirection: 'column', marginBottom: 30 }}>
             <TouchableOpacity style={{ margin: 20 }} onPress={props.onPress}>
                 <Image source={require('../../assets/Images/Ellipse32.png')}
-                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#2294FA', borderWidth: 2, borderRadius: 50 }}
+                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#2294FA', borderWidth: 2, borderRadius: 100 }}
                 />
             </TouchableOpacity>
             <View>

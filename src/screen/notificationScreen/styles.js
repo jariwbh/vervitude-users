@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     headerstyle: {
         backgroundColor: '#00D9CE',
         width: WIDTH,
-        height: 80,
+        height: 100,
         borderBottomLeftRadius: 35,
         borderBottomRightRadius: 35
     },

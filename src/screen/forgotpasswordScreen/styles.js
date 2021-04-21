@@ -6,7 +6,7 @@ const WIDTH = Dimensions.get('window').width;
 export const Forgetpasswordstyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#00ff99",
+        backgroundColor: '#00ff99',
     },
     centeView: {
         justifyContent: 'center',
@@ -29,7 +29,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     inputView: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH - 60,
         height: 40,
@@ -38,7 +38,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     inputErrorView: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: 'red',
         width: WIDTH - 60,
         height: 40,
@@ -47,7 +47,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     inputView2: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH / 2 + 20,
         height: 40,
@@ -56,7 +56,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     inputErrorView2: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: 'red',
         width: WIDTH / 2 + 20,
         height: 40,
@@ -65,9 +65,9 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     inputView1: {
         marginTop: 25,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH / 2 - 170,
+        width: 40,
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
@@ -75,9 +75,9 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     inputViewError1: {
         marginTop: 25,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#FF0000',
-        width: WIDTH / 2 - 170,
+        width: 40,
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
@@ -86,23 +86,23 @@ export const Forgetpasswordstyle = StyleSheet.create({
     otpBtn: {
         flexDirection: 'row',
         width: WIDTH - 80,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         borderColor: '#5EA2FC',
         borderRadius: 50,
         borderWidth: 0.5,
         height: 45,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpBtndisable: {
         flexDirection: 'row',
         width: WIDTH - 80,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         borderColor: '#5EA2FC',
         borderRadius: 50,
         borderWidth: 0.5,
         height: 45,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpbtnText: {
@@ -113,17 +113,17 @@ export const Forgetpasswordstyle = StyleSheet.create({
     otpBtn1: {
         flexDirection: 'row',
         width: WIDTH / 3 - 10,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         height: 40,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpBtndisable1: {
         flexDirection: 'row',
         width: WIDTH / 3 - 10,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         height: 40,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpbtnText1: {

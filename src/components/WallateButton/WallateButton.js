@@ -16,8 +16,8 @@ export default function WallateButton() {
 
 const styles = StyleSheet.create({
     btnstyle: {
-        height: 50,
-        width: 130,
+        height: 45,
+        width: 120,
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
         borderRadius: 100,

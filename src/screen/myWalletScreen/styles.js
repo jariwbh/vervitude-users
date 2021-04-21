@@ -5,7 +5,7 @@ const WIDTH = Dimensions.get('window').width;
 export const myWalletStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
     },
     amount: {
         width: 80,
@@ -83,7 +83,7 @@ export const myWalletStyles = StyleSheet.create({
 export const rechargeDetailStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
     },
     gamountview: {
         height: 250,
@@ -138,7 +138,7 @@ export const rechargeDetailStyles = StyleSheet.create({
 export const rechargePaymentStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
     },
     amount: {
         width: 80,
@@ -157,7 +157,7 @@ export const rechargePaymentStyles = StyleSheet.create({
         marginTop: 5,
         shadowOpacity: 0.5,
         shadowRadius: 12,
-        elevation: 5,
+        elevation: 3,
         shadowOffset: {
             height: 0,
             width: 0,

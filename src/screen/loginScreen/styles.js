@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     inputView: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderRadius: 20,
         borderColor: '#00D9CE',
         width: WIDTH - 80,
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     },
     inputView1: {
         flexDirection: 'row',
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         borderRadius: 20,
         borderColor: '#5EA2FC',
         width: WIDTH - 80,
@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
-        marginTop: 40
+        marginTop: 20
     },
     createText: {
         color: '#FFFFFF',
@@ -110,7 +110,7 @@ export const styles = StyleSheet.create({
 export const Loginemailstyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#00ff99",
+        backgroundColor: '#00ff99',
     },
     centeView: {
         justifyContent: 'center',
@@ -129,20 +129,20 @@ export const Loginemailstyle = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
-        marginTop: 150
+        marginTop: 120
     },
     inputView: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH - 60,
-        height: 45,
+        height: 40,
         margin: 5,
         borderWidth: 0.5
     },
     inputErrorView: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: 'red',
         width: WIDTH - 60,
         height: 45,
@@ -151,25 +151,25 @@ export const Loginemailstyle = StyleSheet.create({
     },
     inputView2: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH / 2 + 20,
-        height: 45,
+        height: 40,
         marginLeft: 5,
         borderWidth: 0.5
     },
     inputErrorView2: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: 'red',
         width: WIDTH / 2 + 20,
-        height: 45,
+        height: 40,
         marginLeft: 5,
         borderWidth: 0.5
     },
     inputView1: {
         marginTop: 25,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: 40,
         height: 40,
@@ -179,7 +179,7 @@ export const Loginemailstyle = StyleSheet.create({
     },
     inputViewError1: {
         marginTop: 25,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderColor: '#FF0000',
         width: 40,
         height: 40,
@@ -190,23 +190,23 @@ export const Loginemailstyle = StyleSheet.create({
     otpBtn: {
         flexDirection: 'row',
         width: WIDTH - 80,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         borderColor: '#5EA2FC',
         borderRadius: 50,
         borderWidth: 0.5,
         height: 45,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpBtndisable: {
         flexDirection: 'row',
         width: WIDTH - 80,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         borderColor: '#5EA2FC',
         borderRadius: 50,
         borderWidth: 0.5,
         height: 45,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpbtnText: {
@@ -217,17 +217,17 @@ export const Loginemailstyle = StyleSheet.create({
     otpBtn1: {
         flexDirection: 'row',
         width: WIDTH / 3 - 10,
-        backgroundColor: "#00D9CE",
-        height: 45,
-        alignItems: "center",
+        backgroundColor: '#00D9CE',
+        height: 40,
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpBtndisable1: {
         flexDirection: 'row',
         width: WIDTH / 3 - 10,
-        backgroundColor: "#00D9CE",
-        height: 45,
-        alignItems: "center",
+        backgroundColor: '#00D9CE',
+        height: 40,
+        alignItems: 'center',
         justifyContent: 'center'
     },
     otpbtnText1: {
@@ -254,10 +254,10 @@ export const Loginemailstyle = StyleSheet.create({
         width: 200
     },
     circle: {
-        height: 360,
+        height: 350,
         width: 350,
         borderRadius: 200,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         marginTop: -250,
         marginLeft: -50
     },
@@ -281,12 +281,12 @@ export const Loginpasswordstyle = StyleSheet.create({
         marginTop: 20,
         flexDirection: 'row',
         width: WIDTH - 60,
-        backgroundColor: "#00D9CE",
+        backgroundColor: '#00D9CE',
         borderColor: '#5EA2FC',
         borderRadius: 50,
         borderWidth: 0.5,
         height: 45,
-        alignItems: "center",
+        alignItems: 'center',
         justifyContent: 'center'
     },
     loginBtnText: {

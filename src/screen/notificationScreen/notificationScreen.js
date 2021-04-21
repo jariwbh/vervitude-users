@@ -12,7 +12,7 @@ const notificationScreen = (props) => {
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                         <View style={{ justifyContent: 'flex-start' }}>
                             <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-                                <AntDesign name="arrowleft" size={24} color='#FFFFFF' style={{ marginLeft: 20 }} />
+                                <AntDesign name='arrowleft' size={24} color='#FFFFFF' style={{ marginLeft: 20 }} />
                             </TouchableOpacity>
                         </View>
 

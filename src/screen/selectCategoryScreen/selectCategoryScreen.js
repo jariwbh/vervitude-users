@@ -1,295 +1,216 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import React from 'react';
+import { View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import WallateButton from '../../components/WallateButton/WallateButton';
+import Foundation from 'react-native-vector-icons/Foundation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import StarRating from 'react-native-star-rating'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Foundation from 'react-native-vector-icons/Foundation'
+import StarRating from 'react-native-star-rating';
+import * as STYLES from './styles';
 
 function selectCategoryScreen(props) {
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={STYLES.categoryStyles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ backgroundColor: '#2094FA', width: wp('100%'), height: hp('25%'), borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: hp('5%') }}>
-                        <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
-                            <AntDesign name="arrowleft" color="#66ccff" size={24} style={{ marginLeft: hp('3%') }} />
-                        </TouchableOpacity>
-                        <Text style={{ fontSize: hp('3%'), color: '#5AC8FA', marginLeft: wp('-8%'), fontWeight: 'bold', color: '#FFFFFF' }}>Categories</Text>
-                        <TouchableOpacity style={styles.category}>
-                            <Text style={{ fontSize: hp('2.8%'), color: '#04DE71' }}>₹5,000</Text>
-                            <View style={{ marginLeft: hp('2%'), justifyContent: 'center' }}>
-                                <MaterialIcons name="account-balance-wallet" size={25} color='#04DE71' />
+                <View style={STYLES.categoryStyles.headerstyle}>
+                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
+                            <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                                <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                                <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>Categories</Text>
                             </View>
-                        </TouchableOpacity>
+                        </View>
+                        <View style={{ justifyContent: 'flex-end' }}>
+                            <WallateButton />
+                        </View>
                     </View>
-                    <View style={styles.statusbar}>
-                        <TouchableOpacity >
-                            <AntDesign name="search1" size={20} color='#3399ff' style={{ marginLeft: hp('2%') }} />
-                        </TouchableOpacity>
-                        <TextInput
-                            style={styles.statInput}
-                            placeholder="Search App"
-                            type='clear'
-                            placeholderTextColor="#999999"
-                            returnKeyType="done"
-                            autoCapitalize="none"
-                            autoCorrect={false}
 
-                        />
-                        <TouchableOpacity >
-                            <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: hp('2%') }} />
-                        </TouchableOpacity>
+                    <View style={STYLES.categoryStyles.centerView}>
+                        <View style={STYLES.categoryStyles.statusbar}>
+                            <TouchableOpacity >
+                                <AntDesign name='search1' size={20} color='#3399ff' style={{ marginLeft: 20 }} />
+                            </TouchableOpacity>
+                            <TextInput
+                                style={STYLES.categoryStyles.statInput}
+                                placeholder='Search App'
+                                type='clear'
+                                placeholderTextColor='#999999'
+                                returnKeyType='done'
+                                autoCapitalize='none'
+                                autoCorrect={false}
+
+                            />
+                            <TouchableOpacity >
+                                <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: 20 }} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
 
-                <View style={{ marginTop: hp('3%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
+                <View style={{ marginTop: 20, justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>TECHNOLOGY</Text>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>TECHNOLOGY</Text>
                             <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View >
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
-                                marginTop: hp('0%'), width: 70, height: 70, borderRadius: hp('1%'), marginLeft: hp('0%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>DESIGN</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1 }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>BUSINESS</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>MARKETING</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
                             </TouchableOpacity>
                         </View>
                     </View>
 
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>DESIGN</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>BUSINESS</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/entypoareagraph.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>MARKETING</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
                 </View>
-                <View style={{ marginTop: hp('5%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                    <View >
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>TECHNOLOGY</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                <View style={{ marginTop: 20, justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>BUSINESS</Text>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>TECHNOLOGY</Text>
                             <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View >
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>DESIGN</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+
                     <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>MARKETING</Text>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>DESIGN</Text>
                             <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>BUSINESS</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/entypoareagraph.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>MARKETING</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                </View>
+                <View style={{ marginTop: 20, justifyContent: 'space-evenly', flexDirection: 'row' }}>
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>TECHNOLOGY</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>DESIGN</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>BUSINESS</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
+                            <Image source={require('../../assets/Images/entypoareagraph.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>MARKETING</Text>
+                            <TouchableOpacity >
+                                <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-                <View style={{ marginTop: hp('5%'), justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                    <View >
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/grommeticonstechnology.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>TECHNOLOGY</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>BUSINESS</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View >
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/icoutlinedesignservices.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>DESIGN</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.categoryview} onPress={() => { props.navigation.navigate("subcategoryScreen") }}>
-                            <Image source={require('../../assets/Images/entypoareagraph.png')} style={{
-                                width: 70, height: 70, borderRadius: hp('1%'), borderColor: '#EEEEEE', borderWidth: 1
-                            }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
-                            <Text style={{ fontSize: hp('1.8%'), textAlign: 'center' }}>MARKETING</Text>
-                            <TouchableOpacity >
-                                <Foundation name="info" size={15} color='#3399ff' style={{ marginLeft: hp('1%') }} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+
+                <View style={STYLES.categoryStyles.categoriesText}>
+                    <Text style={{ fontSize: 20, color: '#3399ff' }}>Top Consultants</Text>
                 </View>
-                <TouchableOpacity style={{ marginTop: hp('3%'), marginLeft: wp('5%') }}>
-                    <Text style={{ fontSize: hp('3%'), color: '#3399ff' }}>Top Consultants</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
-                                <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ alignItems: 'center', borderColor: '#3399ff', borderWidth: hp('0.2%'), height: 80, width: 80, marginTop: hp('2%'), borderRadius: hp('20%') }}
-                                />
-                            </TouchableOpacity>
-                            <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Ranjan</Text>
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={15}
-                                        rating={3}
-                                        fullStarColor={'#F1C40E'}
-                                        emptyStarColor={'#000000'}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
-                                <Image source={require('../../assets/Images/Ellipse32.png')}
-                                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
-                                />
-                            </TouchableOpacity>
-                            <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Maria</Text>
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={15}
-                                        rating={3}
-                                        fullStarColor={'#F1C40E'}
-                                        emptyStarColor={'#000000'}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
-                                <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
-                                />
-                            </TouchableOpacity>
-                            <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Sunita</Text>
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={15}
-                                        rating={3}
-                                        fullStarColor={'#F1C40E'}
-                                        emptyStarColor={'#000000'}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-                            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => props.navigation.navigate("consultantsScreen")}>
-                                <Image source={require('../../assets/Images/Ellipse32.png')}
-                                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#3399ff', borderWidth: hp('0.2%'), marginTop: hp('2%'), borderRadius: hp('20%') }}
-                                />
-                            </TouchableOpacity>
-                            <View>
-                                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>Georgle</Text>
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%') }}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={15}
-                                        rating={3}
-                                        fullStarColor={'#F1C40E'}
-                                        emptyStarColor={'#000000'}
-                                    />
-                                </View>
-                            </View>
-                        </View>
+                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
+                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
+                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
+                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
+                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
                     </ScrollView>
                 </View>
-                <View style={{ marginBottom: hp('15%') }}></View>
+
+                <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -297,56 +218,30 @@ function selectCategoryScreen(props) {
 
 export default selectCategoryScreen
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFFFFF'
-    },
-    category: {
-        height: hp('7'),
-        width: wp('35%'),
-        backgroundColor: '#FFFFFF',
-        flexDirection: 'row',
-        borderRadius: hp('3%'),
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: wp('0%'),
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        marginRight: hp('2%')
-    },
-    statusbar: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
-        borderColor: '#737373',
-        borderRadius: hp('2%'),
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        marginTop: hp('3%'),
-        width: wp('90%'),
-        height: hp('6.5%'),
-        marginLeft: hp('2.5%'),
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    statInput: {
-        fontSize: hp('2.5%'),
-        flex: 1,
-        marginLeft: hp('2%'),
-        alignItems: "center",
-    },
-    categoryview: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})
+const Consultants = (props) => {
+    return (
+        <View style={{ flexDirection: 'column', marginBottom: 30 }}>
+            <TouchableOpacity style={{ margin: 20 }} onPress={props.onPress}>
+                <Image source={require('../../assets/Images/Ellipse32.png')}
+                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#2294FA', borderWidth: 2, borderRadius: 100 }}
+                />
+            </TouchableOpacity>
+            <View>
+                <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10 }}>Maria</Text>
+                <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center' }}>DESIGN</Text>
+                <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
+                    <StarRating
+                        disabled={false}
+                        maxStars={5}
+                        starSize={15}
+                        rating={3}
+                        fullStarColor={'#F1C40E'}
+                        emptyStarColor={'#000000'}
+                    />
+                </View>
+            </View>
+        </View>
+    )
+}
+

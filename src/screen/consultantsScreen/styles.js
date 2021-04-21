@@ -1,50 +1,45 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from "react-native";
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
-    },
-    walletview: {
-        height: 180,
-        width: WIDTH - 20,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 20,
-        marginTop: 5,
-        shadowOpacity: 10,
-        shadowRadius: 20,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 15,
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: '#5AC8FA'
     },
     counsultantview: {
         flex: 1,
-        height: 160,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        marginTop: 5,
+        borderRadius: 20,
+        marginTop: 20,
         shadowOpacity: 10,
         shadowRadius: 20,
         shadowOffset: {
             height: 0,
             width: 0,
         },
-        elevation: 15,
-        overflow: 'hidden',
+        elevation: 2,
+        overflow: 'hidden'
     },
-    headerstyle: {
-        backgroundColor: '#FFE64F',
-        width: WIDTH,
-        height: 100,
-        borderBottomLeftRadius: 35,
-        borderBottomRightRadius: 35
+    verticleLine: {
+        height: '100%',
+        width: 1,
+        backgroundColor: '#909090',
+    },
+    counsultantdetail: {
+        flex: 1,
+        width: WIDTH - 80,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        marginTop: 20,
+        shadowOpacity: 10,
+        shadowRadius: 20,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 2
     },
     cauve: {
         justifyContent: 'flex-end',
@@ -53,5 +48,15 @@ export const styles = StyleSheet.create({
         marginTop: -45,
         overflow: 'hidden',
         backgroundColor: 'transparent'
+    },
+    centerView: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        height: HEIGHT,
+        width: WIDTH - 20,
     }
 })

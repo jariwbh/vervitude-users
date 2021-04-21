@@ -8,8 +8,8 @@ const myWalletScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.myWalletStyles.container}>
             <View style={STYLES.myWalletStyles.headerstyle}>
-                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
                         <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
                             <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
                         </TouchableOpacity>
@@ -30,7 +30,7 @@ const myWalletScreen = (props) => {
                     <View >
                         <Text style={{ fontSize: 26, color: '#999999' }}>₹ Amount</Text>
                     </View>
-                    <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate("promocodeScreen")}>
+                    <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate('promocodeScreen')}>
                         <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
                     </TouchableOpacity>
                 </View>
@@ -51,7 +51,7 @@ const myWalletScreen = (props) => {
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                    <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => props.navigation.navigate("rechargedetailScreen")}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => props.navigation.navigate('rechargedetailScreen')}>
                         <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
                     </TouchableOpacity>
                 </View>
@@ -63,14 +63,14 @@ const myWalletScreen = (props) => {
                 <View style={STYLES.myWalletStyles.rechargeview}>
                     <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#34A853', marginTop: 15 }}>Recharge History</Text>
                     <View style={{ marginLeft: 15, marginTop: 15 }}>
-                        <Text style={{ fontSize: 14, color: "#999999" }}>14th March 2021</Text>
+                        <Text style={{ fontSize: 14, color: '#999999' }}>14th March 2021</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
                         <View style={STYLES.myWalletStyles.bankview}>
                             <TouchableOpacity onPress={() => { }}
                                 style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                                 <View style={{ width: 50, height: 50, marginLeft: 15, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                    <FontAwesome name="rupee" size={20} color='#FFFFFF' />
+                                    <FontAwesome name='rupee' size={20} color='#FFFFFF' />
                                 </View>
                                 <View style={{ flexDirection: 'column', marginLeft: -100 }}>
                                     <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Credit Card</Text>
@@ -87,7 +87,7 @@ const myWalletScreen = (props) => {
                             <TouchableOpacity onPress={() => { }}
                                 style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                                 <View style={{ width: 50, height: 50, marginLeft: 15, backgroundColor: '#FF114F', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                    <FontAwesome name="rupee" size={20} color='#FFFFFF' />
+                                    <FontAwesome name='rupee' size={20} color='#FFFFFF' />
                                 </View>
                                 <View style={{ flexDirection: 'column', marginLeft: -120 }}>
                                     <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>UPI</Text>
@@ -100,7 +100,7 @@ const myWalletScreen = (props) => {
                     </View>
 
                     <View style={{ marginLeft: 15, marginTop: 15 }}>
-                        <Text style={{ fontSize: 14, color: "#999999" }}>27th Feburary 2021</Text>
+                        <Text style={{ fontSize: 14, color: '#999999' }}>27th Feburary 2021</Text>
                     </View>
 
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -113,7 +113,7 @@ const myWalletScreen = (props) => {
                                 <TouchableOpacity onPress={() => { }}
                                     style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                                     <View style={{ width: 50, height: 50, marginTop: -10, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                        <FontAwesome name="rupee" size={20} color='#FFFFFF' />
+                                        <FontAwesome name='rupee' size={20} color='#FFFFFF' />
                                     </View>
                                     <View style={{ flexDirection: 'column', marginLeft: -90 }}>
                                         <Text style={{ fontSize: 14, color: '#000000', marginTop: -20, marginLeft: 15 }}>Credit Card</Text>

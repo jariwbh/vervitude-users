@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     boxView: {
-        height: 450,
+        height: 420,
         width: WIDTH - 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -31,11 +31,11 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH - 60,
-        height: 45,
+        height: 40,
         borderWidth: 0.5
     },
     inputView1: {
-        marginTop: 25,
+        marginTop: 45,
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: 40,
@@ -43,10 +43,10 @@ export const styles = StyleSheet.create({
         borderWidth: 0.5,
         textAlign: 'center',
         fontSize: 18,
-        marginHorizontal: 30
+        margin: 20
     },
     inputViewError1: {
-        marginTop: 25,
+        marginTop: 45,
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: 40,
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
         borderWidth: 0.5,
         textAlign: 'center',
         fontSize: 18,
-        marginHorizontal: 34
+        margin: 20
     },
     otpBtn: {
         flexDirection: 'row',
@@ -113,7 +113,7 @@ export const styles = StyleSheet.create({
         width: 200,
     },
     circle: {
-        height: 360,
+        height: 350,
         width: 350,
         borderRadius: 200,
         backgroundColor: '#FFFFFF',
@@ -137,7 +137,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: WIDTH / 2 + 20,
-        height: 45,
+        height: 40,
         borderWidth: 0.5
     },
     inputErrorView2: {
@@ -145,15 +145,15 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderColor: 'red',
         width: WIDTH / 2 + 20,
-        height: 45,
+        height: 40,
         marginLeft: 5,
         borderWidth: 0.5
     },
     otpBtn1: {
         flexDirection: 'row',
-        width: WIDTH / 3 - 10,
+        width: WIDTH / 3 - 20,
         backgroundColor: '#00D9CE',
-        height: 45,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center'
     },

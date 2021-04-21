@@ -6,7 +6,7 @@ import * as STYLES from './styles';
 const registerScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
+            <StatusBar backgroundColor='#00CFC7' hidden barStyle='light-content' />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLES.styles.circle}>
@@ -22,10 +22,10 @@ const registerScreen = (props) => {
                                 <View style={STYLES.styles.inputView}>
                                     <TextInput
                                         style={STYLES.styles.TextInput}
-                                        placeholder="Email Address"
+                                        placeholder='Email Address'
                                         type='clear'
-                                        returnKeyType="next"
-                                        placeholderTextColor="#B5B5B5"
+                                        returnKeyType='next'
+                                        placeholderTextColor='#B5B5B5'
                                     />
                                 </View>
                             </View>
@@ -34,10 +34,10 @@ const registerScreen = (props) => {
                                 <View style={STYLES.styles.inputView}>
                                     <TextInput
                                         style={STYLES.styles.TextInput}
-                                        placeholder="Full Name"
+                                        placeholder='Full Name'
                                         type='clear'
-                                        returnKeyType="next"
-                                        placeholderTextColor="#B5B5B5"
+                                        returnKeyType='next'
+                                        placeholderTextColor='#B5B5B5'
                                     />
                                 </View>
                             </View>
@@ -46,11 +46,11 @@ const registerScreen = (props) => {
                                 <View style={STYLES.styles.inputView2}>
                                     <TextInput
                                         style={STYLES.styles.TextInput}
-                                        placeholder="Phone Number"
+                                        placeholder='Phone Number'
                                         type='clear'
-                                        returnKeyType="done"
+                                        returnKeyType='done'
                                         keyboardType='number-pad'
-                                        placeholderTextColor="#B5B5B5"
+                                        placeholderTextColor='#B5B5B5'
                                     />
                                 </View>
                                 <TouchableOpacity style={STYLES.styles.otpBtn1} disabled={false} onPress={() => { }}>
@@ -83,7 +83,7 @@ const registerScreen = (props) => {
 
                         </View>
                         <View style={STYLES.styles.centeView} >
-                            <TouchableOpacity onPress={() => props.navigation.navigate("forgotpasswordScreen")} >
+                            <TouchableOpacity onPress={() => props.navigation.navigate('forgotpasswordScreen')} >
                                 <Text style={STYLES.styles.createText}>Already have an Account?</Text>
                             </TouchableOpacity>
                         </View>

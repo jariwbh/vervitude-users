@@ -9,8 +9,8 @@ const myspendsScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
             <View style={STYLES.styles.headerstyle}>
-                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
                         <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
                             <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
                         </TouchableOpacity>
@@ -34,7 +34,7 @@ const myspendsScreen = (props) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                     <View style={STYLES.styles.counsultantview}>
                         <View style={STYLES.styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
                             <Image source={require('../../assets/Images/medal1.png')}
                                 style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />
@@ -64,7 +64,7 @@ const myspendsScreen = (props) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                     <View style={STYLES.styles.counsultantview}>
                         <View style={STYLES.styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
                             <Image source={require('../../assets/Images/medal1.png')}
                                 style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />

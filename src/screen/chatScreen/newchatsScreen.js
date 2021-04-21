@@ -1,64 +1,74 @@
-import React from 'react'
-import { View, Text, SafeAreaView, TextInput, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import React from 'react';
+import { View, Text, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import StarRating from 'react-native-star-rating'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import StarRating from 'react-native-star-rating';
+import * as STYLES from './styles';
 
 const newchatsScreen = (props) => {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={{ backgroundColor: '#5AC8FA', width: wp('100%'), height: hp('20%'), flexDirection: 'column', borderBottomLeftRadius: hp('3%'), borderBottomRightRadius: hp('3%') }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: hp('5%') }}>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate("recentchatScreen") }}>
-                        <AntDesign name="arrowleft" color="#FFFFFF" size={24} style={{ marginLeft: wp('3%') }} />
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: hp('3%'), marginLeft: hp('-20%'), color: '#FFFFFF', fontWeight: 'bold' }}>New Chats</Text>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate("homeScreen") }}>
-                        <Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%') }} />
-                    </TouchableOpacity>
+        <SafeAreaView style={STYLES.newChatStyles.container}>
+            <View style={STYLES.newChatStyles.headerstyle}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                            <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                            <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>New Chats</Text>
+                        </View>
+                    </View>
+                    <View style={{ justifyContent: 'flex-start', marginRight: 20 }}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('homeScreen')}>
+                            <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <TouchableOpacity style={{ width: wp('35%'), height: hp('5%'), backgroundColor: '#FFFFFF', borderRadius: hp('3%'), alignItems: 'center', justifyContent: 'center', margin: hp('3%') }}>
-                    <Text style={{ fontSize: hp('2%'), color: '#5AC8FA' }}>Find a Consultant</Text>
+                <TouchableOpacity
+                    onPress={() => { props.navigation.navigate("newchatsScreen") }}
+                    style={{ width: 150, height: 40, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
+                    <Text style={{ fontSize: 14, color: '#5AC8FA' }}>Find a Consultant</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.statusbar}>
-                <TouchableOpacity >
-                    <AntDesign name="search1" size={20} color='#5AC8FA' style={{ marginLeft: hp('2%') }} />
-                </TouchableOpacity>
-                <TextInput
-                    style={styles.statInput}
-                    placeholder="Search Chats"
-                    type='clear'
-                    placeholderTextColor="#737373"
-                    returnKeyType="done"
-                    autoCapitalize="none"
-                    autoCorrect={false}
+            <View style={STYLES.newChatStyles.centerView}>
+                <View style={STYLES.newChatStyles.statusbar}>
+                    <TouchableOpacity >
+                        <AntDesign name='search1' size={20} color='#3399ff' style={{ marginLeft: 20 }} />
+                    </TouchableOpacity>
+                    <TextInput
+                        style={STYLES.newChatStyles.statInput}
+                        placeholder='Search App'
+                        type='clear'
+                        placeholderTextColor='#999999'
+                        returnKeyType='done'
+                        autoCapitalize='none'
+                        autoCorrect={false}
 
-                />
+                    />
+                </View>
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ marginLeft: wp('5%'), marginTop: hp('3%') }}>
-                    <Text style={{ fontSize: hp('2.5%') }}>Top Consultants</Text>
+                <View style={{ marginLeft: 20, marginTop: 20 }}>
+                    <Text style={{ fontSize: 18 }}>Top Consultants</Text>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.counsultantview}>
-                        <View style={styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.newChatStyles.counsultantview}>
+                        <View style={STYLES.newChatStyles.cauve}>
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
                             <Image source={require('../../assets/Images/medal1.png')}
-                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />
                         </View>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/Ellipse4.png')}
-                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                                 />
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                                     <Text>4K</Text>
                                     <StarRating
                                         disabled={false}
@@ -71,20 +81,26 @@ const newchatsScreen = (props) => {
                                 </View>
                             </View>
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Ravindra</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
-                                    <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', marginTop: 0 }}>Ravindra</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), marginTop: hp('1%') }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: '#5AC8FA' }}>
-                                            <FontAwesome5 name="edit" size={15} color='#FFFFFF' style={{ marginLeft: hp('0%') }} />
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <View style={{ flexDirection: 'column' }}>
+                                        <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                        <Text style={{ fontSize: 12, color: '#999999' }}>Mumbai</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                                        <TouchableOpacity
+                                            onPress={() => props.navigation.navigate('chatScreen')}
+                                            style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
+                                            <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginTop: hp('0%') }}>chat</Text>
+                                        <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
                                     </View>
                                 </View>
                             </View>
@@ -92,20 +108,20 @@ const newchatsScreen = (props) => {
                     </View>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.counsultantview}>
-                        <View style={styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#999999' />
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.newChatStyles.counsultantview}>
+                        <View style={STYLES.newChatStyles.cauve}>
+                            <FontAwesome name='circle' size={110} color='#EEEEEE' />
                             <Image source={require('../../assets/Images/medal2.png')}
-                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />
                         </View>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user4.png')}
-                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                                 />
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                                     <Text>4K</Text>
                                     <StarRating
                                         disabled={false}
@@ -118,20 +134,26 @@ const newchatsScreen = (props) => {
                                 </View>
                             </View>
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Ruby</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
-                                    <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', marginTop: 0 }}>Ruby</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), marginTop: hp('1%') }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: '#5AC8FA' }}>
-                                            <FontAwesome5 name="edit" size={15} color='#FFFFFF' style={{ marginLeft: hp('0%') }} />
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <View style={{ flexDirection: 'column' }}>
+                                        <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                        <Text style={{ fontSize: 12, color: '#999999' }}>New York</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                                        <TouchableOpacity
+                                            onPress={() => props.navigation.navigate('chatScreen')}
+                                            style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
+                                            <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginTop: hp('0%') }}>chat</Text>
+                                        <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
                                     </View>
                                 </View>
                             </View>
@@ -139,20 +161,20 @@ const newchatsScreen = (props) => {
                     </View>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.counsultantview}>
-                        <View style={styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#FFB629' />
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.newChatStyles.counsultantview}>
+                        <View style={STYLES.newChatStyles.cauve}>
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
                             <Image source={require('../../assets/Images/medal1.png')}
-                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />
                         </View>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
-                                <Image source={require('../../assets/Images/user1.png')}
-                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                <Image source={require('../../assets/Images/Ellipse32.png')}
+                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                                 />
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                                     <Text>4K</Text>
                                     <StarRating
                                         disabled={false}
@@ -165,20 +187,26 @@ const newchatsScreen = (props) => {
                                 </View>
                             </View>
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Sofia</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
-                                    <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', marginTop: 0 }}>Sofia</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), marginTop: hp('1%') }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: '#5AC8FA' }}>
-                                            <FontAwesome5 name="edit" size={15} color='#FFFFFF' style={{ marginLeft: hp('0%') }} />
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <View style={{ flexDirection: 'column' }}>
+                                        <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                        <Text style={{ fontSize: 12, color: '#999999' }}>Mumbai</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                                        <TouchableOpacity
+                                            onPress={() => props.navigation.navigate('chatScreen')}
+                                            style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
+                                            <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginTop: hp('0%') }}>chat</Text>
+                                        <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
                                     </View>
                                 </View>
                             </View>
@@ -186,20 +214,20 @@ const newchatsScreen = (props) => {
                     </View>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.counsultantview}>
-                        <View style={styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#999999' />
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.newChatStyles.counsultantview}>
+                        <View style={STYLES.newChatStyles.cauve}>
+                            <FontAwesome name='circle' size={110} color='#EEEEEE' />
                             <Image source={require('../../assets/Images/medal2.png')}
-                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />
                         </View>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user4.png')}
-                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                                 />
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                                     <Text>4K</Text>
                                     <StarRating
                                         disabled={false}
@@ -212,20 +240,26 @@ const newchatsScreen = (props) => {
                                 </View>
                             </View>
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Miranda</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
-                                    <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', marginTop: 0 }}>Ruby</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), marginTop: hp('1%') }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: '#5AC8FA' }}>
-                                            <FontAwesome5 name="edit" size={15} color='#FFFFFF' style={{ marginLeft: hp('0%') }} />
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <View style={{ flexDirection: 'column' }}>
+                                        <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                        <Text style={{ fontSize: 12, color: '#999999' }}>New York</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                                        <TouchableOpacity
+                                            onPress={() => props.navigation.navigate('chatScreen')}
+                                            style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
+                                            <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginTop: hp('0%') }}>chat</Text>
+                                        <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
                                     </View>
                                 </View>
                             </View>
@@ -233,20 +267,20 @@ const newchatsScreen = (props) => {
                     </View>
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.counsultantview}>
-                        <View style={styles.cauve}>
-                            <FontAwesome name="circle" size={110} color='#9DF9FF' />
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <View style={STYLES.newChatStyles.counsultantview}>
+                        <View style={STYLES.newChatStyles.cauve}>
+                            <FontAwesome name='circle' size={110} color='#9DF9FF' />
                             <Image source={require('../../assets/Images/medal3.png')}
-                                style={{ width: 45, height: 37, position: 'absolute', right: 40, top: hp('7%') }}
+                                style={{ width: 45, height: 28, position: 'absolute', right: 42, top: 55 }}
                             />
                         </View>
-                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: hp('-5%'), flex: 1 }}>
+                        <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Image source={require('../../assets/Images/user4.png')}
-                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: hp('15%'), borderWidth: hp('0.2%') }}
+                                    style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                                 />
-                                <View style={{ marginTop: hp('-1%'), padding: wp('3%'), flexDirection: 'row' }}>
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                                     <Text>4K</Text>
                                     <StarRating
                                         disabled={false}
@@ -259,85 +293,36 @@ const newchatsScreen = (props) => {
                                 </View>
                             </View>
                             <View>
-                                <Text style={{ fontSize: hp('3.5%'), fontWeight: 'bold', marginTop: hp('-2%') }}>Miranda</Text>
-                                <Text style={{ fontSize: hp('2.5%'), color: '#999999' }}>Business Counsultant</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('1%'), marginBottom: hp('1%') }}>
-                                    <View style={{ flex: 1, height: 1, backgroundColor: '#000000' }} />
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', marginTop: 0 }}>Ruby</Text>
+                                <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
+                                    <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                                 </View>
-                                <Text style={{ fontSize: hp('2%'), color: '#999999' }}>Speciliazition</Text>
-                                <Text style={{ fontSize: hp('1.8%'), marginTop: hp('1%') }}>CRM,Digital Marketing,Marketing</Text>
-                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: '#5AC8FA' }}>
-                                            <FontAwesome5 name="edit" size={15} color='#FFFFFF' style={{ marginLeft: hp('0%') }} />
+                                <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                                <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
+
+                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                    <View style={{ flexDirection: 'column' }}>
+                                        <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                        <Text style={{ fontSize: 12, color: '#999999' }}>New York</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                                        <TouchableOpacity
+                                            onPress={() => props.navigation.navigate('chatScreen')}
+                                            style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
+                                            <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: hp('2%'), color: '#000000', marginTop: hp('0%') }}>chat</Text>
+                                        <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
                                     </View>
                                 </View>
                             </View>
                         </View>
                     </View>
                 </View>
-                <View style={{ marginBottom: hp('5%') }} />
+                <View style={{ marginBottom: 50 }} />
             </ScrollView>
         </SafeAreaView>
     )
 }
 
-export default newchatsScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#EEEEEE"
-    },
-    counsultantview: {
-        height: hp('30%'),
-        width: wp('92%'),
-        backgroundColor: '#FFFFFF',
-        borderRadius: hp('3%'),
-        marginTop: hp('3%'),
-        shadowOpacity: 10,
-        shadowRadius: 20,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        overflow: 'hidden',
-    },
-    statusbar: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
-        borderColor: '#999999',
-        borderRadius: hp('2%'),
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        marginTop: hp('3%'),
-        width: wp('90%'),
-        height: hp('7%'),
-        marginLeft: hp('2.5%'),
-        alignItems: "center",
-        justifyContent: 'center',
-    },
-    statInput: {
-        fontSize: hp('2.5%'),
-        flex: 1,
-        marginLeft: hp('2%'),
-        alignItems: "center",
-    },
-    cauve: {
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        marginRight: hp('-5%'),
-        marginTop: hp('-6%'),
-        overflow: 'hidden',
-        backgroundColor: 'transparent'
-    }
-})
+export default newchatsScreen;

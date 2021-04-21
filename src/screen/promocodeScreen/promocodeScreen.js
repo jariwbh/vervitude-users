@@ -7,8 +7,8 @@ const promocodeScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
             <View style={STYLES.styles.headerstyle}>
-                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
                         <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
                             <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
                         </TouchableOpacity>
@@ -28,24 +28,24 @@ const promocodeScreen = (props) => {
                 <View style={{ flexDirection: 'row', marginTop: 5, justifyContent: 'space-around' }}>
                     <TextInput
                         style={STYLES.styles.TextInput}
-                        placeholder="Type Here"
+                        placeholder='Type Here'
                         underlineColorAndroid='#999999'
                     />
-                    <TouchableOpacity style={{ marginTop: 15 }}>
+                    <TouchableOpacity style={{ marginTop: 25 }}>
                         <Text style={{ fontSize: 18, color: '#787AFF', fontWeight: 'bold' }}>Apply</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={STYLES.styles.mainCardView}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                        <Text style={{ fontSize: 20, color: '#787AFF', fontWeight: 'bold' }}>Available Promotions</Text>
+                        <Text style={{ fontSize: 18, color: '#787AFF', fontWeight: 'bold' }}>Available Promotions</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                         <View style={STYLES.styles.gamountview}>
                             <TouchableOpacity onPress={() => { }}
-                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 5 }}>
-                                <View style={{ width: 40, height: 40, marginLeft: 15 }}>
-                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 40, width: 40 }} />
+                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                                <View style={{ marginLeft: 15 }}>
+                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 50, width: 50 }} />
                                 </View>
                                 <View style={{ flexDirection: 'column', marginLeft: -80 }}>
                                     <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>First Recharge</Text>
@@ -53,17 +53,18 @@ const promocodeScreen = (props) => {
                                     <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>₹500 Bonus on Minimum ....</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => { }}>
-                                    <Text style={{ fontSize: 14, color: '#787AFF', marginTop: 5, fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
+                                    <Text style={{ fontSize: 14, color: '#787AFF', fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
                         </View>
                     </View>
+
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
                         <View style={STYLES.styles.gamountview}>
                             <TouchableOpacity onPress={() => { }}
-                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 5 }}>
-                                <View style={{ width: 40, height: 40, marginLeft: 15 }}>
-                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 40, width: 40 }} />
+                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                                <View style={{ marginLeft: 15 }}>
+                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 50, width: 50 }} />
                                 </View>
                                 <View style={{ flexDirection: 'column', marginLeft: -80 }}>
                                     <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>First Recharge</Text>
@@ -71,25 +72,26 @@ const promocodeScreen = (props) => {
                                     <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>₹500 Bonus on Minimum ....</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => { }}>
-                                    <Text style={{ fontSize: 14, color: '#787AFF', marginTop: 5, fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
+                                    <Text style={{ fontSize: 14, color: '#787AFF', fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
                         </View>
                     </View>
+
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
                         <View style={STYLES.styles.gamountslideview}>
                             <TouchableOpacity onPress={() => { }}
-                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 5 }}>
-                                <View style={{ width: 40, height: 40, marginLeft: 15 }}>
-                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 40, width: 40 }} />
+                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 10 }}>
+                                <View style={{ marginLeft: 15 }}>
+                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 50, width: 50 }} />
                                 </View>
                                 <View style={{ flexDirection: 'column', marginLeft: -80 }}>
                                     <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>First Recharge</Text>
                                     <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>AASDFAS123</Text>
-                                    <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15, }}>₹500 Bonus on Minimum ....</Text>
+                                    <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>₹500 Bonus on Minimum ....</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => { }}>
-                                    <Text style={{ fontSize: 14, color: '#787AFF', marginTop: 5, fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
+                                    <Text style={{ fontSize: 14, color: '#787AFF', fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
                             <View style={{ marginTop: 15, flexDirection: 'row' }}>

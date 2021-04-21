@@ -51,7 +51,7 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue="Ranjan"
+                                defaultValue='Ranjan'
                             />
                         </View>
 
@@ -66,7 +66,7 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue="Pathak"
+                                defaultValue='Pathak'
                             />
                         </View>
 
@@ -81,7 +81,7 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue="#pathak"
+                                defaultValue='#pathak'
                             />
                         </View>
 
@@ -96,7 +96,7 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue="+91 9923719601"
+                                defaultValue='+91 9923719601'
                             />
                         </View>
 
@@ -111,7 +111,7 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue="ranjanpathak@gmail.com"
+                                defaultValue='ranjanpathak@gmail.com'
                             />
                         </View>
 
@@ -126,7 +126,7 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue="Mumbai"
+                                defaultValue='Mumbai'
                             />
                             <Ionicons name='location' size={24} color='#000000' />
                         </View>

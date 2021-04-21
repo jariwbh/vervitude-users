@@ -102,9 +102,9 @@ export default class forgotpasswordScreen extends Component {
                             axiosConfig(token);
                             this.authenticateUser(response.data[0]);
                             if (Platform.OS === 'android') {
-                                ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+                                ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
                             } else {
-                                alert("SignIn Success!");
+                                alert('SignIn Success!');
                             }
                             this.setState({ loading: false });
                             return this.props.navigation.navigate('homeScreen');
@@ -112,9 +112,9 @@ export default class forgotpasswordScreen extends Component {
                         else {
                             if (response.data[0] == null && response.data[0] == undefined) {
                                 if (Platform.OS === 'android') {
-                                    ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                                    ToastAndroid.show('User not exits!', ToastAndroid.LONG);
                                 } else {
-                                    alert("User not exits!");
+                                    alert('User not exits!');
                                 }
                                 this.resetScreen();
                                 return;
@@ -124,9 +124,9 @@ export default class forgotpasswordScreen extends Component {
             } else {
                 this.resetScreen();
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show("OTP not Match!", ToastAndroid.LONG)
+                    ToastAndroid.show('OTP not Match!', ToastAndroid.LONG)
                 } else {
-                    alert("OTP not Match!");
+                    alert('OTP not Match!');
                 }
                 return;
             }
@@ -135,9 +135,9 @@ export default class forgotpasswordScreen extends Component {
             console.log(`error`, error)
             this.resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
-                alert("User not exits!");
+                alert('User not exits!');
             }
         };
 
@@ -161,18 +161,18 @@ export default class forgotpasswordScreen extends Component {
                         axiosConfig(token);
                         this.authenticateUser(response.data[0]);
                         if (Platform.OS === 'android') {
-                            ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+                            ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
                         } else {
-                            alert("SignIn Success!");
+                            alert('SignIn Success!');
                         }
                         return this.props.navigation.navigate('homeScreen');
                     }
                     else {
                         if (response.data[0] == null && response.data[0] == undefined) {
                             if (Platform.OS === 'android') {
-                                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
                             } else {
-                                alert("User not exits!");
+                                alert('User not exits!');
                             }
                             this.resetScreen();
                             return;
@@ -183,9 +183,9 @@ export default class forgotpasswordScreen extends Component {
         catch (error) {
             this.resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
-                alert("User not exits!");
+                alert('User not exits!');
             }
         };
     }
@@ -194,7 +194,7 @@ export default class forgotpasswordScreen extends Component {
         const { loading, usererror, mobile_numbererror } = this.state;
         return (
             <SafeAreaView style={STYLE.Forgetpasswordstyle.container}>
-                <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
+                <StatusBar backgroundColor='#00CFC7' hidden barStyle='light-content' />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Forgetpasswordstyle.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLE.Forgetpasswordstyle.circle}>
@@ -207,10 +207,10 @@ export default class forgotpasswordScreen extends Component {
                                         <TextInput
                                             defaultValue={this.state.username}
                                             style={STYLE.Forgetpasswordstyle.TextInput}
-                                            placeholder="Email Address"
+                                            placeholder='Email Address'
                                             type='clear'
-                                            returnKeyType="done"
-                                            placeholderTextColor="#B5B5B5"
+                                            returnKeyType='done'
+                                            placeholderTextColor='#B5B5B5'
                                             onSubmitEditing={() => this.onPressSubmit()}
                                             onChangeText={(email) => this.setEmail(email)}
                                         />
@@ -223,11 +223,11 @@ export default class forgotpasswordScreen extends Component {
                                             <TextInput
                                                 style={STYLE.Forgetpasswordstyle.TextInput}
                                                 defaultValue={this.state.mobile_number}
-                                                placeholder="Phone Number"
+                                                placeholder='Phone Number'
                                                 type='clear'
-                                                returnKeyType="done"
+                                                returnKeyType='done'
                                                 keyboardType='number-pad'
-                                                placeholderTextColor="#B5B5B5"
+                                                placeholderTextColor='#B5B5B5'
                                                 onSubmitEditing={() => this.createOtp()}
                                                 onChangeText={(mobile_number) => this.setMobileNumber(mobile_number)}
                                             />

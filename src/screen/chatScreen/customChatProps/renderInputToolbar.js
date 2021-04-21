@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Dimensions } from 'react-native';
 import { InputToolbar, Composer, Actions, Send } from 'react-native-gifted-chat';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 const renderInputToolbar = (props) => (
 	<InputToolbar
@@ -16,14 +17,14 @@ const renderInputToolbar = (props) => (
 				width: 0
 			},
 			elevation: 2,
-			width: wp('90%'),
-			height: hp('8%'),
-			borderRadius: hp('2%'),
+			width: WIDTH - 20,
+			height: 50,
+			borderRadius: 15,
 			borderTopWidth: 0,
 			paddingVertical: 3,
-			marginTop: hp('2%'),
-			marginBottom: hp('2%'),
-			marginHorizontal: hp('2.5%'),
+			marginTop: 15,
+			marginBottom: 15,
+			marginHorizontal: 10,
 			justifyContent: 'center',
 			alignItems: 'center'
 		}}
@@ -37,7 +38,7 @@ const renderInputToolbar = (props) => (
 					marginLeft: 7,
 					marginRight: 5,
 					lineHeight: 20,
-					fontSize: hp('2.5%')
+					fontSize: 16
 				}}
 			/>
 		)}
@@ -47,7 +48,7 @@ const renderInputToolbar = (props) => (
 				icon={() => (
 					<Image
 						source={require('../../../assets/Images/addicon.png')}
-						style={{ width: 25, height: 25, marginLeft: wp('2%') }}
+						style={{ width: 25, height: 25, marginLeft: 10 }}
 					/>
 				)}
 			/>
@@ -56,7 +57,7 @@ const renderInputToolbar = (props) => (
 			<Send {...props} containerStyle={{ justifyContent: 'center' }}>
 				<Image
 					source={require('../../../assets/Images/sendicon.png')}
-					style={{ width: 25, height: 25, marginRight: wp('4%') }}
+					style={{ width: 25, height: 25, marginRight: 15 }}
 				/>
 			</Send>
 		)}

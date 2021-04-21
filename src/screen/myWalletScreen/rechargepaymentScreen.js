@@ -8,8 +8,8 @@ const rechargepaymentScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.rechargePaymentStyles.container}>
             <View style={STYLES.myWalletStyles.headerstyle}>
-                <View style={{ justifyContent: 'space-between', alignItems: "center", flexDirection: 'row', marginTop: 30 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: "center", marginLeft: 20 }}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
                         <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
                             <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
                         </TouchableOpacity>
@@ -42,7 +42,7 @@ const rechargepaymentScreen = (props) => {
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ fontSize: 18, color: '#04DE71', marginRight: 20 }}>₹ 1,730</Text>
                             <TouchableOpacity onPress={() => { props.navigation.navigate(myProfileScreen) }}>
-                                <AntDesign name="downsquare" color="#35A453" size={15} style={{ marginRight: 20 }} />
+                                <AntDesign name='downsquare' color='#35A453' size={15} style={{ marginRight: 20 }} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -55,7 +55,7 @@ const rechargepaymentScreen = (props) => {
                     <View style={STYLES.rechargeDetailStyles.bankview}>
                         <Text style={{ fontSize: 14, color: '#000000', marginLeft: 20 }}>Credit Card</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-on" color="#04DE71" size={30} style={{ marginRight: 20 }} />
+                            <Ionicons name='radio-button-on' color='#04DE71' size={30} style={{ marginRight: 20 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -64,7 +64,7 @@ const rechargepaymentScreen = (props) => {
                     <View style={STYLES.rechargeDetailStyles.bankview}>
                         <Text style={{ fontSize: 14, color: '#000000', marginLeft: 20 }}>Debit Card</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#999999" size={30} style={{ marginRight: 20 }} />
+                            <Ionicons name='radio-button-off' color='#999999' size={30} style={{ marginRight: 20 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -73,7 +73,7 @@ const rechargepaymentScreen = (props) => {
                     <View style={STYLES.rechargeDetailStyles.bankview}>
                         <Text style={{ fontSize: 14, color: '#000000', marginLeft: 20 }}>Net Banking</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#999999" size={30} style={{ marginRight: 20 }} />
+                            <Ionicons name='radio-button-off' color='#999999' size={30} style={{ marginRight: 20 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -82,7 +82,7 @@ const rechargepaymentScreen = (props) => {
                     <View style={STYLES.rechargeDetailStyles.bankview}>
                         <Text style={{ fontSize: 14, color: '#000000', marginLeft: 20 }}>Wallet</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#999999" size={30} style={{ marginRight: 20 }} />
+                            <Ionicons name='radio-button-off' color='#999999' size={30} style={{ marginRight: 20 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -91,13 +91,13 @@ const rechargepaymentScreen = (props) => {
                     <View style={STYLES.rechargeDetailStyles.bankview}>
                         <Text style={{ fontSize: 14, color: '#000000', marginLeft: 20 }}>UPI</Text>
                         <TouchableOpacity >
-                            <Ionicons name="radio-button-off" color="#999999" size={30} style={{ marginRight: 20 }} />
+                            <Ionicons name='radio-button-off' color='#999999' size={30} style={{ marginRight: 20 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
-                    <TouchableOpacity style={STYLES.rechargeDetailStyles.addmoney} onPress={() => { props.navigation.navigate("rechargepaymentScreen") }} >
+                    <TouchableOpacity style={STYLES.rechargeDetailStyles.addmoney} onPress={() => { props.navigation.navigate('rechargepaymentScreen') }} >
                         <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Procceed</Text>
                     </TouchableOpacity>
                 </View>

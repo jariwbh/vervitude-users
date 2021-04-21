@@ -1,19 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import {
-	View,
-	Text,
-	SafeAreaView,
-	StyleSheet,
-	ScrollView,
-	TouchableOpacity,
-	Image,
-	TextInput,
-	Modal
-} from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, Modal, Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //
 import AsyncStorage from '@react-native-community/async-storage';
@@ -23,6 +11,9 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { renderDay, renderBubble, renderInputToolbar } from './customChatProps';
 import firestore from '@react-native-firebase/firestore';
 //
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
+
 const chatScreen = ({ navigation }) => {
 	const [loading, setloading] = useState(false);
 	const [chatId, setchatId] = useState(null);
@@ -110,102 +101,47 @@ const chatScreen = ({ navigation }) => {
 
 	const showModalVisibleSubmit = (visible) => {
 		setshowStartProjectVisible(visible);
-		showMessageModalVisible(true);
+		setshowMessageModalVisible(true);
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<View
-					style={{
-						backgroundColor: '#FFB629',
-						width: wp('100%'),
-						height: hp('22%'),
-						flexDirection: 'column',
-						borderBottomLeftRadius: hp('3%'),
-						borderBottomRightRadius: hp('3%')
-					}}
-				>
-					<View
-						style={{
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							flexDirection: 'row',
-							marginTop: hp('5%'),
-							marginLeft: hp('3%')
-						}}
-					>
-						<TouchableOpacity
-							style={styles.chatIcon}
-							onPress={() => {
-								navigation.navigate('recentchatScreen');
-							}}
-						>
-							<AntDesign name="arrowleft" size={24} color="#FFFFFF" />
-						</TouchableOpacity>
-
-						<Image
-							source={require('../../assets/Images/Ellipse4.png')}
-							style={{ width: 50, height: 52, borderRadius: hp('7%'), marginLeft: hp('-20%') }}
-						/>
-
-						<View
-							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								flexDirection: 'column',
-								marginLeft: wp('-38%')
-							}}
-						>
-							<Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Ranjan</Text>
-							<Text style={{ fontSize: hp('1.5%'), color: '#000000', marginLeft: wp('-8%') }}>
-								Online
-							</Text>
-						</View>
-						<TouchableOpacity
-							style={styles.categoryIcon}
-							onPress={() => {
-								navigation.navigate('homeScreen');
-							}}
-						>
-							<Entypo name="home" color="#FFFFFF" size={30} style={{ marginRight: wp('3%') }} />
+			<View style={styles.headerstyle}>
+				<View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
+						<TouchableOpacity onPress={() => navigation.goBack(null)}>
+							<AntDesign name='arrowleft' color='#FFFFFF' size={24} />
 						</TouchableOpacity>
 					</View>
-					<View
-						style={{
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							marginTop: hp('2%'),
-							marginLeft: hp('3%'),
-							marginRight: hp('3%')
-						}}
-					>
-						<TouchableOpacity
-							onPress={() => {
-								showModalVisible(true);
-							}}
-							style={{
-								width: wp('35%'),
-								height: hp('5%'),
-								backgroundColor: '#FFFFFF',
-								borderRadius: hp('3%'),
-								alignItems: 'center',
-								justifyContent: 'center',
-								margin: hp('0%')
-							}}
-						>
-							<Text style={{ fontSize: hp('2%'), color: '#FFB629' }}>Start a Project</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => {
-								setFilterModalVisible(true);
-							}}
-							style={{ alignItems: 'center', justifyContent: 'center' }}
-						>
-							<MaterialCommunityIcons name="dots-vertical-circle" size={30} color="#FFFFFF" />
+					<Image
+						source={require('../../assets/Images/Ellipse4.png')}
+						style={{ width: 50, height: 52, borderRadius: 100, marginLeft: -140 }}
+					/>
+
+					<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: -150 }}>
+						<Text style={{ fontSize: 18, color: '#FFFFFF' }}>Ranjan</Text>
+						<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
+					</View>
+					<View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
+						<TouchableOpacity onPress={() => navigation.navigate('homeScreen')}>
+							<Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
 						</TouchableOpacity>
 					</View>
 				</View>
+				<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: -5, marginLeft: 20, marginRight: 20 }}>
+					<TouchableOpacity
+						onPress={() => { showModalVisible(true) }}
+						style={{ width: 140, height: 35, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
+						<Text style={{ fontSize: 14, color: '#FFB629' }}>Start a Project</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => { setFilterModalVisible(true) }}
+						style={{ alignItems: 'center', justifyContent: 'center' }}>
+						<MaterialCommunityIcons name="dots-vertical-circle" size={30} color="#FFFFFF" />
+					</TouchableOpacity>
+				</View>
+			</View>
+
+			<ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
 				<View style={styles.chatview}>
 					<GiftedChat
 						user={{ _id: sender }}
@@ -220,7 +156,7 @@ const chatScreen = ({ navigation }) => {
 						renderInputToolbar={renderInputToolbar}
 					/>
 				</View>
-				<View style={{ marginBottom: hp('10%') }} />
+				<View style={{ marginBottom: 50 }} />
 			</ScrollView>
 
 			{/* Help & Support model Pop */}
@@ -228,13 +164,11 @@ const chatScreen = ({ navigation }) => {
 				animationType="slide"
 				transparent={true}
 				visible={showStartProjectVisible}
-				onRequestClose={() => {
-					showModalVisible(!showStartProjectVisible);
-				}}
+				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
 			>
 				<View style={styles.centerView}>
 					<View style={styles.modalView}>
-						<View style={{ marginTop: hp('3%') }} />
+						<View style={{ marginTop: 20 }} />
 						<View style={styles.inputView}>
 							<TextInput
 								style={styles.TextInput}
@@ -244,12 +178,7 @@ const chatScreen = ({ navigation }) => {
 								placeholderTextColor="#999999"
 							/>
 							<TouchableOpacity>
-								<Ionicons
-									name="time-outline"
-									size={24}
-									color="#000000"
-									style={{ marginRight: hp('1%') }}
-								/>
+								<Ionicons name="time-outline" size={24} color="#000000" style={{ marginRight: 5 }} />
 							</TouchableOpacity>
 						</View>
 						<View style={styles.inputView}>
@@ -274,22 +203,18 @@ const chatScreen = ({ navigation }) => {
 							/>
 						</View>
 					</View>
-					<View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+					<View style={{ marginTop: 15, flexDirection: 'row' }}>
 						<TouchableOpacity
-							onPress={() => {
-								showModalVisibleSubmit(!showStartProjectVisible);
-							}}
+							onPress={() => { showModalVisibleSubmit(!showStartProjectVisible) }}
 							style={styles.savebtn}
 						>
-							<Text style={{ fontSize: hp('2%'), color: '#FFFFFF' }}>Submit</Text>
+							<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => {
-								showModalVisible(!showStartProjectVisible);
-							}}
+							onPress={() => { showModalVisible(!showStartProjectVisible) }}
 							style={styles.cancelbtn}
 						>
-							<Text style={{ fontSize: hp('2%'), color: '#000000' }}>Cancel</Text>
+							<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -300,48 +225,41 @@ const chatScreen = ({ navigation }) => {
 				animationType="slide"
 				transparent={true}
 				visible={filterModalVisible}
-				onRequestClose={() => {
-					setFilterModalVisible(!filterModalVisible);
-				}}
+				onRequestClose={() => { setFilterModalVisible(!filterModalVisible) }}
 			>
 				<View style={styles.centeView}>
 					<View style={styles.modalView}>
-						<Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>End Chat</Text>
+						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>End Chat</Text>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>
+						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
 							Report an issue
 						</Text>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Dispute </Text>
+						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute </Text>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Rate</Text>
+						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: hp('2%'), textAlign: 'center', color: '#000000' }}>Check spend</Text>
-						<View style={{ flexDirection: 'row' }}>
-							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
-						</View>
+						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
 					</View>
 
-					<View style={{ marginTop: hp('2%'), flexDirection: 'row' }}>
+					<View style={{ marginTop: 15, flexDirection: 'row' }}>
 						<TouchableOpacity
-							onPress={() => {
-								setFilterModalVisible(!filterModalVisible);
-							}}
+							onPress={() => { setFilterModalVisible(!filterModalVisible) }}
 							style={styles.cancelbtn}
 						>
-							<Text style={{ fontSize: hp('2%'), color: '#000000' }}>Cancel</Text>
+							<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -352,26 +270,22 @@ const chatScreen = ({ navigation }) => {
 				animationType="slide"
 				transparent={true}
 				visible={showMessageModalVisible}
-				onRequestClose={() => {
-					showMessageModalVisible(!showMessageModalVisible);
-				}}
+				onRequestClose={() => { showMessageModalVisible(!showMessageModalVisible) }}
 			>
 				<View style={styles.centerView}>
 					<View style={styles.msgModalView}>
-						<Text style={{ marginTop: hp('5%'), fontSize: hp('4%'), fontWeight: 'bold' }}>Thank You</Text>
-						<Text style={{ fontSize: hp('2%'), marginTop: hp('2%') }}>
+						<Text style={{ marginTop: 50, fontSize: 28, fontWeight: 'bold' }}>Thank You</Text>
+						<Text style={{ fontSize: 14, marginTop: 15 }}>
 							Someone from our team will reach
 						</Text>
-						<Text style={{ fontSize: hp('2%') }}>out to you</Text>
+						<Text style={{ fontSize: 14 }}>out to you</Text>
 					</View>
-					<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: hp('2%') }}>
+					<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
 						<TouchableOpacity
-							onPress={() => {
-								showMessageModalVisible(!showMessageModalVisible);
-							}}
+							onPress={() => { setshowMessageModalVisible(false) }}
 							style={styles.cancelbtn}
 						>
-							<Text style={{ fontSize: hp('2%'), color: '#000000' }}>Close</Text>
+							<Text style={{ fontSize: 14, color: '#000000' }}>Close</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -388,11 +302,11 @@ const styles = StyleSheet.create({
 		backgroundColor: '#EEEEEE'
 	},
 	chatview: {
-		marginTop: hp('3%'),
-		width: wp('100%'),
+		marginTop: 20,
+		width: WIDTH,
 		backgroundColor: '#FFFFFF',
-		borderRadius: hp('5%'),
-		height: hp('80%'),
+		borderRadius: 30,
+		height: HEIGHT / 1.5 + 50,
 		shadowOpacity: 0.5,
 		shadowRadius: 1,
 		shadowOffset: {
@@ -402,9 +316,9 @@ const styles = StyleSheet.create({
 		elevation: 3
 	},
 	chatIcon: {
-		width: wp('7%'),
-		height: wp('7%'),
-		borderRadius: hp('6%')
+		width: 40,
+		height: 40,
+		borderRadius: 100,
 	},
 	inputview: {
 		flexDirection: 'row',
@@ -417,29 +331,29 @@ const styles = StyleSheet.create({
 			width: 0
 		},
 		elevation: 2,
-		width: wp('90%'),
-		height: hp('8%'),
-		borderRadius: hp('2%'),
+		width: WIDTH - 120,
+		height: 40,
+		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
 	inputtext: {
-		fontSize: hp('2.5%'),
+		fontSize: 16,
 		flex: 1,
-		marginLeft: wp('4%')
+		marginLeft: 30
 	},
 	centerView: {
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
 	msgModalView: {
-		marginTop: hp('40%'),
-		height: hp('25%'),
-		width: wp('80%'),
+		marginTop: HEIGHT / 2 - 150,
+		height: 200,
+		width: WIDTH - 90,
 		borderRadius: 20,
 		backgroundColor: 'white',
 		alignItems: 'center',
-		shadowColor: '#000',
+		shadowColor: '#000000',
 		shadowOffset: {
 			width: 0,
 			height: 2
@@ -449,9 +363,9 @@ const styles = StyleSheet.create({
 		elevation: 5
 	},
 	modalView: {
-		marginTop: hp('30%'),
-		height: hp('40%'),
-		width: wp('80%'),
+		marginTop: HEIGHT / 2 - 150,
+		height: 250,
+		width: WIDTH - 90,
 		borderRadius: 20,
 		backgroundColor: 'white',
 		alignItems: 'center',
@@ -466,11 +380,11 @@ const styles = StyleSheet.create({
 	},
 	savebtn: {
 		flexDirection: 'row',
-		marginRight: hp('10%'),
-		width: wp('30%'),
-		height: hp('5%'),
+		marginRight: 50,
+		width: 100,
+		height: 35,
 		backgroundColor: '#FFB629',
-		borderRadius: hp('5%'),
+		borderRadius: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
 		shadowColor: '#000',
@@ -484,10 +398,10 @@ const styles = StyleSheet.create({
 	},
 	cancelbtn: {
 		flexDirection: 'row',
-		width: wp('30%'),
-		height: hp('5%'),
+		width: 100,
+		height: 35,
 		backgroundColor: '#EEEEEE',
-		borderRadius: hp('5%'),
+		borderRadius: 20,
 		alignItems: 'center',
 		justifyContent: 'center',
 		shadowColor: '#000',
@@ -503,36 +417,43 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: '#F4F4F4',
-		borderWidth: wp('0.1%'),
+		borderWidth: 0.5,
 		borderColor: '#000000',
-		width: wp('70%'),
-		height: hp('6%'),
-		borderRadius: hp('0.5%'),
-		marginBottom: hp('3%')
+		width: WIDTH - 120,
+		height: 40,
+		borderRadius: 5,
+		marginBottom: 20
 	},
 	TextInput: {
-		fontSize: hp('2%'),
+		fontSize: 14,
 		flex: 1,
 		backgroundColor: '#F4F4F4',
-		marginLeft: hp('1%')
+		marginLeft: 5
 	},
 	textAreainputView: {
 		flexDirection: 'row',
 		backgroundColor: '#F4F4F4',
-		borderWidth: wp('0.1%'),
+		borderWidth: 0.5,
 		borderColor: '#000000',
-		width: wp('70%'),
-		height: hp('15%'),
-		borderRadius: hp('0.5%')
+		width: WIDTH - 120,
+		height: 100,
+		borderRadius: 5
 	},
 	TextareaInput: {
-		fontSize: hp('2%'),
+		fontSize: 14,
 		flex: 1,
 		backgroundColor: '#F4F4F4',
-		marginLeft: hp('1%')
+		marginLeft: 5
 	},
 	centeView: {
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	headerstyle: {
+		backgroundColor: '#FFB629',
+		width: WIDTH,
+		height: 150,
+		borderBottomLeftRadius: 35,
+		borderBottomRightRadius: 35
 	}
 });

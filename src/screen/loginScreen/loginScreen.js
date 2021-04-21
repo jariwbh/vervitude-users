@@ -5,7 +5,7 @@ import * as STYLES from './styles';
 function loginScreen(props) {
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
+            <StatusBar backgroundColor='#00CFC7' hidden barStyle='light-content' />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLES.styles.circle}>

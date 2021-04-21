@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     },
     statusbar: {
         flexDirection: 'row',
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
         borderColor: '#737373',
         borderRadius: 15,
         shadowOpacity: 0.5,
@@ -20,14 +20,14 @@ export const styles = StyleSheet.create({
         elevation: 2,
         marginTop: 20,
         width: WIDTH - 20,
-        height: 50,
+        height: 45,
         alignItems: 'center',
     },
     statInput: {
         fontSize: 15,
         flex: 1,
         marginLeft: 20,
-        alignItems: "center",
+        alignItems: 'center',
     },
     headerstyle: {
         backgroundColor: '#00D9CE',

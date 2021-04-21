@@ -98,17 +98,17 @@ export default class forgotpasswordScreen extends Component {
                         const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
                         this.setState({ verifyOtpNumber: verifyOtpNumber, loading: false, verifybtnDisable: false });
                         if (Platform.OS === 'android') {
-                            ToastAndroid.show("OTP Sending", ToastAndroid.LONG);
+                            ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
                         } else {
-                            alert("OTP Sending!");
+                            alert('OTP Sending!');
                         }
                     }
                     else {
                         if (response.data[0] == null && response.data[0] == undefined) {
                             if (Platform.OS === 'android') {
-                                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
                             } else {
-                                alert("User not exits!");
+                                alert('User not exits!');
                             }
                             this.resetScreen();
                             return;
@@ -119,9 +119,9 @@ export default class forgotpasswordScreen extends Component {
         catch (error) {
             this.resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
-                alert("User not exits!");
+                alert('User not exits!');
             }
         };
 
@@ -135,18 +135,18 @@ export default class forgotpasswordScreen extends Component {
         try {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
                 } else {
-                    alert("SignIn Success!");
+                    alert('SignIn Success!');
                 }
                 this.setState({ loading: false });
                 return this.props.navigation.navigate('homeScreen');
             } else {
                 this.setState({ inputOtpNumber: null, loading: false });
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show("OTP not Match!", ToastAndroid.LONG)
+                    ToastAndroid.show('OTP not Match!', ToastAndroid.LONG)
                 } else {
-                    alert("OTP not Match!");
+                    alert('OTP not Match!');
                 }
                 return;
             }
@@ -154,9 +154,9 @@ export default class forgotpasswordScreen extends Component {
         catch (error) {
             this.resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
-                alert("User not exits!");
+                alert('User not exits!');
             }
         };
 
@@ -180,18 +180,18 @@ export default class forgotpasswordScreen extends Component {
                         axiosConfig(token);
                         this.authenticateUser(response.data[0]);
                         if (Platform.OS === 'android') {
-                            ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+                            ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
                         } else {
-                            alert("SignIn Success!");
+                            alert('SignIn Success!');
                         }
                         return this.props.navigation.navigate('homeScreen');
                     }
                     else {
                         if (response.data[0] == null && response.data[0] == undefined) {
                             if (Platform.OS === 'android') {
-                                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
                             } else {
-                                alert("User not exits!");
+                                alert('User not exits!');
                             }
                             this.resetScreen();
                             return;
@@ -202,9 +202,9 @@ export default class forgotpasswordScreen extends Component {
         catch (error) {
             this.resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show("User not exits!", ToastAndroid.LONG);
+                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
-                alert("User not exits!");
+                alert('User not exits!');
             }
         };
     }
@@ -213,7 +213,7 @@ export default class forgotpasswordScreen extends Component {
         const { loading, usererror, mobile_numbererror } = this.state;
         return (
             <SafeAreaView style={STYLE.Loginemailstyle.container}>
-                <StatusBar backgroundColor="#00CFC7" hidden barStyle="light-content" />
+                <StatusBar backgroundColor='#00CFC7' hidden barStyle='light-content' />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Loginemailstyle.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLE.Loginemailstyle.circle}>
@@ -226,10 +226,10 @@ export default class forgotpasswordScreen extends Component {
                                         <TextInput
                                             defaultValue={this.state.username}
                                             style={STYLE.Loginemailstyle.TextInput}
-                                            placeholder="Email Address"
+                                            placeholder='Email Address'
                                             type='clear'
-                                            returnKeyType="done"
-                                            placeholderTextColor="#B5B5B5"
+                                            returnKeyType='done'
+                                            placeholderTextColor='#B5B5B5'
                                             onSubmitEditing={() => this.onPressSubmit()}
                                             onChangeText={(email) => this.setEmail(email)}
                                         />
@@ -243,11 +243,11 @@ export default class forgotpasswordScreen extends Component {
                                             <TextInput
                                                 style={STYLE.Loginemailstyle.TextInput}
                                                 defaultValue={this.state.mobile_number}
-                                                placeholder="Phone Number"
+                                                placeholder='Phone Number'
                                                 type='clear'
-                                                returnKeyType="done"
+                                                returnKeyType='done'
                                                 keyboardType='number-pad'
-                                                placeholderTextColor="#B5B5B5"
+                                                placeholderTextColor='#B5B5B5'
                                                 onSubmitEditing={() => this.createOtp()}
                                                 onChangeText={(mobile_number) => this.setMobileNumber(mobile_number)}
                                             />
@@ -257,7 +257,7 @@ export default class forgotpasswordScreen extends Component {
                                         </TouchableOpacity>
                                     </View>
                                     <Text>{this.state.verifyOtpNumber}</Text>
-                                    <View style={{ flex: 0.5, marginTop: 30, marginLeft: 5, marginRight: 5 }}>
+                                    <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
                                         <OtpInputs
                                             handleChange={(code) => this.handleChange(code)}
                                             numberOfInputs={4}
