@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image, StyleSheet, LogBox } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import MenuButton from '../../components/MenuButton/MenuButton';
 import SliderScreen from '../../components/slider/sliderScreen';
@@ -7,7 +7,24 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 import * as STYLE from './styles';
 
+import ActionButton from 'react-native-circular-action-menu';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const homeScreen = (props) => {
+    useEffect(() => {
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+    }, [])
+
+    const renderImage = () => {
+        return (
+            <View style={styles.actionbtn}>
+                <MaterialCommunityIcons name='square-edit-outline' size={30} color='#FFFFFF' />
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={STYLE.styles.container}>
             <View style={STYLE.styles.headerstyle}>
@@ -114,11 +131,48 @@ const homeScreen = (props) => {
                     </ScrollView>
                 </View>
             </ScrollView>
+
+            <ActionButton
+                buttonColor="#00D9CE"
+                position="right"
+                bgColor="transparent"
+                autoInactive={true}
+            // icon={renderImage()}
+            >
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => { }}>
+                    <Ionicons name="chatbubbles" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => { }}>
+                    <MaterialCommunityIcons name="card-plus-outline" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => { }}>
+                    <FontAwesome name="rupee" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+            </ActionButton>
+
         </SafeAreaView>
     )
 }
 
 export default homeScreen;
+
+const styles = StyleSheet.create({
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 20,
+        color: '#FFFFFF',
+    },
+    actionbtn: {
+        height: 100,
+        width: 100,
+        borderRadius: 200,
+        backgroundColor: '#00D9CE',
+        marginTop: 0,
+        marginLeft: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+});
 
 const Consultants = (props) => {
     return (

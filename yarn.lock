@@ -5852,6 +5852,13 @@ react-native-button@^2.3.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-circular-action-menu@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-circular-action-menu/-/react-native-circular-action-menu-0.5.0.tgz#90a65eda71cbb9ec7cbcda58fa347bff06faa71b"
+  integrity sha512-s9jZj0PQd0sXkP9wWGtAVREINyubsOfPpUzJHqYtNweuEIc6f7XCvb9913rHbxemhCT1EdjBCzeL53KAGbXWQA==
+  dependencies:
+    prop-types "^15.6.1"
+
 react-native-codegen@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.6.tgz"
