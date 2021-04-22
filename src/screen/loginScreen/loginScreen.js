@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatusBar, View, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
+import * as SCREEN from '../../context/screen/screenName';
 import * as STYLES from './styles';
 
 function loginScreen(props) {
@@ -28,19 +29,19 @@ function loginScreen(props) {
                                         <Text style={STYLES.styles.TextInput}>Sign in with Google</Text>
                                         <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: 20 }} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={STYLES.styles.inputView1} onPress={() => props.navigation.navigate('LoginWithPasswordScreen')}>
+                                    <TouchableOpacity style={STYLES.styles.inputView1} onPress={() => props.navigation.navigate(SCREEN.LOGINWITHPASSWORDSCREEN)}>
                                         <Text style={STYLES.styles.TextInput1}>Login with Mobile or Email</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={STYLES.styles.centeView} >
-                                    <TouchableOpacity onPress={() => props.navigation.navigate('forgotpasswordScreen')}>
+                                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN)}>
                                         <Text style={STYLES.styles.loginText}>Can't Login?</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                         <View style={STYLES.styles.centeView} >
-                            <TouchableOpacity onPress={() => props.navigation.navigate('registerScreen')} >
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REGISTERSCREEN)} >
                                 <Text style={STYLES.styles.createText}>Create An account</Text>
                             </TouchableOpacity>
                         </View>

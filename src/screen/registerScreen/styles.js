@@ -23,8 +23,8 @@ export const styles = StyleSheet.create({
         },
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
-        alignItems: 'center',
-        marginTop: 18
+        marginTop: 18,
+        alignItems: 'center'
     },
     inputView: {
         flexDirection: 'row',
@@ -34,19 +34,16 @@ export const styles = StyleSheet.create({
         height: 40,
         borderWidth: 0.5
     },
-    inputView1: {
-        marginTop: 45,
+    inputViewError: {
+        flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        borderColor: '#555555',
-        width: 40,
+        borderColor: '#FF0000',
+        width: WIDTH - 60,
         height: 40,
-        borderWidth: 0.5,
-        textAlign: 'center',
-        fontSize: 18,
-        margin: 20
+        borderWidth: 0.5
     },
-    inputViewError1: {
-        marginTop: 45,
+    inputView1: {
+        marginTop: 25,
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
         width: 40,
@@ -54,7 +51,7 @@ export const styles = StyleSheet.create({
         borderWidth: 0.5,
         textAlign: 'center',
         fontSize: 18,
-        margin: 20
+        marginHorizontal: 32
     },
     otpBtn: {
         flexDirection: 'row',
@@ -143,21 +140,13 @@ export const styles = StyleSheet.create({
     inputErrorView2: {
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        borderColor: 'red',
+        borderColor: '#FF0000',
         width: WIDTH / 2 + 20,
         height: 40,
         marginLeft: 5,
         borderWidth: 0.5
     },
     otpBtn1: {
-        flexDirection: 'row',
-        width: WIDTH / 3 - 20,
-        backgroundColor: '#00D9CE',
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    otpBtndisable1: {
         flexDirection: 'row',
         width: WIDTH / 3 - 10,
         backgroundColor: '#00D9CE',

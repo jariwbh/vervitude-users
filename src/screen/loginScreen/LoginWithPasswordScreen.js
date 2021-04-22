@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatusBar, View, TextInput, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
+import * as SCREEN from '../../context/screen/screenName';
 import * as STYLES from './styles';
 
 function LoginWithPasswordScreen(props) {
@@ -49,7 +50,7 @@ function LoginWithPasswordScreen(props) {
                                 </View>
 
                                 <View style={STYLES.styles.centeView} >
-                                    <TouchableOpacity onPress={() => props.navigation.navigate('forgotpasswordScreen')}>
+                                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN)}>
                                         <Text style={STYLES.Loginpasswordstyle.loginText}>Forgot Password?</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -61,7 +62,7 @@ function LoginWithPasswordScreen(props) {
                             </View>
                         </View>
                         <View style={STYLES.styles.centeView} >
-                            <TouchableOpacity onPress={() => props.navigation.navigate('loginwithemailScreen')} >
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.LOGINWITHEMAILSCREEN)} >
                                 <Text style={STYLES.styles.createText}>Login With OTP</Text>
                             </TouchableOpacity>
                         </View>

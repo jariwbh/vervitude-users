@@ -145,7 +145,7 @@ export const Loginemailstyle = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderColor: 'red',
         width: WIDTH - 60,
-        height: 45,
+        height: 40,
         margin: 5,
         borderWidth: 0.5
     },
@@ -161,7 +161,7 @@ export const Loginemailstyle = StyleSheet.create({
     inputErrorView2: {
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        borderColor: 'red',
+        borderColor: '#FF0000',
         width: WIDTH / 2 + 20,
         height: 40,
         marginLeft: 5,
@@ -175,7 +175,8 @@ export const Loginemailstyle = StyleSheet.create({
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
-        fontSize: 18
+        fontSize: 18,
+        margin: 20
     },
     inputViewError1: {
         marginTop: 25,

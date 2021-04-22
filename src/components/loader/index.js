@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   indicator: {
-    backgroundColor: '#5AC8FA',
+    backgroundColor: '#00D9CE',
     height: 44,
     width: 44,
     borderRadius: 22,

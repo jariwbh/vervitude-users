@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native'
 import { LoginService, LoginWithMobileService } from '../../services/LoginService/LoginService'
 import AsyncStorage from '@react-native-community/async-storage';
+import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
-import Loader from '../../components/loader';
+import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
 
-export default class forgotpasswordScreen extends Component {
+export default class loginwithemailScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +20,6 @@ export default class forgotpasswordScreen extends Component {
             mobile_numbererror: null,
             verifyOtpNumber: null,
             inputOtpNumber: null,
-            userDetails: null,
             verifybtnDisable: true,
             sendbtnDisable: true
         };
@@ -140,7 +140,7 @@ export default class forgotpasswordScreen extends Component {
                     alert('SignIn Success!');
                 }
                 this.setState({ loading: false });
-                return this.props.navigation.navigate('homeScreen');
+                return this.props.navigation.navigate(SCREEN.MAINSCREEN);
             } else {
                 this.setState({ inputOtpNumber: null, loading: false });
                 if (Platform.OS === 'android') {
@@ -184,7 +184,7 @@ export default class forgotpasswordScreen extends Component {
                         } else {
                             alert('SignIn Success!');
                         }
-                        return this.props.navigation.navigate('homeScreen');
+                        return this.props.navigation.navigate(SCREEN.MAINSCREEN);
                     }
                     else {
                         if (response.data[0] == null && response.data[0] == undefined) {
@@ -274,7 +274,7 @@ export default class forgotpasswordScreen extends Component {
                                 </View>
                             </View>
                             <View style={STYLE.Loginemailstyle.centeView} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('registerScreen')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate(SCREEN.REGISTERSCREEN)}>
                                     <Text style={STYLE.Loginemailstyle.createText}>Don't have an Account?</Text>
                                 </TouchableOpacity>
                             </View>

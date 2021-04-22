@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput, Switch, Pressable } from 'react-native';
+import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput, Switch, Pressable, ToastAndroid, Platform } from 'react-native';
 import MenuButton from '../../components/ProfileMenuButton/ProfileMenuButton';
 import WallateButton from '../../components/WallateButton/WallateButton';
+import * as SCREEN from '../../context/screen/screenName';
+import { AUTHUSER } from '../../context/actions/type';
 import * as STYLES from './styles';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const myProfileScreen = (props) => {
 
     const [loading, setloading] = useState(false);
+    const [userDetails, setuserDetails] = useState(null);
     const [showModalVisible, setshowModalVisible] = useState(false);
     const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
     const [showdarkModeVisible, setshowdarkModeVisible] = useState(false);
@@ -42,6 +46,31 @@ const myProfileScreen = (props) => {
         if (toggle == false) {
             settoggleSwitchAll(true);
         }
+    }
+
+
+    //get AsyncStorage current user Details
+    const getStudentData = async () => {
+        var getUser = await AsyncStorage.getItem(AUTHUSER);
+        if (getUser == null) {
+            setTimeout(() => {
+                props.navigation.replace(SCREEN.LOGINSCREEN)
+            }, 3000);;
+        } else {
+            var UserInfo = JSON.parse(getUser);
+            setuserDetails(UserInfo);
+        }
+    }
+
+    //LogOut Button click to call 
+    const onPressLogout = () => {
+        AsyncStorage.removeItem(AUTHUSER);
+        if (Platform.OS === 'android') {
+            ToastAndroid.show('Log Out Success!', ToastAndroid.SHORT);
+        } else {
+            alert('Log Out Success!');
+        }
+        props.navigation.replace(SCREEN.LOGINSCREEN);
     }
 
     return (
@@ -126,7 +155,7 @@ const myProfileScreen = (props) => {
                             <Text style={STYLES.styles.icontextView}>My Disputes</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} onPress={() => props.navigation.navigate('loginScreen')}>
+                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} onPress={() => onPressLogout()}>
                             <Image source={require('../../assets/Images/logout.png')} style={{ height: 25, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>Logout</Text>
                         </TouchableOpacity>
@@ -329,6 +358,7 @@ const myProfileScreen = (props) => {
                     </View>
                 </View>
             </Modal>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }
