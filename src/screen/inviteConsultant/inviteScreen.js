@@ -1,20 +1,126 @@
-import React from 'react'
-import { Text, View, SafeAreaView, TouchableOpacity, TextInput, ScrollView, ToastAndroid, Platform, Image } from 'react-native'
-import * as STYLES from './styles';
+import React, { useEffect, useState } from 'react';
+import {
+    Text, View, SafeAreaView, TouchableOpacity, TextInput,
+    ScrollView, ToastAndroid, Platform, Image
+} from 'react-native';
+import InvitedFriendService from '../../services/InvitedFriendService/InvitedFriendService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
+import * as STYLES from './styles';
 
 const inviteScreen = (props) => {
-    function onPressSubmit() {
-        if (Platform.OS === 'android') {
-            ToastAndroid.show('User invited!', ToastAndroid.SHORT);
-        } else {
-            alert('User invited!');
+    const [fullname, setfullname] = useState(null);
+    const [fullnameerror, setfullnameerror] = useState(null);
+    const [username, setusername] = useState(null);
+    const [usererror, setusererror] = useState(null);
+    const [mobile_number, setmobile_number] = useState(null);
+    const [mobile_numbererror, setmobile_numbererror] = useState(null);
+    const [loading, setloading] = useState(false);
+    const secondTextInputRef = React.createRef();
+    const thirdTextInputRef = React.createRef();
+
+    //check validation of fullname
+    const setFullname = (fullname) => {
+        if (!fullname || fullname <= 0) {
+            return setfullnameerror('Full Name cannot be empty');
         }
-        props.navigation.replace('myProfileScreen');
+        setfullname(fullname);
+        setfullnameerror(null);
+        return;
     }
+
+    //check validation of email
+    const setEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        if (!email || email.length <= 0) {
+            setusererror('Email Id can not be empty');
+            setusername(null);
+            return;
+        }
+        if (!re.test(email)) {
+            setusererror('Ooops! We need a valid email address');
+            setusername(null);
+            return;
+        }
+        setusername(email);
+        setusererror(null);
+        return;
+    }
+
+    //check validation of mobile number
+    const setMobile_number = (mobile_number) => {
+        const reg = /^\d{10}$/;
+        if (!mobile_number || mobile_number.length <= 0) {
+            setmobile_number(null);
+            setmobile_numbererror('Mobile Number cannot be empty');
+            return;
+        }
+        if (!reg.test(mobile_number)) {
+            setmobile_number(null);
+            setmobile_numbererror('Ooops! We need a valid Mobile Number');
+            return;
+        }
+        setmobile_number(mobile_number);
+        setmobile_numbererror(null);
+        return;
+    }
+
+    //reset all fields
+    const resetScreen = () => {
+        setfullname(null);
+        setfullnameerror(null);
+        setusername(null);
+        setusererror(null);
+        setmobile_number(null);
+        setmobile_numbererror(null);
+        setloading(false);
+    }
+
+    //submit button click to called
+    const onPressSubmit = async () => {
+        if (!username || !fullname || !mobile_number) {
+            setEmail(username);
+            setFullname(fullname);
+            setMobile_number(mobile_number);
+            return;
+        }
+
+        const body = {
+            'property': {
+                'fullname': fullname,
+                'mobile': mobile_number,
+                'primaryemail': username,
+                'type': 'user'
+            }
+        }
+        setloading(true);
+        try {
+            const response = await InvitedFriendService(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('User invited!', ToastAndroid.SHORT);
+                } else {
+                    alert('User invited!');
+                }
+            }
+            resetScreen();
+            props.navigation.replace(SCREEN.MYPROFILESCREEN);
+        }
+        catch (error) {
+            setloading(false);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('SignUp Failed!', ToastAndroid.SHORT);
+            } else {
+                alert('SignUp Failed!');
+            }
+            resetScreen();
+        }
+    }
+
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
@@ -37,35 +143,49 @@ const inviteScreen = (props) => {
                         <Text style={STYLES.styles.invitetitle}>Invite</Text>
                         <View >
                             <Text style={STYLES.styles.fieldtitle}>Email Address</Text>
-                            <View style={STYLES.styles.inputView}>
+                            <View style={usererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                 <TextInput
                                     style={STYLES.styles.TextInput}
                                     placeholder='Email Address'
                                     type='clear'
                                     returnKeyType='next'
                                     placeholderTextColor='#999999'
+                                    defaultValue={username}
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => { secondTextInputRef.current.focus() }}
+                                    onChangeText={(username) => setEmail(username)}
                                 />
                             </View>
 
                             <Text style={STYLES.styles.fieldtitle}>Phone Number</Text>
-                            <View style={STYLES.styles.inputView}>
+                            <View style={mobile_numbererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                 <TextInput
                                     style={STYLES.styles.TextInput}
                                     placeholder='Phone Number'
                                     type='clear'
                                     returnKeyType='next'
                                     placeholderTextColor='#999999'
+                                    defaultValue={mobile_number}
+                                    ref={secondTextInputRef}
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => { thirdTextInputRef.current.focus() }}
+                                    onChangeText={(mobile_number) => setMobile_number(mobile_number)}
                                 />
                             </View>
 
                             <Text style={STYLES.styles.fieldtitle}>Full Name</Text>
-                            <View style={STYLES.styles.inputView}>
+                            <View style={fullnameerror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                 <TextInput
                                     style={STYLES.styles.TextInput}
                                     placeholder='Full Name'
                                     type='clear'
                                     returnKeyType='next'
                                     placeholderTextColor='#999999'
+                                    defaultValue={fullname}
+                                    blurOnSubmit={false}
+                                    ref={thirdTextInputRef}
+                                    onSubmitEditing={() => onPressSubmit()}
+                                    onChangeText={(fullname) => setFullname(fullname)}
                                 />
                             </View>
 
@@ -78,6 +198,7 @@ const inviteScreen = (props) => {
                     </View>
                 </View>
             </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

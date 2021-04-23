@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput, Switch, Pressable, ToastAndroid, Platform } from 'react-native';
+import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput, Switch, Pressable, ToastAndroid, Platform, Linking } from 'react-native';
+import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import MenuButton from '../../components/ProfileMenuButton/ProfileMenuButton';
 import WallateButton from '../../components/WallateButton/WallateButton';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
+import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const myProfileScreen = (props) => {
 
@@ -16,6 +18,16 @@ const myProfileScreen = (props) => {
     const [showdarkModeVisible, setshowdarkModeVisible] = useState(false);
     const [vervitudeModalVisible, setvervitudeModalVisible] = useState(false);
     const [toggleSwitchAll, settoggleSwitchAll] = useState(false);
+    const [subject, setsubject] = useState(null);
+    const [subjecterror, setsubjecterror] = useState(null);
+    const [description, setdescription] = useState(null);
+    const [descriptionerror, setdescriptionerror] = useState(null);
+    const secondTextInputRef = React.createRef();
+
+
+    useEffect(() => {
+        getStudentData();
+    }, []);
 
     const showVervitudeModal = (visible) => {
         setvervitudeModalVisible(visible);
@@ -73,6 +85,72 @@ const myProfileScreen = (props) => {
         props.navigation.replace(SCREEN.LOGINSCREEN);
     }
 
+    //check validation of subject
+    const setSubject = (subject) => {
+        if (!subject || subject <= 0) {
+            return setsubjecterror('subject cannot be empty');
+        }
+        setsubject(subject);
+        setsubjecterror(null);
+        return;
+    }
+
+    //check validation of description
+    const setDescription = (description) => {
+        if (!description || description <= 0) {
+            return setdescriptionerror('description cannot be empty');
+        }
+        setdescription(description);
+        setdescriptionerror(null);
+        return;
+    }
+
+    //help model pop up cancel button touch to called
+    const onPressCancel = () => {
+        setsubject(null);
+        setdescription(null);
+        setsubjecterror(null);
+        setdescriptionerror(null);
+        setshowModalVisible(false);
+    }
+
+    //help model pop up submit button touch to called
+    const onPressSubmit = async () => {
+        if (!description || !subject) {
+            setSubject(subject);
+            setDescription(description);
+            return;
+        }
+        const body = {
+            'status': 'Requested',
+            'subject': subject,
+            'customerid': userDetails._id,
+            'onModel': 'Member',
+            'category': 'System Enhancements',
+            'content': description
+
+        }
+        console.log(`body`, body);
+        //setloading(true);
+        try {
+            const response = await HelpSupportService(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                setloading(false);
+                setshowModalVisible(false);
+                setshowMessageModalVisible(true);
+            }
+        }
+        catch (error) {
+            setloading(false);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
+            } else {
+                alert('Message Sending Failed!');
+            }
+            onPressCancel();
+        }
+    }
+
     return (
         <SafeAreaView style={STYLES.styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -96,14 +174,14 @@ const myProfileScreen = (props) => {
                     <View style={STYLES.styles.cardview}>
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 20 }}>
                             <View style={{ justifyContent: 'flex-start', marginLeft: 20 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, textTransform: 'capitalize' }}>Protima Bannerjee</Text>
-                                <Text style={{ fontSize: 14, color: '#000000' }}>#protima123</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, textTransform: 'capitalize' }}>{userDetails ? userDetails.fullname : null}</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>{userDetails ? userDetails.property.usertag && userDetails.property.usertag : null}</Text>
                             </View>
 
                             <View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
                                 <Pressable onPress={() => { }}
                                     style={STYLES.styles.profileImageView}>
-                                    <Image source={require('../../assets/Images/Ellipse32.png')}
+                                    <Image source={{ uri: userDetails ? userDetails.profilepic !== null && userDetails.profilepic ? userDetails.profilepic : 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png' : null }}
                                         style={STYLES.styles.profileImage}
                                     />
                                 </Pressable>
@@ -250,16 +328,20 @@ const myProfileScreen = (props) => {
                 <View style={STYLES.styles.centerView}>
                     <View style={STYLES.styles.modalView}>
                         <View style={{ marginTop: 20 }}></View>
-                        <View style={STYLES.styles.inputView}>
+                        <View style={subjecterror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                             <TextInput
                                 style={STYLES.styles.TextInput}
                                 placeholder='Subject'
                                 type='clear'
                                 returnKeyType='next'
                                 placeholderTextColor='#999999'
+                                defaultValue={subject}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => secondTextInputRef.current.focus()}
+                                onChangeText={(subject) => setSubject(subject)}
                             />
                         </View>
-                        <View style={STYLES.styles.textAreainputView}>
+                        <View style={descriptionerror == null ? STYLES.styles.textAreainputView : STYLES.styles.textAreainputViewError}>
                             <TextInput
                                 style={STYLES.styles.TextareaInput}
                                 placeholder='Write Your Descripation'
@@ -269,15 +351,18 @@ const myProfileScreen = (props) => {
                                 blurOnSubmit={false}
                                 numberOfLines={3}
                                 multiline={true}
+                                defaultValue={description}
+                                ref={secondTextInputRef}
+                                onChangeText={(description) => setdescription(description)}
                             />
                         </View>
                     </View>
                     <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => showModalVisibleSubmit(!showModalVisible)}
+                        <TouchableOpacity onPress={() => onPressSubmit()}
                             style={STYLES.styles.savebtn}>
                             <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => showModal(!showModalVisible)}
+                        <TouchableOpacity onPress={() => onPressCancel()}
                             style={STYLES.styles.cancelbtn}>
                             <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
                         </TouchableOpacity>
@@ -317,37 +402,36 @@ const myProfileScreen = (props) => {
             >
                 <View style={STYLES.styles.centerView}>
                     <View style={STYLES.styles.vervitudemodalView}>
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
-                        </TouchableOpacity>
+                        <Text
+                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
+
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                         </View>
 
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
-                        </TouchableOpacity>
+                        <Text
+                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                         </View>
 
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
-                        </TouchableOpacity>
+                        <Text
+                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                         </View>
 
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
-                        </TouchableOpacity>
+                        <Text
+                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                         </View>
 
-                        <TouchableOpacity onPress={() => { }}>
-                            <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Copyright @2021</Text>
-                        </TouchableOpacity>
+                        <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Copyright @2021</Text>
                     </View>
 
                     <View style={{ marginTop: 15, flexDirection: 'row' }}>

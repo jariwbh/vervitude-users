@@ -34,4 +34,9 @@ function LoginWithMobileService(mobile) {
     return Axios.post('members/filter', body);
 }
 
-export { LoginService, LoginWithMobileService }
+function LoginWithPasswordService(data) {
+    const body = JSON.stringify(data)
+    return Axios.post('auth/memberlogin', body);
+}
+
+export { LoginService, LoginWithMobileService, LoginWithPasswordService }

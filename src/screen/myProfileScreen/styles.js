@@ -157,6 +157,16 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 20
     },
+    inputViewError: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 0.5,
+        borderColor: '#FF0000',
+        width: WIDTH - 120,
+        height: 40,
+        borderRadius: 5,
+        marginBottom: 20
+    },
     TextInput: {
         fontSize: 14,
         flex: 1,
@@ -168,6 +178,15 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F4F4F4',
         borderWidth: 1,
         borderColor: '#000000',
+        width: WIDTH - 120,
+        height: 100,
+        borderRadius: 5
+    },
+    textAreainputViewError: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#FF0000',
         width: WIDTH - 120,
         height: 100,
         borderRadius: 5

@@ -143,7 +143,7 @@ export const Loginemailstyle = StyleSheet.create({
     inputErrorView: {
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        borderColor: 'red',
+        borderColor: '#FF0000',
         width: WIDTH - 60,
         height: 40,
         margin: 5,
