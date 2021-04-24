@@ -11,6 +11,7 @@ import NOTIFICATIONSCREEN from '../screen/notificationScreen/notificationScreen'
 import RECHARGEDETAILSCREEN from '../screen/myWalletScreen/rechargedetailScreen';
 import LOGINWITHEMAILSCREEN from '../screen/loginScreen/loginwithemailScreen';
 import CONSULTANTSSCREEN from '../screen/consultantsScreen/consultantsScreen';
+import VIEWPROFILESCREEN from '../screen/myProfileScreen/ViewFullPicture';
 import MYPROFILESCREEN from '../screen/myProfileScreen/myProfileScreen';
 import PROMOCODESCREEN from '../screen/promocodeScreen/promocodeScreen';
 import RECENTCHATSCREEN from '../screen/chatScreen/recentchatScreen';
@@ -56,6 +57,7 @@ function MainNavigation() {
             <HomeStack.Screen name='consultantsScreen' component={CONSULTANTSSCREEN} />
             <HomeStack.Screen name='subcategoryScreen' component={SUBCATEGORYSCREEN} />
             <HomeStack.Screen name='recentchatScreen' component={RECENTCHATSCREEN} />
+            <HomeStack.Screen name='ViewFullPicture' component={VIEWPROFILESCREEN} />
             <HomeStack.Screen name='myProfileScreen' component={MYPROFILESCREEN} />
             <HomeStack.Screen name='promocodeScreen' component={PROMOCODESCREEN} />
             <HomeStack.Screen name='myWalletScreen' component={MYWALLETSCREEN} />

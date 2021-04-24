@@ -9,6 +9,7 @@ export const NOTIFICATIONSCREEN = 'notificationScreen';
 export const CONSULTANTSSCREEN = 'consultantsScreen';
 export const SUBCATEGORYSCREEN = 'subcategoryScreen';
 export const RECENTCHATSCREEN = 'recentchatScreen';
+export const VIEWPROFILESCREEN = 'ViewFullPicture';
 export const MYPROFILESCREEN = 'myProfileScreen';
 export const PROMOCODESCREEN = 'promocodeScreen';
 export const REGISTERSCREEN = 'registerScreen';

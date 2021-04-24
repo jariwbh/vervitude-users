@@ -60,6 +60,11 @@ const myProfileScreen = (props) => {
         }
     }
 
+    //view profile function
+    const onTouchViewProfile = () => {
+        let userProfileImage = userDetails && userDetails.profilepic ? userDetails.profilepic : 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png'
+        props.navigation.navigate(SCREEN.VIEWPROFILESCREEN, { userProfileImage });
+    }
 
     //get AsyncStorage current user Details
     const getStudentData = async () => {
@@ -179,7 +184,7 @@ const myProfileScreen = (props) => {
                             </View>
 
                             <View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
-                                <Pressable onPress={() => { }}
+                                <Pressable onPress={() => onTouchViewProfile()}
                                     style={STYLES.styles.profileImageView}>
                                     <Image source={{ uri: userDetails ? userDetails.profilepic !== null && userDetails.profilepic ? userDetails.profilepic : 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png' : null }}
                                         style={STYLES.styles.profileImage}

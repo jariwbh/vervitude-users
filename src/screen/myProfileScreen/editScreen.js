@@ -1,14 +1,311 @@
-import React from 'react';
-import { View, Text, Image, SafeAreaView, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+    View, Text, Image, SafeAreaView, TouchableOpacity,
+    TextInput, ScrollView, Platform, ToastAndroid
+} from 'react-native';
+import UpdateUserService from '../../services/UserService/UserService';
+import MyPermissionController from '../../helpers/appPermission';
+import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as SCREEN from '../../context/screen/screenName';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { AUTHUSER } from '../../context/actions/type';
+import ImagePicker from 'react-native-image-picker';
+import Loader from '../../components/loader/index';
+import RNFetchBlob from 'rn-fetch-blob';
 import * as STYLE from './styles';
 
-export default function editScreen(props) {
+const editScreen = (props) => {
+
+    const [loading, setloading] = useState(false);
+    const [userDetails, setuserDetails] = useState(null);
+    const [newProfilePath, setnewProfilePath] = useState(null);
+
+    const [first_name, setfirst_name] = useState(null);
+    const [first_nameError, setfirst_nameError] = useState(null);
+
+    const [last_name, setlast_name] = useState(null);
+    const [last_nameError, setlast_nameError] = useState(null);
+
+    const [mobile, setmobile] = useState(null);
+    const [mobileError, setmobileError] = useState(null);
+
+    const [primaryemail, setprimaryemail] = useState(null);
+    const [primaryemailError, setprimaryemailError] = useState(null);
+
+    const [usertag, setusertag] = useState(null);
+    const [usertagError, setusertagError] = useState(null);
+
+    const [location, setlocation] = useState(null);
+    const [locationError, setlocationError] = useState(null);
+
+    const [about, setabout] = useState(null);
+    const [aboutError, setaboutError] = useState(null);
+
+    const secondTextInputRef = React.createRef();
+    const thirdTextInputRef = React.createRef();
+    const fourTextInputRef = React.createRef();
+    const fiveTextInputRef = React.createRef();
+    const sixTextInputRef = React.createRef();
+    const sevenTextInputRef = React.createRef();
+
+    useEffect(() => {
+    }, [aboutError])
+
+    //check validation of fullname
+    const setFirstName = (firstname) => {
+        if (!firstname || firstname <= 0) {
+            return setfirst_nameError('First Name cannot be empty');
+        }
+        setfirst_name(firstname);
+        setfirst_nameError(null);
+        return;
+    }
+
+    //check validation of lastname
+    const setLastName = (lastname) => {
+        if (!lastname || lastname <= 0) {
+            return setlast_nameError('Last Name cannot be empty');
+        }
+        setlast_name(lastname);
+        setlast_nameError(null);
+        return;
+    }
+
+    //check validation of lastname
+    const setUserTag = (usertag) => {
+        if (!usertag || usertag <= 0) {
+            return setusertagError('UserTag cannot be empty');
+        }
+        setusertag(usertag);
+        setusertagError(null);
+        return;
+    }
+
+    //check validation of email
+    const setEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        if (!email || email.length <= 0) {
+            setprimaryemailError('Email Id can not be empty');
+            setprimaryemail(null);
+            return;
+        }
+        if (!re.test(email)) {
+            setprimaryemailError('Ooops! We need a valid email address');
+            setprimaryemail(null);
+            return;
+        }
+        setprimaryemail(email);
+        setprimaryemailError(null);
+        return;
+    }
+
+    //check validation of mobile number
+    const setMobile_number = (mobile_number) => {
+        const reg = /^\d{10}$/;
+        if (!mobile_number || mobile_number.length <= 0) {
+            setmobile(null);
+            setmobileError('Mobile Number cannot be empty');
+            return;
+        }
+        if (!reg.test(mobile_number)) {
+            setmobile(null);
+            setmobileError('Ooops! We need a valid Mobile Number');
+            return;
+        }
+        setmobile(mobile_number);
+        setmobileError(null);
+        return;
+    }
+
+    //check validation of lastname
+    const setLocation = (location) => {
+        if (!location || location <= 0) {
+            return setlocationError('Last Name cannot be empty');
+        }
+        setlocation(location);
+        setlocationError(null);
+        return;
+    }
+
+    //check validation of lastname
+    const setAbout = (about) => {
+        if (!about || about <= 0) {
+            return setaboutError('UserTag cannot be empty');
+        }
+        setabout(about);
+        setaboutError(null);
+        return;
+    }
+
+    //get AsyncStorage current user Details
+    const getUserDetails = async () => {
+        //get AsyncStorage current user Details
+        var getUser = await AsyncStorage.getItem(AUTHUSER);
+        if (getUser == null) {
+            setTimeout(() => {
+                props.navigation.replace(SCREEN.LOGINSCREEN)
+            }, 3000);;
+        } else {
+            var UserInfo = JSON.parse(getUser);
+            setuserDetails(UserInfo);
+            setfirst_name(UserInfo.property.first_name);
+            setlast_name(UserInfo.property.last_name);
+            setmobile(UserInfo.property.mobile);
+            setprimaryemail(UserInfo.property.primaryemail);
+            setusertag(UserInfo.property.usertag);
+            setlocation(UserInfo.property.location);
+            setabout(UserInfo.property.about);
+        }
+    }
+
+    //REPLACE AND ADD LOCAL STORAGE FUNCTION
+    const authenticateUser = (user) => {
+        AsyncStorage.setItem(AUTHUSER, JSON.stringify(user));
+    }
+
+    //check permission 
+    const checkPermission = () => {
+        setTimeout(
+            () => {
+                MyPermissionController.checkAndRequestStoragePermission()
+                    .then((granted) => console.log('>Storage Permission Granted'))
+                    .catch((err) => console.log(err))
+            },
+            500
+        );
+    }
+
+    useEffect(() => {
+        checkPermission();
+        getUserDetails();
+    }, [newProfilePath]);
+
+    //submit button click to called
+    const onPressSubmit = async () => {
+        if (!first_name || !last_name || !mobile || !usertag || !location || !primaryemail || !about) {
+            setfirst_name(first_name);
+            setlast_name(last_name);
+            setmobile(mobile);
+            setprimaryemail(primaryemail);
+            setusertag(usertag);
+            setlocation(location);
+            setabout(about);
+            return;
+        }
+
+        const body = {
+            _id: userDetails._id,
+            property: {
+                fullname: first_name + '' + last_name,
+                first_name: first_name,
+                last_name: last_name,
+                mobile: mobile,
+                primaryemail: primaryemail,
+                usertag: usertag,
+                location: location,
+                about: about,
+                type: 'user'
+            }
+        }
+
+        setloading(true);
+        let user = userDetails;
+        user.property = body.property;
+        try {
+            const response = await UpdateUserService(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                authenticateUser(user);
+                getUserDetails();
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('Profile Update', ToastAndroid.SHORT);
+                } else {
+                    alert('Profile Update');
+                }
+            }
+            props.navigation.replace(SCREEN.MYPROFILESCREEN);
+        }
+        catch (error) {
+            console.log(`error`, error)
+            setloading(false);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Profile Not Update!', ToastAndroid.SHORT);
+            } else {
+                alert('Profile Not Update!');
+            }
+        }
+    }
+
+    //IMAGE CLICK TO GET CALL FUNCTION
+    const handlePicker = () => {
+        ImagePicker.showImagePicker({}, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                setloading(true);
+                onPressUploadFile(response);
+            }
+        });
+    };
+
+    //Upload Cloud storage function
+    const onPressUploadFile = async (fileObj) => {
+        if (fileObj != null) {
+            await RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/dlopjt9le/upload', { 'Content-Type': 'multipart/form-data' },
+                [{ name: 'file', filename: fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(fileObj.uri) },
+                { name: 'upload_preset', data: 'gs95u3um' }])
+                .then(response => response.json())
+                .then(data => {
+                    setloading(false);
+                    if (data && data.url) {
+                        setnewProfilePath(data.url);
+                        UpdateProfileService(data.url);
+                    }
+                }).catch(error => {
+                    alert("Uploading Failed!");
+                })
+        } else {
+            alert('Please Select File');
+        }
+    }
+
+    //PROFILE PICTURE CLICK TO CALL FUNCTION
+    const onChangeProfilePic = () => {
+        handlePicker();
+    }
+
+    //UPDATE PROFILE PICTURE API CALL
+    const UpdateProfileService = async (profilepic) => {
+        let user = userDetails;
+        user.profilepic = profilepic;
+        try {
+            const response = await UpdateUserService(user);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                authenticateUser(user);
+                getUserDetails();
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show("Your Profile Update!", ToastAndroid.SHORT);
+                } else {
+                    alert('Your Profile Update!');
+                }
+            }
+        }
+        catch (error) {
+            setloading(false);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("Your Profile Not Update!", ToastAndroid.SHORT);
+            } else { alert('Your Profile Not Update!') }
+        }
+    }
+
     return (
         <SafeAreaView style={STYLE.Editstyles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ justifyContent: 'flex-start' }}>
                         <TouchableOpacity onPress={() => { props.navigation.goBack(null) }}>
@@ -17,7 +314,7 @@ export default function editScreen(props) {
                     </View>
                     <View style={{ justifyContent: 'flex-end' }}>
                         <TouchableOpacity
-                            onPress={() => props.navigation.navigate('myProfileScreen')}
+                            onPress={() => onPressSubmit()}
                             style={STYLE.Editstyles.submitbtn}>
                             <Text style={{ fontSize: 14, color: '#00D9CE' }}>Submit</Text>
                         </TouchableOpacity>
@@ -29,7 +326,7 @@ export default function editScreen(props) {
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <Image source={require('../../assets/Images/Ellipse4.png')}
                                 style={{ marginTop: -50, width: 100, height: 100, borderRadius: 100 }} />
-                            <TouchableOpacity onPress={() => { }}
+                            <TouchableOpacity onPress={() => onChangeProfilePic()}
                                 style={{ marginTop: -60 }}>
                                 <Feather name='camera' size={24} color='#FFFFFF' />
                             </TouchableOpacity>
@@ -43,7 +340,7 @@ export default function editScreen(props) {
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>First Name</Text>
                         </View>
-                        <View style={STYLE.Editstyles.inputView}>
+                        <View style={first_nameError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextInputbold}
                                 placeholder='First Name'
@@ -51,14 +348,16 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue='Ranjan'
+                                defaultValue={first_name}
+                                onSubmitEditing={() => secondTextInputRef.current.focus()}
+                                onChangeText={(first_name) => setFirstName(first_name)}
                             />
                         </View>
 
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>Last Name</Text>
                         </View>
-                        <View style={STYLE.Editstyles.inputView}>
+                        <View style={last_nameError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextInputbold}
                                 placeholder='Last Name'
@@ -66,14 +365,17 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue='Pathak'
+                                defaultValue={last_name}
+                                ref={secondTextInputRef}
+                                onSubmitEditing={() => thirdTextInputRef.current.focus()}
+                                onChangeText={(last_name) => setLastName(last_name)}
                             />
                         </View>
 
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>User Tag</Text>
                         </View>
-                        <View style={STYLE.Editstyles.inputView}>
+                        <View style={usertagError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextInput}
                                 placeholder='User Tag'
@@ -81,14 +383,17 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue='#pathak'
+                                defaultValue={usertag}
+                                ref={thirdTextInputRef}
+                                onSubmitEditing={() => fourTextInputRef.current.focus()}
+                                onChangeText={(usertag) => setUserTag(usertag)}
                             />
                         </View>
 
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>Phone Number</Text>
                         </View>
-                        <View style={STYLE.Editstyles.inputView}>
+                        <View style={mobileError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextInput}
                                 placeholder='Phone Number'
@@ -96,14 +401,17 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue='+91 9923719601'
+                                defaultValue={mobile}
+                                ref={fourTextInputRef}
+                                onSubmitEditing={() => fiveTextInputRef.current.focus()}
+                                onChangeText={(mobile) => setMobile_number(mobile)}
                             />
                         </View>
 
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>Email Address</Text>
                         </View>
-                        <View style={STYLE.Editstyles.inputView}>
+                        <View style={primaryemailError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextInput}
                                 placeholder='exmple@gmail.com'
@@ -111,14 +419,17 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue='ranjanpathak@gmail.com'
+                                defaultValue={primaryemail}
+                                ref={fiveTextInputRef}
+                                onSubmitEditing={() => sixTextInputRef.current.focus()}
+                                onChangeText={(primaryemail) => setEmail(primaryemail)}
                             />
                         </View>
 
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>Location</Text>
                         </View>
-                        <View style={STYLE.Editstyles.inputView}>
+                        <View style={locationError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextInput}
                                 placeholder='Location'
@@ -126,7 +437,10 @@ export default function editScreen(props) {
                                 returnKeyType='next'
                                 placeholderTextColor='#000000'
                                 blurOnSubmit={false}
-                                defaultValue='Mumbai'
+                                defaultValue={location}
+                                ref={sixTextInputRef}
+                                onSubmitEditing={() => sevenTextInputRef.current.focus()}
+                                onChangeText={(location) => setLocation(location)}
                             />
                             <Ionicons name='location' size={24} color='#000000' />
                         </View>
@@ -134,7 +448,7 @@ export default function editScreen(props) {
                         <View style={{ marginLeft: 10, marginTop: 5 }}>
                             <Text style={{ fontSize: 12 }}>About</Text>
                         </View>
-                        <View style={STYLE.Editstyles.textAreainputView}>
+                        <View style={aboutError == null ? STYLE.Editstyles.textAreainputView : STYLE.Editstyles.textAreainputViewError}>
                             <TextInput
                                 style={STYLE.Editstyles.TextareaInput}
                                 placeholder='Write Description'
@@ -144,7 +458,10 @@ export default function editScreen(props) {
                                 blurOnSubmit={false}
                                 numberOfLines={3}
                                 multiline={true}
-                                defaultValue={'Ranjan is UX Designer working with clients all over the world from last 10 years. Ranjan has worked with more then 100 brands.'}
+                                defaultValue={about}
+                                ref={sevenTextInputRef}
+                                onSubmitEditing={() => onPressSubmit()}
+                                onChangeText={(about) => setAbout(about)}
                             />
                         </View>
                         <View style={{ marginBottom: 50 }}></View>
@@ -152,8 +469,10 @@ export default function editScreen(props) {
                     <View style={{ marginBottom: 20 }}></View>
                 </View>
             </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }
 
+export default editScreen;
 
