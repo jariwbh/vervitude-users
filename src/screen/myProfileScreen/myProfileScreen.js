@@ -7,10 +7,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
+import { useIsFocused } from '@react-navigation/native';
 import * as STYLES from './styles';
 
 const myProfileScreen = (props) => {
-
+    const isFocused = useIsFocused();
     const [loading, setloading] = useState(false);
     const [userDetails, setuserDetails] = useState(null);
     const [showModalVisible, setshowModalVisible] = useState(false);
@@ -23,7 +24,6 @@ const myProfileScreen = (props) => {
     const [description, setdescription] = useState(null);
     const [descriptionerror, setdescriptionerror] = useState(null);
     const secondTextInputRef = React.createRef();
-
 
     useEffect(() => {
         getStudentData();

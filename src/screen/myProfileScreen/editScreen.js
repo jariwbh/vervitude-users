@@ -3,7 +3,7 @@ import {
     View, Text, Image, SafeAreaView, TouchableOpacity,
     TextInput, ScrollView, Platform, ToastAndroid
 } from 'react-native';
-import UpdateUserService from '../../services/UserService/UserService';
+import { UserUpdateService, UserProfileService } from '../../services/UserService/UserService';
 import MyPermissionController from '../../helpers/appPermission';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -198,7 +198,6 @@ const editScreen = (props) => {
         const body = {
             _id: userDetails._id,
             property: {
-                fullname: first_name + '' + last_name,
                 first_name: first_name,
                 last_name: last_name,
                 mobile: mobile,
@@ -214,12 +213,13 @@ const editScreen = (props) => {
         let user = userDetails;
         user.property = body.property;
         try {
-            const response = await UpdateUserService(body);
+            const response = await UserUpdateService(body);
+            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 authenticateUser(user);
                 getUserDetails();
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('Profile Update', ToastAndroid.SHORT);
+                    ToastAndroid.show('Your Profile Update', ToastAndroid.SHORT);
                 } else {
                     alert('Profile Update');
                 }
@@ -284,7 +284,7 @@ const editScreen = (props) => {
         let user = userDetails;
         user.profilepic = profilepic;
         try {
-            const response = await UpdateUserService(user);
+            const response = await UserProfileService(user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 authenticateUser(user);
                 getUserDetails();
@@ -308,7 +308,7 @@ const editScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ justifyContent: 'flex-start' }}>
-                        <TouchableOpacity onPress={() => { props.navigation.goBack(null) }}>
+                        <TouchableOpacity onPress={() => { props.navigation.replace(SCREEN.MYPROFILESCREEN) }}>
                             <AntDesign name='arrowleft' size={24} color='#FFFFFF' style={{ marginLeft: 15 }} />
                         </TouchableOpacity>
                     </View>
@@ -324,7 +324,7 @@ const editScreen = (props) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={STYLE.Editstyles.profileview}>
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Image source={require('../../assets/Images/Ellipse4.png')}
+                            <Image source={{ uri: userDetails ? userDetails.profilepic !== null && userDetails.profilepic ? userDetails.profilepic : 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png' : null }}
                                 style={{ marginTop: -50, width: 100, height: 100, borderRadius: 100 }} />
                             <TouchableOpacity onPress={() => onChangeProfilePic()}
                                 style={{ marginTop: -60 }}>
