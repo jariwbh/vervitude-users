@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     Text, View, SafeAreaView, TouchableOpacity, TextInput,
-    ScrollView, ToastAndroid, Platform, Image
+    ScrollView, ToastAndroid, Platform, Image, StatusBar
 } from 'react-native';
 import InvitedFriendService from '../../services/InvitedFriendService/InvitedFriendService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -120,6 +120,7 @@ const inviteScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
+            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
 

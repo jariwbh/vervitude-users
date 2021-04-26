@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image, StyleSheet, LogBox } from 'react-native';
+import {
+    View, Text, SafeAreaView, ScrollView, TextInput, BackHandler,
+    TouchableOpacity, Image, StyleSheet, LogBox, StatusBar
+} from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import MenuButton from '../../components/MenuButton/MenuButton';
 import SliderScreen from '../../components/slider/sliderScreen';
@@ -11,22 +14,29 @@ import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as SCREEN from '../../context/screen/screenName';
 
 const homeScreen = (props) => {
     useEffect(() => {
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+        props.navigation.addListener('focus', e => {
+            BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+        });
+        return props.navigation.addListener('blur', e => {
+            BackHandler.removeEventListener('hardwareBackPress', handleBackButton,
+            );
+        });
     }, [])
 
-    const renderImage = () => {
-        return (
-            <View style={styles.actionbtn}>
-                <MaterialCommunityIcons name='square-edit-outline' size={30} color='#FFFFFF' />
-            </View>
-        )
+    //mobile back press to call
+    const handleBackButton = () => {
+        BackHandler.exitApp()
+        return true;
     }
 
     return (
         <SafeAreaView style={STYLE.styles.container}>
+            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start' }}>
@@ -139,13 +149,13 @@ const homeScreen = (props) => {
                 autoInactive={true}
             // icon={renderImage()}
             >
-                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => { }}>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
                     <Ionicons name="chatbubbles" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => { }}>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
                     <MaterialCommunityIcons name="card-plus-outline" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => { }}>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
                     <FontAwesome name="rupee" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
             </ActionButton>

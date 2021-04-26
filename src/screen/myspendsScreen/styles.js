@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 15,
+        elevation: 3,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -30,13 +30,13 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
         marginTop: 5,
-        shadowOpacity: 10,
+        shadowOpacity: 1,
         shadowRadius: 20,
         shadowOffset: {
             height: 0,
             width: 0,
         },
-        elevation: 15,
+        elevation: 1,
         overflow: 'hidden',
     },
     headerstyle: {

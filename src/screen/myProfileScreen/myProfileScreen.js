@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, Modal, TextInput, Switch, Pressable, ToastAndroid, Platform, Linking } from 'react-native';
+import {
+    Text, View, SafeAreaView, Image, TouchableOpacity,
+    ScrollView, Modal, TextInput, Switch, Pressable,
+    ToastAndroid, Platform, Linking, StatusBar
+} from 'react-native';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import MenuButton from '../../components/ProfileMenuButton/ProfileMenuButton';
 import WallateButton from '../../components/WallateButton/WallateButton';
@@ -158,6 +162,7 @@ const myProfileScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
+            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start' }}>

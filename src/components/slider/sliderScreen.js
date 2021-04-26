@@ -1,9 +1,10 @@
 import SliderService from '../../services/SliderService/SliderService';
 import { SliderBox } from 'react-native-image-slider-box';
 import React, { useState, useEffect } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, View, StyleSheet, Image, Text, TouchableOpacity, Linking } from 'react-native';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+import ImageSlider from 'react-native-image-slider';
 
 const SliderScreen = (props) => {
     const [sliderData, setsliderData] = useState([]);
@@ -15,29 +16,45 @@ const SliderScreen = (props) => {
     //silder image manage function
     const sliderService = async () => {
         const response = await SliderService();
-        console.log(`response.data`, response.data);
         setsliderData(response.data);
     }
 
-    const images = [
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDHm391tOm1svz-ycy5hgDrx6mHP5gQ6TdDg&usqp=CAU',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2FZoioB4ocvQX2_vb65I9UU_qPB2osM3ZaQ&usqp=CAU',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREiT7T2XDQZyH-P_3xgx69fy7c5Cjv3GXxHg&usqp=CAU',
-    ]
-
     return (
-        <View style={{ marginTop: 20 }}>
-            <SliderBox
-                images={images}
-                sliderBoxHeight={220}
-                inactiveDotColor='#00D9CE'
-                paginationBoxVerticalPadding={0}
-                autoplay
-                circleLoop
-                ImageComponentStyle={{ borderRadius: 10, width: WIDTH - 30 }}
-            />
+        <View style={{ marginTop: 20, justifyContent: 'center', alignItems: "center" }}>
+            {
+                sliderData.length != 0 ?
+                    <ImageSlider
+                        images={sliderData}
+                        loopBothSides
+                        style={styles.slider}
+                        autoPlayWithInterval={3000}
+                        customSlide={({ index, item }) => (
+                            <View key={index} >
+                                <Image source={{ uri: item.property.image[0].attachment }} style={styles.customImage} />
+                                <View style={{}}>
+                                    <Text style={{ color: '#FFFFFF', fontSize: 28, position: 'absolute', marginTop: -120, marginLeft: 250, fontWeight: 'bold' }}>{item.property.title} </Text>
+                                    <TouchableOpacity onPress={() => Linking.openURL(item.property.link)} style={{ position: 'absolute' }}>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 14, marginTop: -50, marginLeft: 250, fontWeight: 'bold', textDecorationLine: 'underline' }}>{item.property.title_link} </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )}
+                    />
+                    : null
+            }
         </View>
     )
 }
 
 export default SliderScreen;
+
+const styles = StyleSheet.create({
+    customImage: {
+        height: 220,
+        width: WIDTH,
+    },
+    slider: {
+        color: '#FFFFFF',
+        width: WIDTH - 20
+    }
+});

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, StatusBar, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLES from './styles';
 
 const promocodeScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
+            <StatusBar backgroundColor='#787AFF' barStyle='light-content' />
             <View style={STYLES.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

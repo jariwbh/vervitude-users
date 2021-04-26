@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, Image, SafeAreaView, TouchableOpacity,
-    TextInput, ScrollView, Platform, ToastAndroid
+    TextInput, ScrollView, Platform, ToastAndroid, StatusBar
 } from 'react-native';
 import { UserUpdateService, UserProfileService } from '../../services/UserService/UserService';
 import MyPermissionController from '../../helpers/appPermission';
@@ -305,6 +305,7 @@ const editScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.Editstyles.container}>
+            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ justifyContent: 'flex-start' }}>

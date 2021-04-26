@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity, StatusBar } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -9,6 +9,7 @@ import * as STYLES from './styles';
 const consultantsScreen = (props) => {
   return (
     <SafeAreaView style={STYLES.styles.container}>
+      <StatusBar backgroundColor='#5AC8FA' barStyle='light-content' />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30 }}>
           <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>

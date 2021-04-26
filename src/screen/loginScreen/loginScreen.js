@@ -1,12 +1,31 @@
-import React from 'react'
-import { StatusBar, View, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import {
+    StatusBar, View, Text, SafeAreaView, Image, BackHandler,
+    TouchableOpacity, ImageBackground, ScrollView
+} from 'react-native'
 import * as SCREEN from '../../context/screen/screenName';
 import * as STYLES from './styles';
 
 function loginScreen(props) {
+    useEffect(() => {
+        props.navigation.addListener('focus', e => {
+            BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+        });
+        return props.navigation.addListener('blur', e => {
+            BackHandler.removeEventListener('hardwareBackPress', handleBackButton,
+            );
+        });
+    }, [])
+
+    //mobile back press to call
+    const handleBackButton = () => {
+        BackHandler.exitApp()
+        return true;
+    }
+
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar backgroundColor='#00CFC7' hidden barStyle='light-content' />
+            <StatusBar translucent backgroundColor='transparent' />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLES.styles.circle}>

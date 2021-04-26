@@ -213,7 +213,7 @@ export default class loginwithemailScreen extends Component {
         const { loading, usererror, mobile_numbererror } = this.state;
         return (
             <SafeAreaView style={STYLE.Loginemailstyle.container}>
-                <StatusBar backgroundColor='#00CFC7' hidden barStyle='light-content' />
+                <StatusBar translucent backgroundColor='transparent' />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Loginemailstyle.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLE.Loginemailstyle.circle}>

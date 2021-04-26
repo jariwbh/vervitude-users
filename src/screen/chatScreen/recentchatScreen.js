@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Image, StatusBar } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLES from './styles';
 
 const recentchatScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.recentChatStyles.container}>
+            <StatusBar backgroundColor='#FFB629' barStyle='light-content' />
             <View style={STYLES.recentChatStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

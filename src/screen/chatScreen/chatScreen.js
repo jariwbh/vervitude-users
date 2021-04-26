@@ -1,5 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, Modal, Dimensions } from 'react-native';
+import {
+	View, Text, SafeAreaView, StyleSheet, ScrollView,
+	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar
+} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -106,6 +109,7 @@ const chatScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
+			<StatusBar backgroundColor='#FFB629' barStyle='light-content' />
 			<View style={styles.headerstyle}>
 				<View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as STYLES from './styles';
@@ -7,6 +7,7 @@ import * as STYLES from './styles';
 const rechargedetailScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.rechargeDetailStyles.container}>
+            <StatusBar backgroundColor='#04DE71' barStyle='light-content' />
             <View style={STYLES.myWalletStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

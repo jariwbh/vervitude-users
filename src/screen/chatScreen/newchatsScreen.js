@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native';
+import {
+    View, Text, SafeAreaView, TextInput, ScrollView,
+    TouchableOpacity, Image, StatusBar
+} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,6 +12,7 @@ import * as STYLES from './styles';
 const newchatsScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.newChatStyles.container}>
+            <StatusBar backgroundColor='#5AC8FA' barStyle='light-content' />
             <View style={STYLES.newChatStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

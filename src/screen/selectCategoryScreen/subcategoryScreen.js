@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -10,6 +10,7 @@ import * as STYLES from './styles';
 const subcategoryScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.SubCategoryStyles.container}>
+            <StatusBar backgroundColor='#2094FA' barStyle='light-content' />
             <View style={STYLES.SubCategoryStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

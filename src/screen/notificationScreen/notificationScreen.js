@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image, StatusBar } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLE from './styles';
@@ -7,6 +7,7 @@ import * as STYLE from './styles';
 const notificationScreen = (props) => {
     return (
         <SafeAreaView style={STYLE.styles.container}>
+            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={STYLE.styles.headerstyle}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>

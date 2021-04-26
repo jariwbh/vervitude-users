@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import Foundation from 'react-native-vector-icons/Foundation';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,6 +9,7 @@ import * as STYLES from './styles';
 function selectCategoryScreen(props) {
     return (
         <SafeAreaView style={STYLES.categoryStyles.container}>
+            <StatusBar backgroundColor='#2094FA' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={STYLES.categoryStyles.headerstyle}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>

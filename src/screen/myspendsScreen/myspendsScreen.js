@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -8,6 +8,7 @@ import * as STYLES from './styles';
 const myspendsScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
+            <StatusBar backgroundColor='#FFE64F' barStyle='light-content' />
             <View style={STYLES.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
