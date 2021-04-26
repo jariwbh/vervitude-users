@@ -6,7 +6,7 @@ import * as STYLES from './styles';
 const promocodeScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar backgroundColor='#787AFF' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#787AFF' barStyle='light-content' />
             <View style={STYLES.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

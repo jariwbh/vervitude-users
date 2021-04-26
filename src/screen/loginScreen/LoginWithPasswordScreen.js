@@ -105,7 +105,7 @@ const LoginWithPasswordScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar translucent backgroundColor='transparent' />
+            <StatusBar hidden translucent backgroundColor='transparent' />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLES.styles.circle}>

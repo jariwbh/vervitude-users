@@ -1,12 +1,12 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
 import NavigationApp from './src/navigations/navigations';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaProvider>
       <NavigationApp />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

@@ -9,7 +9,7 @@ import * as STYLES from './styles';
 function selectCategoryScreen(props) {
     return (
         <SafeAreaView style={STYLES.categoryStyles.container}>
-            <StatusBar backgroundColor='#2094FA' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={STYLES.categoryStyles.headerstyle}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>

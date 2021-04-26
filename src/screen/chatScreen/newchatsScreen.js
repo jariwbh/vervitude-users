@@ -12,7 +12,7 @@ import * as STYLES from './styles';
 const newchatsScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.newChatStyles.container}>
-            <StatusBar backgroundColor='#5AC8FA' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#5AC8FA' barStyle='light-content' />
             <View style={STYLES.newChatStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

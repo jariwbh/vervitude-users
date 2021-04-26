@@ -7,7 +7,7 @@ import * as STYLE from './styles';
 const notificationScreen = (props) => {
     return (
         <SafeAreaView style={STYLE.styles.container}>
-            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={STYLE.styles.headerstyle}>
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>

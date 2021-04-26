@@ -10,7 +10,7 @@ import * as STYLES from './styles';
 const subcategoryScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.SubCategoryStyles.container}>
-            <StatusBar backgroundColor='#2094FA' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
             <View style={STYLES.SubCategoryStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

@@ -9,7 +9,7 @@ import * as STYLES from './styles';
 const consultantsScreen = (props) => {
   return (
     <SafeAreaView style={STYLES.styles.container}>
-      <StatusBar backgroundColor='#5AC8FA' barStyle='light-content' />
+      <StatusBar hidden backgroundColor='#5AC8FA' barStyle='light-content' />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30 }}>
           <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>

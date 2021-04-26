@@ -36,7 +36,7 @@ const homeScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.styles.container}>
-            <StatusBar backgroundColor='#00D9CE' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start' }}>

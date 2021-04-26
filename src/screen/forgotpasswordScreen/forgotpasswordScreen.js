@@ -194,7 +194,7 @@ export default class forgotpasswordScreen extends Component {
         const { loading, usererror, mobile_numbererror } = this.state;
         return (
             <SafeAreaView style={STYLE.Forgetpasswordstyle.container}>
-                <StatusBar translucent backgroundColor='transparent' />
+                <StatusBar hidden translucent backgroundColor='transparent' />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Forgetpasswordstyle.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLE.Forgetpasswordstyle.circle}>

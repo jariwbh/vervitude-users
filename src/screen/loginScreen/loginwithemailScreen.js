@@ -184,6 +184,7 @@ export default class loginwithemailScreen extends Component {
                         } else {
                             alert('SignIn Success!');
                         }
+                        this.setState({ loading: false });
                         return this.props.navigation.navigate(SCREEN.MAINSCREEN);
                     }
                     else {
@@ -213,7 +214,7 @@ export default class loginwithemailScreen extends Component {
         const { loading, usererror, mobile_numbererror } = this.state;
         return (
             <SafeAreaView style={STYLE.Loginemailstyle.container}>
-                <StatusBar translucent backgroundColor='transparent' />
+                <StatusBar hidden translucent backgroundColor='transparent' />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Loginemailstyle.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLE.Loginemailstyle.circle}>

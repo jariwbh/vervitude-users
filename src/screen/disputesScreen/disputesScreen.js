@@ -6,7 +6,7 @@ import * as STYLES from './styles';
 const disputesScreen = (props) => {
     return (
         <SafeAreaView style={STYLES.disputesStyle.container}>
-            <StatusBar backgroundColor='#FA114F' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#FA114F' barStyle='light-content' />
             <View style={STYLES.disputesStyle.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
