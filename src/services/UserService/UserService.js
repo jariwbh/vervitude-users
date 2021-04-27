@@ -12,4 +12,16 @@ const UserUpdateService = (data) => {
     return Axios.put('members/' + id, body);
 }
 
-export { UserProfileService, UserUpdateService };
+const ConsultantListService = () => {
+    const body = {
+        'search': [{
+            'searchfield': 'status',
+            'searchvalue': 'active',
+            'criteria': 'eq',
+            'datatype': 'text'
+        }]
+    }
+    return Axios.post('users/filter', body);
+}
+
+export { UserProfileService, UserUpdateService, ConsultantListService };

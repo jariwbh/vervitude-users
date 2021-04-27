@@ -50,7 +50,7 @@ const homeScreen = (props) => {
                     </View>
 
                     <View style={{ justifyContent: 'flex-end' }}>
-                        <WallateButton />
+                        <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
                     </View>
                 </View>
 

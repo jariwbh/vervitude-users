@@ -2,30 +2,33 @@ import React from 'react'
 import { View, Text, SafeAreaView, Image, TouchableOpacity, StatusBar } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as SCREEN from '../../context/screen/screenName';
 import { ScrollView } from 'react-native-gesture-handler';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
+const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const consultantsScreen = (props) => {
+  const consultanDetails = props.route.params.item;
   return (
     <SafeAreaView style={STYLES.styles.container}>
       <StatusBar hidden backgroundColor='#5AC8FA' barStyle='light-content' />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30 }}>
           <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => { props.navigation.navigate('myProfileScreen') }}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.MYPROFILESCREEN)}>
               <AntDesign name='arrowleft' color='#FFFFFF' size={24} style={{ marginLeft: 20 }} />
             </TouchableOpacity>
             <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#FFFFFF', marginLeft: 20 }}>Consultant</Text>
           </View>
 
           <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => { props.navigation.navigate('recentchatScreen') }} style={{ marginRight: 20 }}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)} style={{ marginRight: 20 }}>
               <Image source={require('../../assets/Images/chaticon.png')}
                 style={{ width: 28, height: 26 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('chatScreen')}
+            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails })}
               style={{ width: 80, height: 30, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', marginRight: 20 }}>
               <Text style={{ fontSize: 12, color: '#5AC8FA' }}>Start Chat</Text>
             </TouchableOpacity>
@@ -43,13 +46,13 @@ const consultantsScreen = (props) => {
             </View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: -40, alignItems: 'center' }}>
-              <Image source={require('../../assets/Images/Ellipse32.png')}
+              <Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
                 style={{ width: 120, height: 120, borderColor: '#D1E8EA', borderRadius: 100, borderWidth: 5 }}
               />
               <View style={{ justifyContent: 'center' }}>
-                <Text style={{ fontSize: 26, color: '#000000', fontWeight: 'bold' }}>Ranjan</Text>
+                <Text style={{ fontSize: 26, color: '#000000', fontWeight: 'bold', textTransform: 'capitalize' }}>{consultanDetails.property.first_name}</Text>
                 <Text style={{ fontSize: 16, color: '#000000' }}>Design Coach</Text>
-                <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold' }}>Mumbai, India</Text>
+                <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold' }}>{consultanDetails.property.location}</Text>
               </View>
             </View>
 

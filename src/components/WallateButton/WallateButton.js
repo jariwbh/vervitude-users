@@ -2,10 +2,10 @@ import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function WallateButton() {
+export default function WallateButton(props) {
     return (
-        <TouchableOpacity
-            style={styles.btnstyle}>
+        <TouchableOpacity onPress={props.onPress}
+            style={styles.btnstyle} >
             <Text style={styles.btntext}>₹5,300</Text>
             <View style={{ justifyContent: 'center' }}>
                 <MaterialIcons name='account-balance-wallet' size={30} color='#04DE71' />

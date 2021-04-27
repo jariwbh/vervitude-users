@@ -4,10 +4,10 @@ import {
 	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-//
 import AsyncStorage from '@react-native-community/async-storage';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AUTHUSER } from '../../context/actions/type';
 //
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -16,8 +16,9 @@ import firestore from '@react-native-firebase/firestore';
 //
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
-const chatScreen = ({ navigation }) => {
+const chatScreen = (props, { navigation }) => {
 	const [loading, setloading] = useState(false);
 	const [chatId, setchatId] = useState(null);
 	const [sender, setsender] = useState(null);
@@ -25,15 +26,15 @@ const chatScreen = ({ navigation }) => {
 	const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
 	const [filterModalVisible, setfilterModalVisible] = useState(false);
 	const [messages, setMessages] = useState([]);
+	const consultanDetails = props.route.params.consultanDetails;
 
 	// chat portion
 	useEffect(
 		() => {
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
-				console.log(`JSON.parse(res)._id`, JSON.parse(res)._id);
 				let sender = JSON.parse(res)._id;
 				setsender(sender);
-				newChat(sender, '606abd8799e17f1678300c12').then((id) => {
+				newChat(sender, consultanDetails._id).then((id) => {
 					setchatId(id);
 					let getMessages = firestore()
 						.collection('chat')
@@ -113,21 +114,21 @@ const chatScreen = ({ navigation }) => {
 			<View style={styles.headerstyle}>
 				<View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
-						<TouchableOpacity onPress={() => navigation.goBack(null)}>
+						<TouchableOpacity onPress={() => props.navigation.goBack(null)}>
 							<AntDesign name='arrowleft' color='#FFFFFF' size={24} />
 						</TouchableOpacity>
 					</View>
 					<Image
-						source={require('../../assets/Images/Ellipse4.png')}
-						style={{ width: 50, height: 52, borderRadius: 100, marginLeft: -140 }}
+						source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
+						style={{ width: 50, height: 50, borderRadius: 100, marginLeft: -140 }}
 					/>
 
 					<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: -150 }}>
-						<Text style={{ fontSize: 18, color: '#FFFFFF' }}>Ranjan</Text>
+						<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.property.first_name}</Text>
 						<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
 					</View>
 					<View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
-						<TouchableOpacity onPress={() => navigation.navigate('homeScreen')}>
+						<TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.HOMESCREEN)}>
 							<Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
 						</TouchableOpacity>
 					</View>
