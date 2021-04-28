@@ -24,4 +24,16 @@ const ConsultantListService = () => {
     return Axios.post('users/filter', body);
 }
 
-export { UserProfileService, UserUpdateService, ConsultantListService };
+const UserListService = () => {
+    const body = {
+        'search': [{
+            'searchfield': 'status',
+            'searchvalue': 'active',
+            'criteria': 'eq',
+            'datatype': 'text'
+        }]
+    }
+    return Axios.patch('members/' + id, body);
+}
+
+export { UserProfileService, UserUpdateService, ConsultantListService, UserListService };
