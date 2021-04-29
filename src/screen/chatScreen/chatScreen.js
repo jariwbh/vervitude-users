@@ -53,18 +53,19 @@ const chatScreen = (props, { navigation }) => {
 		[navigation]
 	);
 
-	const startChat = async () => {
+	const startChat = async (sender, item) => {
 		const body = {
 			formid: '608a5d7ebbeb5b2b03571f2c',
 			contextid: sender,
 			property: {
 				startat: moment().format('LTS'),
 				endat: '',
-				consultantid: consultanDetails._id
+				consultantid: item
 			}
 		}
 		try {
 			const response = await StartChatService(body);
+			console.log(`response.data`, response.data);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Chat Start Now', ToastAndroid.SHORT);
@@ -81,7 +82,6 @@ const chatScreen = (props, { navigation }) => {
 	const newChat = async (sender, item) => {
 		let getChatId = firestore().collection('chat');
 		let snap = await getChatId.where('member', 'in', [[sender, item]]).get();
-		startChat();
 		if (snap.empty) {
 			let snap2 = await getChatId.where('member', 'in', [[item, sender]]).get();
 			if (snap2.empty) {
@@ -93,6 +93,7 @@ const chatScreen = (props, { navigation }) => {
 					memberid: sender,
 					userid: item
 				});
+				startChat(sender, item);
 				return ref.id;
 			} else {
 				return snap2.docs[0].id;

@@ -1,7 +1,6 @@
 import Axios from '../../helpers/appConfig'
 
-function StartChatService(data) {
-    const body = JSON.stringify(data)
+function StartChatService(body) {
     return Axios.post('formdatas', body);
 }
 
