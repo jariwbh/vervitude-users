@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import {
 	View, Text, SafeAreaView, StyleSheet, ScrollView,
-	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar
+	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -14,6 +14,8 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { renderDay, renderBubble, renderInputToolbar } from './customChatProps';
 import firestore from '@react-native-firebase/firestore';
 //
+import { StartChatService } from '../../services/ChatService/ChatService';
+import moment from 'moment';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
@@ -51,16 +53,45 @@ const chatScreen = (props, { navigation }) => {
 		[navigation]
 	);
 
+	const startChat = async () => {
+		const body = {
+			formid: '608a5d7ebbeb5b2b03571f2c',
+			contextid: sender,
+			property: {
+				startat: moment().format('LTS'),
+				endat: '',
+				consultantid: consultanDetails._id
+			}
+		}
+		try {
+			const response = await StartChatService(body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				if (Platform.OS === 'android') {
+					ToastAndroid.show('Chat Start Now', ToastAndroid.SHORT);
+				} else {
+					alert('Chat Start Now');
+				}
+			}
+		}
+		catch (error) {
+			console.log(`error`, error);
+		}
+	}
+
 	const newChat = async (sender, item) => {
 		let getChatId = firestore().collection('chat');
 		let snap = await getChatId.where('member', 'in', [[sender, item]]).get();
+		startChat();
 		if (snap.empty) {
 			let snap2 = await getChatId.where('member', 'in', [[item, sender]]).get();
 			if (snap2.empty) {
 				let ref = await getChatId.add({
 					member: [sender, item],
 					createdAt: '',
-					previewMessage: ''
+					previewMessage: '',
+					formid: '608a5d7ebbeb5b2b03571f2c',
+					memberid: sender,
+					userid: item
 				});
 				return ref.id;
 			} else {
@@ -141,7 +172,7 @@ const chatScreen = (props, { navigation }) => {
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => { setFilterModalVisible(true) }}
 						style={{ alignItems: 'center', justifyContent: 'center' }}>
-						<MaterialCommunityIcons name="dots-vertical-circle" size={30} color="#FFFFFF" />
+						<MaterialCommunityIcons name='dots-vertical-circle' size={30} color='#FFFFFF' />
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -166,7 +197,7 @@ const chatScreen = (props, { navigation }) => {
 
 			{/* Help & Support model Pop */}
 			<Modal
-				animationType="slide"
+				animationType='slide'
 				transparent={true}
 				visible={showStartProjectVisible}
 				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
@@ -177,31 +208,31 @@ const chatScreen = (props, { navigation }) => {
 						<View style={styles.inputView}>
 							<TextInput
 								style={styles.TextInput}
-								placeholder="Best time to call"
-								type="clear"
-								returnKeyType="next"
-								placeholderTextColor="#999999"
+								placeholder='Best time to call'
+								type='clear'
+								returnKeyType='next'
+								placeholderTextColor='#999999'
 							/>
 							<TouchableOpacity>
-								<Ionicons name="time-outline" size={24} color="#000000" style={{ marginRight: 5 }} />
+								<Ionicons name='time-outline' size={24} color='#000000' style={{ marginRight: 5 }} />
 							</TouchableOpacity>
 						</View>
 						<View style={styles.inputView}>
 							<TextInput
 								style={styles.TextInput}
-								placeholder="your Phone Number"
-								type="clear"
-								returnKeyType="next"
-								placeholderTextColor="#999999"
+								placeholder='your Phone Number'
+								type='clear'
+								returnKeyType='next'
+								placeholderTextColor='#999999'
 							/>
 						</View>
 						<View style={styles.textAreainputView}>
 							<TextInput
 								style={styles.TextareaInput}
-								placeholder="Project Brief"
-								type="clear"
-								returnKeyType="done"
-								placeholderTextColor="#999999"
+								placeholder='Project Brief'
+								type='clear'
+								returnKeyType='done'
+								placeholderTextColor='#999999'
 								blurOnSubmit={false}
 								numberOfLines={3}
 								multiline={true}
@@ -227,7 +258,7 @@ const chatScreen = (props, { navigation }) => {
 
 			{/* Filter model Pop */}
 			<Modal
-				animationType="slide"
+				animationType='slide'
 				transparent={true}
 				visible={filterModalVisible}
 				onRequestClose={() => { setFilterModalVisible(!filterModalVisible) }}
@@ -272,7 +303,7 @@ const chatScreen = (props, { navigation }) => {
 
 			{/* message model Pop */}
 			<Modal
-				animationType="slide"
+				animationType='slide'
 				transparent={true}
 				visible={showMessageModalVisible}
 				onRequestClose={() => { showMessageModalVisible(!showMessageModalVisible) }}
