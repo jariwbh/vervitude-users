@@ -22,7 +22,7 @@ function RecentChatService(id) {
             "searchfield": "contextid",
             "searchvalue": id,
             "criteria": "eq",
-            "datatype": "text"
+            "datatype": "objectId"
         }
         ]
     }
