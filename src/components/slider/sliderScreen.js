@@ -1,28 +1,34 @@
 import SliderService from '../../services/SliderService/SliderService';
-import { SliderBox } from 'react-native-image-slider-box';
 import React, { useState, useEffect } from 'react';
 import { Dimensions, View, StyleSheet, Image, Text, TouchableOpacity, Linking } from 'react-native';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import ImageSlider from 'react-native-image-slider';
 
-const SliderScreen = (props) => {
+const SliderScreen = () => {
     const [sliderData, setsliderData] = useState([]);
 
     useEffect(() => {
         sliderService();
     }, []);
 
+    useEffect(() => {
+    }, [sliderData]);
+
     //silder image manage function
     const sliderService = async () => {
-        const response = await SliderService();
-        setsliderData(response.data);
+        try {
+            const response = await SliderService();
+            setsliderData(response.data);
+        } catch (error) {
+            console.log(`error`, error);
+        }
     }
 
     return (
         <View style={{ marginTop: 20, justifyContent: 'center', alignItems: "center" }}>
             {
-                sliderData.length != 0 ?
+                sliderData && sliderData != null && sliderData.length != 0 ?
                     <ImageSlider
                         images={sliderData}
                         loopBothSides

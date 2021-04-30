@@ -18,6 +18,8 @@ import { StartChatService } from '../../services/ChatService/ChatService';
 import moment from 'moment';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+import axiosConfig from '../../helpers/axiosConfig';
+import Loader from '../../components/loader/index';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const chatScreen = (props, { navigation }) => {
@@ -29,13 +31,16 @@ const chatScreen = (props, { navigation }) => {
 	const [filterModalVisible, setfilterModalVisible] = useState(false);
 	const [messages, setMessages] = useState([]);
 	const consultanDetails = props.route.params.consultanDetails;
+	let formId = null;
 
 	// chat portion
 	useEffect(
 		() => {
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
 				let sender = JSON.parse(res)._id;
+				axiosConfig(sender);
 				setsender(sender);
+				setloading(true);
 				newChat(sender, consultanDetails._id).then((id) => {
 					setchatId(id);
 					let getMessages = firestore()
@@ -53,29 +58,33 @@ const chatScreen = (props, { navigation }) => {
 		[navigation]
 	);
 
+	useEffect(() => {
+	}, [formId])
+
 	const startChat = async (sender, item) => {
 		const body = {
 			formid: '608a5d7ebbeb5b2b03571f2c',
 			contextid: sender,
+			onModel: "Member",
 			property: {
 				startat: moment().format('LTS'),
-				endat: '',
+				endat: null,
 				consultantid: item
 			}
 		}
 		try {
 			const response = await StartChatService(body);
-			console.log(`response.data`, response.data);
-			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+			if (response.data != null && response.data != 'undefind' && response.status === 200) {
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Chat Start Now', ToastAndroid.SHORT);
 				} else {
 					alert('Chat Start Now');
 				}
+				formId = response.data._id;
 			}
 		}
 		catch (error) {
-			console.log(`error`, error);
+			setloading(false);
 		}
 	}
 
@@ -85,20 +94,23 @@ const chatScreen = (props, { navigation }) => {
 		if (snap.empty) {
 			let snap2 = await getChatId.where('member', 'in', [[item, sender]]).get();
 			if (snap2.empty) {
+				await startChat(sender, item);
 				let ref = await getChatId.add({
 					member: [sender, item],
 					createdAt: '',
 					previewMessage: '',
-					formid: '608a5d7ebbeb5b2b03571f2c',
+					formid: formId,
 					memberid: sender,
 					userid: item
 				});
-				startChat(sender, item);
+				setloading(false);
 				return ref.id;
 			} else {
+				setloading(false);
 				return snap2.docs[0].id;
 			}
 		} else {
+			setloading(false);
 			return snap.docs[0].id;
 		}
 	};
@@ -327,6 +339,7 @@ const chatScreen = (props, { navigation }) => {
 					</View>
 				</View>
 			</Modal>
+			{loading ? <Loader /> : null}
 		</SafeAreaView>
 	);
 };

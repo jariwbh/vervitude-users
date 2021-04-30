@@ -19,7 +19,7 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 
 const subcategoryScreen = (props) => {
     const [consultantList, setconsultantList] = useState([]);
-    const [userDetails, setuserDetails] = useState(null);
+    const [userId, setuserId] = useState(null);
     const [loading, setloading] = useState(false);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const subcategoryScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [userDetails, consultantList]);
+    }, [userId, consultantList]);
 
     //get AsyncStorage current user Details
     const getStudentData = async () => {
@@ -38,11 +38,10 @@ const subcategoryScreen = (props) => {
                 props.navigation.replace(SCREEN.LOGINSCREEN)
             }, 3000);;
         } else {
-            var UserInfo = JSON.parse(getUser);
-            //let token = UserInfo.addedby;
+            let id = JSON.parse(getUser)._id;
             axiosConfig('5a2cbf23ee5c2a1080793272');
-            setuserDetails(UserInfo);
-            consultantService();
+            await setuserId(id);
+            await consultantService();
         }
     }
 
@@ -53,12 +52,16 @@ const subcategoryScreen = (props) => {
             if (response.status == 200) {
                 setconsultantList(response.data);
                 setloading(false);
-                let token = userDetails._id;
-                axiosConfig(token);
             }
+            axiosConfig(userId);
         } catch (error) {
             console.log(`error`, error);
         }
+    }
+
+    const navigationhandler = (item) => {
+        const consultanDetails = item;
+        props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
     }
 
     const renderConsultantList = ({ item }) => (
@@ -105,7 +108,7 @@ const subcategoryScreen = (props) => {
                             </View>
                             <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
                                 <TouchableOpacity
-                                    onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { item })}
+                                    onPress={() => navigationhandler(item)}
                                     style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
                                     <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
                                 </TouchableOpacity>
@@ -149,7 +152,6 @@ const subcategoryScreen = (props) => {
                             returnKeyType='done'
                             autoCapitalize='none'
                             autoCorrect={false}
-
                         />
                         <TouchableOpacity >
                             <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: 20 }} />
@@ -164,7 +166,7 @@ const subcategoryScreen = (props) => {
                 </View>
                 <View style={{ marginTop: 20, justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN) }}>
+                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
                             <Image source={require('../../assets/Images/Group41.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
@@ -172,7 +174,7 @@ const subcategoryScreen = (props) => {
                         </View>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN) }}>
+                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
                             <Image source={require('../../assets/Images/Group43.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
@@ -180,7 +182,7 @@ const subcategoryScreen = (props) => {
                         </View>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN) }}>
+                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
                             <Image source={require('../../assets/Images/Group45.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
@@ -188,7 +190,7 @@ const subcategoryScreen = (props) => {
                         </View>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN) }}>
+                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
                             <Image source={require('../../assets/Images/Group47.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'column', marginTop: 5 }}>

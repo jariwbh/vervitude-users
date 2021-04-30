@@ -1,9 +1,67 @@
-import React from 'react';
-import { View, Text, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Image, StatusBar } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+    View, Text, SafeAreaView, TextInput, ScrollView,
+    TouchableOpacity, Image, StatusBar, FlatList
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLES from './styles';
+import { AUTHUSER } from '../../context/actions/type';
+import AsyncStorage from '@react-native-community/async-storage';
+import { RecentChatService } from '../../services/ChatService/ChatService';
+import * as SCREEN from '../../context/screen/screenName';
+import axiosConfig from '../../helpers/axiosConfig';
 
 const recentchatScreen = (props) => {
+    const [recentChat, setrecentChat] = useState([])
+
+    useEffect(() => {
+        AsyncStorage.getItem(AUTHUSER).then((res) => {
+            let currentUser = JSON.parse(res)._id;
+            axiosConfig(currentUser);
+            recentchatlist(currentUser);
+        });
+    }, [])
+
+    const recentchatlist = async (currentUser) => {
+        try {
+            const response = await RecentChatService(currentUser);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                setrecentChat(response.data);
+            }
+        }
+        catch (error) {
+            console.log(`error`, error);
+        }
+    }
+
+    const navigationhandler = (item) => {
+        // console.log(`item`, item);
+        // const consultanDetails = item;
+        // props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+    }
+
+    const renderChatUser = ({ item }) => (
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => navigationhandler(item)}>
+                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+                    <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
+                    <Image source={require('../../assets/Images/user1.png')}
+                        style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                    <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                    <View style={{ justifyContent: 'center', marginLeft: -30 }}>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ranjan</Text>
+                        <Text style={{ fontSize: 14, color: "#999999" }}>Design / UX Design</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        </View>
+    )
+
     return (
         <SafeAreaView style={STYLES.recentChatStyles.container}>
             <StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
@@ -47,168 +105,14 @@ const recentchatScreen = (props) => {
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/user1.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: -30 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ranjan</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Design / UX Design</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/user4.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ruby</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Michele</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/Ellipse32.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Maria</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/user4.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Maya</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/user4.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ruby</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/Ellipse4.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Michele</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => { props.navigation.navigate("chatScreen") }}>
-                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                            <Image source={require('../../assets/Images/Ellipse32.png')}
-                                style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
-                            <View style={{ marginLeft: -20, height: 15, width: 15, borderRadius: 100, backgroundColor: '#00D9CE', borderRadius: 100 }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                            <View style={{ justifyContent: 'center', marginLeft: 40 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Maria</Text>
-                                <Text style={{ fontSize: 14, color: "#999999" }}>Business Consultant/ Marketing</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ marginBottom: 50 }}></View>
-            </ScrollView>
+            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+            <FlatList
+                data={recentChat}
+                renderItem={renderChatUser}
+                keyExtractor={item => item._id}
+            />
+            <View style={{ marginBottom: 50 }}></View>
+            {/* </ScrollView> */}
         </SafeAreaView>
     )
 }
