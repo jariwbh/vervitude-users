@@ -10,12 +10,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { RecentChatService } from '../../services/ChatService/ChatService';
 import * as SCREEN from '../../context/screen/screenName';
 import axiosConfig from '../../helpers/axiosConfig';
+import Loader from '../../components/loader/index';
+const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const recentchatScreen = (props) => {
+    const [loading, setloading] = useState(false);
     const [recentChat, setrecentChat] = useState([])
-
     useEffect(() => {
         AsyncStorage.getItem(AUTHUSER).then((res) => {
+            setloading(true);
             let currentUser = JSON.parse(res)._id;
             axiosConfig(currentUser);
             recentchatlist(currentUser);
@@ -27,6 +30,7 @@ const recentchatScreen = (props) => {
             const response = await RecentChatService(currentUser);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setrecentChat(response.data);
+                setloading(false);
             }
         }
         catch (error) {
@@ -34,10 +38,18 @@ const recentchatScreen = (props) => {
         }
     }
 
+    useEffect(() => {
+        recentChat
+    }, [])
+
     const navigationhandler = (item) => {
-        // console.log(`item`, item);
-        // const consultanDetails = item;
-        // props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+        const consultanDetails = {
+            _id: item.property.consultantid._id,
+            profilepic: item.property.consultantid.profilepic,
+            fullname: item.property.consultantid.fullname,
+            consultanobject: item
+        }
+        props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
     }
 
     const renderChatUser = ({ item }) => (
@@ -47,14 +59,15 @@ const recentchatScreen = (props) => {
                     <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                    <Image source={require('../../assets/Images/user1.png')}
+                    <Image source={{ uri: item ? item.property.consultantid.profilepic !== null && item.property.consultantid.profilepic ? item.property.consultantid.profilepic : noProfile : noProfile }}
                         style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
                     <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                    <View style={{ justifyContent: 'center', marginLeft: -30 }}>
-                        <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000" }}>Ranjan</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000", textTransform: 'capitalize' }}>
+                            {item && item.property.consultantid.fullname}</Text>
                         <Text style={{ fontSize: 14, color: "#999999" }}>Design / UX Design</Text>
                     </View>
                 </View>
@@ -105,14 +118,15 @@ const recentchatScreen = (props) => {
                 </View>
             </View>
 
-            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-            <FlatList
-                data={recentChat}
-                renderItem={renderChatUser}
-                keyExtractor={item => item._id}
-            />
-            <View style={{ marginBottom: 50 }}></View>
-            {/* </ScrollView> */}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <FlatList
+                    data={recentChat}
+                    renderItem={renderChatUser}
+                    keyExtractor={item => item._id}
+                />
+                <View style={{ marginBottom: 50 }}></View>
+            </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

@@ -168,7 +168,7 @@ const chatScreen = (props, { navigation }) => {
 					/>
 
 					<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: -150 }}>
-						<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.property.first_name}</Text>
+						<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname}</Text>
 						<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
 					</View>
 					<View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
