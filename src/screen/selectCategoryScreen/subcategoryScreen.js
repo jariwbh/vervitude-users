@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, Image, TextInput, SafeAreaView, TouchableOpacity,
-    ScrollView, StatusBar, FlatList, Pressable
+    ScrollView, StatusBar, FlatList, Pressable, RefreshControl
 } from 'react-native';
 import { ConsultantListService } from '../../services/UserService/UserService';
 import WallateButton from '../../components/WallateButton/WallateButton';
@@ -15,19 +15,49 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
+import { SubCategoryService } from '../../services/CategoryService/CategoryService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const subcategoryScreen = (props) => {
+    const categoryProps = props.route.params.item;
     const [consultantList, setconsultantList] = useState([]);
     const [userId, setuserId] = useState(null);
     const [loading, setloading] = useState(false);
+    const [refreshing, setrefreshing] = useState(false);
+    const [subCategory, setSubCategory] = useState([]);
 
     useEffect(() => {
         getStudentData();
+        subCategoryList();
     }, [])
 
+    const subCategoryList = async () => {
+        let val = categoryProps.property.skillcategory;
+        try {
+            const response = await SubCategoryService(val);
+            console.log(`response`, response.data);
+            if (response.data != null && response.data != undefined && response.status == 200) {
+                setSubCategory(response.data);
+            }
+        } catch (error) {
+            console.log(`error`, error);
+        }
+    }
+
     useEffect(() => {
-    }, [userId, consultantList]);
+    }, [userId, consultantList, refreshing]);
+
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    const onRefresh = () => {
+        setrefreshing(true);
+        consultantService();
+        wait(3000).then(() => setrefreshing(false));
+    }
 
     //get AsyncStorage current user Details
     const getStudentData = async () => {
@@ -39,7 +69,7 @@ const subcategoryScreen = (props) => {
             }, 3000);;
         } else {
             let id = JSON.parse(getUser)._id;
-            axiosConfig('5a2cbf23ee5c2a1080793272');
+            //axiosConfig('5a2cbf23ee5c2a1080793272');
             await setuserId(id);
             await consultantService();
         }
@@ -49,14 +79,17 @@ const subcategoryScreen = (props) => {
     const consultantService = async () => {
         try {
             const response = await ConsultantListService();
-            if (response.status == 200) {
+            if (response.data != null && response.data != undefined && response.status == 200) {
                 setconsultantList(response.data);
                 setloading(false);
             }
-            axiosConfig(userId);
+            // axiosConfig(userId);
         } catch (error) {
             console.log(`error`, error);
         }
+    }
+    const onPressSelectSubCategory = (id) => {
+        console.log(`id`, id);
     }
 
     const navigationhandler = (item) => {
@@ -75,7 +108,12 @@ const subcategoryScreen = (props) => {
                     />
                 </View>
                 <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
-                    {/* <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View> */}
+                    {
+                        item.property.live === true ?
+                            <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
+                            :
+                            <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
+                    }
                     <View style={{ flexDirection: 'column' }}>
                         <Image source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
@@ -121,6 +159,19 @@ const subcategoryScreen = (props) => {
         </Pressable>
     )
 
+    const renderSubCategory = ({ item }) => (
+        <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
+            <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => onPressSelectSubCategory(item._id)}>
+                <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>{item.property.title.charAt(0)}</Text>
+                </View>
+            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                <Text style={{ fontSize: 12, textAlign: 'center' }}>{item.property.title}</Text>
+            </View>
+        </View>
+    )
+
     return (
         <SafeAreaView style={STYLES.SubCategoryStyles.container}>
             <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
@@ -160,45 +211,30 @@ const subcategoryScreen = (props) => {
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
+            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
                 <View style={{ marginLeft: 20, marginTop: 15 }}>
-                    <Text style={{ fontSize: 26 }}>Technology</Text>
+                    <Text style={{ fontSize: 26, textTransform: 'capitalize' }}>{categoryProps.property.skillcategory}</Text>
                 </View>
-                <View style={{ marginTop: 20, justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                    <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
-                            <Image source={require('../../assets/Images/Group41.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>All - Tech</Text>
-                        </View>
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
-                            <Image source={require('../../assets/Images/Group43.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>CRM</Text>
-                        </View>
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
-                            <Image source={require('../../assets/Images/Group45.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>ERP</Text>
-                        </View>
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => { }}>
-                            <Image source={require('../../assets/Images/Group47.png')} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'column', marginTop: 5 }}>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>web</Text>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>Development</Text>
 
+                <View style={{ marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 20, flexDirection: 'row' }}>
+                    <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
+                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => onPressSelectSubCategory()}>
+                            <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>A</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>{`All` + ` - ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
                         </View>
                     </View>
+                    <FlatList
+                        renderItem={renderSubCategory}
+                        horizontal={false}
+                        numColumns={10}
+                        data={subCategory}
+                        keyExtractor={item => `${item._id}`}
+                    />
                 </View>
 
                 <FlatList

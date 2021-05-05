@@ -79,8 +79,15 @@ export const SubCategoryStyles = StyleSheet.create({
         alignItems: 'center',
     },
     categoryview: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        height: 70,
+        width: 70,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 1,
+        borderColor: '#000000',
+        borderWidth: 0.1
     },
     counsultantview: {
         flex: 1,

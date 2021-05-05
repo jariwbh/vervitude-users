@@ -16,7 +16,7 @@ const consultantsScreen = (props) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30 }}>
           <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.MYPROFILESCREEN)}>
+            <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
               <AntDesign name='arrowleft' color='#FFFFFF' size={24} style={{ marginLeft: 20 }} />
             </TouchableOpacity>
             <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#FFFFFF', marginLeft: 20 }}>Consultant</Text>

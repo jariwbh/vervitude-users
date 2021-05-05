@@ -20,7 +20,7 @@ export const newChatStyles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 5,
+        elevation: 3,
         overflow: 'hidden',
     },
     statusbar: {

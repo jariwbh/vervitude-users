@@ -67,9 +67,12 @@ const chatScreen = (props, { navigation }) => {
 			contextid: sender,
 			onModel: "Member",
 			property: {
-				startat: moment().format('LTS'),
+				startat: moment().format(),
 				endat: null,
 				consultantid: item
+				//chargable: false,
+				// category: 1212,
+				// subcategory: 12
 			}
 		}
 		try {
