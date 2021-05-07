@@ -84,6 +84,7 @@ const chatScreen = (props, { navigation }) => {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
 				setFormDataId(response.data._id);
+				firstTimeChatByIdService(response.data._id)
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Chat Start Now', ToastAndroid.SHORT);
 				} else {
@@ -173,6 +174,17 @@ const chatScreen = (props, { navigation }) => {
 				} else {
 					setHideInput(false);
 				}
+			}
+		} catch (error) {
+			console.log(`error`, error);
+		}
+	}
+
+	const firstTimeChatByIdService = async (id) => {
+		const response = await FindChatById(id);
+		try {
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setFormdataDetails(response.data[0]);
 			}
 		} catch (error) {
 			console.log(`error`, error);
