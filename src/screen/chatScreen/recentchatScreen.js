@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     View, Text, SafeAreaView, TextInput, ScrollView,
-    TouchableOpacity, Image, StatusBar, FlatList
+    TouchableOpacity, Image, StatusBar, FlatList, RefreshControl
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLES from './styles';
@@ -15,21 +15,52 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 
 const recentchatScreen = (props) => {
     const [loading, setloading] = useState(false);
-    const [recentChat, setrecentChat] = useState([])
+    const [recentChat, setrecentChat] = useState([]);
+    const [refreshing, setrefreshing] = useState(false);
+    const [currentUserId, setcurrentUserId] = useState(null);
+    const [SearchConsultant, setSearchConsultant] = useState([]);
+
     useEffect(() => {
         AsyncStorage.getItem(AUTHUSER).then((res) => {
             setloading(true);
             let currentUser = JSON.parse(res)._id;
             axiosConfig(currentUser);
+            setcurrentUserId(currentUser);
             recentchatlist(currentUser);
         });
     }, [])
 
-    const recentchatlist = async (currentUser) => {
+    useEffect(() => {
+    }, [currentUserId, recentChat, refreshing])
+
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    const onRefresh = () => {
+        let id = currentUserId;
+        setrefreshing(true);
+        recentchatlist(id);
+        wait(3000).then(() => setrefreshing(false));
+    }
+
+    const searchFilterFunction = (text) => {
+        const newData = SearchConsultant.filter(item => {
+            const itemData = `${item.property.consultantid.fullname.toUpperCase()}`
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        return wait(1000).then(() => setrecentChat(newData));
+    };
+
+    const recentchatlist = async (id) => {
         try {
-            const response = await RecentChatService(currentUser);
+            const response = await RecentChatService(id);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setrecentChat(response.data);
+                setSearchConsultant(response.data);
                 setloading(false);
             }
         }
@@ -37,10 +68,6 @@ const recentchatScreen = (props) => {
             console.log(`error`, error);
         }
     }
-
-    useEffect(() => {
-        recentChat
-    }, [])
 
     const navigationhandler = (item) => {
         const consultanDetails = {
@@ -67,7 +94,7 @@ const recentchatScreen = (props) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000", textTransform: 'capitalize' }}>
-                            {item && item.property.consultantid.fullname}</Text>
+                            {item && item.property.consultantid.fullname.split(' ')[0]}</Text>
                         <Text style={{ fontSize: 14, color: "#999999" }}>Design / UX Design</Text>
                     </View>
                 </View>
@@ -114,16 +141,26 @@ const recentchatScreen = (props) => {
                         returnKeyType='done'
                         autoCapitalize='none'
                         autoCorrect={false}
+                        onChangeText={(value) => searchFilterFunction(value)}
                     />
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <FlatList
-                    data={recentChat}
-                    renderItem={renderChatUser}
-                    keyExtractor={item => item._id}
-                />
+            <ScrollView showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
+
+                {(recentChat == null) || (recentChat && recentChat.length == 0) ?
+                    (loading ? null :
+                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Recent chat not available</Text>
+                    )
+                    :
+                    <FlatList
+                        data={recentChat}
+                        renderItem={renderChatUser}
+                        keyExtractor={item => item._id}
+                    />
+                }
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
             {loading ? <Loader /> : null}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     View, Text, SafeAreaView, ScrollView, TextInput, BackHandler,
-    TouchableOpacity, Image, StyleSheet, LogBox, StatusBar
+    TouchableOpacity, Image, StyleSheet, LogBox, StatusBar, FlatList, ToastAndroid, Platform
 } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import MenuButton from '../../components/MenuButton/MenuButton';
@@ -9,29 +9,119 @@ import SliderScreen from '../../components/slider/sliderScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 import * as STYLE from './styles';
-
+import Loader from '../../components/loader/index';
 import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SCREEN from '../../context/screen/screenName';
+import { ConsultantListService, UserUpdateService } from '../../services/UserService/UserService';
+import { AUTHUSER } from '../../context/actions/type';
+import AsyncStorage from '@react-native-community/async-storage';
+const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const homeScreen = (props) => {
+    const [consultant, setConsultant] = useState([]);
+    const [loading, setloading] = useState(false);
+
     useEffect(() => {
+        setloading(true);
+        getUserData();
+        ConsultantList();
+
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
         });
+
         return props.navigation.addListener('blur', e => {
             BackHandler.removeEventListener('hardwareBackPress', handleBackButton,
             );
         });
     }, [])
 
+    //get AsyncStorage current user Details
+    const getUserData = async () => {
+        var getUser = await AsyncStorage.getItem(AUTHUSER);
+        var UserInfo = JSON.parse(getUser);
+        UserInfo.property.live = true;
+        UpdateUserService(UserInfo);
+    }
+
+    //REPLACE AND ADD LOCAL STORAGE FUNCTION
+    const authenticateUser = (user) => {
+        AsyncStorage.setItem(AUTHUSER, JSON.stringify(user));
+    }
+
     //mobile back press to call
     const handleBackButton = () => {
         BackHandler.exitApp()
         return true;
+    }
+
+    //UPDATE PROFILE PICTURE API CALL
+    const UpdateUserService = async (user) => {
+        try {
+            const response = await UserUpdateService(user);
+            //console.log(`response`, response);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                authenticateUser(user);
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show("User is Online", ToastAndroid.SHORT);
+                } else {
+                    alert('User is Online');
+                }
+            }
+        }
+        catch (error) {
+            console.log(`error`, error);
+            setloading(false);
+        }
+    }
+
+    //Consultant List Service to call function
+    const ConsultantList = async () => {
+        try {
+            const response = await ConsultantListService();
+            const slice = response.data.slice(0, 5)
+            setConsultant(slice);
+            setloading(false);
+        } catch (error) {
+            console.log(`error`, error);
+        }
+    }
+
+    const navigationhandler = (item) => {
+        props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
+    }
+
+    const renderConsultants = ({ item }) => {
+        return (
+            <View style={{ flexDirection: 'column', marginBottom: 30 }}>
+                <TouchableOpacity style={{ margin: 20 }} onPress={() => navigationhandler(item)}>
+                    <Image source={{ uri: item.profilepic ? item.profilepic : noProfile }}
+                        style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#2294FA', borderWidth: 2, borderRadius: 100 }}
+                    />
+                </TouchableOpacity>
+                <View>
+                    <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10 }}>
+                        {item.property.first_name}
+                    </Text>
+                    <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center' }}>DESIGN</Text>
+                    <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
+                        <StarRating
+                            disabled={false}
+                            maxStars={5}
+                            starSize={15}
+                            rating={3}
+                            fullStarColor={'#F1C40E'}
+                            emptyStarColor={'#000000'}
+                        />
+                    </View>
+                </View>
+            </View>
+        )
     }
 
     return (
@@ -82,7 +172,7 @@ const homeScreen = (props) => {
 
                 <View style={{ justifyContent: 'space-evenly', flexDirection: 'row' }}>
                     <View>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('subcategoryScreen')} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <Image source={require('../../assets/Images/grommeticonstechnology1.png')}
                                 style={{ height: 60, width: 60 }} />
                         </TouchableOpacity>
@@ -91,7 +181,7 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('subcategoryScreen')} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <Image source={require('../../assets/Images/icoutlinedesignservices1.png')}
                                 style={{ height: 60, width: 60 }} />
                         </TouchableOpacity>
@@ -100,7 +190,7 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('subcategoryScreen')} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <Image source={require('../../assets/Images/icroundbusinesscenter1.png')}
                                 style={{ height: 60, width: 60 }} />
                         </TouchableOpacity>
@@ -109,7 +199,7 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('subcategoryScreen')} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <Image source={require('../../assets/Images/entypoareagraph1.png')}
                                 style={{ height: 60, width: 60 }} />
                         </TouchableOpacity>
@@ -133,11 +223,13 @@ const homeScreen = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
-                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
-                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
-                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
-                        <Consultants onPress={() => props.navigation.navigate('consultantsScreen')} />
+                        <FlatList
+                            renderItem={renderConsultants}
+                            data={consultant}
+                            horizontal={false}
+                            numColumns={5}
+                            keyExtractor={item => item._id}
+                        />
                     </ScrollView>
                 </View>
             </ScrollView>
@@ -159,12 +251,10 @@ const homeScreen = (props) => {
                     <FontAwesome name="rupee" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
             </ActionButton>
-
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }
-
-export default homeScreen;
 
 const styles = StyleSheet.create({
     actionButtonIcon: {
@@ -184,30 +274,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const Consultants = (props) => {
-    return (
-        <View style={{ flexDirection: 'column', marginBottom: 30 }}>
-            <TouchableOpacity style={{ margin: 20 }} onPress={props.onPress}>
-                <Image source={require('../../assets/Images/Ellipse32.png')}
-                    style={{ alignItems: 'center', height: 80, width: 80, borderColor: '#2294FA', borderWidth: 2, borderRadius: 100 }}
-                />
-            </TouchableOpacity>
-            <View>
-                <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10 }}>Maria</Text>
-                <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center' }}>DESIGN</Text>
-                <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
-                    <StarRating
-                        disabled={false}
-                        maxStars={5}
-                        starSize={15}
-                        rating={3}
-                        fullStarColor={'#F1C40E'}
-                        emptyStarColor={'#000000'}
-                    />
-                </View>
-            </View>
-        </View>
-    )
-}
+export default homeScreen;
+
 

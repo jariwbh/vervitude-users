@@ -26,6 +26,8 @@ export default class loginwithemailScreen extends Component {
         this.setEmail = this.setEmail.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
+        this.createOtp = this.createOtp(this);
+        this.otpVerify = this.otpVerify(this);
     }
 
     //check email validation
@@ -37,8 +39,7 @@ export default class loginwithemailScreen extends Component {
         if (!re.test(email)) {
             return this.setState({ usererror: 'Ooops! We need a valid email address', username: null });
         }
-        this.setState({ username: email, usererror: null });
-        return;
+        return this.setState({ username: email, usererror: null });
     }
 
     //check mobile number validation
@@ -111,7 +112,6 @@ export default class loginwithemailScreen extends Component {
                                 alert('User not exits!');
                             }
                             this.resetScreen();
-                            return;
                         }
                     }
                 })
@@ -130,7 +130,6 @@ export default class loginwithemailScreen extends Component {
     //OTP verify function
     otpVerify = async () => {
         const { inputOtpNumber, verifyOtpNumber } = this.state;
-        axiosConfig('606abd8799e17f1678300c12')
         this.setState({ loading: true });
         try {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
@@ -140,7 +139,7 @@ export default class loginwithemailScreen extends Component {
                     alert('SignIn Success!');
                 }
                 this.setState({ loading: false });
-                return this.props.navigation.navigate(SCREEN.MAINSCREEN);
+                this.props.navigation.navigate(SCREEN.MAINSCREEN);
             } else {
                 this.setState({ inputOtpNumber: null, loading: false });
                 if (Platform.OS === 'android') {
@@ -148,7 +147,6 @@ export default class loginwithemailScreen extends Component {
                 } else {
                     alert('OTP not Match!');
                 }
-                return;
             }
         }
         catch (error) {
@@ -164,8 +162,8 @@ export default class loginwithemailScreen extends Component {
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
     onPressSubmit = async () => {
-        const { username, mobile_number } = this.state;
-        if (!username && !mobile_number) {
+        const { username } = this.state;
+        if (!username) {
             this.setEmail(username);
             return;
         }
@@ -185,7 +183,7 @@ export default class loginwithemailScreen extends Component {
                             alert('SignIn Success!');
                         }
                         this.setState({ loading: false });
-                        return this.props.navigation.navigate(SCREEN.MAINSCREEN);
+                        this.props.navigation.navigate(SCREEN.MAINSCREEN);
                     }
                     else {
                         if (response.data[0] == null && response.data[0] == undefined) {
@@ -195,7 +193,6 @@ export default class loginwithemailScreen extends Component {
                                 alert('User not exits!');
                             }
                             this.resetScreen();
-                            return;
                         }
                     }
                 })

@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ScrollView,
+	View, Text, SafeAreaView, StyleSheet, ScrollView, Pressable,
 	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,8 +14,9 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { renderDay, renderBubble, renderInputToolbar } from './customChatProps';
 import firestore from '@react-native-firebase/firestore';
 //
-import { StartChatService } from '../../services/ChatService/ChatService';
+import { EndChatService, FindChatById, StartChatService } from '../../services/ChatService/ChatService';
 import moment from 'moment';
+import StarRating from 'react-native-star-rating';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import axiosConfig from '../../helpers/axiosConfig';
@@ -28,10 +29,13 @@ const chatScreen = (props, { navigation }) => {
 	const [sender, setsender] = useState(null);
 	const [showStartProjectVisible, setshowStartProjectVisible] = useState(false);
 	const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
+	const [showEndChatModel, setshowshowEndChatModel] = useState(false);
 	const [filterModalVisible, setfilterModalVisible] = useState(false);
 	const [messages, setMessages] = useState([]);
+	const [formDataId, setFormDataId] = useState(null);
+	const [formdataDetails, setFormdataDetails] = useState(null);
+	const [hideInput, setHideInput] = useState(false);
 	const consultanDetails = props.route.params.consultanDetails;
-	let formId = null;
 
 	// chat portion
 	useEffect(
@@ -59,7 +63,8 @@ const chatScreen = (props, { navigation }) => {
 	);
 
 	useEffect(() => {
-	}, [formId])
+		console.log(`formDataId`, formDataId)
+	}, [formDataId, formdataDetails, hideInput])
 
 	const startChat = async (sender, item) => {
 		const body = {
@@ -69,15 +74,16 @@ const chatScreen = (props, { navigation }) => {
 			property: {
 				startat: moment().format(),
 				endat: null,
-				consultantid: item
-				//chargable: false,
-				// category: 1212,
-				// subcategory: 12
+				consultantid: item,
+				chargable: false,
+				category: consultanDetails.property.livechat,
+				subcategory: consultanDetails.property.skill
 			}
 		}
 		try {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
+				setFormDataId(response.data._id);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Chat Start Now', ToastAndroid.SHORT);
 				} else {
@@ -109,10 +115,14 @@ const chatScreen = (props, { navigation }) => {
 				setloading(false);
 				return ref.id;
 			} else {
+				setFormDataId(snap2.docs[0]._data.formid);
+				FindChatByIdService(snap2.docs[0]._data.formid);
 				setloading(false);
 				return snap2.docs[0].id;
 			}
 		} else {
+			setFormDataId(snap.docs[0]._data.formid);
+			FindChatByIdService(snap.docs[0]._data.formid);
 			setloading(false);
 			return snap.docs[0].id;
 		}
@@ -126,7 +136,6 @@ const chatScreen = (props, { navigation }) => {
 				.collection('chat')
 				.doc(chatId)
 				.update({ previewMessage: messages[0].text, createdAt: createdAt.toString() });
-
 			const message = {
 				_id: Math.random(),
 				text,
@@ -140,7 +149,6 @@ const chatScreen = (props, { navigation }) => {
 			setMessage.set(message);
 		}
 	});
-	//
 
 	const setFilterModalVisible = (visible) => {
 		setfilterModalVisible(visible);
@@ -154,6 +162,57 @@ const chatScreen = (props, { navigation }) => {
 		setshowStartProjectVisible(visible);
 		setshowMessageModalVisible(true);
 	};
+
+	const FindChatByIdService = async (id) => {
+		const response = await FindChatById(id);
+		try {
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setFormdataDetails(response.data[0]);
+				if (response.data[0] && response.data[0].property.endat != null) {
+					setHideInput(true);
+				} else {
+					setHideInput(false);
+				}
+			}
+		} catch (error) {
+			console.log(`error`, error);
+		}
+	}
+
+	const onpressDoneBtn = async () => {
+		const body = {
+			formid: formdataDetails.formid._id,
+			contextid: formdataDetails.contextid._id,
+			onModel: formdataDetails.onModel,
+			property: {
+				startat: formdataDetails.property.startat,
+				endat: moment().format(),
+				consultantid: formdataDetails.property.consultantid._id,
+				chargable: formdataDetails.property.chargable,
+				category: formdataDetails.property.category,
+				subcategory: formdataDetails.property.subcategory
+			}
+		}
+		try {
+			const response = await EndChatService(formDataId, body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setshowshowEndChatModel(false);
+				setfilterModalVisible(false);
+				if (Platform.OS === 'android') {
+					ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
+				} else {
+					alert('Your Chat Is Closed');
+				}
+			}
+		} catch (error) {
+			console.log(`error`, error);
+			if (Platform.OS === 'android') {
+				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
+			} else {
+				alert('Your Chat Is Not Closed');
+			}
+		}
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -171,7 +230,7 @@ const chatScreen = (props, { navigation }) => {
 					/>
 
 					<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: -150 }}>
-						<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname}</Text>
+						<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname.split(' ')[0]}</Text>
 						<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
 					</View>
 					<View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
@@ -205,13 +264,13 @@ const chatScreen = (props, { navigation }) => {
 						renderBubble={(props) => renderBubble(props, navigation)}
 						// renderDay={renderDay}
 						minInputToolbarHeight={80}
-						renderInputToolbar={renderInputToolbar}
+						renderInputToolbar={hideInput ? () => null : renderInputToolbar}
 					/>
 				</View>
 				<View style={{ marginBottom: 50 }} />
 			</ScrollView>
 
-			{/* Help & Support model Pop */}
+			{/* start project model Pop */}
 			<Modal
 				animationType='slide'
 				transparent={true}
@@ -281,29 +340,39 @@ const chatScreen = (props, { navigation }) => {
 			>
 				<View style={styles.centeView}>
 					<View style={styles.modalView}>
-						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>End Chat</Text>
+						<TouchableOpacity onPress={() => setshowshowEndChatModel(true)}>
+							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>End Chat</Text>
+						</TouchableOpacity>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
-							Report an issue
+						<TouchableOpacity>
+							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
+								Report an issue
 						</Text>
+						</TouchableOpacity>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute </Text>
+						<TouchableOpacity>
+							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute </Text>
+						</TouchableOpacity>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
+						<TouchableOpacity>
+							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
+						</TouchableOpacity>
 						<View style={{ flexDirection: 'row' }}>
 							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 						</View>
 
-						<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
+						<TouchableOpacity>
+							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
+						</TouchableOpacity>
 					</View>
 
 					<View style={{ marginTop: 15, flexDirection: 'row' }}>
@@ -342,7 +411,74 @@ const chatScreen = (props, { navigation }) => {
 					</View>
 				</View>
 			</Modal>
-			{loading ? <Loader /> : null}
+
+			{/* end chat Model pop up */}
+			<Modal
+				animationType='slide'
+				transparent={true}
+				visible={showEndChatModel}
+				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
+			>
+				<View style={styles.centerView}>
+					<View style={styles.EndChatModalView}>
+						<View style={{ marginTop: 10 }} />
+						<View style={styles.messageModalView}>
+							<Text style={{ marginTop: 10, fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>Thank You</Text>
+							<Text style={{ marginTop: 10, fontSize: 14, color: '#FFFFFF' }}>Your chat with {consultanDetails.fullname},</Text>
+							<Text style={{ fontSize: 14, color: '#FFFFFF' }}>ended. I hope it was nice</Text>
+							<Text style={{ fontSize: 14, color: '#FFFFFF' }}> experience for you.</Text>
+						</View>
+
+						<View style={{ margin: 10, alignItems: 'center' }} >
+							<Text style={{ fontSize: 12, color: '#4D4D4D' }}> Your feedback can help {consultanDetails.fullname},all other </Text>
+							<Text style={{ fontSize: 12, color: '#4D4D4D' }}> people who have same questions like you.</Text>
+						</View>
+
+						<Pressable onPress={() => onTouchViewProfile()}
+							style={styles.profileImageView}>
+							<Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
+								style={styles.profileImage}
+							/>
+						</Pressable>
+
+						<View style={{ margin: 10, alignItems: 'center' }} >
+							<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
+							<Text style={{ fontSize: 12, color: '#000000' }}>Design Coach</Text>
+						</View>
+
+						<StarRating
+							disabled={false}
+							maxStars={5}
+							starSize={25}
+							rating={5}
+							fullStarColor={'#C4C4C4'}
+							emptyStarColor={'#C4C4C4'}
+						/>
+
+						<View style={styles.commectView}>
+							<TextInput
+								style={styles.TextareaInput}
+								placeholder='Your Comments'
+								type='clear'
+								returnKeyType='done'
+								placeholderTextColor='#999999'
+								blurOnSubmit={false}
+								numberOfLines={3}
+								multiline={true}
+							/>
+						</View>
+						<View style={{ margin: 20 }}>
+							<TouchableOpacity
+								onPress={() => { onpressDoneBtn(false) }}
+								style={styles.doneBtn}
+							>
+								<Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>Done</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			</Modal>
+			{ loading ? <Loader /> : null}
 		</SafeAreaView>
 	);
 };
@@ -359,7 +495,7 @@ const styles = StyleSheet.create({
 		width: WIDTH,
 		backgroundColor: '#FFFFFF',
 		borderRadius: 30,
-		height: HEIGHT / 1.5 + 50,
+		height: HEIGHT - 200,
 		shadowOpacity: 0.5,
 		shadowRadius: 1,
 		shadowOffset: {
@@ -508,5 +644,67 @@ const styles = StyleSheet.create({
 		height: 150,
 		borderBottomLeftRadius: 35,
 		borderBottomRightRadius: 35
-	}
+	},
+	EndChatModalView: {
+		marginTop: 10,
+		height: HEIGHT - 80,
+		width: WIDTH - 40,
+		borderRadius: 20,
+		backgroundColor: 'white',
+		alignItems: 'center',
+	},
+	messageModalView: {
+		marginTop: 10,
+		height: 140,
+		width: WIDTH - 90,
+		borderRadius: 40,
+		backgroundColor: '#5AC8FA',
+		alignItems: 'center',
+		shadowColor: '#000000',
+	},
+	profileImageView: {
+		marginTop: 5,
+		borderRadius: 30,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#FFFFFF',
+		width: 100,
+		height: 100,
+		shadowOffset: {
+			width: 2,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 2,
+		borderRadius: 100,
+		borderColor: '#000000'
+	},
+	profileImage: {
+		borderRadius: 100,
+		alignItems: 'center',
+		backgroundColor: '#FFFFFF',
+		width: 90,
+		height: 90
+	},
+	commectView: {
+		marginTop: 5,
+		flexDirection: 'row',
+		backgroundColor: '#F4F4F4',
+		borderWidth: 0.5,
+		borderColor: '#000000',
+		width: WIDTH - 120,
+		height: HEIGHT / 6,
+		borderRadius: 5
+	},
+	doneBtn: {
+		width: WIDTH / 2,
+		height: 45,
+		backgroundColor: '#5AC8FA',
+		borderRadius: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderColor: '#5EA2FC',
+		borderWidth: 0.5
+	},
 });

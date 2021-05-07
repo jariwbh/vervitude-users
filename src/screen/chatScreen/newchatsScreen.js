@@ -11,7 +11,6 @@ import * as STYLES from './styles';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import Loader from '../../components/loader/index';
 import * as SCREEN from '../../context/screen/screenName';
-import { AUTHUSER } from '../../context/actions/type';
 import { ConsultantListService } from '../../services/UserService/UserService';
 
 const newchatsScreen = (props) => {
@@ -22,6 +21,7 @@ const newchatsScreen = (props) => {
     const [refreshing, setrefreshing] = useState(false);
 
     useEffect(() => {
+        setloading(true);
         consultantService();
     }, [])
 
@@ -164,7 +164,7 @@ const newchatsScreen = (props) => {
                     </TouchableOpacity>
                     <TextInput
                         style={STYLES.newChatStyles.statInput}
-                        placeholder='Search App'
+                        placeholder='Search Consultants'
                         type='clear'
                         placeholderTextColor='#999999'
                         returnKeyType='done'
@@ -179,18 +179,21 @@ const newchatsScreen = (props) => {
                 nestedScrollEnabled={true}
                 refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
 
-                <View style={{ marginLeft: 20, marginTop: 20 }}>
-                    <Text style={{ fontSize: 18 }}>Top Consultants</Text>
-                </View>
-
                 {(consultantList == null) || (consultantList && consultantList.length == 0) ?
-                    <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Consultant are not available</Text>
+                    (loading ? null :
+                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Consultant are not available</Text>
+                    )
                     :
-                    <FlatList
-                        renderItem={renderConsultantList}
-                        data={consultantList}
-                        keyExtractor={item => `${item._id}`}
-                    />
+                    <View>
+                        <View style={{ marginLeft: 20, marginTop: 20 }}>
+                            <Text style={{ fontSize: 18 }}>Top Consultants</Text>
+                        </View>
+                        <FlatList
+                            renderItem={renderConsultantList}
+                            data={consultantList}
+                            keyExtractor={item => `${item._id}`}
+                        />
+                    </View>
                 }
                 <View style={{ marginBottom: 50 }} />
             </ScrollView>

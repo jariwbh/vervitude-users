@@ -11,7 +11,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
-import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
@@ -25,17 +24,22 @@ const subcategoryScreen = (props) => {
     const [loading, setloading] = useState(false);
     const [refreshing, setrefreshing] = useState(false);
     const [subCategory, setSubCategory] = useState([]);
+    const [allSub, setAllSub] = useState(true);
+    const [SearchConsultant, setSearchConsultant] = useState([]);
 
     useEffect(() => {
-        getStudentData();
+        getUserData();
         subCategoryList();
     }, [])
 
+    useEffect(() => {
+    }, [userId, consultantList, refreshing, allSub]);
+
+    //get all sub category list to call API
     const subCategoryList = async () => {
         let val = categoryProps.property.skillcategory;
         try {
             const response = await SubCategoryService(val);
-            console.log(`response`, response.data);
             if (response.data != null && response.data != undefined && response.status == 200) {
                 setSubCategory(response.data);
             }
@@ -44,23 +48,32 @@ const subcategoryScreen = (props) => {
         }
     }
 
-    useEffect(() => {
-    }, [userId, consultantList, refreshing]);
-
+    //wait / timeout function
     const wait = (timeout) => {
         return new Promise(resolve => {
             setTimeout(resolve, timeout);
         });
     }
 
+    //get pull to refresh function
     const onRefresh = () => {
         setrefreshing(true);
         consultantService();
         wait(3000).then(() => setrefreshing(false));
     }
 
+    //Search Function
+    const searchFilterFunction = (text) => {
+        const newData = SearchConsultant.filter(item => {
+            const itemData = `${item.fullname.toUpperCase()}`
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        return wait(1000).then(() => setconsultantList(newData));
+    };
+
     //get AsyncStorage current user Details
-    const getStudentData = async () => {
+    const getUserData = async () => {
         var getUser = await AsyncStorage.getItem(AUTHUSER);
         setloading(true);
         if (getUser == null) {
@@ -69,34 +82,60 @@ const subcategoryScreen = (props) => {
             }, 3000);;
         } else {
             let id = JSON.parse(getUser)._id;
-            //axiosConfig('5a2cbf23ee5c2a1080793272');
             await setuserId(id);
             await consultantService();
         }
     }
 
     //get Consultants List API
-    const consultantService = async () => {
+    const consultantService = async (id) => {
         try {
-            const response = await ConsultantListService();
+            let response;
+            if (id != null && id != undefined) {
+                response = await ConsultantListService(id);
+            } else {
+                response = await ConsultantListService();
+            }
             if (response.data != null && response.data != undefined && response.status == 200) {
                 setconsultantList(response.data);
+                setSearchConsultant(response.data);
                 setloading(false);
             }
-            // axiosConfig(userId);
         } catch (error) {
             console.log(`error`, error);
         }
     }
-    const onPressSelectSubCategory = (id) => {
-        console.log(`id`, id);
+
+    // Select sub category change to get data with color
+    const onPressSelectSubCategory = async (item, index) => {
+        const subCat = subCategory.map((item) => {
+            item.selected = false;
+            return item;
+        });
+        setAllSub(false);
+        subCat[index].selected = true;
+        setSubCategory(subCat);
+        await consultantService(item);
     }
 
+    // all sub category get data with collor
+    const allSubCatBox = async () => {
+        const subCat = subCategory.map((item) => {
+            item.selected = false;
+            return item;
+        });
+        setAllSub(true);
+        setSubCategory(subCat);
+        await consultantService();
+    }
+
+    //consutlants list to rendom consultant click to navigate screen
     const navigationhandler = (item) => {
         const consultanDetails = item;
         props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
     }
 
+    //render consultants lists using flatlist
     const renderConsultantList = ({ item }) => (
         <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
             style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
@@ -159,12 +198,19 @@ const subcategoryScreen = (props) => {
         </Pressable>
     )
 
-    const renderSubCategory = ({ item }) => (
+    //render Sun category lists using flatlist
+    const renderSubCategory = ({ item, index }) => (
         <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
-            <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => onPressSelectSubCategory(item._id)}>
-                <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>{item.property.title.charAt(0)}</Text>
-                </View>
+            <TouchableOpacity style={item.selected ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => onPressSelectSubCategory(item._id, index)}>
+                {item.selected ?
+                    <View style={{ height: 30, width: 30, backgroundColor: '#FFFFFF', alignItems: 'center', borderRadius: 100 }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#2094FA' }}>{item.property.title.charAt(0)}</Text>
+                    </View>
+                    :
+                    <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>{item.property.title.charAt(0)}</Text>
+                    </View>
+                }
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
                 <Text style={{ fontSize: 12, textAlign: 'center' }}>{item.property.title}</Text>
@@ -197,12 +243,13 @@ const subcategoryScreen = (props) => {
                         </TouchableOpacity>
                         <TextInput
                             style={STYLES.SubCategoryStyles.statInput}
-                            placeholder='Search App'
+                            placeholder='Search Consultants'
                             type='clear'
                             placeholderTextColor='#999999'
                             returnKeyType='done'
                             autoCapitalize='none'
                             autoCorrect={false}
+                            onChangeText={(value) => searchFilterFunction(value)}
                         />
                         <TouchableOpacity >
                             <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: 20 }} />
@@ -216,13 +263,19 @@ const subcategoryScreen = (props) => {
                 <View style={{ marginLeft: 20, marginTop: 15 }}>
                     <Text style={{ fontSize: 26, textTransform: 'capitalize' }}>{categoryProps.property.skillcategory}</Text>
                 </View>
-
-                <View style={{ marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 20, flexDirection: 'row' }}>
+                <View style={{ marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 10, flexDirection: 'row' }}>
                     <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
-                        <TouchableOpacity style={STYLES.SubCategoryStyles.categoryview} onPress={() => onPressSelectSubCategory()}>
-                            <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>A</Text>
-                            </View>
+                        <TouchableOpacity style={allSub ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => allSubCatBox()}>
+                            {
+                                allSub ?
+                                    <View style={{ height: 30, width: 30, backgroundColor: '#FFFFFF', alignItems: 'center', borderRadius: 100 }}>
+                                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#2094FA' }}>A</Text>
+                                    </View>
+                                    :
+                                    <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
+                                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>A</Text>
+                                    </View>
+                            }
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', marginTop: 5 }}>
                             <Text style={{ fontSize: 12, textAlign: 'center' }}>{`All` + ` - ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
@@ -237,11 +290,15 @@ const subcategoryScreen = (props) => {
                     />
                 </View>
 
-                <FlatList
-                    renderItem={renderConsultantList}
-                    data={consultantList}
-                    keyExtractor={item => `${item._id}`}
-                />
+                {(consultantList == null) || (consultantList && consultantList.length == 0) ?
+                    <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Consultant are not available</Text>
+                    :
+                    <FlatList
+                        renderItem={renderConsultantList}
+                        data={consultantList}
+                        keyExtractor={item => `${item._id}`}
+                    />
+                }
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
             {loading ? <Loader /> : null}

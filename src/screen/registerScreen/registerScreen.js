@@ -135,6 +135,7 @@ export default class registerScreen extends Component {
         this.setState({ loading: true });
         const body = {
             property: {
+                live: false,
                 fullname: fullname,
                 mobile: mobile_number,
                 primaryemail: username

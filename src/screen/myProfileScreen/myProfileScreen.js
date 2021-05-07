@@ -30,7 +30,7 @@ const myProfileScreen = (props) => {
     const secondTextInputRef = React.createRef();
 
     useEffect(() => {
-        getStudentData();
+        getUserData();
     }, []);
 
     const showVervitudeModal = (visible) => {
@@ -71,7 +71,7 @@ const myProfileScreen = (props) => {
     }
 
     //get AsyncStorage current user Details
-    const getStudentData = async () => {
+    const getUserData = async () => {
         var getUser = await AsyncStorage.getItem(AUTHUSER);
         if (getUser == null) {
             setTimeout(() => {

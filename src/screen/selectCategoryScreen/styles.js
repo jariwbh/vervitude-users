@@ -89,6 +89,17 @@ export const SubCategoryStyles = StyleSheet.create({
         borderColor: '#000000',
         borderWidth: 0.1
     },
+    categoryviewSelected: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 70,
+        width: 70,
+        backgroundColor: '#2094FA',
+        borderRadius: 1,
+        borderColor: '#2094FA',
+        borderWidth: 0.1
+    },
     counsultantview: {
         flex: 1,
         height: 180,

@@ -198,6 +198,7 @@ const editScreen = (props) => {
         const body = {
             _id: userDetails._id,
             property: {
+                live: true,
                 first_name: first_name,
                 last_name: last_name,
                 mobile: mobile,
@@ -214,7 +215,6 @@ const editScreen = (props) => {
         user.property = body.property;
         try {
             const response = await UserUpdateService(body);
-            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 authenticateUser(user);
                 getUserDetails();

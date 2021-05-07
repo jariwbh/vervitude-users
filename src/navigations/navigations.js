@@ -28,18 +28,17 @@ import HOMESCREEN from '../screen/homeScreen/homeScreen';
 import CHATSCREEN from '../screen/chatScreen/chatScreen';
 
 const Stack = createStackNavigator();
-
-const navigationsApp = () => {
+export default navigationsApp = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator headerMode='none' initialRouteName={'splashScreen'}>
+            <Stack.Navigator headerMode='none' initialRouteName='splashScreen'>
                 <Stack.Screen name='LoginWithPasswordScreen' component={LOGINWITHPASSWORDSCREEN} />
                 <Stack.Screen name='forgotpasswordScreen' component={FORGOTPASSWORDSCREEN} />
                 <Stack.Screen name='loginwithemailScreen' component={LOGINWITHEMAILSCREEN} />
                 <Stack.Screen name='registerScreen' component={REGISTERSCREEN} />
                 <Stack.Screen name='MainScreen' component={MainNavigation} />
-                <Stack.Screen name='loginScreen' component={LOGINSCREEN} />
                 <Stack.Screen name='splashScreen' component={SPLASHSCREEN} />
+                <Stack.Screen name='loginScreen' component={LOGINSCREEN} />
             </Stack.Navigator>
         </NavigationContainer>
     );
@@ -49,6 +48,7 @@ const HomeStack = createStackNavigator();
 function MainNavigation() {
     return (
         <HomeStack.Navigator headerMode='none' initialRouteName='homeScreen'>
+            <HomeStack.Screen name='homeScreen' component={HOMESCREEN} />
             <HomeStack.Screen name='rechargepaymentScreen' component={RECHARGEPAYMENTSCREEN} />
             <HomeStack.Screen name='disputesdetailsScreen' component={DISPUTESDETAILSSCREEN} />
             <HomeStack.Screen name='rechargedetailScreen' component={RECHARGEDETAILSCREEN} />
@@ -65,11 +65,8 @@ function MainNavigation() {
             <HomeStack.Screen name='myspendsScreen' component={MYSPENDSSCREEN} />
             <HomeStack.Screen name='newchatsScreen' component={NEWCHATSSCREEN} />
             <HomeStack.Screen name='inviteScreen' component={INVITESCREEN} />
-            <HomeStack.Screen name='homeScreen' component={HOMESCREEN} />
             <HomeStack.Screen name='editScreen' component={EDITSCREEN} />
             <HomeStack.Screen name='chatScreen' component={CHATSCREEN} />
         </HomeStack.Navigator>
     );
 };
-
-export default navigationsApp;

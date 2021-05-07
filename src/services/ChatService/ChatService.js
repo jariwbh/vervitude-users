@@ -29,4 +29,29 @@ function RecentChatService(id) {
     return Axios.post('formdatas/filter', body);
 }
 
-export { StartChatService, RecentChatService };
+function FindChatById(id) {
+    let body =
+    {
+        "search": [{
+            "searchfield": "status",
+            "searchvalue": "active",
+            "criteria": "eq",
+            "datatype": "text"
+        },
+        {
+            "searchfield": "_id",
+            "searchvalue": id,
+            "criteria": "eq",
+            "datatype": "objectId"
+        }
+        ],
+        "formname": "livechat"
+    }
+    return Axios.post('formdatas/filter', body);
+}
+
+function EndChatService(id, body) {
+    return Axios.put('formdatas/' + id, body);
+}
+
+export { StartChatService, RecentChatService, EndChatService, FindChatById };
