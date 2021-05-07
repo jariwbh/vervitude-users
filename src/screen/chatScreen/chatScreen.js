@@ -203,6 +203,7 @@ const chatScreen = (props, { navigation }) => {
 				} else {
 					alert('Your Chat Is Closed');
 				}
+				props.navigation.navigate(SCREEN.HOMESCREEN);
 			}
 		} catch (error) {
 			console.log(`error`, error);
@@ -213,6 +214,13 @@ const chatScreen = (props, { navigation }) => {
 			}
 		}
 	}
+
+	const EndChat = () => (
+		<View style={{ alignItems: 'center', margin: 5 }}>
+			<Text style={{ fontSize: 14, color: '#000000' }}>{`Your Chat is close in this Date ${formdataDetails && moment(formdataDetails.property.endat).format("MMM Do YYYY")}`}</Text>
+			<Text style={{ fontSize: 14, color: '#000000' }}>{`and time ${formdataDetails && moment(formdataDetails.property.endat).format('LTS')}`}</Text>
+		</View>
+	)
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -264,7 +272,7 @@ const chatScreen = (props, { navigation }) => {
 						renderBubble={(props) => renderBubble(props, navigation)}
 						// renderDay={renderDay}
 						minInputToolbarHeight={80}
-						renderInputToolbar={hideInput ? () => null : renderInputToolbar}
+						renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
 					/>
 				</View>
 				<View style={{ marginBottom: 50 }} />
