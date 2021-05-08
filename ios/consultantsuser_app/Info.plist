@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>consultantsuser_app</string>
+	<string>Vervitude User</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -29,7 +29,13 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+		<key>NSCameraUsageDescription</key>
+	<string>camera use to profile picture change</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>photolibrary to profile picture update </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>photolibrary to profile picture update </string>
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
