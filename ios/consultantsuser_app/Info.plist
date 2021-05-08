@@ -29,14 +29,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-		<key>NSCameraUsageDescription</key>
+	<key>NSCameraUsageDescription</key>
 	<string>camera use to profile picture change</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>photolibrary to profile picture update </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>photolibrary to profile picture update </string>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
