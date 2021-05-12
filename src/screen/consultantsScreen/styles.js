@@ -57,6 +57,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         resizeMode: 'cover',
         height: HEIGHT,
-        width: WIDTH - 20,
+        width: WIDTH - 20
     }
 })

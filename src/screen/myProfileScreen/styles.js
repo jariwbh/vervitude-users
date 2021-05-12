@@ -26,7 +26,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     modeView: {
-        marginTop: HEIGHT / 2 - 150,
         height: 170,
         width: WIDTH - 90,
         borderRadius: 20,
@@ -41,7 +40,6 @@ export const styles = StyleSheet.create({
         elevation: 5,
     },
     modalView: {
-        marginTop: HEIGHT / 2 - 150,
         height: 200,
         width: WIDTH - 90,
         borderRadius: 20,
@@ -57,7 +55,6 @@ export const styles = StyleSheet.create({
         elevation: 5
     },
     vervitudemodalView: {
-        marginTop: HEIGHT / 2 - 150,
         height: 250,
         width: WIDTH - 90,
         borderRadius: 20,
@@ -114,8 +111,8 @@ export const styles = StyleSheet.create({
     },
     savebtn: {
         flexDirection: 'row',
-        marginRight: 50,
-        width: 100,
+        marginLeft: 10,
+        width: WIDTH / 3,
         height: 35,
         backgroundColor: '#00D9CE',
         borderRadius: 20,
@@ -132,7 +129,8 @@ export const styles = StyleSheet.create({
     },
     cancelbtn: {
         flexDirection: 'row',
-        width: 100,
+        marginRight: 10,
+        width: WIDTH / 3,
         height: 35,
         backgroundColor: '#EEEEEE',
         borderRadius: 20,
@@ -283,7 +281,7 @@ export const Editstyles = StyleSheet.create({
         fontSize: 14,
         flex: 1,
         padding: 5,
-        height: 150,
+        height: 80,
         justifyContent: 'flex-start'
     },
     submitbtn: {

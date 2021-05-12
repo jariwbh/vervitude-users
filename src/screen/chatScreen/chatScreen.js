@@ -297,56 +297,58 @@ const chatScreen = (props, { navigation }) => {
 				visible={showStartProjectVisible}
 				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
 			>
-				<View style={styles.centerView}>
-					<View style={styles.modalView}>
-						<View style={{ marginTop: 20 }} />
-						<View style={styles.inputView}>
-							<TextInput
-								style={styles.TextInput}
-								placeholder='Best time to call'
-								type='clear'
-								returnKeyType='next'
-								placeholderTextColor='#999999'
-							/>
-							<TouchableOpacity>
-								<Ionicons name='time-outline' size={24} color='#000000' style={{ marginRight: 5 }} />
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.modalView}>
+							<View style={{ marginTop: 20 }} />
+							<View style={styles.inputView}>
+								<TextInput
+									style={styles.TextInput}
+									placeholder='Best time to call'
+									type='clear'
+									returnKeyType='next'
+									placeholderTextColor='#999999'
+								/>
+								<TouchableOpacity>
+									<Ionicons name='time-outline' size={24} color='#000000' style={{ marginRight: 5 }} />
+								</TouchableOpacity>
+							</View>
+							<View style={styles.inputView}>
+								<TextInput
+									style={styles.TextInput}
+									placeholder='your Phone Number'
+									type='clear'
+									returnKeyType='next'
+									placeholderTextColor='#999999'
+								/>
+							</View>
+							<View style={styles.textAreainputView}>
+								<TextInput
+									style={styles.TextareaInput}
+									placeholder='Project Brief'
+									type='clear'
+									returnKeyType='done'
+									placeholderTextColor='#999999'
+									blurOnSubmit={false}
+									numberOfLines={3}
+									multiline={true}
+								/>
+							</View>
+						</View>
+						<View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+							<TouchableOpacity
+								onPress={() => { showModalVisibleSubmit(!showStartProjectVisible) }}
+								style={styles.savebtn}
+							>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => { showModalVisible(!showStartProjectVisible) }}
+								style={styles.cancelbtn}
+							>
+								<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
 							</TouchableOpacity>
 						</View>
-						<View style={styles.inputView}>
-							<TextInput
-								style={styles.TextInput}
-								placeholder='your Phone Number'
-								type='clear'
-								returnKeyType='next'
-								placeholderTextColor='#999999'
-							/>
-						</View>
-						<View style={styles.textAreainputView}>
-							<TextInput
-								style={styles.TextareaInput}
-								placeholder='Project Brief'
-								type='clear'
-								returnKeyType='done'
-								placeholderTextColor='#999999'
-								blurOnSubmit={false}
-								numberOfLines={3}
-								multiline={true}
-							/>
-						</View>
-					</View>
-					<View style={{ marginTop: 15, flexDirection: 'row' }}>
-						<TouchableOpacity
-							onPress={() => { showModalVisibleSubmit(!showStartProjectVisible) }}
-							style={styles.savebtn}
-						>
-							<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => { showModalVisible(!showStartProjectVisible) }}
-							style={styles.cancelbtn}
-						>
-							<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
-						</TouchableOpacity>
 					</View>
 				</View>
 			</Modal>
@@ -358,50 +360,52 @@ const chatScreen = (props, { navigation }) => {
 				visible={filterModalVisible}
 				onRequestClose={() => { setFilterModalVisible(!filterModalVisible) }}
 			>
-				<View style={styles.centeView}>
-					<View style={styles.modalView}>
-						<TouchableOpacity onPress={() => setshowshowEndChatModel(true)}>
-							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>End Chat</Text>
-						</TouchableOpacity>
-						<View style={{ flexDirection: 'row' }}>
-							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
-						</View>
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.modalView}>
+							<TouchableOpacity onPress={() => setshowshowEndChatModel(true)}>
+								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>End Chat</Text>
+							</TouchableOpacity>
+							<View style={{ flexDirection: 'row' }}>
+								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+							</View>
 
-						<TouchableOpacity>
-							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
-								Report an issue
+							<TouchableOpacity>
+								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
+									Report an issue
 						</Text>
-						</TouchableOpacity>
-						<View style={{ flexDirection: 'row' }}>
-							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+							</TouchableOpacity>
+							<View style={{ flexDirection: 'row' }}>
+								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+							</View>
+
+							<TouchableOpacity>
+								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute </Text>
+							</TouchableOpacity>
+							<View style={{ flexDirection: 'row' }}>
+								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+							</View>
+
+							<TouchableOpacity>
+								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
+							</TouchableOpacity>
+							<View style={{ flexDirection: 'row' }}>
+								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+							</View>
+
+							<TouchableOpacity>
+								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
+							</TouchableOpacity>
 						</View>
 
-						<TouchableOpacity>
-							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute </Text>
-						</TouchableOpacity>
-						<View style={{ flexDirection: 'row' }}>
-							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+						<View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+							<TouchableOpacity
+								onPress={() => { setFilterModalVisible(!filterModalVisible) }}
+								style={styles.cancelbtn}
+							>
+								<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+							</TouchableOpacity>
 						</View>
-
-						<TouchableOpacity>
-							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
-						</TouchableOpacity>
-						<View style={{ flexDirection: 'row' }}>
-							<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
-						</View>
-
-						<TouchableOpacity>
-							<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
-						</TouchableOpacity>
-					</View>
-
-					<View style={{ marginTop: 15, flexDirection: 'row' }}>
-						<TouchableOpacity
-							onPress={() => { setFilterModalVisible(!filterModalVisible) }}
-							style={styles.cancelbtn}
-						>
-							<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
-						</TouchableOpacity>
 					</View>
 				</View>
 			</Modal>
@@ -413,21 +417,23 @@ const chatScreen = (props, { navigation }) => {
 				visible={showMessageModalVisible}
 				onRequestClose={() => { showMessageModalVisible(!showMessageModalVisible) }}
 			>
-				<View style={styles.centerView}>
-					<View style={styles.msgModalView}>
-						<Text style={{ marginTop: 50, fontSize: 28, fontWeight: 'bold' }}>Thank You</Text>
-						<Text style={{ fontSize: 14, marginTop: 15 }}>
-							Someone from our team will reach
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.msgModalView}>
+							<Text style={{ marginTop: 50, fontSize: 28, fontWeight: 'bold' }}>Thank You</Text>
+							<Text style={{ fontSize: 14, marginTop: 15 }}>
+								Someone from our team will reach
 						</Text>
-						<Text style={{ fontSize: 14 }}>out to you</Text>
-					</View>
-					<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
-						<TouchableOpacity
-							onPress={() => { setshowMessageModalVisible(false) }}
-							style={styles.cancelbtn}
-						>
-							<Text style={{ fontSize: 14, color: '#000000' }}>Close</Text>
-						</TouchableOpacity>
+							<Text style={{ fontSize: 14 }}>out to you</Text>
+						</View>
+						<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+							<TouchableOpacity
+								onPress={() => { setshowMessageModalVisible(false) }}
+								style={styles.cancelbtn}
+							>
+								<Text style={{ fontSize: 14, color: '#000000' }}>Close</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</View>
 			</Modal>
@@ -556,7 +562,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	msgModalView: {
-		marginTop: HEIGHT / 2 - 150,
 		height: 200,
 		width: WIDTH - 90,
 		borderRadius: 20,
@@ -572,7 +577,6 @@ const styles = StyleSheet.create({
 		elevation: 5
 	},
 	modalView: {
-		marginTop: HEIGHT / 2 - 150,
 		height: 250,
 		width: WIDTH - 90,
 		borderRadius: 20,
@@ -589,8 +593,8 @@ const styles = StyleSheet.create({
 	},
 	savebtn: {
 		flexDirection: 'row',
-		marginRight: 50,
-		width: 100,
+		marginLeft: 10,
+		width: WIDTH / 3,
 		height: 35,
 		backgroundColor: '#FFB629',
 		borderRadius: 20,
@@ -607,8 +611,9 @@ const styles = StyleSheet.create({
 	},
 	cancelbtn: {
 		flexDirection: 'row',
-		width: 100,
+		width: WIDTH / 3,
 		height: 35,
+		marginRight: 10,
 		backgroundColor: '#EEEEEE',
 		borderRadius: 20,
 		alignItems: 'center',

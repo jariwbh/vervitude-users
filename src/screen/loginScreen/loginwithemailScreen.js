@@ -112,12 +112,12 @@ const loginwithemailScreen = (props) => {
                     } else {
                         alert('User not exits!');
                     }
-                    this.resetScreen();
+                    resetScreen();
                 }
             }
         }
         catch (error) {
-            this.resetScreen();
+            resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
@@ -165,7 +165,7 @@ const loginwithemailScreen = (props) => {
             setEmail(username);
             return;
         }
-        axiosConfig('606abd8799e17f1678300c12')
+        axiosConfig('606abd8799e17f1678300c12');
         setloading(true);
         try {
             const response = await LoginService(username);

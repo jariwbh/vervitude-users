@@ -11,11 +11,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
-import { useIsFocused } from '@react-navigation/native';
 import * as STYLES from './styles';
 
 const myProfileScreen = (props) => {
-    const isFocused = useIsFocused();
     const [loading, setloading] = useState(false);
     const [userDetails, setuserDetails] = useState(null);
     const [showModalVisible, setshowModalVisible] = useState(false);
@@ -165,16 +163,14 @@ const myProfileScreen = (props) => {
             <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
-                    <View style={{ justifyContent: 'flex-start' }}>
+                    <View style={{ justifyContent: 'flex-start', flexDirection: 'row' }}>
                         <MenuButton onPress={() => props.navigation.navigate('homeScreen')} />
+                        <View style={{ marginLeft: 30, justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}>
+                                <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-
-                    <View style={{ marginLeft: -80, justifyContent: 'center' }}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}>
-                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                        </TouchableOpacity>
-                    </View>
-
                     <View style={{ justifyContent: 'flex-end' }}>
                         <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
                     </View>
@@ -254,7 +250,7 @@ const myProfileScreen = (props) => {
                         </TouchableOpacity>
 
                         <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 20 }}>
-                            <Text style={{ fontSize: 12, color: '#000000', marginBottom: 3 }}>© Copyright 2020</Text>
+                            <Text style={{ fontSize: 12, color: '#000000', marginBottom: 3 }}>© Copyright 2021</Text>
                             <Text style={{ fontSize: 12, color: '#000000', marginBottom: 3 }}>E-Quest Counsulting Solutions Pvt. Ltd.</Text>
                             <Text style={{ fontSize: 12, color: '#000000' }}>All Rights Reserved</Text>
                         </View>
@@ -270,60 +266,62 @@ const myProfileScreen = (props) => {
                 visible={showdarkModeVisible}
                 onRequestClose={() => showModeVisible(!showdarkModeVisible)}
             >
-                <View style={STYLES.styles.centerView}>
-                    <View style={STYLES.styles.modeView}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
-                            <View style={{ justifyContent: 'flex-start' }}>
-                                <Text style={{ textAlign: 'center', color: '#000000' }}>Bright Mode</Text>
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ position: 'absolute', bottom: 20 }}>
+                        <View style={STYLES.styles.modeView}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
+                                <View style={{ justifyContent: 'flex-start' }}>
+                                    <Text style={{ textAlign: 'center', color: '#000000' }}>Bright Mode</Text>
+                                </View>
+                                <View style={{ justifyContent: 'flex-end' }}>
+                                    <Switch
+                                        trackColor={{ false: '#C4C4C4', true: '#00D9CE' }}
+                                        onValueChange={() => toggleSwitch(toggleSwitchAll)}
+                                        value={toggleSwitchAll} />
+                                </View>
                             </View>
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                <Switch
-                                    trackColor={{ false: '#C4C4C4', true: '#00D9CE' }}
-                                    onValueChange={() => toggleSwitch(toggleSwitchAll)}
-                                    value={toggleSwitchAll} />
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }}></View>
                             </View>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }}></View>
+
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
+                                <View style={{ justifyContent: 'flex-start' }}>
+                                    <Text style={{ textAlign: 'center', color: '#000000' }}>Dark Mode</Text>
+                                </View>
+                                <View style={{ justifyContent: 'flex-end' }}>
+                                    <Switch
+                                        trackColor={{ false: '#C4C4C4', true: '#00D9CE' }}
+                                        onValueChange={() => toggleSwitch(toggleSwitchAll)}
+                                        value={toggleSwitchAll} />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }}></View>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
+                                <View style={{ justifyContent: 'flex-start' }}>
+                                    <Text style={{ textAlign: 'center', color: '#000000' }}>System Default</Text>
+                                </View>
+                                <View style={{ justifyContent: 'flex-end' }}>
+                                    <Switch
+                                        trackColor={{ false: '#C4C4C4', true: '#00D9CE' }}
+                                        onValueChange={() => toggleSwitch(toggleSwitchAll)}
+                                        value={toggleSwitchAll} />
+                                </View>
+                            </View>
                         </View>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
-                            <View style={{ justifyContent: 'flex-start' }}>
-                                <Text style={{ textAlign: 'center', color: '#000000' }}>Dark Mode</Text>
-                            </View>
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                <Switch
-                                    trackColor={{ false: '#C4C4C4', true: '#00D9CE' }}
-                                    onValueChange={() => toggleSwitch(toggleSwitchAll)}
-                                    value={toggleSwitchAll} />
-                            </View>
+                        <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <TouchableOpacity onPress={() => showModeVisible(!showdarkModeVisible)}
+                                style={STYLES.styles.savebtn}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Save</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => showModeVisible(!showdarkModeVisible)}
+                                style={STYLES.styles.cancelbtn}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }}></View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
-                            <View style={{ justifyContent: 'flex-start' }}>
-                                <Text style={{ textAlign: 'center', color: '#000000' }}>System Default</Text>
-                            </View>
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                <Switch
-                                    trackColor={{ false: '#C4C4C4', true: '#00D9CE' }}
-                                    onValueChange={() => toggleSwitch(toggleSwitchAll)}
-                                    value={toggleSwitchAll} />
-                            </View>
-                        </View>
-                    </View>
-
-                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => showModeVisible(!showdarkModeVisible)}
-                            style={STYLES.styles.savebtn}>
-                            <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Save</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => showModeVisible(!showdarkModeVisible)}
-                            style={STYLES.styles.cancelbtn}>
-                            <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -335,47 +333,49 @@ const myProfileScreen = (props) => {
                 visible={showModalVisible}
                 onRequestClose={() => showModal(!showModalVisible)}
             >
-                <View style={STYLES.styles.centerView}>
-                    <View style={STYLES.styles.modalView}>
-                        <View style={{ marginTop: 20 }}></View>
-                        <View style={subjecterror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
-                            <TextInput
-                                style={STYLES.styles.TextInput}
-                                placeholder='Subject'
-                                type='clear'
-                                returnKeyType='next'
-                                placeholderTextColor='#999999'
-                                defaultValue={subject}
-                                blurOnSubmit={false}
-                                onSubmitEditing={() => secondTextInputRef.current.focus()}
-                                onChangeText={(subject) => setSubject(subject)}
-                            />
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ position: 'absolute', bottom: 20 }}>
+                        <View style={STYLES.styles.modalView}>
+                            <View style={{ marginTop: 20 }}></View>
+                            <View style={subjecterror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
+                                <TextInput
+                                    style={STYLES.styles.TextInput}
+                                    placeholder='Subject'
+                                    type='clear'
+                                    returnKeyType='next'
+                                    placeholderTextColor='#999999'
+                                    defaultValue={subject}
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => secondTextInputRef.current.focus()}
+                                    onChangeText={(subject) => setSubject(subject)}
+                                />
+                            </View>
+                            <View style={descriptionerror == null ? STYLES.styles.textAreainputView : STYLES.styles.textAreainputViewError}>
+                                <TextInput
+                                    style={STYLES.styles.TextareaInput}
+                                    placeholder='Write Your Descripation'
+                                    type='clear'
+                                    returnKeyType='done'
+                                    placeholderTextColor='#999999'
+                                    blurOnSubmit={false}
+                                    numberOfLines={3}
+                                    multiline={true}
+                                    defaultValue={description}
+                                    ref={secondTextInputRef}
+                                    onChangeText={(description) => setdescription(description)}
+                                />
+                            </View>
                         </View>
-                        <View style={descriptionerror == null ? STYLES.styles.textAreainputView : STYLES.styles.textAreainputViewError}>
-                            <TextInput
-                                style={STYLES.styles.TextareaInput}
-                                placeholder='Write Your Descripation'
-                                type='clear'
-                                returnKeyType='done'
-                                placeholderTextColor='#999999'
-                                blurOnSubmit={false}
-                                numberOfLines={3}
-                                multiline={true}
-                                defaultValue={description}
-                                ref={secondTextInputRef}
-                                onChangeText={(description) => setdescription(description)}
-                            />
+                        <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <TouchableOpacity onPress={() => onPressSubmit()}
+                                style={STYLES.styles.savebtn}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => onPressCancel()}
+                                style={STYLES.styles.cancelbtn}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+                            </TouchableOpacity>
                         </View>
-                    </View>
-                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => onPressSubmit()}
-                            style={STYLES.styles.savebtn}>
-                            <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => onPressCancel()}
-                            style={STYLES.styles.cancelbtn}>
-                            <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -387,18 +387,20 @@ const myProfileScreen = (props) => {
                 visible={showMessageModalVisible}
                 onRequestClose={() => showMessageModal(!showMessageModalVisible)}
             >
-                <View style={STYLES.styles.centerView}>
-                    <View style={STYLES.styles.msgModalView}>
-                        <Image source={require('../../assets/Images/smileicon.png')} style={{ marginTop: 15, height: 40, width: 40 }} />
-                        <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>Sorry to hear about the issue</Text>
-                        <Text style={{ fontSize: 14, color: '#000000' }}>Your quiry has been Submit</Text>
-                        <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>You will hear from us very soon</Text>
-                    </View>
-                    <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
-                        <TouchableOpacity onPress={() => showMessageModal(!showMessageModalVisible)}
-                            style={STYLES.styles.cancelbtn}>
-                            <Text style={{ fontSize: 14, color: '#000000' }}>Ok</Text>
-                        </TouchableOpacity>
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ position: 'absolute', bottom: 20 }}>
+                        <View style={STYLES.styles.msgModalView}>
+                            <Image source={require('../../assets/Images/smileicon.png')} style={{ marginTop: 15, height: 40, width: 40 }} />
+                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>Sorry to hear about the issue</Text>
+                            <Text style={{ fontSize: 14, color: '#000000' }}>Your quiry has been Submit</Text>
+                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>You will hear from us very soon</Text>
+                        </View>
+                        <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+                            <TouchableOpacity onPress={() => showMessageModal(!showMessageModalVisible)}
+                                style={STYLES.styles.cancelbtn}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>Ok</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -410,45 +412,47 @@ const myProfileScreen = (props) => {
                 visible={vervitudeModalVisible}
                 onRequestClose={() => showVervitudeModal(!vervitudeModalVisible)}
             >
-                <View style={STYLES.styles.centerView}>
-                    <View style={STYLES.styles.vervitudemodalView}>
-                        <Text
-                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ position: 'absolute', bottom: 20 }}>
+                        <View style={STYLES.styles.vervitudemodalView}>
+                            <Text
+                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
 
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <Text
+                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <Text
+                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <Text
+                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
+                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                            </View>
+
+                            <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Copyright @2021</Text>
                         </View>
 
-                        <Text
-                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
+                        <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => showVervitudeModal(!vervitudeModalVisible)}
+                                style={STYLES.styles.cancelbtn}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+                            </TouchableOpacity>
                         </View>
-
-                        <Text
-                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
-                        </View>
-
-                        <Text
-                            onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                            style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
-                        </View>
-
-                        <Text style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Copyright @2021</Text>
-                    </View>
-
-                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => showVervitudeModal(!vervitudeModalVisible)}
-                            style={STYLES.styles.cancelbtn}>
-                            <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>

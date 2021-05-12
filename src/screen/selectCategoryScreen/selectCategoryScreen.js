@@ -12,6 +12,10 @@ import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import * as SCREEN from '../../context/screen/screenName';
 import { ConsultantListService } from '../../services/UserService/UserService';
+import ActionButton from 'react-native-circular-action-menu';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 function selectCategoryScreen(props) {
@@ -75,7 +79,7 @@ function selectCategoryScreen(props) {
             <View>
                 <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}
                 >{item.property.first_name}</Text>
-                <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center' }}>DESIGN</Text>
+                <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
                 <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
                     <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
                     <StarRating
@@ -166,6 +170,23 @@ function selectCategoryScreen(props) {
                 </View>
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
+            <ActionButton
+                buttonColor="#00D9CE"
+                position="right"
+                bgColor="transparent"
+                autoInactive={true}
+            // icon={renderImage()}
+            >
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
+                    <Ionicons name="chatbubbles" style={STYLES.styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
+                    <MaterialCommunityIcons name="card-plus-outline" style={STYLES.styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
+                    <FontAwesome name="rupee" style={STYLES.styles.actionButtonIcon} />
+                </ActionButton.Item>
+            </ActionButton>
             {loading ? <Loader /> : null}
         </SafeAreaView>
     )

@@ -136,3 +136,21 @@ export const SubCategoryStyles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
+
+export const styles = StyleSheet.create({
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 20,
+        color: '#FFFFFF',
+    },
+    actionbtn: {
+        height: 100,
+        width: 100,
+        borderRadius: 200,
+        backgroundColor: '#00D9CE',
+        marginTop: 0,
+        marginLeft: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+});

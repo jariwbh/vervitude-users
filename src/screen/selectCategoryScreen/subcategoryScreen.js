@@ -15,6 +15,9 @@ import Loader from '../../components/loader/index';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
 import { SubCategoryService } from '../../services/CategoryService/CategoryService';
+import ActionButton from 'react-native-circular-action-menu';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const subcategoryScreen = (props) => {
@@ -140,13 +143,13 @@ const subcategoryScreen = (props) => {
         <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
             style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
             <View style={STYLES.SubCategoryStyles.counsultantview}>
-                <View style={STYLES.SubCategoryStyles.cauve}>
+                {/* <View style={STYLES.SubCategoryStyles.cauve}>
                     <FontAwesome name='circle' size={110} color='#FFB629' />
                     <Image source={require('../../assets/Images/medal1.png')}
                         style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                     />
-                </View>
-                <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
+                </View> */}
+                <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: 10, flex: 1 }}>
                     {
                         item.property.live === true ?
                             <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
@@ -171,7 +174,7 @@ const subcategoryScreen = (props) => {
                     </View>
                     <View>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
-                        <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                        <Text style={{ fontSize: 16, color: '#999999', textTransform: 'capitalize' }}>{item.property.usertag}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
@@ -180,7 +183,7 @@ const subcategoryScreen = (props) => {
 
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
                             </View>
                             <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
@@ -301,6 +304,23 @@ const subcategoryScreen = (props) => {
                 }
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
+            <ActionButton
+                buttonColor="#00D9CE"
+                position="right"
+                bgColor="transparent"
+                autoInactive={true}
+            // icon={renderImage()}
+            >
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
+                    <Ionicons name="chatbubbles" style={STYLES.styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
+                    <MaterialCommunityIcons name="card-plus-outline" style={STYLES.styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
+                    <FontAwesome name="rupee" style={STYLES.styles.actionButtonIcon} />
+                </ActionButton.Item>
+            </ActionButton>
             {loading ? <Loader /> : null}
         </SafeAreaView>
     )

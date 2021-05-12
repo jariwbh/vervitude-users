@@ -104,10 +104,10 @@ const homeScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View>
-                    <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10 }}>
+                    <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}>
                         {item.property.first_name}
                     </Text>
-                    <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center' }}>DESIGN</Text>
+                    <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
                     <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
                         <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
                         <StarRating
@@ -129,14 +129,13 @@ const homeScreen = (props) => {
             <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
-                    <View style={{ justifyContent: 'flex-start' }}>
+                    <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
                         <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
-                    </View>
-
-                    <View style={{ marginLeft: -80, justifyContent: 'center' }}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}>
-                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                        </TouchableOpacity>
+                        <View style={{ marginLeft: 30, justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}>
+                                <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     <View style={{ justifyContent: 'flex-end' }}>

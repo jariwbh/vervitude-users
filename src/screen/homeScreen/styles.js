@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     headerstyle: {
         backgroundColor: '#00D9CE',
         width: WIDTH,
-        height: 180,
+        height: 170,
         borderBottomLeftRadius: 35,
         borderBottomRightRadius: 35
     },
