@@ -86,7 +86,7 @@ const subcategoryScreen = (props) => {
         } else {
             let id = JSON.parse(getUser)._id;
             await setuserId(id);
-            await consultantService();
+            await consultantService(categoryProps._id);
         }
     }
 
@@ -129,7 +129,7 @@ const subcategoryScreen = (props) => {
         });
         setAllSub(true);
         setSubCategory(subCat);
-        await consultantService();
+        await consultantService(categoryProps._id);
     }
 
     //consutlants list to rendom consultant click to navigate screen

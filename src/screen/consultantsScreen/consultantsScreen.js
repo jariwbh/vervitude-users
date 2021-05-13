@@ -10,11 +10,11 @@ import moment from 'moment';
 import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import HTML from 'react-native-render-html';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const consultantsScreen = (props) => {
   const consultanDetails = props.route.params.item;
-  console.log(`consultanDetails`, consultanDetails);
 
   //render Brand Photo 
   const renderAddBrand = ({ item }) => (
@@ -100,8 +100,10 @@ const consultantsScreen = (props) => {
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center', }}>
               <View style={STYLES.styles.counsultantdetail}>
-                <Text style={{ fontSize: 14, marginTop: 15, marginLeft: 15, color: '#999999' }}>{consultanDetails.property.about}</Text>
-                <Text style={{ fontSize: 14, marginTop: 15, marginLeft: 15, color: '#999999' }}>Helping Clients all over the world. Ranjan has been Helping brands create great user experience centered products.</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 10, padding: 5, marginLeft: 10, marginRight: 5 }}>
+                  <HTML baseFontStyle={{ fontSize: 14, textTransform: 'capitalize' }}
+                    html={`<html>${consultanDetails && consultanDetails.property.about} </html>`} />
+                </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
                   <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }} />
                 </View>
@@ -112,8 +114,6 @@ const consultantsScreen = (props) => {
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Brands</Text>
               <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#ADADAD' }}>The Consultant has helped 50+ Brands</Text>
             </View>
-
-
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
               <FlatList
                 renderItem={renderAddBrand}

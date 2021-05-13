@@ -21,7 +21,10 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
+import FeedBackService from '../../services/FeedBackService/FeedBackService';
+import { checkLocationAccuracy } from 'react-native-permissions';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+
 
 const chatScreen = (props, { navigation }) => {
 	const [loading, setloading] = useState(false);
@@ -36,6 +39,8 @@ const chatScreen = (props, { navigation }) => {
 	const [formdataDetails, setFormdataDetails] = useState(null);
 	const [hideInput, setHideInput] = useState(false);
 	const consultanDetails = props.route.params.consultanDetails;
+	const [rating, setRating] = useState(null);
+	const [feedback, setFeedback] = useState(null);
 
 	// chat portion
 	useEffect(
@@ -63,8 +68,7 @@ const chatScreen = (props, { navigation }) => {
 	);
 
 	useEffect(() => {
-		console.log(`formDataId`, formDataId)
-	}, [formDataId, formdataDetails, hideInput])
+	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender])
 
 	const startChat = async (sender, item) => {
 		const body = {
@@ -191,7 +195,32 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	const feedBack = async () => {
+		if (!rating && !feedback) {
+			return;
+		}
+
+		const body = {
+			formid: formdataDetails.formid._id,
+			contextid: formdataDetails.property.consultantid._id,
+			addedby: sender,
+			property: {
+				rating: rating,
+				feedback: feedback
+			}
+		}
+		try {
+			const response = await FeedBackService(body);
+			// if (response.data != null && response.data != 'undefind' && response.status == 200) {
+			// 	props.navigation.navigate(SCREEN.HOMESCREEN);
+			// }
+		} catch (error) {
+			console.log(`error`, error);
+		}
+	}
+
 	const onpressDoneBtn = async () => {
+		feedBack();
 		const body = {
 			formid: formdataDetails.formid._id,
 			contextid: formdataDetails.contextid._id,
@@ -445,64 +474,69 @@ const chatScreen = (props, { navigation }) => {
 				visible={showEndChatModel}
 				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
 			>
-				<View style={styles.centerView}>
-					<View style={styles.EndChatModalView}>
-						<View style={{ marginTop: 10 }} />
-						<View style={styles.messageModalView}>
-							<Text style={{ marginTop: 10, fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>Thank You</Text>
-							<Text style={{ marginTop: 10, fontSize: 14, color: '#FFFFFF' }}>Your chat with {consultanDetails.fullname},</Text>
-							<Text style={{ fontSize: 14, color: '#FFFFFF' }}>ended. I hope it was nice</Text>
-							<Text style={{ fontSize: 14, color: '#FFFFFF' }}> experience for you.</Text>
-						</View>
+				<ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+					<View style={styles.centerView}>
+						<View style={styles.EndChatModalView}>
+							<View style={{ marginTop: 10 }} />
+							<View style={styles.messageModalView}>
+								<Text style={{ marginTop: 10, fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>Thank You</Text>
+								<Text style={{ marginTop: 10, fontSize: 14, color: '#FFFFFF' }}>Your chat with {consultanDetails.fullname},</Text>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>ended. I hope it was nice</Text>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}> experience for you.</Text>
+							</View>
 
-						<View style={{ margin: 10, alignItems: 'center' }} >
-							<Text style={{ fontSize: 12, color: '#4D4D4D' }}> Your feedback can help {consultanDetails.fullname},all other </Text>
-							<Text style={{ fontSize: 12, color: '#4D4D4D' }}> people who have same questions like you.</Text>
-						</View>
+							<View style={{ margin: 10, alignItems: 'center' }} >
+								<Text style={{ fontSize: 12, color: '#4D4D4D' }}> Your feedback can help {consultanDetails.fullname},all other </Text>
+								<Text style={{ fontSize: 12, color: '#4D4D4D' }}> people who have same questions like you.</Text>
+							</View>
 
-						<Pressable onPress={() => onTouchViewProfile()}
-							style={styles.profileImageView}>
-							<Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
-								style={styles.profileImage}
+							<Pressable onPress={() => onTouchViewProfile()}
+								style={styles.profileImageView}>
+								<Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
+									style={styles.profileImage}
+								/>
+							</Pressable>
+
+							<View style={{ margin: 10, alignItems: 'center' }} >
+								<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
+								<Text style={{ fontSize: 12, color: '#000000' }}>Design Coach</Text>
+							</View>
+
+							<StarRating
+								disabled={false}
+								maxStars={5}
+								starSize={25}
+								rating={rating}
+								fullStarColor={'#C4C4C4'}
+								emptyStarColor={'#000000'}
+								selectedStar={(rating) => setRating(rating)}
 							/>
-						</Pressable>
 
-						<View style={{ margin: 10, alignItems: 'center' }} >
-							<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
-							<Text style={{ fontSize: 12, color: '#000000' }}>Design Coach</Text>
-						</View>
-
-						<StarRating
-							disabled={false}
-							maxStars={5}
-							starSize={25}
-							rating={5}
-							fullStarColor={'#C4C4C4'}
-							emptyStarColor={'#C4C4C4'}
-						/>
-
-						<View style={styles.commectView}>
-							<TextInput
-								style={styles.TextareaInput}
-								placeholder='Your Comments'
-								type='clear'
-								returnKeyType='done'
-								placeholderTextColor='#999999'
-								blurOnSubmit={false}
-								numberOfLines={3}
-								multiline={true}
-							/>
-						</View>
-						<View style={{ margin: 20 }}>
-							<TouchableOpacity
-								onPress={() => { onpressDoneBtn(false) }}
-								style={styles.doneBtn}
-							>
-								<Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>Done</Text>
-							</TouchableOpacity>
+							<View style={styles.commectView}>
+								<TextInput
+									style={styles.TextareaInput}
+									placeholder='Your Comments'
+									type='clear'
+									returnKeyType='done'
+									placeholderTextColor='#999999'
+									blurOnSubmit={false}
+									numberOfLines={3}
+									multiline={true}
+									defaultValue={feedback}
+									onChangeText={(val) => setFeedback(val)}
+								/>
+							</View>
+							<View style={{ margin: 20 }}>
+								<TouchableOpacity
+									onPress={() => { onpressDoneBtn(false) }}
+									style={styles.doneBtn}
+								>
+									<Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>Done</Text>
+								</TouchableOpacity>
+							</View>
 						</View>
 					</View>
-				</View>
+				</ScrollView>
 			</Modal>
 			{ loading ? <Loader /> : null}
 		</SafeAreaView>

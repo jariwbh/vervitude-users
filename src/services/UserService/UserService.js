@@ -51,6 +51,7 @@ const ConsultantListService = (id) => {
             ]
         }
     }
+    console.log(`body`, body)
     return Axios.post('users/filter', body);
 }
 

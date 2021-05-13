@@ -1,9 +1,9 @@
 import SliderService from '../../services/SliderService/SliderService';
 import React, { useState, useEffect } from 'react';
-import { Dimensions, View, StyleSheet, Image, Text, TouchableOpacity, Linking } from 'react-native';
+import { Dimensions, View, StyleSheet, Image, ImageBackground, Text, TouchableOpacity, Linking } from 'react-native';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
-import ImageSlider from 'react-native-image-slider';
+import Swiper from 'react-native-swiper';
 
 const SliderScreen = () => {
     const [sliderData, setsliderData] = useState([]);
@@ -26,28 +26,32 @@ const SliderScreen = () => {
     }
 
     return (
-        <View style={{ marginTop: 20, justifyContent: 'center', alignItems: "center" }}>
-            {
-                sliderData && sliderData != null && sliderData.length != 0 ?
-                    <ImageSlider
-                        images={sliderData}
-                        loopBothSides
-                        style={styles.slider}
-                        autoPlayWithInterval={3000}
-                        customSlide={({ index, item }) => (
-                            <View key={index} >
-                                <Image source={{ uri: item.property.image[0].attachment }} style={styles.customImage} />
-                                <View style={{}}>
-                                    <Text style={{ color: '#FFFFFF', fontSize: 28, position: 'absolute', marginTop: -120, marginLeft: 250, fontWeight: 'bold' }}>{item.property.title} </Text>
-                                    <TouchableOpacity onPress={() => Linking.openURL(item.property.link)} style={{ position: 'absolute' }}>
-                                        <Text style={{ color: '#FFFFFF', fontSize: 14, marginTop: -50, marginLeft: 250, fontWeight: 'bold', textDecorationLine: 'underline' }}>{item.property.title_link} </Text>
+        <View style={{ flex: 1 }}>
+            <View style={{
+                top: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+                <Swiper
+                    containerStyle={styles.wrapper}
+                    autoplay={true}
+                    autoplayDirection={true}
+                    activeDotColor={'#00D9CE'}
+                >
+                    {sliderData.map((item, index) => (
+                        <View key={index} >
+                            <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} >
+                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
+                                    <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
+                                    <TouchableOpacity onPress={() => Linking.openURL(item.property.link)} >
+                                        <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
                                     </TouchableOpacity>
                                 </View>
-                            </View>
-                        )}
-                    />
-                    : null
-            }
+                            </ImageBackground>
+                        </View>
+                    ))}
+                </Swiper>
+            </View>
         </View>
     )
 }
@@ -57,10 +61,10 @@ export default SliderScreen;
 const styles = StyleSheet.create({
     customImage: {
         height: 220,
-        width: WIDTH,
+        width: WIDTH - 20
     },
-    slider: {
-        color: '#FFFFFF',
+    wrapper: {
+        height: 220,
         width: WIDTH - 20
     }
 });

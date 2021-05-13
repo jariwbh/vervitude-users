@@ -18,16 +18,19 @@ import * as SCREEN from '../../context/screen/screenName';
 import { ConsultantListService, UserUpdateService } from '../../services/UserService/UserService';
 import { AUTHUSER } from '../../context/actions/type';
 import AsyncStorage from '@react-native-community/async-storage';
+import { CategoryService } from '../../services/CategoryService/CategoryService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
+    const [category, setCategory] = useState([]);
 
     useEffect(() => {
         setloading(true);
         getUserData();
         ConsultantList();
+        categoryList();
 
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
@@ -46,6 +49,18 @@ const homeScreen = (props) => {
         var UserInfo = JSON.parse(getUser);
         UserInfo.property.live = true;
         UpdateUserService(UserInfo);
+    }
+
+    //category List Service to call function
+    const categoryList = async () => {
+        try {
+            const response = await CategoryService();
+            const slice = response.data.slice(0, 4)
+            setCategory(slice);
+            console.log(`slice`, slice);
+        } catch (error) {
+            console.log(`error`, error);
+        }
     }
 
     //REPLACE AND ADD LOCAL STORAGE FUNCTION
@@ -124,6 +139,18 @@ const homeScreen = (props) => {
         )
     }
 
+    const renderCategory = ({ item }) => (
+        <View style={{ paddingHorizontal: 5, paddingVertical: 5, alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                <Image source={require('../../assets/Images/grommeticonstechnology1.png')}
+                    style={{ height: 60, width: 60 }} />
+            </TouchableOpacity>
+            <View style={{ marginTop: 5, alignItems: 'center' }}>
+                <Text>Technology</Text>
+            </View>
+        </View>
+    )
+
     return (
         <SafeAreaView style={STYLE.styles.container}>
             <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
@@ -165,47 +192,18 @@ const homeScreen = (props) => {
                 <SliderScreen />
                 <View style={STYLE.styles.categoriesText}>
                     <TouchableOpacity onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
-                        <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE', fontWeight: 'bold' }}>Categories</Text>
+                        <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE', fontWeight: 'bold', marginTop: 10 }}>Categories</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ justifyContent: 'space-evenly', flexDirection: 'row' }}>
-                    <View>
-                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <Image source={require('../../assets/Images/grommeticonstechnology1.png')}
-                                style={{ height: 60, width: 60 }} />
-                        </TouchableOpacity>
-                        <View style={{ marginTop: 5, alignItems: 'center' }}>
-                            <Text>Technology</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <Image source={require('../../assets/Images/icoutlinedesignservices1.png')}
-                                style={{ height: 60, width: 60 }} />
-                        </TouchableOpacity>
-                        <View style={{ marginTop: 5, alignItems: 'center' }}>
-                            <Text>Design</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <Image source={require('../../assets/Images/icroundbusinesscenter1.png')}
-                                style={{ height: 60, width: 60 }} />
-                        </TouchableOpacity>
-                        <View style={{ marginTop: 5, alignItems: 'center' }}>
-                            <Text>Business</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <Image source={require('../../assets/Images/entypoareagraph1.png')}
-                                style={{ height: 60, width: 60 }} />
-                        </TouchableOpacity>
-                        <View style={{ marginTop: 5, alignItems: 'center' }}>
-                            <Text>Marketing</Text>
-                        </View>
-                    </View>
+                <View style={{ marginTop: 20, justifyContent: 'flex-start', marginLeft: 5, marginRight: 5, flexDirection: 'row', alignItems: 'center' }}>
+                    <FlatList
+                        renderItem={renderCategory}
+                        data={category}
+                        horizontal={false}
+                        numColumns={4}
+                        keyExtractor={item => item._id}
+                    />
                     <View>
                         <TouchableOpacity onPress={() => props.navigation.navigate('selectCategoryScreen')} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <Image source={require('../../assets/Images/allicon.png')}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function WallateButton(props) {
@@ -7,13 +7,13 @@ export default function WallateButton(props) {
         <TouchableOpacity onPress={props.onPress}
             style={styles.btnstyle} >
             <Text style={styles.btntext}>₹5,300</Text>
-            <View style={{ justifyContent: 'center' }}>
-                <MaterialIcons name='account-balance-wallet' size={30} color='#04DE71' />
-            </View>
+            <Image source={require('../../assets/Images/wallateicon.png')}
+                style={{ alignItems: 'center', height: 20, width: 25 }}
+            />
         </TouchableOpacity>
     )
 }
-
+//wallateicon
 const styles = StyleSheet.create({
     btnstyle: {
         height: 45,
