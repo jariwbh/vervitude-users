@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     },
     counsultantview: {
         flex: 1,
+        //height: HEIGHT,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        overflow: 'hidden'
+
     },
     verticleLine: {
         height: '100%',
@@ -28,7 +29,6 @@ export const styles = StyleSheet.create({
         backgroundColor: '#909090',
     },
     counsultantdetail: {
-        flex: 1,
         width: WIDTH - 80,
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
@@ -58,5 +58,11 @@ export const styles = StyleSheet.create({
         resizeMode: 'cover',
         height: HEIGHT,
         width: WIDTH - 20
-    }
+    }, headerstyle: {
+        backgroundColor: '#5AC8FA',
+        width: WIDTH,
+        height: 80,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30
+    },
 })

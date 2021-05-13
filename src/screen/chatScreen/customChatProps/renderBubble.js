@@ -10,21 +10,22 @@ const renderBubble = (props, navigation) => {
 			renderTicks={() => null}
 			renderMessageImage={() => null}
 			textStyle={{
-				left: { fontSize: 16, color: '#fff' },
-				right: { fontSize: 16, color: '#fff' }
+				left: { fontSize: 16, color: '#000000' },
+				right: { fontSize: 16, color: '#FFFFFF' }
 			}}
 			wrapperStyle={{
 				left: {
 					elevation: 0,
 					marginTop: 0.5,
 					paddingVertical: 3,
-					backgroundColor: '#F1C40E'
+					backgroundColor: '#EEEEEE'
+
 				},
 				right: {
 					elevation: 0,
 					marginTop: 0.5,
 					paddingVertical: 3,
-					backgroundColor: '#0077ff'
+					backgroundColor: '#FFB629'
 				}
 			}}
 		/>

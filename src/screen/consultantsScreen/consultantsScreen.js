@@ -7,9 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
 import moment from 'moment';
-import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HTML from 'react-native-render-html';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
@@ -26,11 +24,17 @@ const consultantsScreen = (props) => {
     </View>
   );
 
+  const clickHandler = () => {
+    //function to handle click on floating Action Button
+    alert('Floating Button Clicked');
+  };
+
   return (
     <SafeAreaView style={STYLES.styles.container}>
       <StatusBar hidden backgroundColor='#5AC8FA' barStyle='light-content' />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30 }}>
+
+      <View style={STYLES.styles.headerstyle}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30, marginBottom: 10 }}>
           <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
               <AntDesign name='arrowleft' color='#FFFFFF' size={24} style={{ marginLeft: 20 }} />
@@ -50,7 +54,9 @@ const consultantsScreen = (props) => {
             </TouchableOpacity>
           </View>
         </View>
+      </View>
 
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
           {/* <ImageBackground source={require('../../assets/Images/profilebg.png')} style={STYLES.styles.backgroundImage}> */}
           <View style={STYLES.styles.counsultantview}>
@@ -98,18 +104,20 @@ const consultantsScreen = (props) => {
                 <Text style={{ fontSize: 10, color: '#000000' }}>1.2K Ratings</Text>
               </View>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
               <View style={STYLES.styles.counsultantdetail}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 10, padding: 5, marginLeft: 10, marginRight: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, padding: 5, marginLeft: 10, marginRight: 5 }}>
                   <HTML baseFontStyle={{ fontSize: 14, textTransform: 'capitalize' }}
                     html={`<html>${consultanDetails && consultanDetails.property.about} </html>`} />
                 </View>
+                <View style={{ flex: 1, height: 1, backgroundColor: '#999999', marginTop: 5 }} />
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-                  <View style={{ flex: 1, height: 1, backgroundColor: '#999999' }} />
+                  <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000000', marginLeft: 15, marginBottom: 20 }}>It has been Great Experience using Vervitude, I have helped more then 1000’s of people learn new technologies, while I made a passive income. Kudos to Vervitude Team</Text>
                 </View>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000000', marginTop: 15, marginLeft: 15, marginBottom: 20 }}>It has been Great Experience using Vervitude, I have helped more then 1000’s of people learn new technologies, while I made a passive income. Kudos to Vervitude Team</Text>
               </View>
             </View>
+
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Brands</Text>
               <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#ADADAD' }}>The Consultant has helped 50+ Brands</Text>
@@ -130,23 +138,26 @@ const consultantsScreen = (props) => {
         </View>
         <View style={{ marginBottom: 50 }}></View>
       </ScrollView>
-      <ActionButton
-        buttonColor="#00D9CE"
-        position="right"
-        bgColor="transparent"
-        autoInactive={true}
-      // icon={renderImage()}
-      >
-        <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
-          <Ionicons name="chatbubbles" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
-          <MaterialCommunityIcons name="card-plus-outline" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
-          <FontAwesome name="rupee" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      </ActionButton>
+      <View style={{ flexDirection: 'row' }}>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails })}
+          style={{
+            height: 40, width: 200, backgroundColor: '#FFFFFF',
+            borderRadius: 100, alignItems: 'center', justifyContent: 'center',
+            position: 'absolute', bottom: 20, right: 70, elevation: 2
+          }}>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Chat with the Consultant</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails })}
+          activeOpacity={0.7}
+          style={styles.touchableOpacityStyle}>
+          <Ionicons name="chatbubbles" color='#FFFFFF' size={30} style={{ top: -45, right: 50 }} />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }
@@ -159,14 +170,17 @@ const styles = StyleSheet.create({
     height: 20,
     color: '#FFFFFF',
   },
-  actionbtn: {
-    height: 100,
+  touchableOpacityStyle: {
+    borderRadius: 100,
+    position: 'absolute',
+    backgroundColor: '#5AC8FA',
     width: 100,
-    borderRadius: 200,
-    backgroundColor: '#00D9CE',
-    marginTop: 0,
-    marginLeft: 50,
-    alignItems: 'center',
-    justifyContent: 'center'
+    height: 100,
+    right: 30,
+    bottom: -30,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    marginRight: -60,
+    elevation: 2
   }
 });

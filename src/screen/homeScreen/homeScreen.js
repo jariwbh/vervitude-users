@@ -56,7 +56,7 @@ const homeScreen = (props) => {
         try {
             const response = await CategoryService();
             const slice = response.data.slice(0, 4)
-            setCategory(slice);
+            setCategory([...slice, { add: true }]);
             console.log(`slice`, slice);
         } catch (error) {
             console.log(`error`, error);
@@ -140,14 +140,29 @@ const homeScreen = (props) => {
     }
 
     const renderCategory = ({ item }) => (
-        <View style={{ paddingHorizontal: 5, paddingVertical: 5, alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => { }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                <Image source={require('../../assets/Images/grommeticonstechnology1.png')}
-                    style={{ height: 60, width: 60 }} />
-            </TouchableOpacity>
-            <View style={{ marginTop: 5, alignItems: 'center' }}>
-                <Text>Technology</Text>
-            </View>
+        <View style={{ marginHorizontal: 10, justifyContent: 'center', alignItems: 'center' }}>
+            { item.add == true ?
+                <View>
+                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                        <Image source={require('../../assets/Images/allicon.png')}
+                            style={{ height: 60, width: 60 }} />
+                    </TouchableOpacity>
+                    <View style={{ marginTop: 5, alignItems: 'center' }}>
+                        <Text>All Catgory</Text>
+                    </View>
+                </View>
+
+                :
+                <View>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item }) }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                        <Image source={{ uri: item.property.image[0].attachment }}
+                            style={{ height: 60, width: 60 }} />
+                    </TouchableOpacity>
+                    <View style={{ marginTop: 5, alignItems: 'center' }}>
+                        <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
+                    </View>
+                </View>
+            }
         </View>
     )
 
@@ -196,23 +211,16 @@ const homeScreen = (props) => {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ marginTop: 20, justifyContent: 'flex-start', marginLeft: 5, marginRight: 5, flexDirection: 'row', alignItems: 'center' }}>
-                    <FlatList
-                        renderItem={renderCategory}
-                        data={category}
-                        horizontal={false}
-                        numColumns={4}
-                        keyExtractor={item => item._id}
-                    />
-                    <View>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('selectCategoryScreen')} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <Image source={require('../../assets/Images/allicon.png')}
-                                style={{ height: 60, width: 60 }} />
-                        </TouchableOpacity>
-                        <View style={{ marginTop: 5, alignItems: 'center' }}>
-                            <Text>All Catgory</Text>
-                        </View>
-                    </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        <FlatList
+                            renderItem={renderCategory}
+                            data={category}
+                            horizontal={false}
+                            numColumns={5}
+                            keyExtractor={item => item._id}
+                        />
+                    </ScrollView>
                 </View>
 
                 <View style={STYLE.styles.categoriesText}>
@@ -248,7 +256,7 @@ const homeScreen = (props) => {
                     <FontAwesome name="rupee" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
             </ActionButton>
-            {loading ? <Loader /> : null}
+            { loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

@@ -22,9 +22,7 @@ const WIDTH = Dimensions.get('window').width;
 import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import FeedBackService from '../../services/FeedBackService/FeedBackService';
-import { checkLocationAccuracy } from 'react-native-permissions';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
-
 
 const chatScreen = (props, { navigation }) => {
 	const [loading, setloading] = useState(false);
@@ -311,7 +309,7 @@ const chatScreen = (props, { navigation }) => {
 						renderAvatar={null}
 						alwaysShowSend={true}
 						renderBubble={(props) => renderBubble(props, navigation)}
-						// renderDay={renderDay}
+						//renderDay={renderDay}
 						minInputToolbarHeight={80}
 						renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
 					/>

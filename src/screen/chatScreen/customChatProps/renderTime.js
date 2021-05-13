@@ -5,8 +5,8 @@ const renderTime = (props) => (
 	<Time
 		{...props}
 		timeTextStyle={{
-			right: { color: '#f5f5f5', fontSize: 12 },
-			left: { color: '#f5f5f5', fontSize: 12 }
+			right: { color: '#FFFFFF', fontSize: 12 },
+			left: { color: '#000000', fontSize: 12 }
 		}}
 	/>
 );
