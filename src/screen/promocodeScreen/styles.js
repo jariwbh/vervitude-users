@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     gamountslideview: {
-        height: 320,
+        flex: 1,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 3,
+        elevation: 2
     },
     mainCardView: {
         width: WIDTH,
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 3,
+        elevation: 2,
     },
     headerstyle: {
         backgroundColor: '#787AFF',

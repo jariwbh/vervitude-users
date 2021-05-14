@@ -113,7 +113,7 @@ export const SubCategoryStyles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 5,
+        elevation: 2,
         overflow: 'hidden',
     },
     cauve: {

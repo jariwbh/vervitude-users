@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, SafeAreaView, Image, TouchableOpacity, StatusBar, FlatList, StyleSheet } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as SCREEN from '../../context/screen/screenName';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -23,11 +22,6 @@ const consultantsScreen = (props) => {
       </TouchableOpacity>
     </View>
   );
-
-  const clickHandler = () => {
-    //function to handle click on floating Action Button
-    alert('Floating Button Clicked');
-  };
 
   return (
     <SafeAreaView style={STYLES.styles.container}>

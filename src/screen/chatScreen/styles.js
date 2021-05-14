@@ -20,7 +20,7 @@ export const newChatStyles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 3,
+        elevation: 1,
         overflow: 'hidden',
     },
     statusbar: {
@@ -84,7 +84,7 @@ export const recentChatStyles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 2,
+        elevation: 1
     },
     statusbar: {
         flexDirection: 'row',

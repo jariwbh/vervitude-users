@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, Image, TextInput, SafeAreaView, TouchableOpacity,
-    ScrollView, StatusBar, FlatList, Pressable, RefreshControl
+    ScrollView, StatusBar, FlatList, Pressable, RefreshControl, ImageBackground
 } from 'react-native';
-import { ConsultantListService } from '../../services/UserService/UserService';
+import { TopConsultantViewListService } from '../../services/UserService/UserService';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -61,7 +61,7 @@ const subcategoryScreen = (props) => {
     //get pull to refresh function
     const onRefresh = () => {
         setrefreshing(true);
-        consultantService();
+        consultantService(categoryProps._id);
         wait(3000).then(() => setrefreshing(false));
     }
 
@@ -95,9 +95,9 @@ const subcategoryScreen = (props) => {
         try {
             let response;
             if (id != null && id != undefined) {
-                response = await ConsultantListService(id);
+                response = await TopConsultantViewListService(id);
             } else {
-                response = await ConsultantListService();
+                response = await TopConsultantViewListService();
             }
             if (response.data != null && response.data != undefined && response.status == 200) {
                 setconsultantList(response.data);
@@ -141,7 +141,7 @@ const subcategoryScreen = (props) => {
     //render consultants lists using flatlist
     const renderConsultantList = ({ item }) => (
         <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
-            style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+            style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, flex: 1 }}>
             <View style={STYLES.SubCategoryStyles.counsultantview}>
                 {/* <View style={STYLES.SubCategoryStyles.cauve}>
                     <FontAwesome name='circle' size={110} color='#FFB629' />
@@ -149,44 +149,56 @@ const subcategoryScreen = (props) => {
                         style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                     />
                 </View> */}
-                <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: 10, flex: 1 }}>
-                    {
-                        item.property.live === true ?
-                            <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
-                            :
-                            <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
-                    }
-                    <View style={{ flexDirection: 'column' }}>
-                        <Image source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 20, marginLeft: 20, flex: 1 }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
+                        <ImageBackground source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
-                        />
+                            imageStyle={{ borderRadius: 100 }}
+                        >
+                            {
+                                item.property.live === true ?
+                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
+                                    :
+                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
+                            }
+                        </ImageBackground>
                         <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
-                            <Text>4K</Text>
+                            <Text style={{ color: '#000000', fontSize: 12 }}>{item.ratinglen + 'K'}</Text>
                             <StarRating
                                 disabled={false}
                                 maxStars={5}
                                 starSize={15}
-                                rating={3}
+                                rating={item.ratinglen}
                                 fullStarColor={'#F1C40E'}
                                 emptyStarColor={'#000000'}
                             />
                         </View>
                     </View>
-                    <View>
+
+                    <View style={{ marginLeft: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
                         <Text style={{ fontSize: 16, color: '#999999', textTransform: 'capitalize' }}>{item.property.usertag}</Text>
+
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
-                        <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
 
-                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                        <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                        <Text style={{ fontSize: 12, color: '#000000' }}>
+                            {
+                                item.skills ?
+                                    item.skills.map(({
+                                        title
+                                    }) => title).join(',')
+                                    : null
+                            }
+                        </Text>
+                        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginTop: 5 }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
                             </View>
-                            <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 120 }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
                                     style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
@@ -261,7 +273,7 @@ const subcategoryScreen = (props) => {
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}
+            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps={'always'}
                 refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
                 <View style={{ marginLeft: 20, marginTop: 15 }}>
                     <Text style={{ fontSize: 26, textTransform: 'capitalize' }}>{categoryProps.property.skillcategory}</Text>
@@ -305,6 +317,7 @@ const subcategoryScreen = (props) => {
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
             <ActionButton
+                active={true}
                 buttonColor="#00D9CE"
                 position="right"
                 bgColor="transparent"

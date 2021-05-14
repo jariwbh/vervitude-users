@@ -15,10 +15,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SCREEN from '../../context/screen/screenName';
-import { ConsultantListService, UserUpdateService } from '../../services/UserService/UserService';
+import { TopConsultantViewListService, UserUpdateService } from '../../services/UserService/UserService';
 import { AUTHUSER } from '../../context/actions/type';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CategoryService } from '../../services/CategoryService/CategoryService';
+import SearchBar from '../../components/SearchBar/SearchBar';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const homeScreen = (props) => {
@@ -57,7 +58,6 @@ const homeScreen = (props) => {
             const response = await CategoryService();
             const slice = response.data.slice(0, 4)
             setCategory([...slice, { add: true }]);
-            console.log(`slice`, slice);
         } catch (error) {
             console.log(`error`, error);
         }
@@ -97,7 +97,7 @@ const homeScreen = (props) => {
     //Consultant List Service to call function
     const ConsultantList = async () => {
         try {
-            const response = await ConsultantListService();
+            const response = await TopConsultantViewListService();
             const slice = response.data.slice(0, 5)
             setConsultant(slice);
             setloading(false);
@@ -110,6 +110,7 @@ const homeScreen = (props) => {
         props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
     }
 
+    //render consultans list useing flatlist 
     const renderConsultants = ({ item }) => {
         return (
             <View style={{ flexDirection: 'column', marginBottom: 30 }}>
@@ -124,12 +125,12 @@ const homeScreen = (props) => {
                     </Text>
                     <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
                     <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
+                        <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>{item.ratinglen + 'k'}</Text>
                         <StarRating
                             disabled={false}
                             maxStars={5}
                             starSize={15}
-                            rating={3}
+                            rating={item.ratings}
                             fullStarColor={'#F1C40E'}
                             emptyStarColor={'#000000'}
                         />
@@ -139,6 +140,7 @@ const homeScreen = (props) => {
         )
     }
 
+    //render category list useing flatlist
     const renderCategory = ({ item }) => (
         <View style={{ marginHorizontal: 10, justifyContent: 'center', alignItems: 'center' }}>
             { item.add == true ?
@@ -184,22 +186,8 @@ const homeScreen = (props) => {
                         <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
                     </View>
                 </View>
-
-                <View style={STYLE.styles.centerView}>
-                    <View style={STYLE.styles.statusbar}>
-                        <TouchableOpacity >
-                            <AntDesign name='search1' size={20} color='#00D9CE' style={{ marginLeft: 20 }} />
-                        </TouchableOpacity>
-                        <TextInput
-                            style={STYLE.styles.statInput}
-                            placeholder='Search App'
-                            type='clear'
-                            placeholderTextColor='#999999'
-                            returnKeyType='done'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                        />
-                    </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <SearchBar />
                 </View>
             </View>
 

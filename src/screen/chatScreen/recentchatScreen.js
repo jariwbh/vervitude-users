@@ -147,6 +147,7 @@ const recentchatScreen = (props) => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps={'always'}
                 nestedScrollEnabled={true}
                 refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
 

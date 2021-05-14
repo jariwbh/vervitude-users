@@ -48,11 +48,50 @@ const ConsultantListService = (id) => {
                 'criteria': 'eq',
                 'datatype': 'objectId'
             }
-            ]
+            ], "formname": "consultant"
         }
     }
-    console.log(`body`, body)
     return Axios.post('users/filter', body);
+}
+
+const TopConsultantViewListService = (id) => {
+    let body;
+    if (id != null && id != undefined) {
+        body = {
+            "search": [{
+                "searchfield": "status",
+                "searchvalue": "active",
+                "criteria": "eq",
+                "datatype": "text"
+            }, {
+                "searchfield": "property.skill",
+                "searchvalue": id,
+                "criteria": "eq",
+                "datatype": "text"
+            }], "sort": { "createdAt": 1 },
+            "formname": "consultant"
+        }
+    } else {
+        body = {
+            'search': [{
+                'searchfield': 'status',
+                'searchvalue': 'active',
+                'criteria': 'eq',
+                'datatype': 'text'
+            }
+            ], "formname": "consultant"
+        }
+    }
+
+    // const body = {
+    //     'search': [{
+    //         'searchfield': 'status',
+    //         'searchvalue': 'active',
+    //         'criteria': 'eq',
+    //         'datatype': 'text'
+    //     }], "formname": "consultant", "sort": { "ratings": -1 }
+    // }
+    return Axios.post('users/view/filter', body);
 }
 
 const UserListService = () => {
@@ -67,4 +106,4 @@ const UserListService = () => {
     return Axios.patch('members/' + id, body);
 }
 
-export { UserProfileService, UserUpdateService, ConsultantListService, UserListService };
+export { UserProfileService, UserUpdateService, ConsultantListService, UserListService, TopConsultantViewListService };

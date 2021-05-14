@@ -220,9 +220,9 @@ const chatScreen = (props, { navigation }) => {
 	const onpressDoneBtn = async () => {
 		feedBack();
 		const body = {
-			formid: formdataDetails.formid._id,
+			formid: '60939df914f2d062cc132d68',
 			contextid: formdataDetails.contextid._id,
-			onModel: formdataDetails.onModel,
+			onModel: 'User',
 			property: {
 				startat: formdataDetails.property.startat,
 				endat: moment().format(),

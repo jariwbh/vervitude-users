@@ -11,7 +11,7 @@ import * as STYLES from './styles';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import Loader from '../../components/loader/index';
 import * as SCREEN from '../../context/screen/screenName';
-import { ConsultantListService } from '../../services/UserService/UserService';
+import { TopConsultantViewListService } from '../../services/UserService/UserService';
 
 const newchatsScreen = (props) => {
     const [consultantList, setconsultantList] = useState([]);
@@ -43,7 +43,7 @@ const newchatsScreen = (props) => {
     //get Consultants List API
     const consultantService = async () => {
         try {
-            const response = await ConsultantListService();
+            const response = await TopConsultantViewListService();
             if (response.status == 200) {
                 setconsultantList(response.data);
                 setSearchConsultant(response.data);
@@ -71,52 +71,56 @@ const newchatsScreen = (props) => {
 
     const renderConsultantList = ({ item }) => (
         <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
-            style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}>
+            style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
             <View style={STYLES.newChatStyles.counsultantview}>
-                <View style={STYLES.newChatStyles.cauve}>
+                {/* <View style={STYLES.newChatStyles.cauve}>
                     <FontAwesome name='circle' size={110} color='#FFB629' />
                     <Image source={require('../../assets/Images/medal1.png')}
                         style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                     />
-                </View>
-                <View style={{ justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', marginTop: -40, flex: 1 }}>
-                    {
-                        item.property.live === true ?
-                            <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
-                            :
-                            <View style={{ marginTop: -100, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
-                    }
-                    <View style={{ flexDirection: 'column' }}>
+                </View> */}
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 10, flex: 1, marginLeft: 20 }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
                         <Image source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                         />
                         <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
-                            <Text>4K</Text>
+                            <Text style={{ color: '#000000', fontSize: 12 }}>{item.ratinglen + 'K'}</Text>
                             <StarRating
                                 disabled={false}
                                 maxStars={5}
                                 starSize={15}
-                                rating={3}
+                                rating={item.ratinglen}
                                 fullStarColor={'#F1C40E'}
                                 emptyStarColor={'#000000'}
                             />
                         </View>
                     </View>
-                    <View>
+
+                    <View style={{ marginLeft: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
-                        <Text style={{ fontSize: 16, color: '#999999' }}>Business Counsultant</Text>
+                        <Text style={{ fontSize: 16, color: '#999999' }}>{item.property.usertag}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
-                        <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000' }}>CRM,Digital Marketing,Marketing</Text>
 
-                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                        <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
+                        <Text style={{ fontSize: 12, color: '#000000' }}>
+                            {
+                                item.skills ?
+                                    item.skills.map(({
+                                        title
+                                    }) => title).join(',')
+                                    : null
+                            }
+                        </Text>
+
+                        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginTop: 5 }}>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ 25 per min</Text>
+                                <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
                             </View>
-                            <View style={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: -20 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 120 }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
                                     style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
@@ -176,6 +180,7 @@ const newchatsScreen = (props) => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps={'always'}
                 nestedScrollEnabled={true}
                 refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
 

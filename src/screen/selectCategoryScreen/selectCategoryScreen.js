@@ -11,7 +11,7 @@ import StarRating from 'react-native-star-rating';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import * as SCREEN from '../../context/screen/screenName';
-import { ConsultantListService } from '../../services/UserService/UserService';
+import { TopConsultantViewListService } from '../../services/UserService/UserService';
 import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -43,8 +43,7 @@ function selectCategoryScreen(props) {
     //category List Service to call function
     const ConsultantList = async () => {
         try {
-            const response = await ConsultantListService();
-            // console.log(`response`, response.data);
+            const response = await TopConsultantViewListService();
             const slice = response.data.slice(0, 5)
             setConsultant(slice);
             setloading(false);
@@ -81,12 +80,12 @@ function selectCategoryScreen(props) {
                 >{item.property.first_name}</Text>
                 <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
                 <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>2.3K</Text>
+                    <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>{item.ratinglen + 'k'}</Text>
                     <StarRating
                         disabled={false}
                         maxStars={5}
                         starSize={15}
-                        rating={3}
+                        rating={item.ratinglen}
                         fullStarColor={'#F1C40E'}
                         emptyStarColor={'#000000'}
                     />
@@ -174,7 +173,7 @@ function selectCategoryScreen(props) {
                 buttonColor="#00D9CE"
                 position="right"
                 bgColor="transparent"
-                autoInactive={true}
+                autoInactive={false}
             // icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
