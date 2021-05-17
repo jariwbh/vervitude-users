@@ -1,19 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { WalletDetailService } from '../../services/BillService/BillService';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AUTHUSER } from '../../context/actions/type';
 
 export default function WallateButton(props) {
+    const [walletBalance, setwalletBalance] = useState(null);
+
+    useEffect(
+        () => {
+            AsyncStorage.getItem(AUTHUSER).then(async (res) => {
+                let userId = JSON.parse(res)._id;
+                try {
+                    const response = await WalletDetailService(userId);
+                    if (response.data != null && response.data != 'undefind' && response.status === 200) {
+                        setwalletBalance(response.data[0].walletbalance)
+                    }
+                } catch (error) {
+                    console.log(`error`, error);
+                }
+            });
+        },
+        []
+    )
+
+    useEffect(() => {
+    }, [walletBalance])
+
     return (
         <TouchableOpacity onPress={props.onPress}
             style={styles.btnstyle} >
-            <Text style={styles.btntext}>₹5,300</Text>
+            <Text style={styles.btntext}>₹ {walletBalance}</Text>
             <Image source={require('../../assets/Images/wallateicon.png')}
                 style={{ alignItems: 'center', height: 20, width: 25 }}
             />
         </TouchableOpacity>
     )
 }
-//wallateicon
+
 const styles = StyleSheet.create({
     btnstyle: {
         height: 45,

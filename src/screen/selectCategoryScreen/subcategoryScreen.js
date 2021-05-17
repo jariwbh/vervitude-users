@@ -317,11 +317,10 @@ const subcategoryScreen = (props) => {
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
             <ActionButton
-                active={true}
                 buttonColor="#00D9CE"
                 position="right"
                 bgColor="transparent"
-                autoInactive={true}
+                autoInactive={false}
             // icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>

@@ -1,10 +1,44 @@
-import React from 'react'
-import { Text, View, SafeAreaView, StatusBar, TouchableOpacity, Image, ScrollView, } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, SafeAreaView, StatusBar, TouchableOpacity, Image, ScrollView, TextInput } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { AUTHUSER } from '../../context/actions/type';
+import { BillService } from '../../services/BillService/BillService';
 import * as STYLES from './styles';
+import * as SCREEN from '../../context/screen/screenName';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const myWalletScreen = (props) => {
+    const [loading, setloading] = useState(false);
+    const [userDetails, setuserDetails] = useState(null);
+    const [amount, setAmount] = useState(null);
+
+    //get AsyncStorage current user Details
+    const getUserDetails = async () => {
+        //get AsyncStorage current user Details
+        var getUser = await AsyncStorage.getItem(AUTHUSER);
+        if (getUser == null) {
+            setTimeout(() => {
+                props.navigation.replace(SCREEN.LOGINSCREEN)
+            }, 3000);;
+        } else {
+            var UserInfo = JSON.parse(getUser);
+            setuserDetails(UserInfo);
+        }
+    }
+
+    useEffect(() => {
+        getUserDetails()
+    })
+
+    useEffect(() => {
+    }, [loading, amount, userDetails])
+
+    const onPressRecharge = () => {
+        let rechargeObj = { id: userDetails._id, amount: amount }
+        props.navigation.navigate(SCREEN.RECHARGEDETAILSCREEN, { rechargeObj })
+    }
+
     return (
         <SafeAreaView style={STYLES.myWalletStyles.container}>
             <StatusBar hidden backgroundColor='#04DE71' barStyle='light-content' />
@@ -28,31 +62,35 @@ const myWalletScreen = (props) => {
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 20 }}>
-                    <View >
-                        <Text style={{ fontSize: 26, color: '#999999' }}>₹ Amount</Text>
-                    </View>
+                    <TextInput
+                        style={STYLES.myWalletStyles.TextInput}
+                        placeholder='₹ Amount'
+                        underlineColorAndroid='#999999'
+                        defaultValue={amount}
+                        keyboardType='number-pad'
+                    />
                     <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate('promocodeScreen')}>
                         <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('500')}>
                         <Text style={{ fontSize: 16 }}>₹ 500</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('1000')}>
                         <Text style={{ fontSize: 16 }}>₹ 1,000</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('3000')}>
                         <Text style={{ fontSize: 16 }}>₹ 3,000</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('10000')}>
                         <Text style={{ fontSize: 16 }}>₹ 10,000</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                    <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => props.navigation.navigate('rechargedetailScreen')}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => onPressRecharge()}>
                         <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
                     </TouchableOpacity>
                 </View>

@@ -60,7 +60,6 @@ const consultantsScreen = (props) => {
                 style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
               />
             </View> */}
-
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', margin: 20, marginTop: 20, alignItems: 'center' }}>
               <Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
                 style={{ width: 120, height: 120, borderColor: '#D1E8EA', borderRadius: 100, borderWidth: 5 }}
@@ -71,7 +70,6 @@ const consultantsScreen = (props) => {
                 <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textTransform: 'capitalize' }}>{consultanDetails.property.location}</Text>
               </View>
             </View>
-
             <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-between', marginRight: 15, marginLeft: 15 }}>
               <View>
                 <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{moment().diff(consultanDetails.property.careerstart, 'years')}</Text>
@@ -89,13 +87,13 @@ const consultantsScreen = (props) => {
                     disabled={false}
                     maxStars={5}
                     starSize={10}
-                    rating={3}
+                    rating={consultanDetails.ratings}
                     fullStarColor={'#F1C40E'}
                     emptyStarColor={'#000000'}
                   />
                 </View>
-                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>4.5</Text>
-                <Text style={{ fontSize: 10, color: '#000000' }}>1.2K Ratings</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{consultanDetails.ratings == null ? '0' : consultanDetails.ratings}</Text>
+                <Text style={{ fontSize: 10, color: '#000000' }}>{consultanDetails.ratinglen + 'k'} Ratings</Text>
               </View>
             </View>
 

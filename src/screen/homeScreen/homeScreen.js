@@ -142,7 +142,7 @@ const homeScreen = (props) => {
 
     //render category list useing flatlist
     const renderCategory = ({ item }) => (
-        <View style={{ marginHorizontal: 10, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, paddingHorizontal: 7, justifyContent: 'center', alignItems: 'center' }}>
             { item.add == true ?
                 <View>
                     <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
@@ -166,6 +166,12 @@ const homeScreen = (props) => {
                 </View>
             }
         </View>
+    )
+
+    const renderImage = () => (
+        <TouchableOpacity style={styles.touchableOpacityStyle}>
+            <Ionicons name="chatbubbles" color='#FFFFFF' size={30} style={{ top: -45, right: 50 }} />
+        </TouchableOpacity>
     )
 
     return (
@@ -232,7 +238,7 @@ const homeScreen = (props) => {
                 position="right"
                 bgColor="transparent"
                 autoInactive={true}
-            // icon={renderImage()}
+                icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
                     <Ionicons name="chatbubbles" style={styles.actionButtonIcon} />
@@ -264,6 +270,19 @@ const styles = StyleSheet.create({
         marginLeft: 50,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    touchableOpacityStyle: {
+        borderRadius: 100,
+        position: 'absolute',
+        backgroundColor: '#00D9CE',
+        width: 100,
+        height: 100,
+        right: 30,
+        bottom: -30,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        marginRight: -60,
+        elevation: 2
     }
 });
 

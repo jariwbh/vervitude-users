@@ -10,18 +10,22 @@ const WIDTH = Dimensions.get('window').width;
 
 const SearchBar = (props) => {
     const [consultant, setConsultant] = useState([]);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(null);
     const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     useEffect(() => {
         ConsultantList();
     }, [])
 
+    useEffect(() => {
+    }, [search])
+
     //Consultant List Service to call function
     const ConsultantList = async () => {
         try {
             const response = await TopConsultantViewListService();
-            setFilteredDataSource(response.data);
+            const slice = response.data.slice(0, 5)
+            setFilteredDataSource(slice);
             setConsultant(response.data);
         } catch (error) {
             console.log(`error`, error);
@@ -30,11 +34,7 @@ const SearchBar = (props) => {
 
     //search consultants function
     const searchFilterFunction = (text) => {
-        // Check if searched text is not blank
         if (text) {
-            // Inserted text is not blank
-            // Filter the masterDataSource
-            // Update FilteredDataSource
             const newData = consultant.filter(item => {
                 const itemData = item.fullname
                     ? item.fullname.toUpperCase()
@@ -44,24 +44,19 @@ const SearchBar = (props) => {
             });
             setFilteredDataSource(newData);
             setSearch(text);
-        } else {
-            // Inserted text is blank
-            // Update FilteredDataSource with masterDataSource
-            setFilteredDataSource(consultant);
-            setSearch(text);
         }
     };
 
     // Flat List Item
     const ItemView = ({ item }) => {
         return (
-            <Text
-                style={{ padding: 10 }}
-                onPress={() => getItem(item)}>
-                {item.id}
-                {'.'}
-                {item.fullname}
-            </Text>
+            <View style={{ width: WIDTH - 25 }}>
+                <Text
+                    style={{ padding: 10, alignItems: 'flex-start', justifyContent: 'center' }}
+                    onPress={() => getItem(item)}>
+                    {item.fullname + ' - ' + ' Consultant'}
+                </Text>
+            </View>
         );
     };
 
@@ -80,7 +75,7 @@ const SearchBar = (props) => {
 
     // Function for click on an item
     const getItem = (item) => {
-        alert('Id : ' + item.id + ' Title : ' + item.fullname);
+        alert(' counsultant Name : ' + item.fullname);
     };
 
     return (
@@ -100,13 +95,19 @@ const SearchBar = (props) => {
                     onChangeText={(text) => searchFilterFunction(text)}
                     defaultValue={search}
                 />
-                <FlatList
-                    data={filteredDataSource}
-                    keyExtractor={(item, index) => index.toString()}
-                    ItemSeparatorComponent={ItemSeparatorView}
-                    renderItem={ItemView}
-                />
             </View>
+
+            {
+                search === null ? null :
+                    <View style={{ marginTop: 70, position: 'absolute', backgroundColor: '#FFFFFF', zIndex: 999 }}>
+                        <FlatList
+                            data={filteredDataSource}
+                            keyExtractor={(item, index) => index.toString()}
+                            ItemSeparatorComponent={ItemSeparatorView}
+                            renderItem={ItemView}
+                        />
+                    </View>
+            }
         </SafeAreaView>
     )
 }

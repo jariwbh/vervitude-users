@@ -7,6 +7,11 @@ export const myWalletStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFFFF',
     },
+    TextInput: {
+        width: WIDTH / 2,
+        height: 80,
+        fontSize: 26,
+    },
     amount: {
         width: 80,
         height: 40,

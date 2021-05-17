@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import {
 	View, Text, SafeAreaView, StyleSheet, ScrollView, Pressable,
-	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid
+	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid, Keyboard
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -14,7 +14,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { renderDay, renderBubble, renderInputToolbar } from './customChatProps';
 import firestore from '@react-native-firebase/firestore';
 //
-import { EndChatService, FindChatById, StartChatService } from '../../services/ChatService/ChatService';
+import { EndChatService, FindChatById, StartChatService, StartProject } from '../../services/ChatService/ChatService';
 import moment from 'moment';
 import StarRating from 'react-native-star-rating';
 const HEIGHT = Dimensions.get('window').height;
@@ -23,6 +23,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import FeedBackService from '../../services/FeedBackService/FeedBackService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const chatScreen = (props, { navigation }) => {
 	const [loading, setloading] = useState(false);
@@ -39,6 +40,15 @@ const chatScreen = (props, { navigation }) => {
 	const consultanDetails = props.route.params.consultanDetails;
 	const [rating, setRating] = useState(null);
 	const [feedback, setFeedback] = useState(null);
+	const [projectTime, setProjectTime] = useState(null);
+	const [projectTimeError, setProjectTimeError] = useState(null);
+	const [projectdesc, setProjectdesc] = useState(null);
+	const [projectdescError, setProjectdescError] = useState(null);
+	const [projectMobile, setProjectMobile] = useState(null);
+	const [projectMobileError, setProjectMobileError] = useState(null);
+	const [isTimePickerVisibility, setIsTimePickerVisibility] = useState(false);
+	const secondTextInputRef = React.createRef();
+	const thirdTextInputRef = React.createRef();
 
 	// chat portion
 	useEffect(
@@ -66,7 +76,10 @@ const chatScreen = (props, { navigation }) => {
 	);
 
 	useEffect(() => {
-	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender])
+	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender,
+		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError
+
+	])
 
 	const startChat = async (sender, item) => {
 		const body = {
@@ -158,6 +171,12 @@ const chatScreen = (props, { navigation }) => {
 	};
 
 	const showModalVisible = (visible) => {
+		setProjectTime(null);
+		setProjectTimeError(null);
+		setProjectdesc(null);
+		setProjectdescError(null);
+		setProjectMobile(null);
+		setProjectMobileError(null);
 		setshowStartProjectVisible(visible);
 	};
 
@@ -182,6 +201,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	//first time chat initial chat to call funaction
 	const firstTimeChatByIdService = async (id) => {
 		const response = await FindChatById(id);
 		try {
@@ -193,6 +213,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	//call feedback form open
 	const feedBack = async () => {
 		if (!rating && !feedback) {
 			return;
@@ -217,6 +238,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	//end chat menu click to call function
 	const onpressDoneBtn = async () => {
 		feedBack();
 		const body = {
@@ -254,12 +276,98 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	//check end chat or not
 	const EndChat = () => (
 		<View style={{ alignItems: 'center', margin: 5 }}>
 			<Text style={{ fontSize: 14, color: '#000000' }}>{`Your Chat is close in this Date ${formdataDetails && moment(formdataDetails.property.endat).format("MMM Do YYYY")}`}</Text>
 			<Text style={{ fontSize: 14, color: '#000000' }}>{`and time ${formdataDetails && moment(formdataDetails.property.endat).format('LTS')}`}</Text>
 		</View>
 	)
+
+	//check project time error message
+	const setTimeCheck = (time) => {
+		if (!time || time <= 0) {
+			return setProjectTimeError('project time cannot be empty');
+		}
+		setProjectTime(time);
+		setProjectTimeError(null);
+		return;
+	}
+
+	//check project consultant Mobile error message
+	const setMobileCheck = (mobile_number) => {
+		const reg = /^\d{10}$/;
+		if (!mobile_number || mobile_number.length <= 0) {
+			setProjectMobile(null);
+			setProjectMobileError('Mobile Number cannot be empty');
+			return;
+		}
+		if (!reg.test(mobile_number)) {
+			setProjectMobile(null);
+			setProjectMobileError('Ooops! We need a valid Mobile Number');
+			return;
+		}
+		setProjectMobile(mobile_number);
+		setProjectMobileError(null);
+		return;
+	}
+
+	//check project description error message
+	const setDescriptionCheck = (projectdesc) => {
+		if (!projectdesc || projectdesc <= 0) {
+			return setProjectdescError('project desc cannot be empty');
+		}
+		setProjectdesc(projectdesc);
+		setProjectdescError(null);
+		return;
+	}
+
+	//start project submit button click to call
+	const projectStart = async () => {
+		if (!projectMobile || !projectTime || !projectdesc) {
+			setTimeCheck(projectTime);
+			setMobileCheck(projectMobile);
+			setDescriptionCheck(projectdesc);
+			return;
+		}
+
+		const body = {
+			formid: '60a2233ddc53910facbc82d0',
+			contextid: sender,
+			onModel: 'Member',
+			property: {
+				time: projectTime,
+				mobile_number: projectMobile,
+				description: projectdesc
+			}
+		}
+		try {
+			const response = await StartProject(body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				showModalVisibleSubmit(!showStartProjectVisible)
+				//props.navigation.navigate(SCREEN.HOMESCREEN);
+			}
+		} catch (error) {
+			console.log(`error`, error);
+		}
+	}
+
+	//on touch to open time picker
+	const showTimePicker = () => {
+		setIsTimePickerVisibility(true);
+	};
+
+	//on touch cancel btn to close time picker
+	const hideTimePicker = () => {
+		setIsTimePickerVisibility(false);
+	};
+
+	//time picker in submit to select date
+	const handleConfirmTime = (time) => {
+		let datetime = moment(time).format()
+		setProjectTime(datetime);
+		hideTimePicker();
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -328,28 +436,45 @@ const chatScreen = (props, { navigation }) => {
 					<View style={{ position: 'absolute', bottom: 20 }}>
 						<View style={styles.modalView}>
 							<View style={{ marginTop: 20 }} />
-							<View style={styles.inputView}>
+							<View style={projectTimeError == null ? styles.inputView : styles.inputViewError}>
 								<TextInput
 									style={styles.TextInput}
 									placeholder='Best time to call'
 									type='clear'
 									returnKeyType='next'
 									placeholderTextColor='#999999'
+									defaultValue={projectTime && moment(projectTime).format('LT')}
+									blurOnSubmit={false}
+									onTouchStart={() => showTimePicker()}
+									onSubmitEditing={() => secondTextInputRef.current.focus()}
+									onChangeText={(time) => setTimeCheck(time)}
 								/>
-								<TouchableOpacity>
+								<DateTimePickerModal
+									isVisible={isTimePickerVisibility}
+									mode="time"
+									onConfirm={handleConfirmTime}
+									onCancel={hideTimePicker}
+								/>
+								<TouchableOpacity onPress={() => showTimePicker()}>
 									<Ionicons name='time-outline' size={24} color='#000000' style={{ marginRight: 5 }} />
 								</TouchableOpacity>
 							</View>
-							<View style={styles.inputView}>
+							<View style={projectMobileError == null ? styles.inputView : styles.inputViewError}>
 								<TextInput
 									style={styles.TextInput}
 									placeholder='your Phone Number'
 									type='clear'
 									returnKeyType='next'
 									placeholderTextColor='#999999'
+									keyboardType='number-pad'
+									defaultValue={projectMobile}
+									blurOnSubmit={false}
+									ref={secondTextInputRef}
+									onSubmitEditing={() => thirdTextInputRef.current.focus()}
+									onChangeText={(mobile) => setMobileCheck(mobile)}
 								/>
 							</View>
-							<View style={styles.textAreainputView}>
+							<View style={projectdescError == null ? styles.textAreainputView : styles.textAreainputViewError}>
 								<TextInput
 									style={styles.TextareaInput}
 									placeholder='Project Brief'
@@ -359,18 +484,22 @@ const chatScreen = (props, { navigation }) => {
 									blurOnSubmit={false}
 									numberOfLines={3}
 									multiline={true}
+									defaultValue={projectdesc}
+									ref={thirdTextInputRef}
+									onSubmitEditing={() => Keyboard.dismiss()}
+									onChangeText={(description) => setDescriptionCheck(description)}
 								/>
 							</View>
 						</View>
 						<View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 							<TouchableOpacity
-								onPress={() => { showModalVisibleSubmit(!showStartProjectVisible) }}
+								onPress={() => projectStart()}
 								style={styles.savebtn}
 							>
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => { showModalVisible(!showStartProjectVisible) }}
+								onPress={() => showModalVisible(!showStartProjectVisible)}
 								style={styles.cancelbtn}
 							>
 								<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
@@ -670,6 +799,18 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		marginBottom: 20
 	},
+	inputViewError: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		backgroundColor: '#F4F4F4',
+		borderWidth: 0.5,
+		borderColor: '#FF0000',
+		width: WIDTH - 120,
+		height: 40,
+		borderRadius: 5,
+		marginBottom: 20,
+		borderWidth: 1
+	},
 	TextInput: {
 		fontSize: 14,
 		flex: 1,
@@ -684,6 +825,16 @@ const styles = StyleSheet.create({
 		width: WIDTH - 120,
 		height: 100,
 		borderRadius: 5
+	},
+	textAreainputViewError: {
+		flexDirection: 'row',
+		backgroundColor: '#F4F4F4',
+		borderWidth: 0.5,
+		borderColor: '#FF0000',
+		width: WIDTH - 120,
+		height: 100,
+		borderRadius: 5,
+		borderWidth: 1
 	},
 	TextareaInput: {
 		fontSize: 14,
