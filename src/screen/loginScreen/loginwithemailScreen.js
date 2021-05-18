@@ -138,7 +138,7 @@ const loginwithemailScreen = (props) => {
                     alert('SignIn Success!');
                 }
                 setloading(false);
-                props.navigation.navigate(SCREEN.MAINSCREEN);
+                props.navigation.navigate(SCREEN.HOMESCREEN);
             } else {
                 setloading(false);
                 setinputOtpNumber(null);
@@ -180,7 +180,7 @@ const loginwithemailScreen = (props) => {
                     alert('SignIn Success!');
                 }
                 setloading(false);
-                props.navigation.navigate(SCREEN.MAINSCREEN);
+                props.navigation.navigate(SCREEN.HOMESCREEN);
             }
             else {
                 if (response.data[0] == null && response.data[0] == undefined) {

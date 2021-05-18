@@ -35,6 +35,7 @@
     "react-native-star-rating": "^1.1.0",
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^8.1.0",
+    "react-native-webview": "^11.4.5",
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {

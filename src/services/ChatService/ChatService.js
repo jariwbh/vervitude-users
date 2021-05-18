@@ -58,5 +58,9 @@ function StartProject(body) {
     return Axios.post('formdatas', body);
 }
 
+function UserPaymentRequest(data) {
+    const body = JSON.stringify(data)
+    return Axios.post('bills', body);
+}
 
-export { StartChatService, RecentChatService, EndChatService, FindChatById, StartProject };
+export { StartChatService, RecentChatService, EndChatService, FindChatById, StartProject, UserPaymentRequest };

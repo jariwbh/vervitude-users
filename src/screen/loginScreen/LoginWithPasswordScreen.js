@@ -90,7 +90,7 @@ const LoginWithPasswordScreen = (props) => {
                 } else {
                     alert('SignIn Success!');
                 }
-                props.navigation.navigate(SCREEN.MAINSCREEN);
+                props.navigation.navigate(SCREEN.HOMESCREEN);
                 return;
             }
         } catch (error) {

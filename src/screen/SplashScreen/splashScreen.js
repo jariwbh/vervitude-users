@@ -16,7 +16,7 @@ function SplashScreen(props) {
         //set header auth user key
         let token = userData._id;
         axiosConfig(token);
-        return props.navigation.navigate(SCREEN.MAINSCREEN)
+        return props.navigation.navigate(SCREEN.HOMESCREEN)
       } else {
         props.navigation.navigate(SCREEN.LOGINSCREEN)
       }

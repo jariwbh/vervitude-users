@@ -24,6 +24,8 @@ import Loader from '../../components/loader/index';
 import FeedBackService from '../../services/FeedBackService/FeedBackService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { getByIdUser } from '../../services/UserService/UserService';
+import { BillService } from '../../services/BillService/BillService';
 
 const chatScreen = (props, { navigation }) => {
 	const [loading, setloading] = useState(false);
@@ -37,6 +39,7 @@ const chatScreen = (props, { navigation }) => {
 	const [formDataId, setFormDataId] = useState(null);
 	const [formdataDetails, setFormdataDetails] = useState(null);
 	const [hideInput, setHideInput] = useState(false);
+
 	const consultanDetails = props.route.params.consultanDetails;
 	const [rating, setRating] = useState(null);
 	const [feedback, setFeedback] = useState(null);
@@ -47,6 +50,7 @@ const chatScreen = (props, { navigation }) => {
 	const [projectMobile, setProjectMobile] = useState(null);
 	const [projectMobileError, setProjectMobileError] = useState(null);
 	const [isTimePickerVisibility, setIsTimePickerVisibility] = useState(false);
+	const [getUser, setGetUser] = useState(null);
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
 
@@ -58,6 +62,7 @@ const chatScreen = (props, { navigation }) => {
 				axiosConfig(sender);
 				setsender(sender);
 				setloading(true);
+				getConsultant(consultanDetails._id)
 				newChat(sender, consultanDetails._id).then((id) => {
 					setchatId(id);
 					let getMessages = firestore()
@@ -75,8 +80,18 @@ const chatScreen = (props, { navigation }) => {
 		[navigation]
 	);
 
+	//get consultant by id call api
+	const getConsultant = async (id) => {
+		try {
+			const response = await getByIdUser(id);
+			setGetUser(response.data[0])
+		} catch (error) {
+			console.log(`error`, error);
+		}
+	}
+
 	useEffect(() => {
-	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender,
+	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser,
 		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError
 
 	])
@@ -178,6 +193,7 @@ const chatScreen = (props, { navigation }) => {
 		setProjectMobile(null);
 		setProjectMobileError(null);
 		setshowStartProjectVisible(visible);
+		setshowshowEndChatModel(false);
 	};
 
 	const showModalVisibleSubmit = (visible) => {
@@ -228,43 +244,90 @@ const chatScreen = (props, { navigation }) => {
 				feedback: feedback
 			}
 		}
-		try {
-			const response = await FeedBackService(body);
-			// if (response.data != null && response.data != 'undefind' && response.status == 200) {
-			// 	props.navigation.navigate(SCREEN.HOMESCREEN);
-			// }
-		} catch (error) {
-			console.log(`error`, error);
+
+		if (rating != null && feedback != null) {
+			try {
+				const response = await FeedBackService(body);
+				console.log(`response`, response);
+				if (response.data != null && response.data != 'undefind' && response.status == 200) {
+					props.navigation.navigate(SCREEN.HOMESCREEN);
+				}
+			} catch (error) {
+				console.log(`error`, error);
+			}
 		}
 	}
 
 	//end chat menu click to call function
 	const onpressDoneBtn = async () => {
 		feedBack();
+		let endtime = moment().format();
+		var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
+		var charges = getUser.property.chargespermin;
 		const body = {
 			formid: '60939df914f2d062cc132d68',
 			contextid: formdataDetails.contextid._id,
 			onModel: 'User',
 			property: {
 				startat: formdataDetails.property.startat,
-				endat: moment().format(),
+				endat: endtime,
 				consultantid: formdataDetails.property.consultantid._id,
 				chargable: formdataDetails.property.chargable,
 				category: formdataDetails.property.category,
 				subcategory: formdataDetails.property.subcategory
 			}
 		}
+
+		let generateBill = {
+			"customerid": sender,
+			"onModel": "Member",
+			"billdate": moment().format(),
+			"amount": charges * minsDiff,
+			"totalamount": charges * minsDiff,
+			"taxes": [],
+			"balance": charges * minsDiff,
+			"paidamount": 0,
+			"type": "Walletspent",
+			"property": {
+				consultantid: consultanDetails._id,
+				chatrefid: formDataId
+			},
+			"items": [{
+				"item": {
+					"_id": "60a2236e48c98c3638e8b2ac",
+					"sale": {
+						"taxes": [],
+						"rate": charges
+					}
+				},
+				"sale": {
+					"taxes": [],
+					"rate": charges
+				},
+				"quantity": charges * minsDiff,
+				"cost": minsDiff,
+				"totalcost": charges * minsDiff
+			}]
+		}
+
 		try {
 			const response = await EndChatService(formDataId, body);
+			const billResponse = await BillService(generateBill);
+			console.log(`billResponse.data`, billResponse.data);
+
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
-				setshowshowEndChatModel(false);
-				setfilterModalVisible(false);
-				if (Platform.OS === 'android') {
-					ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
-				} else {
-					alert('Your Chat Is Closed');
+				if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
+					setshowshowEndChatModel(false);
+					setfilterModalVisible(false);
+					showModalVisible(false);
+					if (Platform.OS === 'android') {
+						ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
+					} else {
+						alert('Your Chat Is Closed');
+					}
+
+					props.navigation.navigate(SCREEN.HOMESCREEN);
 				}
-				props.navigation.navigate(SCREEN.HOMESCREEN);
 			}
 		} catch (error) {
 			console.log(`error`, error);

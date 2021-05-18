@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 3,
+        elevation: 2,
         alignItems: 'center',
         justifyContent: 'center'
     },

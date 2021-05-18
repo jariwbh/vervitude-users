@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLES from './styles';
+import { WalletDetailService } from '../../services/BillService/BillService';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AUTHUSER } from '../../context/actions/type';
+import Loader from '../../components/loader/index';
 
 const myspendsScreen = (props) => {
+    const [loading, setloading] = useState(true);
+    const [walletBalance, setwalletBalance] = useState(null);
+
+    useEffect(
+        () => {
+            AsyncStorage.getItem(AUTHUSER).then(async (res) => {
+                let userId = JSON.parse(res)._id;
+                try {
+                    const response = await WalletDetailService(userId);
+                    if (response.data != null && response.data != 'undefind' && response.status === 200) {
+                        setwalletBalance(response.data[0].walletbalance);
+                        setloading(false);
+                    }
+                } catch (error) {
+                    console.log(`error`, error);
+                }
+            });
+        },
+        []
+    )
+
+    useEffect(() => {
+    }, [walletBalance])
+
     return (
         <SafeAreaView style={STYLES.styles.container}>
             <StatusBar hidden backgroundColor='#FFE64F' barStyle='light-content' />
@@ -29,7 +57,7 @@ const myspendsScreen = (props) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                     <View style={STYLES.styles.walletview}>
                         <Text style={{ fontSize: 14, color: '#9D9D9D' }}>Wallet Balance</Text>
-                        <Text style={{ fontSize: 26, color: '#04DE71', fontWeight: 'bold' }}>₹ 5000.00</Text>
+                        <Text style={{ fontSize: 26, color: '#04DE71', fontWeight: 'bold' }}>₹ {Number(walletBalance)}</Text>
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
@@ -93,6 +121,7 @@ const myspendsScreen = (props) => {
                 </View>
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
+            { loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

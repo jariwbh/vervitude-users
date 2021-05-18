@@ -106,4 +106,26 @@ const UserListService = () => {
     return Axios.patch('members/' + id, body);
 }
 
-export { UserProfileService, UserUpdateService, ConsultantListService, UserListService, TopConsultantViewListService };
+const getByIdUser = (id) => {
+    const body = {
+        "search": [{
+            "searchfield": "status",
+            "searchvalue": "active",
+            "criteria": "eq",
+            "datatype": "text"
+        },
+        {
+            "searchfield": "_id",
+            "searchvalue": id,
+            "criteria": "eq",
+            "datatype": "objectId"
+        }
+        ],
+        "formname": "consultant"
+    }
+    return Axios.post('users/view/filter', body);
+}
+export {
+    UserProfileService, UserUpdateService, getByIdUser,
+    ConsultantListService, UserListService, TopConsultantViewListService
+};

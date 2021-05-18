@@ -19,6 +19,12 @@ function BillListService(id) {
             "searchvalue": id,
             "criteria": "eq",
             "datatype": "objectId"
+        },
+        {
+            "searchfield": "type",
+            "searchvalue": "Walletrecharge",
+            "criteria": "eq",
+            "datatype": "text"
         }
         ],
         "formname": "bill"

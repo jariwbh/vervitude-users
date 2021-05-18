@@ -36,9 +36,29 @@ export default navigationsApp = () => {
                 <Stack.Screen name='forgotpasswordScreen' component={FORGOTPASSWORDSCREEN} />
                 <Stack.Screen name='loginwithemailScreen' component={LOGINWITHEMAILSCREEN} />
                 <Stack.Screen name='registerScreen' component={REGISTERSCREEN} />
-                <Stack.Screen name='MainScreen' component={MainNavigation} />
+                {/* <Stack.Screen name='MainScreen' component={MainNavigation} /> */}
                 <Stack.Screen name='splashScreen' component={SPLASHSCREEN} />
                 <Stack.Screen name='loginScreen' component={LOGINSCREEN} />
+                <Stack.Screen name='homeScreen' component={HOMESCREEN} />
+
+                <Stack.Screen name='rechargepaymentScreen' component={RECHARGEPAYMENTSCREEN} />
+                <Stack.Screen name='disputesdetailsScreen' component={DISPUTESDETAILSSCREEN} />
+                <Stack.Screen name='rechargedetailScreen' component={RECHARGEDETAILSCREEN} />
+                <Stack.Screen name='selectCategoryScreen' component={SELECTCATEGORYSCREEN} />
+                <Stack.Screen name='notificationScreen' component={NOTIFICATIONSCREEN} />
+                <Stack.Screen name='consultantsScreen' component={CONSULTANTSSCREEN} />
+                <Stack.Screen name='subcategoryScreen' component={SUBCATEGORYSCREEN} />
+                <Stack.Screen name='recentchatScreen' component={RECENTCHATSCREEN} />
+                <Stack.Screen name='ViewFullPicture' component={VIEWPROFILESCREEN} />
+                <Stack.Screen name='myProfileScreen' component={MYPROFILESCREEN} />
+                <Stack.Screen name='promocodeScreen' component={PROMOCODESCREEN} />
+                <Stack.Screen name='myWalletScreen' component={MYWALLETSCREEN} />
+                <Stack.Screen name='disputesScreen' component={DISPUTESSCREEN} />
+                <Stack.Screen name='myspendsScreen' component={MYSPENDSSCREEN} />
+                <Stack.Screen name='newchatsScreen' component={NEWCHATSSCREEN} />
+                <Stack.Screen name='inviteScreen' component={INVITESCREEN} />
+                <Stack.Screen name='editScreen' component={EDITSCREEN} />
+                <Stack.Screen name='chatScreen' component={CHATSCREEN} />
             </Stack.Navigator>
         </NavigationContainer>
     );

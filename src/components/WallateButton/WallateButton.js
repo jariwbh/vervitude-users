@@ -14,6 +14,7 @@ export default function WallateButton(props) {
                 try {
                     const response = await WalletDetailService(userId);
                     if (response.data != null && response.data != 'undefind' && response.status === 200) {
+                        console.log(`WalletDetailService`, response.data);
                         setwalletBalance(response.data[0].walletbalance)
                     }
                 } catch (error) {
@@ -30,7 +31,7 @@ export default function WallateButton(props) {
     return (
         <TouchableOpacity onPress={props.onPress}
             style={styles.btnstyle} >
-            <Text style={styles.btntext}>₹ {walletBalance}</Text>
+            <Text style={styles.btntext}>₹ {Number(walletBalance)}</Text>
             <Image source={require('../../assets/Images/wallateicon.png')}
                 style={{ alignItems: 'center', height: 20, width: 25 }}
             />
