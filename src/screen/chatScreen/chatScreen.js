@@ -290,7 +290,7 @@ const chatScreen = (props, { navigation }) => {
 			"totalamount": charges * minsDiff,
 			"taxes": [],
 			"balance": charges * minsDiff,
-			"paidamount": 0,
+			"paidamount": charges * minsDiff,
 			"type": "Walletspent",
 			"property": {
 				consultantid: consultanDetails._id,

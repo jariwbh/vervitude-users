@@ -55,7 +55,7 @@ const rechargedetailScreen = (props) => {
                 "totalamount": rechargeDetails.amount,
                 "taxes": [],
                 "balance": rechargeDetails.amount,
-                "paidamount": 0,
+                "paidamount": rechargeDetails.amount,
                 "type": "Walletrecharge",
                 "items": [{
                     "item": {
