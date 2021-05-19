@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, Image, TextInput, SafeAreaView, TouchableOpacity,
+    View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, Modal,
     ScrollView, StatusBar, FlatList, Pressable, RefreshControl, ImageBackground
 } from 'react-native';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
@@ -18,6 +18,7 @@ import { SubCategoryService } from '../../services/CategoryService/CategoryServi
 import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { WalletDetailService } from '../../services/BillService/BillService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const subcategoryScreen = (props) => {
@@ -29,6 +30,8 @@ const subcategoryScreen = (props) => {
     const [subCategory, setSubCategory] = useState([]);
     const [allSub, setAllSub] = useState(true);
     const [SearchConsultant, setSearchConsultant] = useState([]);
+    const [walletBalance, setwalletBalance] = useState(null);
+    const [wallatemodel, setWallatemodel] = useState(0);
 
     useEffect(() => {
         getUserData();
@@ -36,7 +39,19 @@ const subcategoryScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [userId, consultantList, refreshing, allSub]);
+    }, [userId, consultantList, refreshing, allSub, wallatemodel]);
+
+    //check wallate balance function
+    const checkWallateBalance = async (userId) => {
+        try {
+            const response = await WalletDetailService(userId);
+            if (response.data != null && response.data != 'undefind' && response.status === 200) {
+                setwalletBalance(response.data[0].walletbalance)
+            }
+        } catch (error) {
+            console.log(`error`, error);
+        }
+    }
 
     //get all sub category list to call API
     const subCategoryList = async () => {
@@ -87,6 +102,7 @@ const subcategoryScreen = (props) => {
             let id = JSON.parse(getUser)._id;
             await setuserId(id);
             await consultantService(categoryProps._id);
+            await checkWallateBalance(id);
         }
     }
 
@@ -134,8 +150,12 @@ const subcategoryScreen = (props) => {
 
     //consutlants list to rendom consultant click to navigate screen
     const navigationhandler = (item) => {
-        const consultanDetails = item;
-        props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+        if (walletBalance <= 0) {
+            setWallatemodel(true);
+        } else {
+            const consultanDetails = item;
+            props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+        }
     }
 
     //render consultants lists using flatlist
@@ -233,6 +253,12 @@ const subcategoryScreen = (props) => {
         </View>
     )
 
+    //add money model pop function
+    const onPressRecharge = () => {
+        setWallatemodel(false);
+        props.navigation.navigate(SCREEN.MYWALLETSCREEN);
+    }
+
     return (
         <SafeAreaView style={STYLES.SubCategoryStyles.container}>
             <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
@@ -247,7 +273,7 @@ const subcategoryScreen = (props) => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'flex-end' }}>
-                        <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
+                        <WallateButton onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)} />
                     </View>
                 </View>
 
@@ -333,6 +359,36 @@ const subcategoryScreen = (props) => {
                     <FontAwesome name="rupee" style={STYLES.styles.actionButtonIcon} />
                 </ActionButton.Item>
             </ActionButton>
+
+            {/* Wallate message model Pop */}
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={wallatemodel}
+                onRequestClose={() => setWallatemodel(false)}
+            >
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ position: 'absolute', bottom: 20 }}>
+                        <View style={STYLES.SubCategoryStyles.msgModalView}>
+                            <Image source={require('../../assets/Images/wallateicon.png')} style={{ marginTop: 25, height: 40, width: 45 }} />
+                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000', fontWeight: 'bold' }}>Your balance is low,please</Text>
+                            <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold' }}>recharge to keep chating</Text>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                                <TouchableOpacity style={STYLES.SubCategoryStyles.addmoney} onPress={() => onPressRecharge()}>
+                                    <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+                            <TouchableOpacity onPress={() => setWallatemodel(false)}
+                                style={STYLES.SubCategoryStyles.cancelbtn}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
             {loading ? <Loader /> : null}
         </SafeAreaView>
     )

@@ -53,4 +53,14 @@ function WalletDetailService(id) {
     return Axios.post('members/filter/view', body);
 }
 
-export { BillService, BillListService, WalletDetailService };
+function WalletUsageListService() {
+    let body =
+    {
+        "viewname": "bi-billspent",
+        "formname": "formdata",
+        "search": []
+    }
+    return Axios.post('branches/view/filter', body);
+}
+
+export { BillService, BillListService, WalletDetailService, WalletUsageListService };

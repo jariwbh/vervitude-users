@@ -53,13 +53,13 @@ const chatScreen = (props, { navigation }) => {
 	const [getUser, setGetUser] = useState(null);
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
+	let formId;
 
 	// chat portion
 	useEffect(
 		() => {
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
 				let sender = JSON.parse(res)._id;
-				axiosConfig(sender);
 				setsender(sender);
 				setloading(true);
 				getConsultant(consultanDetails._id)
@@ -201,15 +201,19 @@ const chatScreen = (props, { navigation }) => {
 		setshowMessageModalVisible(true);
 	};
 
+	//current chat in find chat is end or not
 	const FindChatByIdService = async (id) => {
 		const response = await FindChatById(id);
+		setFormDataId(response.data[0]._id);
 		try {
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				setFormdataDetails(response.data[0]);
 				if (response.data[0] && response.data[0].property.endat != null) {
 					setHideInput(true);
+					return true;
 				} else {
 					setHideInput(false);
+					return false;
 				}
 			}
 		} catch (error) {
@@ -304,8 +308,8 @@ const chatScreen = (props, { navigation }) => {
 					"taxes": [],
 					"rate": charges
 				},
-				"quantity": charges * minsDiff,
-				"cost": minsDiff,
+				"quantity": minsDiff,
+				"cost": charges * minsDiff,
 				"totalcost": charges * minsDiff
 			}]
 		}

@@ -14,7 +14,6 @@ export default function WallateButton(props) {
                 try {
                     const response = await WalletDetailService(userId);
                     if (response.data != null && response.data != 'undefind' && response.status === 200) {
-                        console.log(`WalletDetailService`, response.data);
                         setwalletBalance(response.data[0].walletbalance)
                     }
                 } catch (error) {
