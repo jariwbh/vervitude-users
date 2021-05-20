@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, SafeAreaView, Image, TouchableOpacity, StatusBar, FlatList, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, Image, TouchableOpacity, StatusBar, FlatList, StyleSheet, Modal } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as SCREEN from '../../context/screen/screenName';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -8,10 +8,35 @@ import * as STYLES from './styles';
 import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HTML from 'react-native-render-html';
+import { AUTHUSER } from '../../context/actions/type';
+import { WalletDetailService } from '../../services/BillService/BillService';
+import AsyncStorage from '@react-native-community/async-storage';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const consultantsScreen = (props) => {
   const consultanDetails = props.route.params.item;
+  const [walletBalance, setwalletBalance] = useState(null);
+  const [wallatemodel, setWallatemodel] = useState(0);
+
+  useEffect(
+    () => {
+      AsyncStorage.getItem(AUTHUSER).then(async (res) => {
+        let userId = JSON.parse(res)._id;
+        try {
+          const response = await WalletDetailService(userId);
+          if (response.data != null && response.data != 'undefind' && response.status === 200) {
+            setwalletBalance(response.data[0].walletbalance)
+          }
+        } catch (error) {
+          console.log(`error`, error);
+        }
+      });
+    },
+    []
+  )
+
+  useEffect(() => {
+  }, [walletBalance])
 
   //render Brand Photo 
   const renderAddBrand = ({ item }) => (
@@ -22,6 +47,21 @@ const consultantsScreen = (props) => {
       </TouchableOpacity>
     </View>
   );
+
+  //start chat click to navigate screen
+  const navigationhandler = (item) => {
+    if (walletBalance <= 0) {
+      setWallatemodel(true);
+    } else {
+      props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+    }
+  }
+
+  //add money model pop function
+  const onPressRecharge = () => {
+    setWallatemodel(false);
+    props.navigation.navigate(SCREEN.MYWALLETSCREEN);
+  }
 
   return (
     <SafeAreaView style={STYLES.styles.container}>
@@ -42,7 +82,7 @@ const consultantsScreen = (props) => {
                 style={{ width: 28, height: 26 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails })}
+            <TouchableOpacity onPress={() => navigationhandler()}
               style={{ width: 80, height: 30, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', marginRight: 20 }}>
               <Text style={{ fontSize: 12, color: '#5AC8FA' }}>Start Chat</Text>
             </TouchableOpacity>
@@ -130,11 +170,40 @@ const consultantsScreen = (props) => {
         </View>
         <View style={{ marginBottom: 50 }}></View>
       </ScrollView>
-      <View style={{ flexDirection: 'row' }}>
 
+      {/* Wallate message model Pop */}
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={wallatemodel}
+        onRequestClose={() => setWallatemodel(false)}
+      >
+        <View style={{ alignItems: 'center', flex: 1 }}>
+          <View style={{ position: 'absolute', bottom: 20 }}>
+            <View style={STYLES.styles.msgModalView}>
+              <Image source={require('../../assets/Images/wallateicon.png')} style={{ marginTop: 25, height: 40, width: 45 }} />
+              <Text style={{ marginTop: 15, fontSize: 14, color: '#000000', fontWeight: 'bold' }}>Your balance is low,please</Text>
+              <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold' }}>recharge to keep chating</Text>
+              <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                <TouchableOpacity style={STYLES.styles.addmoney} onPress={() => onPressRecharge()}>
+                  <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+              <TouchableOpacity onPress={() => setWallatemodel(false)}
+                style={STYLES.styles.cancelbtn}>
+                <Text style={{ fontSize: 14, color: '#000000' }}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails })}
+          onPress={() => navigationhandler()}
           style={{
             height: 40, width: 200, backgroundColor: '#FFFFFF',
             borderRadius: 100, alignItems: 'center', justifyContent: 'center',
@@ -144,7 +213,7 @@ const consultantsScreen = (props) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails })}
+          onPress={() => navigationhandler()}
           activeOpacity={0.7}
           style={styles.touchableOpacityStyle}>
           <Ionicons name="chatbubbles" color='#FFFFFF' size={30} style={{ top: -45, right: 50 }} />

@@ -28,6 +28,7 @@ import { getByIdUser } from '../../services/UserService/UserService';
 import { BillService } from '../../services/BillService/BillService';
 
 const chatScreen = (props, { navigation }) => {
+	const consultanDetails = props.route.params.consultanDetails;
 	const [loading, setloading] = useState(false);
 	const [chatId, setchatId] = useState(null);
 	const [sender, setsender] = useState(null);
@@ -39,8 +40,7 @@ const chatScreen = (props, { navigation }) => {
 	const [formDataId, setFormDataId] = useState(null);
 	const [formdataDetails, setFormdataDetails] = useState(null);
 	const [hideInput, setHideInput] = useState(false);
-
-	const consultanDetails = props.route.params.consultanDetails;
+	const [rate, setrate] = useState(false);
 	const [rating, setRating] = useState(null);
 	const [feedback, setFeedback] = useState(null);
 	const [projectTime, setProjectTime] = useState(null);
@@ -60,6 +60,7 @@ const chatScreen = (props, { navigation }) => {
 		() => {
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
 				let sender = JSON.parse(res)._id;
+				axiosConfig(sender);
 				setsender(sender);
 				setloading(true);
 				getConsultant(consultanDetails._id)
@@ -91,7 +92,7 @@ const chatScreen = (props, { navigation }) => {
 	}
 
 	useEffect(() => {
-	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser,
+	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate,
 		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError
 
 	])
@@ -113,6 +114,7 @@ const chatScreen = (props, { navigation }) => {
 		try {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
+				formId = response.data._id;
 				setFormDataId(response.data._id);
 				firstTimeChatByIdService(response.data._id)
 				if (Platform.OS === 'android') {
@@ -120,7 +122,6 @@ const chatScreen = (props, { navigation }) => {
 				} else {
 					alert('Chat Start Now');
 				}
-				formId = response.data._id;
 			}
 		}
 		catch (error) {
@@ -192,7 +193,7 @@ const chatScreen = (props, { navigation }) => {
 		setProjectdescError(null);
 		setProjectMobile(null);
 		setProjectMobileError(null);
-		setshowStartProjectVisible(visible);
+		//setshowStartProjectVisible(visible);
 		setshowshowEndChatModel(false);
 	};
 
@@ -249,11 +250,12 @@ const chatScreen = (props, { navigation }) => {
 			}
 		}
 
-		if (rating != null && feedback != null) {
+		if (!rating || !feedback) {
 			try {
 				const response = await FeedBackService(body);
-				console.log(`response`, response);
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
+					setrate(false);
+					setshowshowEndChatModel(false);
 					props.navigation.navigate(SCREEN.HOMESCREEN);
 				}
 			} catch (error) {
@@ -317,7 +319,6 @@ const chatScreen = (props, { navigation }) => {
 		try {
 			const response = await EndChatService(formDataId, body);
 			const billResponse = await BillService(generateBill);
-			console.log(`billResponse.data`, billResponse.data);
 
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
@@ -474,23 +475,22 @@ const chatScreen = (props, { navigation }) => {
 				</View>
 			</View>
 
-			<ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-				<View style={styles.chatview}>
-					<GiftedChat
-						user={{ _id: sender }}
-						isAnimated={true}
-						messages={messages}
-						onSend={onSend}
-						renderAvatar={null}
-						alwaysShowSend={true}
-						renderBubble={(props) => renderBubble(props, navigation)}
-						//renderDay={renderDay}
-						minInputToolbarHeight={80}
-						renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
-					/>
-				</View>
-				<View style={{ marginBottom: 50 }} />
-			</ScrollView>
+			<View style={styles.chatview}>
+				<GiftedChat
+					keyboardShouldPersistTaps={'always'}
+					user={{ _id: sender }}
+					isAnimated={true}
+					messages={messages}
+					onSend={onSend}
+					renderAvatar={null}
+					alwaysShowSend={true}
+					renderBubble={(props) => renderBubble(props, navigation)}
+					//renderDay={renderDay}
+					minInputToolbarHeight={80}
+					renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
+				/>
+			</View>
+			<View style={{ marginBottom: 50 }} />
 
 			{/* start project model Pop */}
 			<Modal
@@ -609,14 +609,14 @@ const chatScreen = (props, { navigation }) => {
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 							</View>
 
-							<TouchableOpacity>
+							<TouchableOpacity onPress={() => { setrate(true), setshowshowEndChatModel(true) }}>
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 							</View>
 
-							<TouchableOpacity>
+							<TouchableOpacity onPress={() => { setfilterModalVisible(false), props.navigation.navigate(SCREEN.MYSPENDSSCREEN) }}>
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
 							</TouchableOpacity>
 						</View>
@@ -722,7 +722,7 @@ const chatScreen = (props, { navigation }) => {
 							</View>
 							<View style={{ margin: 20 }}>
 								<TouchableOpacity
-									onPress={() => { onpressDoneBtn(false) }}
+									onPress={() => { rate == true ? feedBack() : onpressDoneBtn() }}
 									style={styles.doneBtn}
 								>
 									<Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>Done</Text>

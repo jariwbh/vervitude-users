@@ -238,7 +238,7 @@ const homeScreen = (props) => {
                 position="right"
                 bgColor="transparent"
                 autoInactive={true}
-                icon={renderImage()}
+            // icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
                     <Ionicons name="chatbubbles" style={styles.actionButtonIcon} />

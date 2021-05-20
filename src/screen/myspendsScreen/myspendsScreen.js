@@ -97,19 +97,18 @@ const myspendsScreen = (props) => {
                         </View>
 
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000' }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize' }}>
                             {
-                                item.skills ?
-                                    item.skills.map(({
-                                        title
-                                    }) => title).join(',')
+                                item.consultant.skills ?
+                                    item.consultant.skills.map(({
+                                        property
+                                    }) => property.title).join(',')
                                     : null
                             }
-                            CRM,Digital Marketing,Marketing
                         </Text>
                         <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginTop: 5 }}>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text style={{ fontSize: 16, color: '#FB3267', fontWeight: 'bold' }}>₹ {Number(item.paidamount)}</Text>
+                                <Text style={{ fontSize: 16, color: '#FB3267', fontWeight: 'bold' }}>₹ {Number(item.amount)}</Text>
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 100 }}>
                                 <Text style={{ fontSize: 16, color: '#000000', fontWeight: 'bold' }}>{moment.utc(moment.duration(item.items[0].quantity, "minutes").asMilliseconds()).format("H") + 'h'
