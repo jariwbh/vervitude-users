@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, StatusBar, TouchableOpacity, Image, TextInput, ScrollView, FlatList } from 'react-native';
+import {
+    Text, View, SafeAreaView, StatusBar, TouchableOpacity, Image,
+    TextInput, ScrollView, FlatList, RefreshControl
+} from 'react-native';
 import PromoCodeService from '../../services/PromoCodeService/PromoCodeService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import HTML from 'react-native-render-html';
 import * as STYLES from './styles';
 
 const promocodeScreen = (props) => {
-    const [promoCodeList, setpromoCodeList] = useState([]);
+    const [SearchPromoCode, setSearchPromoCode] = useState([]);
+    const [promoCodeList, setPromoCodeList] = useState([]);
+    const [refreshing, setrefreshing] = useState(false);
     const [loading, setloading] = useState(false);
 
     useEffect(() => {
@@ -15,18 +21,44 @@ const promocodeScreen = (props) => {
         couponService();
     }, [])
 
+    useEffect(() => {
+    }, [SearchPromoCode, promoCodeList, refreshing, loading])
+
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    const onRefresh = () => {
+        setrefreshing(true);
+        couponService();
+        wait(3000).then(() => setrefreshing(false));
+    }
+
     //coupon Service List Service to call function
     const couponService = async () => {
         try {
             const response = await PromoCodeService();
             if (response.data != null && response.data != undefined && response.status == 200) {
-                setpromoCodeList(response.data);
+                setPromoCodeList(response.data);
+                setSearchPromoCode(response.data);
                 setloading(false);
             }
         } catch (error) {
             console.log(`error`, error);
         }
     }
+
+    //on search filter function
+    const searchFilterFunction = (text) => {
+        const newData = SearchPromoCode.filter(item => {
+            const itemData = `${item.property.couponcode.toUpperCase()}`
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        return wait(1000).then(() => setPromoCodeList(newData));
+    };
 
     //select to collapsible (show data)
     const onPressToSelectPromoCode = (item, index) => {
@@ -35,7 +67,12 @@ const promocodeScreen = (props) => {
             return item;
         });
         coupon[index].selected = true;
-        setpromoCodeList(coupon);
+        setPromoCodeList(coupon);
+    }
+
+    //onpress to apply coupon code 
+    const applyCoupon = (coupon) => {
+        props.navigation.push(SCREEN.MYWALLETSCREEN, { coupon });
     }
 
     //render coupon 
@@ -61,7 +98,7 @@ const promocodeScreen = (props) => {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => applyCoupon(item)}>
                         <Text style={{ fontSize: 14, color: '#787AFF', fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
                     </TouchableOpacity>
                 </TouchableOpacity>
@@ -82,7 +119,6 @@ const promocodeScreen = (props) => {
                                 <Text style={{ fontSize: 12, color: '#787AFF' }}>Terms and Condition Apply</Text>
                             </TouchableOpacity>
                         </View>
-
                     </>
                 }
             </View>
@@ -110,12 +146,20 @@ const promocodeScreen = (props) => {
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps={'always'}
+                nestedScrollEnabled={true}
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
+
                 <View style={{ flexDirection: 'row', marginTop: 5, justifyContent: 'space-around' }}>
                     <TextInput
                         style={STYLES.styles.TextInput}
                         placeholder='Type Here'
                         underlineColorAndroid='#999999'
+                        type='clear'
+                        autoCorrect={false}
+                        onChangeText={(value) => searchFilterFunction(value)}
+                        autoCapitalize='characters'
                     />
                     <TouchableOpacity style={{ marginTop: 25 }}>
                         <Text style={{ fontSize: 18, color: '#787AFF', fontWeight: 'bold' }}>Apply</Text>
@@ -127,48 +171,19 @@ const promocodeScreen = (props) => {
                         <Text style={{ fontSize: 18, color: '#787AFF', fontWeight: 'bold' }}>Available Promotions</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                        <FlatList
-                            renderItem={renderCoupon}
-                            data={promoCodeList}
-                            keyExtractor={item => item._id}
-                        />
-                    </View>
 
-                    {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
-                        <View style={STYLES.styles.gamountslideview}>
-                            <TouchableOpacity onPress={() => { }}
-                                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 10 }}>
-                                <View style={{ marginLeft: 15 }}>
-                                    <Image source={require('../../assets/Images/staricon.png')} style={{ height: 50, width: 50 }} />
-                                </View>
-                                <View style={{ flexDirection: 'column', marginLeft: -80 }}>
-                                    <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>First Recharge</Text>
-                                    <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>AASDFAS123</Text>
-                                    <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>₹500 Bonus on Minimum ....</Text>
-                                </View>
-                                <TouchableOpacity onPress={() => { }}>
-                                    <Text style={{ fontSize: 14, color: '#787AFF', fontWeight: 'bold', marginRight: 20 }}>Apply</Text>
-                                </TouchableOpacity>
-                            </TouchableOpacity>
-                            <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)', marginLeft: 30, marginRight: 30 }}></View>
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <View style={{ marginTop: 20 }}>
-                                    <Text style={{ fontSize: 14, marginLeft: 20, marginRight: 20 }}>Lorem lpsum is simply dummy text of the printing and typesetting industry </Text>
-                                </View>
-                                <View style={{ marginTop: 20 }}>
-                                    <Text style={{ fontSize: 14, marginLeft: 20, marginRight: 20 }}>Lorem lpsum is simply dummy text of the printing and typesetting industry </Text>
-                                </View>
-                                <View style={{ marginTop: 20 }}>
-                                    <Text style={{ fontSize: 14, marginLeft: 20, marginRight: 20 }}>Lorem lpsum is simply dummy text of the printing and typesetting industry </Text>
-                                </View>
-                                <TouchableOpacity style={{ marginTop: 20, marginLeft: 20 }}>
-                                    <Text style={{ fontSize: 12, color: '#787AFF' }}>Terms and Condition Apply</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View> */}
+                        {(promoCodeList == null) || (promoCodeList && promoCodeList.length == 0) ?
+                            (loading ? null :
+                                <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Promo Code not available</Text>
+                            )
+                            :
+                            <FlatList
+                                data={promoCodeList}
+                                renderItem={renderCoupon}
+                                keyExtractor={(item, index) => item._id}
+                            />
+                        }
+                    </View>
                 </View>
             </ScrollView>
             {loading ? <Loader /> : null}

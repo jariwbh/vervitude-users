@@ -70,11 +70,13 @@ const recentchatScreen = (props) => {
     }
 
     const navigationhandler = (item) => {
+
         const consultanDetails = {
             _id: item.property.consultantid._id,
             profilepic: item.property.consultantid.profilepic,
             fullname: item.property.consultantid.fullname,
-            consultanobject: item
+            consultanobject: item,
+            // fierbasechatid: item.property.fierbasechatid
         }
         props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
     }

@@ -17,7 +17,7 @@ const consultantsScreen = (props) => {
   const consultanDetails = props.route.params.item;
   const [walletBalance, setwalletBalance] = useState(null);
   const [wallatemodel, setWallatemodel] = useState(0);
-
+  console.log(`consultanDetails.property.add_brand`, consultanDetails.property.add_brand);
   useEffect(
     () => {
       AsyncStorage.getItem(AUTHUSER).then(async (res) => {
@@ -42,14 +42,14 @@ const consultantsScreen = (props) => {
   const renderAddBrand = ({ item }) => (
     <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
       <TouchableOpacity>
-        <Image source={require('../../assets/Images/b1.png')}
+        <Image source={{ uri: item.attachment }}
           style={{ width: 80, height: 80, borderRadius: 100, borderColor: '#AAAAAA', borderWidth: 1 }} />
       </TouchableOpacity>
     </View>
   );
 
   //start chat click to navigate screen
-  const navigationhandler = (item) => {
+  const navigationhandler = () => {
     if (walletBalance <= 0) {
       setWallatemodel(true);
     } else {

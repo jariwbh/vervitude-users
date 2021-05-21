@@ -5,6 +5,12 @@ function BillService(data) {
     return Axios.post('bills', body);
 }
 
+function BillPaymentService(data) {
+    const body = JSON.stringify(data)
+    return Axios.post('billpayments', body);
+}
+
+
 function BillListService(id) {
     let body =
     {
@@ -63,4 +69,9 @@ function WalletUsageListService() {
     return Axios.post('branches/view/filter', body);
 }
 
-export { BillService, BillListService, WalletDetailService, WalletUsageListService };
+function WalletRechargeWithCouponService(data) {
+    const body = JSON.stringify(data)
+    return Axios.post('wallettxns', body);
+}
+
+export { BillService, BillListService, WalletDetailService, WalletUsageListService, BillPaymentService, WalletRechargeWithCouponService };
