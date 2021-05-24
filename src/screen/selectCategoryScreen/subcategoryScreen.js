@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, Modal,
+    View, Text, Image, TextInput, SafeAreaView, TouchableOpacity, Modal, Dimensions,
     ScrollView, StatusBar, FlatList, Pressable, RefreshControl, ImageBackground
 } from 'react-native';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
@@ -20,6 +20,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { WalletDetailService } from '../../services/BillService/BillService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 const subcategoryScreen = (props) => {
     const categoryProps = props.route.params.item;
@@ -183,7 +185,7 @@ const subcategoryScreen = (props) => {
                             }
                         </ImageBackground>
                         <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
-                            <Text style={{ color: '#000000', fontSize: 12 }}>{item.ratinglen + 'K'}</Text>
+                            <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
                             <StarRating
                                 disabled={false}
                                 maxStars={5}
@@ -200,7 +202,7 @@ const subcategoryScreen = (props) => {
                         <Text style={{ fontSize: 16, color: '#999999', textTransform: 'capitalize' }}>{item.property.usertag}</Text>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
+                            <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
 
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
@@ -213,12 +215,12 @@ const subcategoryScreen = (props) => {
                                     : null
                             }
                         </Text>
-                        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginTop: 5 }}>
-                            <View style={{ flexDirection: 'column' }}>
+                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 0 }}>
+                            <View style={{ justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 120 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
                                     style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>

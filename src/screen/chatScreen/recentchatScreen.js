@@ -76,7 +76,7 @@ const recentchatScreen = (props) => {
             profilepic: item.property.consultantid.profilepic,
             fullname: item.property.consultantid.fullname,
             consultanobject: item,
-            // fierbasechatid: item.property.fierbasechatid
+            //fierbasechatid: item.property.fierbasechatid
         }
         props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
     }

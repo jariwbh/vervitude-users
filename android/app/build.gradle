@@ -200,6 +200,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
+    //Razorpay Package
+    implementation project(':react-native-razorpay')
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }

@@ -4,22 +4,43 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as STYLES from './styles';
 import * as SCREEN from '../../context/screen/screenName';
-import { BillService, WalletDetailService, WalletRechargeWithCouponService } from '../../services/BillService/BillService';
+import { BillService, WalletDetailService, WalletRechargeWithCouponService, BillPaymentService } from '../../services/BillService/BillService';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
+import RazorpayCheckout from 'react-native-razorpay';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AUTHUSER } from '../../context/actions/type';
+const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const rechargedetailScreen = (props) => {
     const rechargeDetails = props.route.params.rechargeObj;
     const [loading, setloading] = useState(true);
+    const [userDetails, setuserDetails] = useState(null);
     const [walletBalance, setwalletBalance] = useState(null);
     const [selected, setSelected] = useState(false);
+    const [billRes, setbillRes] = useState(null);
 
     useEffect(() => {
         getWallatBalance();
-    })
+        getUserData();
+    }, [])
 
     useEffect(() => {
-    }, [loading, walletBalance, selected])
+        console.log(`billRes`, billRes);
+    }, [loading, walletBalance, selected, userDetails, billRes])
+
+    //get AsyncStorage current user Details
+    const getUserData = async () => {
+        var getUser = await AsyncStorage.getItem(AUTHUSER);
+        if (getUser == null) {
+            setTimeout(() => {
+                props.navigation.replace(SCREEN.LOGINSCREEN)
+            }, 3000);;
+        } else {
+            var UserInfo = JSON.parse(getUser);
+            setuserDetails(UserInfo);
+        }
+    }
 
     //get wallate Balance api call
     const getWallatBalance = async () => {
@@ -40,6 +61,39 @@ const rechargedetailScreen = (props) => {
             setSelected(true);
         } else if (val == false) {
             setSelected(false);
+        }
+    }
+
+    //razorpay function
+    const razorPay = (options, res) => {
+        setloading(false);
+        RazorpayCheckout.open(options).then((data) => {
+            // handle success
+            //  alert(`Success: ${data.razorpay_payment_id}`);
+            console.log(`Success`, data.razorpay_payment_id);
+            genratebill(res)
+        }).catch((error) => {
+            // handle failure
+            console.log(`error`, error)
+            //  alert(`Error: ${error.code} | ${error.description}`);
+        });
+    }
+
+    const genratebill = async (res) => {
+        let billpayment = {
+            "customerid": rechargeDetails.id,
+            "onModel": "Member",
+            "paymentdate": moment().format(),
+            "billid": res._id,
+            "amount": rechargeDetails.amount,
+            "totalamount": rechargeDetails.amount,
+            "paidamount": rechargeDetails.amount
+        }
+        console.log(`billpayment`, billpayment);
+        const billPaymentResponse = await BillPaymentService(billpayment);
+        console.log(`billPaymentResponse`, billPaymentResponse);
+        if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
+            props.navigation.navigate(SCREEN.MYWALLETSCREEN);
         }
     }
 
@@ -108,10 +162,26 @@ const rechargedetailScreen = (props) => {
                 }
                 const response = await BillService(body);
                 if (response.data != null && response.data != 'undefind' && response.status === 200) {
-                    let id = response.data._id;
-                    props.navigation.navigate(SCREEN.RECHARGEPAYMENTSCREEN, { id })
+                    setloading(true);
+                    setbillRes(response.data);
+                    var options = {
+                        description: 'Wallet Recharge',
+                        image: userDetails && userDetails.profilepic ? userDetails.profilepic : noProfile,
+                        currency: 'INR',
+                        key: 'rzp_test_ab33l8rxSjcnJZ', // Your api key
+                        amount: rechargeDetails.amount,
+                        name: userDetails.fullname,
+                        prefill: {
+                            email: userDetails.property.primaryemail,
+                            contact: userDetails.property.mobile,
+                            name: userDetails.fullname
+                        },
+                        theme: { color: '#04DE71' }
+                    }
+                    razorPay(options, response.data)
                 }
             } catch (error) {
+                setloading(false);
                 console.log(`error`, error);
             }
         }
@@ -329,6 +399,7 @@ const rechargedetailScreen = (props) => {
                 </View>
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

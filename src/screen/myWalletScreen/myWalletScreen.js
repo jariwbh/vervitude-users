@@ -65,8 +65,11 @@ const myWalletScreen = (props) => {
     //on touch to navigate screen
     const onPressRecharge = () => {
         let rechargeObj;
-        if (amount == null || Number(amount) < 500) {
+        if (amount == null) {
             alert('Please Enter Amount');
+            return;
+        } else if (Number(amount) < 500) {
+            alert('Please Enter Amount 500 or More');
             return;
         }
 

@@ -25,7 +25,7 @@ import FeedBackService from '../../services/FeedBackService/FeedBackService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getByIdUser } from '../../services/UserService/UserService';
-import { BillService } from '../../services/BillService/BillService';
+import { BillService, BillPaymentService } from '../../services/BillService/BillService';
 
 const chatScreen = (props, { navigation }) => {
 	const consultanDetails = props.route.params.consultanDetails;
@@ -54,6 +54,7 @@ const chatScreen = (props, { navigation }) => {
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
 	let formId;
+	let updateFormDatas;
 
 	// chat portion
 	useEffect(
@@ -64,7 +65,8 @@ const chatScreen = (props, { navigation }) => {
 				setsender(sender);
 				setloading(true);
 				getConsultant(consultanDetails._id)
-				newChat(sender, consultanDetails._id).then((id) => {
+				newChat(sender, consultanDetails).then((id) => {
+					console.log("chat docs id", id);
 					setchatId(id);
 					let getMessages = firestore()
 						.collection('chat')
@@ -92,9 +94,9 @@ const chatScreen = (props, { navigation }) => {
 	}
 
 	useEffect(() => {
-	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate,
+		console.log(`getUser`, getUser);
+	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate, chatId,
 		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError
-
 	])
 
 	const startChat = async (sender, item) => {
@@ -108,12 +110,14 @@ const chatScreen = (props, { navigation }) => {
 				consultantid: item,
 				chargable: false,
 				category: consultanDetails.property.livechat,
-				subcategory: consultanDetails.property.skill
+				subcategory: consultanDetails.property.skill,
+				fierbasechatid: chatId
 			}
 		}
 		try {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
+				updateFormDatas = response.data;
 				formId = response.data._id;
 				setFormDataId(response.data._id);
 				firstTimeChatByIdService(response.data._id)
@@ -131,32 +135,96 @@ const chatScreen = (props, { navigation }) => {
 
 	const newChat = async (sender, item) => {
 		let getChatId = firestore().collection('chat');
-		let snap = await getChatId.where('member', 'in', [[sender, item]]).get();
+		let fierbasechatid = item.consultanobject.property.fierbasechatid;
+		let snap;
+		if (fierbasechatid) {
+			snap = await getChatId.doc(fierbasechatid).get()
+		} else {
+			snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
+		}
 		if (snap.empty) {
-			let snap2 = await getChatId.where('member', 'in', [[item, sender]]).get();
+			let snap2 = await getChatId.where('member', 'in', [[item._id, sender]]).get();
 			if (snap2.empty) {
-				await startChat(sender, item);
+				await startChat(sender, item._id);
 				let ref = await getChatId.add({
-					member: [sender, item],
+					member: [sender, item._id],
 					createdAt: '',
 					previewMessage: '',
 					formid: formId,
 					memberid: sender,
-					userid: item
+					userid: item._id
 				});
 				setloading(false);
+				//update fromdats
+				updateChatId(ref.id);
 				return ref.id;
 			} else {
-				setFormDataId(snap2.docs[0]._data.formid);
-				FindChatByIdService(snap2.docs[0]._data.formid);
-				setloading(false);
-				return snap2.docs[0].id;
+				if (snap2.docs[0]._data.endat) {
+					if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
+						await startChat(sender, item._id);
+						let ref = await getChatId.add({
+							member: [sender, item._id],
+							createdAt: '',
+							previewMessage: '',
+							formid: formId,
+							memberid: sender,
+							userid: item._id
+						});
+						setloading(false);
+						//update fromdats
+						updateChatId(ref.id);
+						return ref.id;
+					} else {
+						setFormDataId(snap2.docs[0]._data.formid);
+						FindChatByIdService(snap2.docs[0]._data.formid);
+						setloading(false);
+						return snap2.docs[0].id;
+					}
+				} else {
+					setFormDataId(snap2.docs[0]._data.formid);
+					FindChatByIdService(snap2.docs[0]._data.formid);
+					setloading(false);
+					return snap2.docs[0].id;
+				}
 			}
 		} else {
-			setFormDataId(snap.docs[0]._data.formid);
-			FindChatByIdService(snap.docs[0]._data.formid);
-			setloading(false);
-			return snap.docs[0].id;
+			console.log('snap');
+			let data;
+			let id;
+			if (fierbasechatid) {
+				data = snap._data;
+				id = snap.id;
+			} else {
+				data = snap.docs[0]._data
+				id = snap.docs[0].id;
+			}
+			console.log(`data`, data);
+			if (data.endat) {
+				if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
+					await startChat(sender, item._id);
+					let ref = await getChatId.add({
+						member: [sender, item._id],
+						createdAt: '',
+						previewMessage: '',
+						formid: formId,
+						memberid: sender,
+						userid: item._id
+					});
+					setloading(false);
+					//update fromdats
+					updateChatId(ref.id);
+					return ref.id;
+				} else {
+					FindChatByIdService(data.formid);
+					setloading(false);
+					return id;
+				}
+			} else {
+				setFormDataId(data.formid);
+				FindChatByIdService(data.formid);
+				setloading(false);
+				return id;
+			}
 		}
 	};
 
@@ -204,6 +272,7 @@ const chatScreen = (props, { navigation }) => {
 
 	//current chat in find chat is end or not
 	const FindChatByIdService = async (id) => {
+		console.log(`id`, id);
 		const response = await FindChatById(id);
 		setFormDataId(response.data[0]._id);
 		try {
@@ -211,14 +280,12 @@ const chatScreen = (props, { navigation }) => {
 				setFormdataDetails(response.data[0]);
 				if (response.data[0] && response.data[0].property.endat != null) {
 					setHideInput(true);
-					return true;
 				} else {
 					setHideInput(false);
-					return false;
 				}
 			}
 		} catch (error) {
-			console.log(`error`, error);
+			setloading(false);
 		}
 	}
 
@@ -264,8 +331,43 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	//update chat id
+	const updateChatId = async (chatid) => {
+		const body = {
+			formid: '60939df914f2d062cc132d68',
+			contextid: updateFormDatas.contextid._id,
+			onModel: 'Member',
+			property: {
+				startat: updateFormDatas.property.startat,
+				endat: updateFormDatas.property.endat,
+				consultantid: updateFormDatas.property.consultantid,
+				chargable: updateFormDatas.property.chargable,
+				category: updateFormDatas.property.category,
+				subcategory: updateFormDatas.property.subcategory,
+				fierbasechatid: chatid
+			}
+		}
+		try {
+			const response = await EndChatService(updateFormDatas._id, body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+			}
+		} catch (error) {
+			console.log(`error`, error);
+			if (Platform.OS === 'android') {
+				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
+			} else {
+				alert('Your Chat Is Not Closed');
+			}
+		}
+	}
+
 	//end chat menu click to call function
 	const onpressDoneBtn = async () => {
+		firestore()
+			.collection('chat')
+			.doc(chatId)
+			.update({ endat: moment().format() });
+
 		feedBack();
 		let endtime = moment().format();
 		var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
@@ -273,14 +375,15 @@ const chatScreen = (props, { navigation }) => {
 		const body = {
 			formid: '60939df914f2d062cc132d68',
 			contextid: formdataDetails.contextid._id,
-			onModel: 'User',
+			onModel: 'Member',
 			property: {
 				startat: formdataDetails.property.startat,
 				endat: endtime,
 				consultantid: formdataDetails.property.consultantid._id,
 				chargable: formdataDetails.property.chargable,
 				category: formdataDetails.property.category,
-				subcategory: formdataDetails.property.subcategory
+				subcategory: formdataDetails.property.subcategory,
+				fierbasechatid: chatId
 			}
 		}
 
@@ -292,7 +395,7 @@ const chatScreen = (props, { navigation }) => {
 			"totalamount": charges * minsDiff,
 			"taxes": [],
 			"balance": charges * minsDiff,
-			"paidamount": charges * minsDiff,
+			"paidamount": 0,
 			"type": "Walletspent",
 			"property": {
 				consultantid: consultanDetails._id,
@@ -322,16 +425,31 @@ const chatScreen = (props, { navigation }) => {
 
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
-					setshowshowEndChatModel(false);
-					setfilterModalVisible(false);
-					showModalVisible(false);
-					if (Platform.OS === 'android') {
-						ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
-					} else {
-						alert('Your Chat Is Closed');
+
+					let billpayment = {
+						"customerid": sender,
+						"onModel": "Member",
+						"paymentdate": moment().format(),
+						"billid": billResponse.data._id,
+						"amount": charges * minsDiff,
+						"totalamount": charges * minsDiff,
+						"paidamount": 0,
+						"walletamount": charges * minsDiff
+					}
+					const billPaymentResponse = await BillPaymentService(billpayment);
+
+					if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
+						setshowshowEndChatModel(false);
+						setfilterModalVisible(false);
+						showModalVisible(false);
+						if (Platform.OS === 'android') {
+							ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
+						} else {
+							alert('Your Chat Is Closed');
+						}
+						props.navigation.navigate(SCREEN.HOMESCREEN);
 					}
 
-					props.navigation.navigate(SCREEN.HOMESCREEN);
 				}
 			}
 		} catch (error) {
@@ -446,16 +564,17 @@ const chatScreen = (props, { navigation }) => {
 						<TouchableOpacity onPress={() => props.navigation.goBack(null)}>
 							<AntDesign name='arrowleft' color='#FFFFFF' size={24} />
 						</TouchableOpacity>
-					</View>
-					<Image
-						source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
-						style={{ width: 50, height: 50, borderRadius: 100, marginLeft: -140 }}
-					/>
+						<Image
+							source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
+							style={{ width: 50, height: 50, borderRadius: 100, marginLeft: 10 }}
+						/>
 
-					<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: -150 }}>
-						<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname.split(' ')[0]}</Text>
-						<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
+						<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: 10 }}>
+							<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname.split(' ')[0]}</Text>
+							<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
+						</View>
 					</View>
+
 					<View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
 						<TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.HOMESCREEN)}>
 							<Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
@@ -474,23 +593,24 @@ const chatScreen = (props, { navigation }) => {
 					</TouchableOpacity>
 				</View>
 			</View>
-
-			<View style={styles.chatview}>
-				<GiftedChat
-					keyboardShouldPersistTaps={'always'}
-					user={{ _id: sender }}
-					isAnimated={true}
-					messages={messages}
-					onSend={onSend}
-					renderAvatar={null}
-					alwaysShowSend={true}
-					renderBubble={(props) => renderBubble(props, navigation)}
-					//renderDay={renderDay}
-					minInputToolbarHeight={80}
-					renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
-				/>
-			</View>
-			<View style={{ marginBottom: 50 }} />
+			<ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+				<View style={styles.chatview}>
+					<GiftedChat
+						keyboardShouldPersistTaps={'always'}
+						user={{ _id: sender }}
+						isAnimated={true}
+						messages={messages}
+						onSend={onSend}
+						renderAvatar={null}
+						alwaysShowSend={true}
+						renderBubble={(props) => renderBubble(props, navigation)}
+						//renderDay={renderDay}
+						minInputToolbarHeight={80}
+						renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
+					/>
+				</View>
+			</ScrollView>
+			<View style={{ marginBottom: 0 }} />
 
 			{/* start project model Pop */}
 			<Modal
@@ -679,7 +799,7 @@ const chatScreen = (props, { navigation }) => {
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}> experience for you.</Text>
 							</View>
 
-							<View style={{ margin: 10, alignItems: 'center' }} >
+							<View style={{ margin: 7, alignItems: 'center' }} >
 								<Text style={{ fontSize: 12, color: '#4D4D4D' }}> Your feedback can help {consultanDetails.fullname},all other </Text>
 								<Text style={{ fontSize: 12, color: '#4D4D4D' }}> people who have same questions like you.</Text>
 							</View>
@@ -693,13 +813,13 @@ const chatScreen = (props, { navigation }) => {
 
 							<View style={{ margin: 10, alignItems: 'center' }} >
 								<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
-								<Text style={{ fontSize: 12, color: '#000000' }}>Design Coach</Text>
+								<Text style={{ fontSize: 12, color: '#000000' }}>{getUser.property.usertag}</Text>
 							</View>
 
 							<StarRating
 								disabled={false}
 								maxStars={5}
-								starSize={25}
+								starSize={20}
 								rating={rating}
 								fullStarColor={'#C4C4C4'}
 								emptyStarColor={'#000000'}
@@ -720,7 +840,7 @@ const chatScreen = (props, { navigation }) => {
 									onChangeText={(val) => setFeedback(val)}
 								/>
 							</View>
-							<View style={{ margin: 20 }}>
+							<View style={{ margin: 10 }}>
 								<TouchableOpacity
 									onPress={() => { rate == true ? feedBack() : onpressDoneBtn() }}
 									style={styles.doneBtn}
@@ -756,7 +876,7 @@ const styles = StyleSheet.create({
 			height: 0,
 			width: 0
 		},
-		elevation: 3
+		elevation: 1,
 	},
 	chatIcon: {
 		width: 40,
@@ -930,7 +1050,7 @@ const styles = StyleSheet.create({
 	},
 	messageModalView: {
 		marginTop: 10,
-		height: 140,
+		height: 130,
 		width: WIDTH - 90,
 		borderRadius: 40,
 		backgroundColor: '#5AC8FA',
@@ -943,8 +1063,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: '#FFFFFF',
-		width: 100,
-		height: 100,
+		width: 80,
+		height: 80,
 		shadowOffset: {
 			width: 2,
 			height: 2,
@@ -969,7 +1089,7 @@ const styles = StyleSheet.create({
 		borderWidth: 0.5,
 		borderColor: '#000000',
 		width: WIDTH - 120,
-		height: HEIGHT / 6,
+		height: HEIGHT / 7,
 		borderRadius: 5
 	},
 	doneBtn: {

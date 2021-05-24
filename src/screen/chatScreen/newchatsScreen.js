@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, SafeAreaView, TextInput, ScrollView,
+    View, Text, SafeAreaView, TextInput, ScrollView, Dimensions,
     TouchableOpacity, Image, StatusBar, RefreshControl, Pressable, FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -12,6 +12,8 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import Loader from '../../components/loader/index';
 import * as SCREEN from '../../context/screen/screenName';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 const newchatsScreen = (props) => {
     const [consultantList, setconsultantList] = useState([]);
@@ -85,7 +87,7 @@ const newchatsScreen = (props) => {
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                         />
                         <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
-                            <Text style={{ color: '#000000', fontSize: 12 }}>{item.ratinglen + 'K'}</Text>
+                            <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
                             <StarRating
                                 disabled={false}
                                 maxStars={5}
@@ -101,7 +103,7 @@ const newchatsScreen = (props) => {
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
                         <Text style={{ fontSize: 16, color: '#999999' }}>{item.property.usertag}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#C2C2C2' }} />
+                            <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
 
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
@@ -115,12 +117,12 @@ const newchatsScreen = (props) => {
                             }
                         </Text>
 
-                        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginTop: 5 }}>
-                            <View style={{ flexDirection: 'column' }}>
+                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 0 }}>
+                            <View style={{ justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 120 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
                                     style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
