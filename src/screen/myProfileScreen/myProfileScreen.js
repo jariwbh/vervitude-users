@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     Text, View, SafeAreaView, Image, TouchableOpacity,
     ScrollView, Modal, TextInput, Switch, Pressable,
-    ToastAndroid, Platform, Linking, StatusBar
+    ToastAndroid, Platform, StatusBar
 } from 'react-native';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import MenuButton from '../../components/ProfileMenuButton/ProfileMenuButton';
@@ -12,6 +12,8 @@ import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
+//import { useIsFocused } from '@react-navigation/native';
+import axiosConfig from '../../helpers/axiosConfig';
 
 const myProfileScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -26,6 +28,7 @@ const myProfileScreen = (props) => {
     const [description, setdescription] = useState(null);
     const [descriptionerror, setdescriptionerror] = useState(null);
     const secondTextInputRef = React.createRef();
+    //const isFocused = useIsFocused();
 
     useEffect(() => {
         getUserData();
@@ -77,6 +80,7 @@ const myProfileScreen = (props) => {
             }, 3000);;
         } else {
             var UserInfo = JSON.parse(getUser);
+            axiosConfig(UserInfo._id);
             setuserDetails(UserInfo);
         }
     }
@@ -137,7 +141,7 @@ const myProfileScreen = (props) => {
             'content': description
 
         }
-        console.log(`body`, body);
+        // console.log(`body`, body);
         //setloading(true);
         try {
             const response = await HelpSupportService(body);
@@ -156,6 +160,12 @@ const myProfileScreen = (props) => {
             }
             onPressCancel();
         }
+    }
+
+    //open WEB VIEW SCREEN
+    const WebViewScreen = (data) => {
+        showVervitudeModal(false);
+        props.navigation.navigate(SCREEN.WEBVIEWSCREEN, { data });
     }
 
     return (
@@ -391,9 +401,8 @@ const myProfileScreen = (props) => {
                     <View style={{ position: 'absolute', bottom: 20 }}>
                         <View style={STYLES.styles.msgModalView}>
                             <Image source={require('../../assets/Images/smileicon.png')} style={{ marginTop: 15, height: 40, width: 40 }} />
-                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>Sorry to hear about the issue</Text>
-                            <Text style={{ fontSize: 14, color: '#000000' }}>Your quiry has been Submit</Text>
-                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>You will hear from us very soon</Text>
+                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>Thank you for your feedback</Text>
+                            <Text style={{ fontSize: 14, color: '#000000' }}>we will get back to you shortly</Text>
                         </View>
                         <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
                             <TouchableOpacity onPress={() => showMessageModal(!showMessageModalVisible)}
@@ -415,31 +424,34 @@ const myProfileScreen = (props) => {
                 <View style={{ alignItems: 'center', flex: 1 }}>
                     <View style={{ position: 'absolute', bottom: 20 }}>
                         <View style={STYLES.styles.vervitudemodalView}>
-                            <Text
-                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
-
+                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                                <Text
+                                    style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
+                            </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>
 
-                            <Text
-                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                                <Text
+                                    style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
+                            </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>
 
-                            <Text
-                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                                <Text
+                                    style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
+                            </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>
 
-                            <Text
-                                onPress={() => Linking.openURL('https://www.vervitude.co/')}
-                                style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                                <Text
+                                    style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
+                            </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>

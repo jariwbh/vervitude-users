@@ -65,12 +65,11 @@ const recentchatScreen = (props) => {
             }
         }
         catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 
     const navigationhandler = (item) => {
-
         const consultanDetails = {
             _id: item.property.consultantid._id,
             profilepic: item.property.consultantid.profilepic,

@@ -28,7 +28,7 @@ const SearchBar = (props) => {
             setFilteredDataSource(slice);
             setConsultant(response.data);
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 

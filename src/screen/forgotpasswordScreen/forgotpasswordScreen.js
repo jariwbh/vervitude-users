@@ -95,7 +95,7 @@ export default class forgotpasswordScreen extends Component {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
                 await LoginWithMobileService(mobile_number)
                     .then(response => {
-                        console.log(`response`, response);
+                        // console.log(`response`, response);
                         if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
                             let token = response.data[0]._id;
                             //set header auth user key
@@ -132,7 +132,7 @@ export default class forgotpasswordScreen extends Component {
             }
         }
         catch (error) {
-            console.log(`error`, error)
+            //console.log(`error`, error)
             this.resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);

@@ -51,7 +51,10 @@ const editScreen = (props) => {
     const sevenTextInputRef = React.createRef();
 
     useEffect(() => {
-    }, [aboutError])
+    }, [userDetails, about, aboutError, newProfilePath, loading, first_name, first_nameError,
+        last_name, last_nameError, mobile, mobileError, primaryemail, primaryemailError,
+        usertag, usertagError, location, locationError
+    ])
 
     //check validation of fullname
     const setFirstName = (firstname) => {
@@ -180,18 +183,18 @@ const editScreen = (props) => {
     useEffect(() => {
         checkPermission();
         getUserDetails();
-    }, [newProfilePath]);
+    }, []);
 
     //submit button click to called
     const onPressSubmit = async () => {
         if (!first_name || !last_name || !mobile || !usertag || !location || !primaryemail || !about) {
-            setfirst_name(first_name);
-            setlast_name(last_name);
-            setmobile(mobile);
-            setprimaryemail(primaryemail);
-            setusertag(usertag);
-            setlocation(location);
-            setabout(about);
+            setFirstName(first_name);
+            setLastName(last_name);
+            setMobile_number(mobile);
+            setEmail(primaryemail);
+            setUserTag(usertag);
+            setLocation(location);
+            setAbout(about);
             return;
         }
 
@@ -227,7 +230,7 @@ const editScreen = (props) => {
             props.navigation.replace(SCREEN.MYPROFILESCREEN);
         }
         catch (error) {
-            console.log(`error`, error)
+            // console.log(`error`, error)
             setloading(false);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Profile Not Update!', ToastAndroid.SHORT);
@@ -241,11 +244,11 @@ const editScreen = (props) => {
     const handlePicker = () => {
         ImagePicker.showImagePicker({}, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled image picker');
+                // console.log('User cancelled image picker');
             } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
+                // console.log('ImagePicker Error: ', response.error);
             } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+                //  console.log('User tapped custom button: ', response.customButton);
             } else {
                 setloading(true);
                 onPressUploadFile(response);
@@ -462,7 +465,7 @@ const editScreen = (props) => {
                                 multiline={true}
                                 defaultValue={about}
                                 ref={sevenTextInputRef}
-                                onSubmitEditing={() => onPressSubmit()}
+                                //onSubmitEditing={() => {}}
                                 onChangeText={(about) => setAbout(about)}
                             />
                         </View>

@@ -26,6 +26,7 @@ import EDITSCREEN from '../screen/myProfileScreen/editScreen';
 import LOGINSCREEN from '../screen/loginScreen/loginScreen';
 import HOMESCREEN from '../screen/homeScreen/homeScreen';
 import CHATSCREEN from '../screen/chatScreen/chatScreen';
+import WEBVIEWSCREEN from '../screen/WebViewScreen/WebViewScreen';
 
 const Stack = createStackNavigator();
 export default navigationsApp = () => {
@@ -40,7 +41,6 @@ export default navigationsApp = () => {
                 <Stack.Screen name='splashScreen' component={SPLASHSCREEN} />
                 <Stack.Screen name='loginScreen' component={LOGINSCREEN} />
                 <Stack.Screen name='homeScreen' component={HOMESCREEN} />
-
                 <Stack.Screen name='rechargepaymentScreen' component={RECHARGEPAYMENTSCREEN} />
                 <Stack.Screen name='disputesdetailsScreen' component={DISPUTESDETAILSSCREEN} />
                 <Stack.Screen name='rechargedetailScreen' component={RECHARGEDETAILSCREEN} />
@@ -59,6 +59,7 @@ export default navigationsApp = () => {
                 <Stack.Screen name='inviteScreen' component={INVITESCREEN} />
                 <Stack.Screen name='editScreen' component={EDITSCREEN} />
                 <Stack.Screen name='chatScreen' component={CHATSCREEN} />
+                <Stack.Screen name='WebViewScreen' component={WEBVIEWSCREEN} />
             </Stack.Navigator>
         </NavigationContainer>
     );

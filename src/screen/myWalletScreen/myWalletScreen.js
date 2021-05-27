@@ -12,10 +12,10 @@ import * as SCREEN from '../../context/screen/screenName';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
+//import axiosConfig from '../../helpers/axiosConfig';
 
 const myWalletScreen = (props) => {
     const couponDetails = props.route.params == undefined ? null : props.route.params.coupon;
-    const [coupon, setCoupon] = useState(couponDetails);
     const [loading, setloading] = useState(false);
     const [userID, setUserID] = useState(null);
     const [amount, setAmount] = useState(null);
@@ -24,9 +24,6 @@ const myWalletScreen = (props) => {
 
     //get AsyncStorage current user Details
     const getUserDetails = async () => {
-        if (couponDetails && couponDetails.property) {
-            setAmount(couponDetails.property.fixvalue.toString());
-        }
         AsyncStorage.getItem(AUTHUSER).then((res) => {
             let userID = JSON.parse(res)._id;
             setloading(true);
@@ -36,6 +33,7 @@ const myWalletScreen = (props) => {
                 }, 3000);;
             } else {
                 setUserID(userID);
+                //axiosConfig(userID);
                 getWallatBalance(userID);
                 wallateBillList(userID);
             }
@@ -47,7 +45,7 @@ const myWalletScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, amount, userID, walletBalance, wallateHistory, coupon])
+    }, [loading, amount, userID, walletBalance, wallateHistory])
 
     //get wallate Balance api call
     const getWallatBalance = async (userID) => {
@@ -58,7 +56,7 @@ const myWalletScreen = (props) => {
                 setloading(false);
             }
         } catch (error) {
-            console.log(`error`, error);
+            //(`error`, error);
         }
     }
 
@@ -68,19 +66,13 @@ const myWalletScreen = (props) => {
         if (amount == null) {
             alert('Please Enter Amount');
             return;
-        } else if (Number(amount) < 500) {
-            alert('Please Enter Amount 500 or More');
+        } else if (Number(amount) < 300) {
+            alert('Please Enter Amount 300 or More');
             return;
         }
 
-        if (couponDetails && couponDetails.couponcode !== null && couponDetails.couponcode !== undefined) {
-            couponDetails.id = userID;
-            rechargeObj = couponDetails;
-            props.navigation.navigate(SCREEN.RECHARGEDETAILSCREEN, { rechargeObj })
-        } else {
-            rechargeObj = { id: userID, amount: amount }
-            props.navigation.navigate(SCREEN.RECHARGEDETAILSCREEN, { rechargeObj })
-        }
+        rechargeObj = { id: userID, amount: amount, couponDetails: couponDetails }
+        props.navigation.navigate(SCREEN.RECHARGEDETAILSCREEN, { rechargeObj })
     }
 
     //get wallate history list
@@ -91,7 +83,7 @@ const myWalletScreen = (props) => {
                 setwallateHistory(response.data);
             }
         } catch (error) {
-            console.log(`error`, error);
+            //console.log(`error`, error);
         }
     }
 
@@ -107,7 +99,7 @@ const myWalletScreen = (props) => {
                         </View>
                         <View style={{ flexDirection: 'column', marginLeft: -100 }}>
                             <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Wallet Recharge</Text>
-                            <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>Success</Text>
+                            <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
                             <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('LT')}</Text>
                         </View>
                         <Text style={{ fontSize: 14, color: '#34A853', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.amount)}</Text>
@@ -132,8 +124,8 @@ const myWalletScreen = (props) => {
                             </View>
                             <View style={{ flexDirection: 'column', marginLeft: -90 }}>
                                 <Text style={{ fontSize: 14, color: '#000000', marginTop: -20, marginLeft: 15 }}>Credit Card</Text>
-                                <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Success</Text>
-                                <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}> 2:30PM</Text>
+                                <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
+                                <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('LT')}</Text>
                             </View>
                             <Text style={{ fontSize: 14, color: '#04DE71', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.amount)}</Text>
                         </TouchableOpacity>
@@ -220,22 +212,22 @@ const myWalletScreen = (props) => {
                             defaultValue={amount}
                             keyboardType='number-pad'
                             onChangeText={(amount) => setAmount(amount)}
-                            editable={coupon && coupon.couponcode ? false : true}
+                        //editable={coupon && coupon.couponcode ? false : true}
                         />
                         <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate(SCREEN.PROMOCODESCREEN)}>
                             <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
                         </TouchableOpacity>
                     </View>
-                    {coupon && coupon.couponcode ?
+                    {/* {coupon && coupon.couponcode ?
                         <Text style={{ fontSize: 16, color: '#000000', marginLeft: 25 }}>{coupon.couponcode}</Text>
-                        : null}
+                        : null} */}
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('500'), setCoupon(null) }}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('500') }}>
                         <Text style={{ fontSize: 16 }}>₹ 500</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('1000'), setCoupon(null) }}>
+                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('1000') }}>
                         <Text style={{ fontSize: 16 }}>₹ 1,000</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('3000')}>

@@ -12,6 +12,10 @@ const UserUpdateService = (data) => {
     return Axios.put('members/' + id, body);
 }
 
+const getByIdMemberService = (id) => {
+    return Axios.get('members/' + id);
+}
+
 const ConsultantListService = (id) => {
     let body;
     if (id != null && id != undefined) {
@@ -83,14 +87,6 @@ const TopConsultantViewListService = (id) => {
         }
     }
 
-    // const body = {
-    //     'search': [{
-    //         'searchfield': 'status',
-    //         'searchvalue': 'active',
-    //         'criteria': 'eq',
-    //         'datatype': 'text'
-    //     }], "formname": "consultant", "sort": { "ratings": -1 }
-    // }
     return Axios.post('users/view/filter', body);
 }
 
@@ -125,6 +121,7 @@ const getByIdUser = (id) => {
     }
     return Axios.post('users/view/filter', body);
 }
+
 export {
     UserProfileService, UserUpdateService, getByIdUser,
     ConsultantListService, UserListService, TopConsultantViewListService

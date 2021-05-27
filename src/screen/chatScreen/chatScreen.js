@@ -66,7 +66,7 @@ const chatScreen = (props, { navigation }) => {
 				setloading(true);
 				getConsultant(consultanDetails._id)
 				newChat(sender, consultanDetails).then((id) => {
-					console.log("chat docs id", id);
+					//console.log("chat docs id", id);
 					setchatId(id);
 					let getMessages = firestore()
 						.collection('chat')
@@ -89,12 +89,11 @@ const chatScreen = (props, { navigation }) => {
 			const response = await getByIdUser(id);
 			setGetUser(response.data[0])
 		} catch (error) {
-			console.log(`error`, error);
+			//console.log(`error`, error);
 		}
 	}
 
 	useEffect(() => {
-		console.log(`getUser`, getUser);
 	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate, chatId,
 		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError
 	])
@@ -133,15 +132,104 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	// const newChat = async (sender, item) => {
+	// 	let getChatId = firestore().collection('chat');
+	// 	let fierbasechatid = item.consultanobject.property.fierbasechatid;
+	// 	let snap;
+	// 	if (fierbasechatid) {
+	// 		snap = await getChatId.doc(fierbasechatid).get()
+	// 	} else {
+	// 		snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
+	// 	}
+	// 	if (snap.empty) {
+	// 		let snap2 = await getChatId.where('member', 'in', [[item._id, sender]]).get();
+	// 		if (snap2.empty) {
+	// 			await startChat(sender, item._id);
+	// 			let ref = await getChatId.add({
+	// 				member: [sender, item._id],
+	// 				createdAt: '',
+	// 				previewMessage: '',
+	// 				formid: formId,
+	// 				memberid: sender,
+	// 				userid: item._id
+	// 			});
+	// 			setloading(false);
+	// 			//update fromdats
+	// 			updateChatId(ref.id);
+	// 			return ref.id;
+	// 		} else {
+	// 			if (snap2.docs[0]._data.endat) {
+	// 				if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
+	// 					await startChat(sender, item._id);
+	// 					let ref = await getChatId.add({
+	// 						member: [sender, item._id],
+	// 						createdAt: '',
+	// 						previewMessage: '',
+	// 						formid: formId,
+	// 						memberid: sender,
+	// 						userid: item._id
+	// 					});
+	// 					setloading(false);
+	// 					//update fromdats
+	// 					updateChatId(ref.id);
+	// 					return ref.id;
+	// 				} else {
+	// 					setFormDataId(snap2.docs[0]._data.formid);
+	// 					FindChatByIdService(snap2.docs[0]._data.formid);
+	// 					setloading(false);
+	// 					return snap2.docs[0].id;
+	// 				}
+	// 			} else {
+	// 				setFormDataId(snap2.docs[0]._data.formid);
+	// 				FindChatByIdService(snap2.docs[0]._data.formid);
+	// 				setloading(false);
+	// 				return snap2.docs[0].id;
+	// 			}
+	// 		}
+	// 	} else {
+	// 		console.log('snap');
+	// 		let data;
+	// 		let id;
+	// 		if (fierbasechatid) {
+	// 			data = snap._data;
+	// 			id = snap.id;
+	// 		} else {
+	// 			data = snap.docs[0]._data
+	// 			id = snap.docs[0].id;
+	// 		}
+	// 		console.log(`data`, data);
+	// 		if (data.endat) {
+	// 			if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
+	// 				await startChat(sender, item._id);
+	// 				let ref = await getChatId.add({
+	// 					member: [sender, item._id],
+	// 					createdAt: '',
+	// 					previewMessage: '',
+	// 					formid: formId,
+	// 					memberid: sender,
+	// 					userid: item._id
+	// 				});
+	// 				setloading(false);
+	// 				//update fromdats
+	// 				updateChatId(ref.id);
+	// 				return ref.id;
+	// 			} else {
+	// 				FindChatByIdService(data.formid);
+	// 				setloading(false);
+	// 				return id;
+	// 			}
+	// 		} else {
+	// 			setFormDataId(data.formid);
+	// 			FindChatByIdService(data.formid);
+	// 			setloading(false);
+	// 			return id;
+	// 		}
+	// 	}
+	// };
+
 	const newChat = async (sender, item) => {
 		let getChatId = firestore().collection('chat');
-		let fierbasechatid = item.consultanobject.property.fierbasechatid;
-		let snap;
-		if (fierbasechatid) {
-			snap = await getChatId.doc(fierbasechatid).get()
-		} else {
-			snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
-		}
+		let snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
 		if (snap.empty) {
 			let snap2 = await getChatId.where('member', 'in', [[item._id, sender]]).get();
 			if (snap2.empty) {
@@ -155,76 +243,18 @@ const chatScreen = (props, { navigation }) => {
 					userid: item._id
 				});
 				setloading(false);
-				//update fromdats
-				updateChatId(ref.id);
 				return ref.id;
 			} else {
-				if (snap2.docs[0]._data.endat) {
-					if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
-						await startChat(sender, item._id);
-						let ref = await getChatId.add({
-							member: [sender, item._id],
-							createdAt: '',
-							previewMessage: '',
-							formid: formId,
-							memberid: sender,
-							userid: item._id
-						});
-						setloading(false);
-						//update fromdats
-						updateChatId(ref.id);
-						return ref.id;
-					} else {
-						setFormDataId(snap2.docs[0]._data.formid);
-						FindChatByIdService(snap2.docs[0]._data.formid);
-						setloading(false);
-						return snap2.docs[0].id;
-					}
-				} else {
-					setFormDataId(snap2.docs[0]._data.formid);
-					FindChatByIdService(snap2.docs[0]._data.formid);
-					setloading(false);
-					return snap2.docs[0].id;
-				}
+				setFormDataId(snap2.docs[0]._data.formid);
+				FindChatByIdService(snap2.docs[0]._data.formid);
+				setloading(false);
+				return snap2.docs[0].id;
 			}
 		} else {
-			console.log('snap');
-			let data;
-			let id;
-			if (fierbasechatid) {
-				data = snap._data;
-				id = snap.id;
-			} else {
-				data = snap.docs[0]._data
-				id = snap.docs[0].id;
-			}
-			console.log(`data`, data);
-			if (data.endat) {
-				if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
-					await startChat(sender, item._id);
-					let ref = await getChatId.add({
-						member: [sender, item._id],
-						createdAt: '',
-						previewMessage: '',
-						formid: formId,
-						memberid: sender,
-						userid: item._id
-					});
-					setloading(false);
-					//update fromdats
-					updateChatId(ref.id);
-					return ref.id;
-				} else {
-					FindChatByIdService(data.formid);
-					setloading(false);
-					return id;
-				}
-			} else {
-				setFormDataId(data.formid);
-				FindChatByIdService(data.formid);
-				setloading(false);
-				return id;
-			}
+			setFormDataId(snap.docs[0]._data.formid);
+			FindChatByIdService(snap.docs[0]._data.formid);
+			setloading(false);
+			return snap.docs[0].id;
 		}
 	};
 
@@ -272,7 +302,7 @@ const chatScreen = (props, { navigation }) => {
 
 	//current chat in find chat is end or not
 	const FindChatByIdService = async (id) => {
-		console.log(`id`, id);
+		//console.log(`id`, id);
 		const response = await FindChatById(id);
 		setFormDataId(response.data[0]._id);
 		try {
@@ -297,7 +327,7 @@ const chatScreen = (props, { navigation }) => {
 				setFormdataDetails(response.data[0]);
 			}
 		} catch (error) {
-			console.log(`error`, error);
+			//console.log(`error`, error);
 		}
 	}
 
@@ -326,7 +356,7 @@ const chatScreen = (props, { navigation }) => {
 					props.navigation.navigate(SCREEN.HOMESCREEN);
 				}
 			} catch (error) {
-				console.log(`error`, error);
+				//console.log(`error`, error);
 			}
 		}
 	}
@@ -352,7 +382,7 @@ const chatScreen = (props, { navigation }) => {
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 			}
 		} catch (error) {
-			console.log(`error`, error);
+			//console.log(`error`, error);
 			if (Platform.OS === 'android') {
 				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
 			} else {
@@ -383,7 +413,7 @@ const chatScreen = (props, { navigation }) => {
 				chargable: formdataDetails.property.chargable,
 				category: formdataDetails.property.category,
 				subcategory: formdataDetails.property.subcategory,
-				fierbasechatid: chatId
+				//fierbasechatid: chatId
 			}
 		}
 
@@ -453,7 +483,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 		} catch (error) {
-			console.log(`error`, error);
+			//console.log(`error`, error);
 			if (Platform.OS === 'android') {
 				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
 			} else {
@@ -534,7 +564,7 @@ const chatScreen = (props, { navigation }) => {
 				//props.navigation.navigate(SCREEN.HOMESCREEN);
 			}
 		} catch (error) {
-			console.log(`error`, error);
+			//console.log(`error`, error);
 		}
 	}
 
@@ -813,7 +843,7 @@ const chatScreen = (props, { navigation }) => {
 
 							<View style={{ margin: 10, alignItems: 'center' }} >
 								<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
-								<Text style={{ fontSize: 12, color: '#000000' }}>{getUser.property.usertag}</Text>
+								<Text style={{ fontSize: 12, color: '#000000' }}>Design UX</Text>
 							</View>
 
 							<StarRating

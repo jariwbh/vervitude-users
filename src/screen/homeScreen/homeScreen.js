@@ -6,14 +6,11 @@ import {
 import WallateButton from '../../components/WallateButton/WallateButton';
 import MenuButton from '../../components/MenuButton/MenuButton';
 import SliderScreen from '../../components/slider/sliderScreen';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 import * as STYLE from './styles';
 import Loader from '../../components/loader/index';
 import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SCREEN from '../../context/screen/screenName';
 import { TopConsultantViewListService, UserUpdateService } from '../../services/UserService/UserService';
 import { AUTHUSER } from '../../context/actions/type';
@@ -21,18 +18,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { CategoryService } from '../../services/CategoryService/CategoryService';
 import SearchBar from '../../components/SearchBar/SearchBar';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+import { getByIdMemberService } from '../../services/UserService/UserService';
+import axiosConfig from '../../helpers/axiosConfig';
+//import { useIsFocused } from '@react-navigation/native';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
     const [category, setCategory] = useState([]);
+    //const isFocused = useIsFocused();
 
     useEffect(() => {
         setloading(true);
         getUserData();
         ConsultantList();
         categoryList();
-
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -44,12 +44,27 @@ const homeScreen = (props) => {
         });
     }, [])
 
+
     //get AsyncStorage current user Details
     const getUserData = async () => {
         var getUser = await AsyncStorage.getItem(AUTHUSER);
         var UserInfo = JSON.parse(getUser);
         UserInfo.property.live = true;
-        UpdateUserService(UserInfo);
+        axiosConfig(UserInfo._id);
+        await getByIdMember(UserInfo._id);
+        await UpdateUserService(UserInfo);
+    }
+
+    //get member details 
+    const getByIdMember = async (id) => {
+        try {
+            const response = await getByIdMemberService(id);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                authenticateUser(response.data);
+            }
+        } catch (error) {
+            setloading(false);
+        }
     }
 
     //category List Service to call function
@@ -59,7 +74,7 @@ const homeScreen = (props) => {
             const slice = response.data.slice(0, 4)
             setCategory([...slice, { add: true }]);
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 
@@ -78,18 +93,17 @@ const homeScreen = (props) => {
     const UpdateUserService = async (user) => {
         try {
             const response = await UserUpdateService(user);
-            //console.log(`response`, response);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 authenticateUser(user);
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show("User is Online", ToastAndroid.SHORT);
-                } else {
-                    alert('User is Online');
-                }
+                // if (Platform.OS === 'android') {
+                //     ToastAndroid.show("User is Online", ToastAndroid.SHORT);
+                // } else {
+                //     alert('User is Online');
+                // }
             }
         }
         catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
             setloading(false);
         }
     }
@@ -102,7 +116,7 @@ const homeScreen = (props) => {
             setConsultant(slice);
             setloading(false);
         } catch (error) {
-            console.log(`error`, error);
+            //  console.log(`error`, error);
         }
     }
 
@@ -120,7 +134,7 @@ const homeScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View>
-                    <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}>
+                    <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}>
                         {item.property.first_name}
                     </Text>
                     <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
@@ -241,13 +255,13 @@ const homeScreen = (props) => {
             // icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
-                    <Ionicons name="chatbubbles" style={styles.actionButtonIcon} />
+                    <Image source={require('../../assets/Images/chaticon1.png')} style={{ height: 23, width: 25 }} />
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
-                    <MaterialCommunityIcons name="card-plus-outline" style={styles.actionButtonIcon} />
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.NEWCHATSSCREEN)}>
+                    <Image source={require('../../assets/Images/findicon.png')} style={{ height: 20, width: 20 }} />
                 </ActionButton.Item>
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
-                    <FontAwesome name="rupee" style={styles.actionButtonIcon} />
+                    <Image source={require('../../assets/Images/moneyicon.png')} style={{ height: 20, width: 15 }} />
                 </ActionButton.Item>
             </ActionButton>
             { loading ? <Loader /> : null}

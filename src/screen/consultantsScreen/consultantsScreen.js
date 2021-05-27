@@ -28,7 +28,7 @@ const consultantsScreen = (props) => {
             setwalletBalance(response.data[0].walletbalance)
           }
         } catch (error) {
-          console.log(`error`, error);
+          // console.log(`error`, error);
         }
       });
     },
@@ -216,7 +216,8 @@ const consultantsScreen = (props) => {
           onPress={() => navigationhandler()}
           activeOpacity={0.7}
           style={styles.touchableOpacityStyle}>
-          <Ionicons name="chatbubbles" color='#FFFFFF' size={30} style={{ top: -45, right: 50 }} />
+          <Image source={require('../../assets/Images/chaticon1.png')} style={{ height: 23, width: 25, top: -45, right: 50 }} />
+          {/* <Ionicons name="chatbubbles" color='#FFFFFF' size={30} style={{ top: -45, right: 50 }} /> */}
         </TouchableOpacity>
       </View>
     </SafeAreaView>

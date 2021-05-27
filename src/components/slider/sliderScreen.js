@@ -21,7 +21,7 @@ const SliderScreen = () => {
             const response = await SliderService();
             setsliderData(response.data);
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 
@@ -32,25 +32,30 @@ const SliderScreen = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                <Swiper
-                    containerStyle={styles.wrapper}
-                    autoplay={true}
-                    autoplayDirection={true}
-                    activeDotColor={'#00D9CE'}
-                >
-                    {sliderData.map((item, index) => (
-                        <View key={index} >
-                            <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} >
-                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
-                                    <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
-                                    <TouchableOpacity onPress={() => Linking.openURL(item.property.link)} >
-                                        <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </ImageBackground>
-                        </View>
-                    ))}
-                </Swiper>
+
+                {(sliderData != null) || (sliderData && sliderData.length != 0) ?
+                    <Swiper
+                        containerStyle={styles.wrapper}
+                        autoplay={true}
+                        autoplayTimeout={5}
+                        autoplayDirection={true}
+                        activeDotColor={'#00D9CE'}
+                    >
+                        {sliderData.map((item, index) => (
+                            <View key={index} >
+                                <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} >
+                                    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
+                                        <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
+                                        <TouchableOpacity onPress={() => Linking.openURL(item.property.link)} >
+                                            <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </ImageBackground>
+                            </View>
+                        ))}
+                    </Swiper>
+                    : null
+                }
             </View>
         </View>
     )

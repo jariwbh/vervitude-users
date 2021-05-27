@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View, Text, Image, TextInput, SafeAreaView, TouchableOpacity,
-    ScrollView, StatusBar, FlatList, Linking
+    ScrollView, StatusBar, FlatList
 } from 'react-native';
 import { CategoryService } from '../../services/CategoryService/CategoryService';
 import WallateButton from '../../components/WallateButton/WallateButton';
@@ -13,15 +13,14 @@ import * as STYLES from './styles';
 import * as SCREEN from '../../context/screen/screenName';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
 import ActionButton from 'react-native-circular-action-menu';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+//import { useIsFocused } from '@react-navigation/native';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 function selectCategoryScreen(props) {
     const [category, setCategory] = useState([]);
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
+    //const isFocused = useIsFocused();
 
     useEffect(() => {
         setloading(true);
@@ -36,7 +35,7 @@ function selectCategoryScreen(props) {
             setCategory(response.data);
             setloading(false);
         } catch (error) {
-            console.log(`error`, error);
+            //  console.log(`error`, error);
         }
     }
 
@@ -48,8 +47,13 @@ function selectCategoryScreen(props) {
             setConsultant(slice);
             setloading(false);
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
+    }
+
+    //open WEB VIEW SCREEN
+    const WebViewScreen = (data) => {
+        props.navigation.navigate(SCREEN.WEBVIEWSCREEN, { data });
     }
 
     //render category 
@@ -60,7 +64,7 @@ function selectCategoryScreen(props) {
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
                 <Text style={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
-                <TouchableOpacity onPress={() => Linking.openURL(item.property.link)}>
+                <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
                     <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
                 </TouchableOpacity>
             </View>
@@ -76,7 +80,7 @@ function selectCategoryScreen(props) {
                 />
             </TouchableOpacity>
             <View>
-                <Text style={{ fontSize: 14, color: '#000000', fontWeight: '900', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}
+                <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}
                 >{item.property.first_name}</Text>
                 <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
                 <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
@@ -94,10 +98,12 @@ function selectCategoryScreen(props) {
         </View>
     )
 
+    //on touch to select category
     const onTouchSelectCategory = (item) => {
         props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item });
     }
 
+    //on touch to open consultants screen
     const navigationhandler = (item) => {
         props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
     }
@@ -177,13 +183,13 @@ function selectCategoryScreen(props) {
             // icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
-                    <Ionicons name="chatbubbles" style={STYLES.styles.actionButtonIcon} />
+                    <Image source={require('../../assets/Images/chaticon1.png')} style={{ height: 23, width: 25 }} />
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
-                    <MaterialCommunityIcons name="card-plus-outline" style={STYLES.styles.actionButtonIcon} />
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.NEWCHATSSCREEN)}>
+                    <Image source={require('../../assets/Images/findicon.png')} style={{ height: 20, width: 20 }} />
                 </ActionButton.Item>
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
-                    <FontAwesome name="rupee" style={STYLES.styles.actionButtonIcon} />
+                    <Image source={require('../../assets/Images/moneyicon.png')} style={{ height: 20, width: 15 }} />
                 </ActionButton.Item>
             </ActionButton>
             {loading ? <Loader /> : null}

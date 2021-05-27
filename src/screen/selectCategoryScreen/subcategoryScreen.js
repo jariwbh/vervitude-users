@@ -7,7 +7,6 @@ import { TopConsultantViewListService } from '../../services/UserService/UserSer
 import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
@@ -16,11 +15,9 @@ import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
 import { SubCategoryService } from '../../services/CategoryService/CategoryService';
 import ActionButton from 'react-native-circular-action-menu';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { WalletDetailService } from '../../services/BillService/BillService';
+//import { useIsFocused } from '@react-navigation/native';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
-const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const subcategoryScreen = (props) => {
@@ -34,6 +31,7 @@ const subcategoryScreen = (props) => {
     const [SearchConsultant, setSearchConsultant] = useState([]);
     const [walletBalance, setwalletBalance] = useState(null);
     const [wallatemodel, setWallatemodel] = useState(0);
+    // const isFocused = useIsFocused();
 
     useEffect(() => {
         getUserData();
@@ -51,7 +49,7 @@ const subcategoryScreen = (props) => {
                 setwalletBalance(response.data[0].walletbalance)
             }
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 
@@ -64,7 +62,7 @@ const subcategoryScreen = (props) => {
                 setSubCategory(response.data);
             }
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 
@@ -123,7 +121,7 @@ const subcategoryScreen = (props) => {
                 setloading(false);
             }
         } catch (error) {
-            console.log(`error`, error);
+            // console.log(`error`, error);
         }
     }
 
@@ -352,13 +350,13 @@ const subcategoryScreen = (props) => {
             // icon={renderImage()}
             >
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Chat" onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}>
-                    <Ionicons name="chatbubbles" style={STYLES.styles.actionButtonIcon} />
+                    <Image source={require('../../assets/Images/chaticon1.png')} style={{ height: 23, width: 25 }} />
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
-                    <MaterialCommunityIcons name="card-plus-outline" style={STYLES.styles.actionButtonIcon} />
+                <ActionButton.Item buttonColor='#00D9CE' size={60} title="Find a counsultant" onPress={() => props.navigation.navigate(SCREEN.NEWCHATSSCREEN)}>
+                    <Image source={require('../../assets/Images/findicon.png')} style={{ height: 20, width: 20 }} />
                 </ActionButton.Item>
                 <ActionButton.Item buttonColor='#00D9CE' size={60} title="Wallet Balance" onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
-                    <FontAwesome name="rupee" style={STYLES.styles.actionButtonIcon} />
+                    <Image source={require('../../assets/Images/moneyicon.png')} style={{ height: 20, width: 15 }} />
                 </ActionButton.Item>
             </ActionButton>
 

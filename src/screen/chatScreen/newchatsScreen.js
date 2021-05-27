@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, SafeAreaView, TextInput, ScrollView, Dimensions,
+    View, Text, SafeAreaView, TextInput, ScrollView, Dimensions, ImageBackground,
     TouchableOpacity, Image, StatusBar, RefreshControl, Pressable, FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -12,7 +12,6 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import Loader from '../../components/loader/index';
 import * as SCREEN from '../../context/screen/screenName';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
-const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const newchatsScreen = (props) => {
@@ -53,7 +52,7 @@ const newchatsScreen = (props) => {
             }
             // axiosConfig(userId);
         } catch (error) {
-            console.log(`error`, error);
+            //console.log(`error`, error);
         }
     }
 
@@ -83,9 +82,17 @@ const newchatsScreen = (props) => {
                 </View> */}
                 <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 10, flex: 1, marginLeft: 20 }}>
                     <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
-                        <Image source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
+                        <ImageBackground source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
-                        />
+                            imageStyle={{ borderRadius: 100 }}
+                        >
+                            {
+                                item.property.live === true ?
+                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
+                                    :
+                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
+                            }
+                        </ImageBackground>
                         <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                             <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
                             <StarRating
@@ -119,7 +126,7 @@ const newchatsScreen = (props) => {
 
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 0 }}>
                             <View style={{ justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
+                                <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin ? item.property.chargespermin : '0'} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>

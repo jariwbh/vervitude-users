@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StatusBar, RefreshControl, FlatList, Pressable } from 'react-native';
+import { Text, View, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollView, StatusBar, RefreshControl, FlatList, Pressable } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -10,6 +10,7 @@ import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+const WIDTH = Dimensions.get('window').width;
 
 const myspendsScreen = (props) => {
     const [loading, setloading] = useState(true);
@@ -31,7 +32,7 @@ const myspendsScreen = (props) => {
                         setloading(false);
                     }
                 } catch (error) {
-                    console.log(`error`, error);
+                    // console.log(`error`, error);
                 }
             });
         },
@@ -45,12 +46,12 @@ const myspendsScreen = (props) => {
     const getWallateUsageList = async () => {
         try {
             const response = await WalletUsageListService();
-            console.log(`response.data `, response);
+            // console.log(`response.data `, response);
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 setconsultantList(response.data);
             }
         } catch (error) {
-            console.log(`error`, error);
+            //  console.log(`error`, error);
         }
     }
 
@@ -70,7 +71,7 @@ const myspendsScreen = (props) => {
 
     //render consultants lists using flatlist
     const renderConsultantList = ({ item }) => (
-        <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
+        <Pressable
             style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, flex: 1 }}>
             <View style={STYLES.styles.counsultantview}>
                 {/* <View style={STYLES.styles.cauve}>
@@ -81,7 +82,7 @@ const myspendsScreen = (props) => {
                 </View> */}
                 <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 0, marginLeft: 20, flex: 1 }}>
                     <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
-                        <Image source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
+                        <Image source={{ uri: item.consultant.profilepic !== null && item.consultant.profilepic != undefined ? item.consultant.profilepic : noProfile }}
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                             imageStyle={{ borderRadius: 100 }}
                         >
@@ -106,11 +107,11 @@ const myspendsScreen = (props) => {
                                     : null
                             }
                         </Text>
-                        <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginTop: 5 }}>
-                            <View style={{ flexDirection: 'column' }}>
+                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                            <View style={{ justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 16, color: '#FB3267', fontWeight: 'bold' }}>₹ {Number(item.amount)}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 100 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: WIDTH / 5 }}>
                                 <Text style={{ fontSize: 16, color: '#000000', fontWeight: 'bold' }}>{moment.utc(moment.duration(item.items[0].quantity, "minutes").asMilliseconds()).format("H") + 'h'
                                     + moment.utc(moment.duration(item.items[0].quantity, "minutes").asMilliseconds()).format("mm") + 'min'}</Text>
                             </View>

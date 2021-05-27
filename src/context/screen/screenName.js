@@ -23,3 +23,4 @@ export const CHATSCREEN = 'chatScreen';
 export const EDITSCREEN = 'editScreen';
 export const HOMESCREEN = 'homeScreen';
 export const MAINSCREEN = 'MainScreen';
+export const WEBVIEWSCREEN = 'WebViewScreen';
