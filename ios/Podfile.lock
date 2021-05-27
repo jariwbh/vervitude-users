@@ -340,6 +340,7 @@ PODS:
   - Permission-PhotoLibraryAddOnly (3.0.2):
     - RNPermissions
   - PromisesObjC (1.2.12)
+  - razorpay-pod (1.1.13)
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -535,7 +536,12 @@ PODS:
   - React-jsinspector (0.64.0)
   - react-native-image-picker (2.3.1):
     - React
+  - react-native-razorpay (2.2.5):
+    - razorpay-pod
+    - React
   - react-native-safe-area-context (3.2.0):
+    - React-Core
+  - react-native-webview (11.4.5):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -607,6 +613,8 @@ PODS:
     - React-Core
   - RNCClipboard (1.7.0):
     - React-Core
+  - RNDateTimePicker (3.4.7):
+    - React-Core
   - RNFBApp (11.2.0):
     - Firebase/CoreOnly (= 7.9.0)
     - React-Core
@@ -647,7 +655,9 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-razorpay (from `../node_modules/react-native-razorpay`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -663,6 +673,7 @@ DEPENDENCIES:
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -690,6 +701,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - razorpay-pod
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -730,8 +742,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-razorpay:
+    :path: "../node_modules/react-native-razorpay"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -762,6 +778,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBFirestore:
@@ -802,6 +820,7 @@ SPEC CHECKSUMS:
   Permission-PhotoLibrary: 4b8f4b1844463ef38bbff54a53d6c2e6136c1b77
   Permission-PhotoLibraryAddOnly: 69be9439af3dc7803af585996b74f4b65b0f66f7
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  razorpay-pod: c0e9c4ae3ed168ab0f59be2acfb3ba8fd57eba57
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 2f8cb5b7533219bf4218a045f92768129cf7050a
   RCTTypeSafety: 512728b73549e72ad7330b92f3d42936f2a4de5b
@@ -814,7 +833,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-image-picker: 6a850c41f57f0848d918c2a77aedd7aa272ffa30
+  react-native-razorpay: a9d00a5e617ed8fdc263849fcf4dc3bd24a7a391
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
+  react-native-webview: 6d1d368c38edcc0a074bcc51a94ec8de700c241e
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -830,6 +851,7 @@ SPEC CHECKSUMS:
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCClipboard: 245417a78ab585e0d4d83926c28907e7b2bc24bd
+  RNDateTimePicker: 8dcfab802edece406f4f4780130974a0e04213b4
   RNFBApp: d9ab9f2e63c70a9974294bb44c749b728cd4028f
   RNFBFirestore: 49898b75f0684b56f77b7464eb46c539b015a54c
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
@@ -838,6 +860,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
 
-PODFILE CHECKSUM: 2a7a2be8273827240a6f1498cb320f01fcdabf82
+PODFILE CHECKSUM: c7257ad3e2de7d737669fcd00602a19b7a83c7f4
 
 COCOAPODS: 1.10.1
