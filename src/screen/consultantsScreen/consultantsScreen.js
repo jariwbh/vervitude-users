@@ -16,8 +16,8 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 const consultantsScreen = (props) => {
   const consultanDetails = props.route.params.item;
   const [walletBalance, setwalletBalance] = useState(null);
-  const [wallatemodel, setWallatemodel] = useState(0);
-  console.log(`consultanDetails.property.add_brand`, consultanDetails.property.add_brand);
+  const [wallatemodel, setWallatemodel] = useState(false);
+
   useEffect(
     () => {
       AsyncStorage.getItem(AUTHUSER).then(async (res) => {

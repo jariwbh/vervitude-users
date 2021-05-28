@@ -613,7 +613,7 @@ const chatScreen = (props, { navigation }) => {
 				</View>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: -5, marginLeft: 20, marginRight: 20 }}>
 					<TouchableOpacity
-						onPress={() => { showModalVisible(true) }}
+						onPress={() => setshowStartProjectVisible(true)}
 						style={{ width: 140, height: 35, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
 						<Text style={{ fontSize: 14, color: '#FFB629' }}>Start a Project</Text>
 					</TouchableOpacity>
@@ -647,7 +647,7 @@ const chatScreen = (props, { navigation }) => {
 				animationType='slide'
 				transparent={true}
 				visible={showStartProjectVisible}
-				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
+				onRequestClose={() => { setshowStartProjectVisible(!showStartProjectVisible) }}
 			>
 				<View style={{ alignItems: 'center', flex: 1 }}>
 					<View style={{ position: 'absolute', bottom: 20 }}>
@@ -716,7 +716,7 @@ const chatScreen = (props, { navigation }) => {
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => showModalVisible(!showStartProjectVisible)}
+								onPress={() => setshowStartProjectVisible(!showStartProjectVisible)}
 								style={styles.cancelbtn}
 							>
 								<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>

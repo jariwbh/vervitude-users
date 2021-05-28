@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, SafeAreaView, TextInput, ScrollView, Dimensions, ImageBackground,
-    TouchableOpacity, Image, StatusBar, RefreshControl, Pressable, FlatList
+    TouchableOpacity, Image, StatusBar, RefreshControl, Pressable, FlatList, Modal
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -12,6 +12,9 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import Loader from '../../components/loader/index';
 import * as SCREEN from '../../context/screen/screenName';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
+import { WalletDetailService } from '../../services/BillService/BillService';
+import { AUTHUSER } from '../../context/actions/type';
+import AsyncStorage from '@react-native-community/async-storage';
 const WIDTH = Dimensions.get('window').width;
 
 const newchatsScreen = (props) => {
@@ -20,14 +23,28 @@ const newchatsScreen = (props) => {
     const [userId, setuserId] = useState(null);
     const [loading, setloading] = useState(false);
     const [refreshing, setrefreshing] = useState(false);
+    const [walletBalance, setwalletBalance] = useState(null);
+    const [wallatemodel, setWallatemodel] = useState(false);
 
     useEffect(() => {
         setloading(true);
         consultantService();
+        AsyncStorage.getItem(AUTHUSER).then(async (res) => {
+            let userId = JSON.parse(res)._id;
+            setuserId(userId);
+            try {
+                const response = await WalletDetailService(userId);
+                if (response.data != null && response.data != 'undefind' && response.status === 200) {
+                    setwalletBalance(response.data[0].walletbalance);
+                }
+            } catch (error) {
+                // console.log(`error`, error);
+            }
+        });
     }, [])
 
     useEffect(() => {
-    }, [userId, consultantList, refreshing]);
+    }, [userId, consultantList, refreshing, walletBalance]);
 
     const wait = (timeout) => {
         return new Promise(resolve => {
@@ -65,9 +82,20 @@ const newchatsScreen = (props) => {
         return wait(1000).then(() => setconsultantList(newData));
     };
 
+    //start chat click to navigate screen
     const navigationhandler = (item) => {
-        const consultanDetails = item;
-        props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+        if (walletBalance <= 0) {
+            setWallatemodel(true);
+        } else {
+            const consultanDetails = item;
+            props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
+        }
+    }
+
+    //add money model pop function
+    const onPressRecharge = () => {
+        setWallatemodel(false);
+        props.navigation.navigate(SCREEN.MYWALLETSCREEN);
     }
 
     const renderConsultantList = ({ item }) => (
@@ -211,6 +239,36 @@ const newchatsScreen = (props) => {
                 }
                 <View style={{ marginBottom: 50 }} />
             </ScrollView>
+
+            {/* Wallate message model Pop */}
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={wallatemodel}
+                onRequestClose={() => setWallatemodel(false)}
+            >
+                <View style={{ alignItems: 'center', flex: 1 }}>
+                    <View style={{ position: 'absolute', bottom: 20 }}>
+                        <View style={STYLES.newChatStyles.msgModalView}>
+                            <Image source={require('../../assets/Images/wallateicon.png')} style={{ marginTop: 25, height: 40, width: 45 }} />
+                            <Text style={{ marginTop: 15, fontSize: 14, color: '#000000', fontWeight: 'bold' }}>Your balance is low,please</Text>
+                            <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold' }}>recharge to keep chating</Text>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                                <TouchableOpacity style={STYLES.newChatStyles.addmoney} onPress={() => onPressRecharge()}>
+                                    <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+                            <TouchableOpacity onPress={() => setWallatemodel(false)}
+                                style={STYLES.newChatStyles.cancelbtn}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
             {loading ? <Loader /> : null}
         </SafeAreaView>
     )

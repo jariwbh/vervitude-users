@@ -64,6 +64,50 @@ export const newChatStyles = StyleSheet.create({
     centerView: {
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    msgModalView: {
+        marginTop: HEIGHT / 2 - 150,
+        height: 200,
+        width: WIDTH - 90,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    addmoney: {
+        width: WIDTH / 2 - 50,
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#04DE71',
+        borderColor: '#2094FA',
+    },
+    cancelbtn: {
+        flexDirection: 'row',
+        marginRight: 10,
+        width: WIDTH / 3,
+        height: 35,
+        backgroundColor: '#EEEEEE',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     }
 })
 
