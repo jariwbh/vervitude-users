@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 2
     },
     addmoney: {
         width: WIDTH / 2 - 50,
@@ -107,6 +107,6 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5
+        elevation: 2
     },
 })
