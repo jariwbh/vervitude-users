@@ -12,27 +12,33 @@ import Loader from '../../components/loader/index';
 import ActionButton from 'react-native-circular-action-menu';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as SCREEN from '../../context/screen/screenName';
-import { TopConsultantViewListService, UserUpdateService } from '../../services/UserService/UserService';
+import { TopConsultantViewListService, UserPatchService, UserUpdateService } from '../../services/UserService/UserService';
 import { AUTHUSER } from '../../context/actions/type';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CategoryService } from '../../services/CategoryService/CategoryService';
 import SearchBar from '../../components/SearchBar/SearchBar';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { getByIdMemberService } from '../../services/UserService/UserService';
-import axiosConfig from '../../helpers/axiosConfig';
+//import axiosConfig from '../../helpers/axiosConfig';
+import DeviceInfo from 'react-native-device-info';
+import firebase from 'react-native-firebase';
+import PushNotification from '../../PushNotification/PushNotification';
 //import { useIsFocused } from '@react-navigation/native';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
     const [category, setCategory] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
     //const isFocused = useIsFocused();
 
     useEffect(() => {
         setloading(true);
-        getUserData();
         ConsultantList();
         categoryList();
+        checkPermission();
+        getUserData();
+        PushNotification();
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -44,15 +50,63 @@ const homeScreen = (props) => {
         });
     }, [])
 
+    //CHECK MESSAGE PERMISSION
+    const checkPermission = async () => {
+        const enabled = await firebase.messaging().hasPermission();
+        if (enabled) {
+            getFcmToken();
+        } else {
+            requestPermission();
+        }
+    }
 
-    //get AsyncStorage current user Details
+    //GET MESSAGE TOKEN
+    const getFcmToken = async () => {
+        const fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            let deviceInfo = {
+                anroiddevice: {
+                    "deviceid": await DeviceInfo.getAndroidId(),
+                    "registrationid": fcmToken
+                }
+            }
+            await UserPatch(deviceInfo);
+            console.log(`deviceInfo`, deviceInfo);
+        }
+    }
+
+    //REQUEST MESSAGE PERMISSION
+    const requestPermission = async () => {
+        try {
+            await firebase.messaging().requestPermission();
+            // User has authorised
+        } catch (error) {
+            // User has rejected permissions
+        }
+    }
+
+    //GET ASYNCSTORAGE CURRENT USER DETAILS
     const getUserData = async () => {
         var getUser = await AsyncStorage.getItem(AUTHUSER);
         var UserInfo = JSON.parse(getUser);
+        setUserInfo(UserInfo);
         UserInfo.property.live = true;
-        axiosConfig(UserInfo._id);
         await getByIdMember(UserInfo._id);
         await UpdateUserService(UserInfo);
+    }
+
+    //UPDATE MEMBER INFORMATION API CALL
+    const UserPatch = async (deviceInfo) => {
+        try {
+            const response = await UserPatchService(userInfo._id, deviceInfo);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                console.log(`DONE`);
+            }
+        }
+        catch (error) {
+            console.log(`error`, error);
+            setloading(false);
+        }
     }
 
     //get member details 
@@ -89,7 +143,7 @@ const homeScreen = (props) => {
         return true;
     }
 
-    //UPDATE PROFILE PICTURE API CALL
+    //UPDATE MEMBER INFORMATION API CALL
     const UpdateUserService = async (user) => {
         try {
             const response = await UserUpdateService(user);

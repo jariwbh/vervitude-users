@@ -195,6 +195,11 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
+    // implementation "com.google.android.gms:play-services-base:16.1.0"
+    // implementation "com.google.firebase:firebase-core:17.0.1"
+    // implementation "com.google.firebase:firebase-messaging:19.0.1"
+    // implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
+    
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation platform('com.google.firebase:firebase-bom:26.8.0')
     implementation 'com.google.firebase:firebase-analytics'

@@ -12,6 +12,11 @@ const UserUpdateService = (data) => {
     return Axios.put('members/' + id, body);
 }
 
+const UserPatchService = (id, data) => {
+    const body = JSON.stringify(data);
+    return Axios.patch('members/' + id, body);
+}
+
 const getByIdMemberService = (id) => {
     return Axios.get('members/' + id);
 }
@@ -123,6 +128,6 @@ const getByIdUser = (id) => {
 }
 
 export {
-    UserProfileService, UserUpdateService, getByIdUser,
-    ConsultantListService, UserListService, TopConsultantViewListService
+    UserProfileService, UserUpdateService, getByIdUser, getByIdMemberService,
+    ConsultantListService, UserListService, TopConsultantViewListService, UserPatchService
 };
