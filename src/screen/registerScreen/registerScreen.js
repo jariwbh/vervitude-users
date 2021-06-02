@@ -10,6 +10,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLES from './styles';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default class registerScreen extends Component {
     constructor(props) {
@@ -32,6 +33,17 @@ export default class registerScreen extends Component {
         this.setMobileNumber = this.setMobileNumber.bind(this);
         this.secondTextInputRef = React.createRef();
         this.thirdTextInputRef = React.createRef();
+
+        GoogleSignin.configure({
+            // Mandatory method to call before calling signIn()
+            scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+            // Repleace with your webClientId
+            // Generated from Firebase console
+            webClientId: '909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com',
+            offlineAccess: true,
+            forceCodeForRefreshToken: true,
+        });
+
     }
 
     //check Fullname validation
@@ -115,12 +127,60 @@ export default class registerScreen extends Component {
         };
     }
 
-    onPressSignInGoogle() {
-        if (Platform.OS === 'android') {
-            ToastAndroid.show('Sign IN Google Click', ToastAndroid.LONG);
-        } else {
-            alert('Sign IN Google Click');
+    onPressSignInGoogle = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const info = await GoogleSignin.signIn();
+            this.onPressSubmitGoogle(info.user);
+        } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                this.setState({ loading: false });
+                // user cancelled the login flow
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                this.setState({ loading: false });
+                // operation (e.g. sign in) is in progress already
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                this.setState({ loading: false });
+                // play services not available or outdated
+            } else {
+                this.setState({ loading: false });
+                // some other error happened
+                console.log(`error`, error);
+            }
         }
+    };
+
+    //OTP verify function
+    onPressSubmitGoogle = async (res) => {
+        axiosConfig('5e899bb161eb802d6037c4d7');
+        this.setState({ loading: true });
+        const body = {
+            property: {
+                live: false,
+                fullname: res.name,
+                primaryemail: res.email
+            }
+        }
+        try {
+            const response = await registerServices(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
+                } else {
+                    alert('SignIn Success!');
+                }
+                this.setState({ loading: false });
+                this.props.navigation.navigate(SCREEN.LOGINSCREEN);
+            }
+        }
+        catch (error) {
+            this.setState({ loading: false });
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('SignIn Failed!', ToastAndroid.LONG);
+            } else {
+                alert('SignIn Failed!');
+            }
+        };
     }
 
     //OTP verify function

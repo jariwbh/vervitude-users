@@ -21,8 +21,7 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import { getByIdMemberService } from '../../services/UserService/UserService';
 //import axiosConfig from '../../helpers/axiosConfig';
 import DeviceInfo from 'react-native-device-info';
-import firebase from 'react-native-firebase';
-import PushNotification from '../../PushNotification/PushNotification';
+//import firebase from 'react-native-firebase';
 //import { useIsFocused } from '@react-navigation/native';
 
 const homeScreen = (props) => {
@@ -36,9 +35,8 @@ const homeScreen = (props) => {
         setloading(true);
         ConsultantList();
         categoryList();
-        checkPermission();
+        // checkPermission();
         getUserData();
-        PushNotification();
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -50,40 +48,40 @@ const homeScreen = (props) => {
         });
     }, [])
 
-    //CHECK MESSAGE PERMISSION
-    const checkPermission = async () => {
-        const enabled = await firebase.messaging().hasPermission();
-        if (enabled) {
-            getFcmToken();
-        } else {
-            requestPermission();
-        }
-    }
+    // //CHECK MESSAGE PERMISSION
+    // const checkPermission = async () => {
+    //     const enabled = await firebase.messaging().hasPermission();
+    //     if (enabled) {
+    //         getFcmToken();
+    //     } else {
+    //         requestPermission();
+    //     }
+    // }
 
-    //GET MESSAGE TOKEN
-    const getFcmToken = async () => {
-        const fcmToken = await firebase.messaging().getToken();
-        if (fcmToken) {
-            let deviceInfo = {
-                anroiddevice: {
-                    "deviceid": await DeviceInfo.getAndroidId(),
-                    "registrationid": fcmToken
-                }
-            }
-            await UserPatch(deviceInfo);
-            console.log(`deviceInfo`, deviceInfo);
-        }
-    }
+    // //GET MESSAGE TOKEN
+    // const getFcmToken = async () => {
+    //     const fcmToken = await firebase.messaging().getToken();
+    //     if (fcmToken) {
+    //         let deviceInfo = {
+    //             anroiddevice: {
+    //                 "deviceid": await DeviceInfo.getAndroidId(),
+    //                 "registrationid": fcmToken
+    //             }
+    //         }
+    //         await UserPatch(deviceInfo);
+    //         console.log(`deviceInfo`, deviceInfo);
+    //     }
+    // }
 
-    //REQUEST MESSAGE PERMISSION
-    const requestPermission = async () => {
-        try {
-            await firebase.messaging().requestPermission();
-            // User has authorised
-        } catch (error) {
-            // User has rejected permissions
-        }
-    }
+    // //REQUEST MESSAGE PERMISSION
+    // const requestPermission = async () => {
+    //     try {
+    //         await firebase.messaging().requestPermission();
+    //         // User has authorised
+    //     } catch (error) {
+    //         // User has rejected permissions
+    //     }
+    // }
 
     //GET ASYNCSTORAGE CURRENT USER DETAILS
     const getUserData = async () => {
@@ -95,19 +93,19 @@ const homeScreen = (props) => {
         await UpdateUserService(UserInfo);
     }
 
-    //UPDATE MEMBER INFORMATION API CALL
-    const UserPatch = async (deviceInfo) => {
-        try {
-            const response = await UserPatchService(userInfo._id, deviceInfo);
-            if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                console.log(`DONE`);
-            }
-        }
-        catch (error) {
-            console.log(`error`, error);
-            setloading(false);
-        }
-    }
+    // //UPDATE MEMBER INFORMATION API CALL
+    // const UserPatch = async (deviceInfo) => {
+    //     try {
+    //         const response = await UserPatchService(userInfo._id, deviceInfo);
+    //         if (response.data != null && response.data != 'undefind' && response.status == 200) {
+    //             console.log(`DONE`);
+    //         }
+    //     }
+    //     catch (error) {
+    //         console.log(`error`, error);
+    //         setloading(false);
+    //     }
+    // }
 
     //get member details 
     const getByIdMember = async (id) => {

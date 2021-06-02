@@ -127,7 +127,11 @@ const getByIdUser = (id) => {
     return Axios.post('users/view/filter', body);
 }
 
+const CheckUser = (body) => {
+    return Axios.post('public/checkmember', body);
+}
+
 export {
-    UserProfileService, UserUpdateService, getByIdUser, getByIdMemberService,
+    UserProfileService, UserUpdateService, getByIdUser, getByIdMemberService, CheckUser,
     ConsultantListService, UserListService, TopConsultantViewListService, UserPatchService
 };

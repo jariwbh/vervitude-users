@@ -1,187 +1,211 @@
-import React, { Component } from 'react'
-import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native'
-import { LoginService, LoginWithMobileService } from '../../services/LoginService/LoginService'
-import AsyncStorage from '@react-native-community/async-storage';
-import { AUTHUSER } from '../../context/actions/type';
+import React, { useState, useEffect } from 'react';
+import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native';
+import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
+import { CheckUser } from '../../services/UserService/UserService';
+import * as SCREEN from '../../context/screen/screenName';
 import axiosConfig from '../../helpers/axiosConfig';
-import Loader from '../../components/loader';
+import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
 
-export default class forgotpasswordScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: null,
-            loading: false,
-            usererror: null,
-            mobile_number: null,
-            mobile_numbererror: null,
-            verifyOtpNumber: null,
-            inputOtpNumber: null,
-            userDetails: null,
-            verifybtnDisable: true,
-            sendbtnDisable: true
-        };
-        this.setEmail = this.setEmail.bind(this);
-        this.setMobileNumber = this.setMobileNumber.bind(this);
-        this.onPressSubmit = this.onPressSubmit.bind(this);
-    }
+const forgotpasswordScreen = (props) => {
+    const [username, setusername] = useState(null);
+    const [loading, setloading] = useState(false);
+    const [usererror, setusererror] = useState(null);
+    const [mobile_number, setmobile_number] = useState(null);
+    const [mobile_numbererror, setmobile_numbererror] = useState(null);
+    const [verifyOtpNumber, setverifyOtpNumber] = useState(null);
+    const [inputOtpNumber, setinputOtpNumber] = useState(null);
+    const [verifybtnDisable, setverifybtnDisable] = useState(true);
+    const [sendbtnDisable, setsendbtnDisable] = useState(true);
+
+    useEffect(() => {
+    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber, inputOtpNumber, verifybtnDisable, sendbtnDisable])
 
     //check email validation
-    setEmail(email) {
+    const setEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
         if (!email || email.length <= 0) {
-            return this.setState({ usererror: 'Email Id can not be empty', username: null });
+            //setusername(null);
+            setusererror('Email Id can not be empty');
+            return;
         }
         if (!re.test(email)) {
-            return this.setState({ usererror: 'Ooops! We need a valid email address', username: null });
+            setusererror('Ooops! We need a valid email address');
+            setusername(null);
+            return;
         }
-        this.setState({ username: email, usererror: null });
+        setusername(email);
+        setusererror(null);
         return;
     }
 
     //check mobile number validation
-    setMobileNumber(mobile) {
+    const setMobileNumber = (mobile) => {
         const reg = /^\d{10}$/;
         if (!mobile || mobile.length <= 0) {
-            return this.setState({ mobile_numbererror: 'Mobile Number cannot be empty', mobile_number: null });
+            setmobile_numbererror('Mobile Number cannot be empty');
+            setmobile_number(null);
+            return;
         }
         if (!reg.test(mobile)) {
-            return this.setState({ mobile_numbererror: 'Ooops! We need a valid Mobile Number' });
+            setmobile_numbererror('Ooops! We need a valid Mobile Number');
+            return;
         }
-        return this.setState({ mobile_number: mobile, sendbtnDisable: false, mobile_numbererror: null })
+        setmobile_number(mobile);
+        setsendbtnDisable(false);
+        setmobile_numbererror(null);
+        return;
     }
 
     //clear Field up data
-    resetScreen() {
-        this.setState({
-            loading: false,
-            username: null,
-            usererror: null,
-            mobile_number: null,
-            sendbtnDisable: true,
-            verifybtnDisable: true,
-            mobile_numbererror: null
-        });
+    const resetScreen = () => {
+        setloading(false);
+        setusername(null);
+        setusererror(null);
+        setmobile_number(null);
+        setmobile_numbererror(null);
+        setsendbtnDisable(true);
+        setinputOtpNumber(null);
+        setverifybtnDisable(true);
     }
 
-    //add local storage Records
-    authenticateUser = (user) => (
-        AsyncStorage.setItem(AUTHUSER, JSON.stringify(user))
-    )
-
     //user input Code set
-    handleChange(code) {
-        const { verifyOtpNumber } = this.state;
-        this.setState({ inputOtpNumber: code })
+    const handleChange = (code) => {
+        setinputOtpNumber(code);
         if (Number(code) === Number(verifyOtpNumber)) {
-            this.setState({ verifybtnDisable: false })
+            setverifybtnDisable(false);
         }
     }
 
     // generate OTP function 
-    createOtp() {
-        const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
-        this.setState({ verifyOtpNumber: verifyOtpNumber });
+    const createOtp = async () => {
+        let body;
+        if (username && mobile_number) {
+            setMobileNumber(mobile_number);
+            setEmail(username);
+            return;
+        }
+        try {
+            setloading(true);
+            if (username) {
+                body = {
+                    "username": username
+                }
+            }
+            if (mobile_number) {
+                body = {
+                    "username": mobile_number
+                }
+            }
+
+            const CheckUserResponse = await CheckUser(body);
+            if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
+                const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
+                setverifyOtpNumber(verifyOtpNumber);
+                setverifybtnDisable(false);
+                onPressSubmit(verifyOtpNumber);
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
+                } else {
+                    alert('OTP Sending');
+                }
+                setloading(false);
+            }
+            else {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+                } else {
+                    alert('User not exits!');
+                }
+                resetScreen();
+            }
+        }
+        catch (error) {
+            console.log(`error`, error)
+            resetScreen();
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+            } else {
+                alert('User not exits!');
+            }
+        };
     }
 
     //OTP verify function
-    otpVerify = async () => {
-        const { mobile_number, inputOtpNumber, verifyOtpNumber } = this.state;
-        axiosConfig('606abd8799e17f1678300c12')
-        this.setState({ loading: true });
+    const otpVerify = async () => {
+        if (username && mobile_number) {
+            return;
+        }
+        setloading(true);
         try {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
-                await LoginWithMobileService(mobile_number)
-                    .then(response => {
-                        // console.log(`response`, response);
-                        if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
-                            let token = response.data[0]._id;
-                            //set header auth user key
-                            axiosConfig(token);
-                            this.authenticateUser(response.data[0]);
-                            if (Platform.OS === 'android') {
-                                ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
-                            } else {
-                                alert('SignIn Success!');
-                            }
-                            this.setState({ loading: false });
-                            return this.props.navigation.navigate('homeScreen');
-                        }
-                        else {
-                            if (response.data[0] == null && response.data[0] == undefined) {
-                                if (Platform.OS === 'android') {
-                                    ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-                                } else {
-                                    alert('User not exits!');
-                                }
-                                this.resetScreen();
-                                return;
-                            }
-                        }
-                    })
+                setloading(false);
+                let userValue;
+                if (username) {
+                    userValue = username
+                }
+                if (mobile_number) {
+                    userValue = mobile_number
+                }
+                props.navigation.navigate(SCREEN.NEWPASSWORDSCREEN, { userValue });
             } else {
-                this.resetScreen();
+                setloading(false);
+                setinputOtpNumber(null);
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('OTP not Match!', ToastAndroid.LONG)
                 } else {
                     alert('OTP not Match!');
                 }
-                return;
             }
         }
         catch (error) {
-            //console.log(`error`, error)
-            this.resetScreen();
+            console.log(`error`, error);
+            resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
                 alert('User not exits!');
             }
         };
-
     }
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
-    onPressSubmit = async () => {
-        const { username, mobile_number } = this.state;
-        if (!username && !mobile_number) {
-            this.setEmail(username);
-            return;
+    const onPressSubmit = async (verifyOtpNumber) => {
+        axiosConfig('606abd8799e17f1678300c12');
+        let body;
+        if (mobile_number) {
+            body = {
+                "messagetype": "SMS",
+                "message": {
+                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": [mobile_number],
+                    "subject": "Reset Password OTP"
+                }
+            }
         }
-        axiosConfig('606abd8799e17f1678300c12')
-        this.setState({ loading: true });
+
+        if (username) {
+            body = {
+                "messagetype": "EMAIL",
+                "message": {
+                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": [username],
+                    "subject": "Reset Password OTP"
+                }
+            }
+        }
+
+        setloading(true);
+        console.log(`body`, body);
         try {
-            await LoginService(username)
-                .then(response => {
-                    if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
-                        let token = response.data[0]._id;
-                        //set header auth user key
-                        axiosConfig(token);
-                        this.authenticateUser(response.data[0]);
-                        if (Platform.OS === 'android') {
-                            ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
-                        } else {
-                            alert('SignIn Success!');
-                        }
-                        return this.props.navigation.navigate('homeScreen');
-                    }
-                    else {
-                        if (response.data[0] == null && response.data[0] == undefined) {
-                            if (Platform.OS === 'android') {
-                                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-                            } else {
-                                alert('User not exits!');
-                            }
-                            this.resetScreen();
-                            return;
-                        }
-                    }
-                })
+            const response = await SendEmailandSmsService(body);
+            if (response.data != 'undefind' && response.status == 200) {
+                setloading(false);
+            }
         }
         catch (error) {
-            this.resetScreen();
+            resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
             } else {
@@ -190,80 +214,85 @@ export default class forgotpasswordScreen extends Component {
         };
     }
 
-    render() {
-        const { loading, usererror, mobile_numbererror } = this.state;
-        return (
-            <SafeAreaView style={STYLE.Forgetpasswordstyle.container}>
-                <StatusBar hidden translucent backgroundColor='transparent' />
-                <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Forgetpasswordstyle.backgroundImage}>
-                    <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                        <View style={STYLE.Forgetpasswordstyle.circle}>
-                            <Image source={require('../../assets/Images/icon1.png')} style={STYLE.Forgetpasswordstyle.imageView} />
-                        </View>
-                        <View style={STYLE.Forgetpasswordstyle.centeView}>
-                            <View style={STYLE.Forgetpasswordstyle.boxView}>
-                                <View style={{ marginTop: 35 }}>
-                                    <View style={usererror == null ? STYLE.Forgetpasswordstyle.inputView : STYLE.Forgetpasswordstyle.inputErrorView}>
+    return (
+        <SafeAreaView style={STYLE.Forgetpasswordstyle.container}>
+            <StatusBar hidden translucent backgroundColor='transparent' />
+            <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Forgetpasswordstyle.backgroundImage}>
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                    <View style={STYLE.Forgetpasswordstyle.circle}>
+                        <Image source={require('../../assets/Images/icon1.png')} style={STYLE.Forgetpasswordstyle.imageView} />
+                    </View>
+                    <View style={STYLE.Forgetpasswordstyle.centeView}>
+                        <View style={STYLE.Forgetpasswordstyle.boxView}>
+                            <View style={{ marginTop: 30 }}>
+                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                    <View style={usererror == null ? STYLE.Forgetpasswordstyle.inputView2 : STYLE.Forgetpasswordstyle.inputErrorView2}>
                                         <TextInput
-                                            defaultValue={this.state.username}
+                                            defaultValue={username}
                                             style={STYLE.Forgetpasswordstyle.TextInput}
                                             placeholder='Email Address'
                                             type='clear'
                                             returnKeyType='done'
                                             placeholderTextColor='#B5B5B5'
-                                            onSubmitEditing={() => this.onPressSubmit()}
-                                            onChangeText={(email) => this.setEmail(email)}
+                                            onSubmitEditing={() => createOtp()}
+                                            onChangeText={(email) => setEmail(email)}
                                         />
                                     </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                                        <Text style={{ fontSize: 16, fontWeight: '900' }}>OR</Text>
-                                    </View>
-                                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                        <View style={mobile_numbererror == null ? STYLE.Forgetpasswordstyle.inputView2 : STYLE.Forgetpasswordstyle.inputErrorView2}>
-                                            <TextInput
-                                                style={STYLE.Forgetpasswordstyle.TextInput}
-                                                defaultValue={this.state.mobile_number}
-                                                placeholder='Phone Number'
-                                                type='clear'
-                                                returnKeyType='done'
-                                                keyboardType='number-pad'
-                                                placeholderTextColor='#B5B5B5'
-                                                onSubmitEditing={() => this.createOtp()}
-                                                onChangeText={(mobile_number) => this.setMobileNumber(mobile_number)}
-                                            />
-                                        </View>
-                                        <TouchableOpacity style={this.state.sendbtnDisable ? STYLE.Forgetpasswordstyle.otpBtndisable1 : STYLE.Forgetpasswordstyle.otpBtn1} disabled={this.state.sendbtnDisable} onPress={() => this.createOtp()}>
-                                            <Text style={STYLE.Forgetpasswordstyle.otpbtnText1}>Send OTP</Text>
-                                        </TouchableOpacity>
-                                    </View>
-
-                                    <View style={{ flex: 0.5, marginTop: 30, marginLeft: 5, marginRight: 5 }}>
-                                        <OtpInputs
-                                            handleChange={(code) => this.handleChange(code)}
-                                            numberOfInputs={4}
-                                            inputStyles={STYLE.Forgetpasswordstyle.inputView1}
-                                            defaultValue={this.state.inputOtpNumber}
-                                        />
-                                    </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 60 }}>
-                                        <TouchableOpacity style={this.state.verifybtnDisable ? STYLE.Forgetpasswordstyle.otpBtndisable : STYLE.Forgetpasswordstyle.otpBtn} disabled={this.state.verifybtnDisable} onPress={() => this.otpVerify()}>
-                                            <Text style={STYLE.Forgetpasswordstyle.otpbtnText}>Verify OTP</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <Text>{this.state.verifyOtpNumber}</Text>
+                                    <TouchableOpacity style={STYLE.Forgetpasswordstyle.otpBtndisable1} onPress={() => createOtp()}>
+                                        <Text style={STYLE.Forgetpasswordstyle.otpbtnText1}>Send OTP</Text>
+                                    </TouchableOpacity>
                                 </View>
-                            </View>
-                            <View style={STYLE.Forgetpasswordstyle.centeView} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('registerScreen')}>
-                                    <Text style={STYLE.Forgetpasswordstyle.createText}>Don't have an Account?</Text>
-                                </TouchableOpacity>
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '900' }}>OR</Text>
+
+                                </View>
+                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                    <View style={mobile_numbererror == null ? STYLE.Forgetpasswordstyle.inputView2 : STYLE.Forgetpasswordstyle.inputErrorView2}>
+                                        <TextInput
+                                            style={STYLE.Forgetpasswordstyle.TextInput}
+                                            defaultValue={mobile_number}
+                                            placeholder='Phone Number'
+                                            type='clear'
+                                            returnKeyType='done'
+                                            keyboardType='number-pad'
+                                            placeholderTextColor='#B5B5B5'
+                                            onSubmitEditing={() => createOtp()}
+                                            onChangeText={(mobile_number) => setMobileNumber(mobile_number)}
+                                        />
+                                    </View>
+                                    <TouchableOpacity style={sendbtnDisable ? STYLE.Forgetpasswordstyle.otpBtndisable1 : STYLE.Forgetpasswordstyle.otpBtn1} disabled={sendbtnDisable} onPress={() => createOtp()}>
+                                        <Text style={STYLE.Forgetpasswordstyle.otpbtnText1}>Send OTP</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <Text>{verifyOtpNumber}</Text>
+                                <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
+                                    <OtpInputs
+                                        handleChange={(code) => handleChange(code)}
+                                        numberOfInputs={4}
+                                        inputStyles={STYLE.Forgetpasswordstyle.inputView1}
+                                        defaultValue={inputOtpNumber}
+                                    />
+                                </View>
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 60 }}>
+                                    <TouchableOpacity style={verifybtnDisable ? STYLE.Forgetpasswordstyle.otpBtndisable : STYLE.Forgetpasswordstyle.otpBtn} disabled={verifybtnDisable} onPress={() => otpVerify()}>
+                                        <Text style={STYLE.Forgetpasswordstyle.otpbtnText}>Verify OTP</Text>
+                                    </TouchableOpacity>
+                                </View>
+
                             </View>
                         </View>
-                        <View style={{ marginVertical: 80 }} />
-                    </ScrollView>
-                    {loading ? <Loader /> : null}
-                </ImageBackground>
-            </SafeAreaView>
-        )
-    }
+                        <View style={STYLE.Forgetpasswordstyle.centeView} >
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REGISTERSCREEN)}>
+                                <Text style={STYLE.Forgetpasswordstyle.createText}>Don't have an Account?</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{ marginVertical: 80 }} />
+                </ScrollView>
+                {loading ? <Loader /> : null}
+            </ImageBackground>
+        </SafeAreaView>
+    )
 }
+
+export default forgotpasswordScreen;

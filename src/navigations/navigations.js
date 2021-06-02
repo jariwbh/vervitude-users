@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SELECTCATEGORYSCREEN from '../screen/selectCategoryScreen/selectCategoryScreen';
 import FORGOTPASSWORDSCREEN from '../screen/forgotpasswordScreen/forgotpasswordScreen';
 import LOGINWITHPASSWORDSCREEN from '../screen/loginScreen/LoginWithPasswordScreen';
+import NEWPASSWORDSCREEN from '../screen/forgotpasswordScreen/NewPasswordScreen';
 import RECHARGEPAYMENTSCREEN from '../screen/myWalletScreen/rechargepaymentScreen';
 import DISPUTESDETAILSSCREEN from '../screen/disputesScreen/disputesdetailsScreen';
 import SUBCATEGORYSCREEN from '../screen/selectCategoryScreen/subcategoryScreen';
@@ -20,13 +21,13 @@ import DISPUTESSCREEN from '../screen/disputesScreen/disputesScreen';
 import MYWALLETSCREEN from '../screen/myWalletScreen/myWalletScreen';
 import MYSPENDSSCREEN from '../screen/myspendsScreen/myspendsScreen';
 import INVITESCREEN from '../screen/inviteConsultant/inviteScreen';
+import WEBVIEWSCREEN from '../screen/WebViewScreen/WebViewScreen';
 import NEWCHATSSCREEN from '../screen/chatScreen/newchatsScreen';
 import SPLASHSCREEN from '../screen/SplashScreen/splashScreen';
 import EDITSCREEN from '../screen/myProfileScreen/editScreen';
 import LOGINSCREEN from '../screen/loginScreen/loginScreen';
 import HOMESCREEN from '../screen/homeScreen/homeScreen';
 import CHATSCREEN from '../screen/chatScreen/chatScreen';
-import WEBVIEWSCREEN from '../screen/WebViewScreen/WebViewScreen';
 
 const Stack = createStackNavigator();
 export default navigationsApp = () => {
@@ -60,6 +61,7 @@ export default navigationsApp = () => {
                 <Stack.Screen name='editScreen' component={EDITSCREEN} />
                 <Stack.Screen name='chatScreen' component={CHATSCREEN} />
                 <Stack.Screen name='WebViewScreen' component={WEBVIEWSCREEN} />
+                <Stack.Screen name='NewPasswordScreen' component={NEWPASSWORDSCREEN} />
             </Stack.Navigator>
         </NavigationContainer>
     );

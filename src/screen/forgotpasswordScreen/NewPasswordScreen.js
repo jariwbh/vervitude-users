@@ -1,104 +1,94 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar, View, TextInput, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView, Platform, ToastAndroid } from 'react-native'
-import { LoginWithPasswordService } from '../../services/LoginService/LoginService';
-import AsyncStorage from '@react-native-community/async-storage';
+import ForgetPasswordService from '../../services/ForgetPasswordService/ForgetPasswordService';
 import * as SCREEN from '../../context/screen/screenName';
-import { AUTHUSER } from '../../context/actions/type';
-import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
+import axiosConfig from '../../helpers/axiosConfig';
 
-const LoginWithPasswordScreen = (props) => {
-    const [username, setusername] = useState(null);
-    const [usererror, setusererror] = useState(null);
-    const [password, setpassword] = useState(null);
-    const [passworderror, setpassworderror] = useState(null);
+const NewPasswordScreen = (props) => {
+    const userName = props.route.params.userValue;
+    const [newPassword, setNewPassword] = useState(null);
+    const [newPassworderror, setNewPassworderror] = useState(null);
+    const [rePassword, setRePassword] = useState(null);
+    const [rePassworderror, setRePassworderror] = useState(null);
     const [loading, setloading] = useState(false);
     const secondTextInputRef = React.createRef();
 
-    //check email validation
-    const setEmail = (email) => {
-        const re = /\S+@\S+\.\S+/;
-        if (!email || email.length <= 0) {
-            //setusername(null);
-            setusererror('Email Id can not be empty');
+    useEffect(() => {
+    }, [newPassword, newPassworderror, rePassword, rePassworderror, loading])
+
+    //check password validation
+    const setNewPasswordCheck = (password) => {
+        if (!password || password.length <= 0) {
+            setNewPassworderror('Password cannot be empty');
             return;
         }
-        // if (!re.test(email)) {
-        //     setusername(null);
-        //     setusererror('Ooops! We need a valid email address');
-        //     return;
-        // }
-        setusername(email);
-        setusererror(null);
+        setNewPassword(password);
+        setNewPassworderror(null);
         return;
     }
 
     //check password validation
-    const setPassword = (password) => {
-        if (!password || password.length <= 0) {
-            setpassworderror('Password cannot be empty');
+    const setRePasswordCheck = (repassword) => {
+        if (!repassword || repassword.length <= 0) {
+            setRePassworderror('Re-Password cannot be empty');
             return;
         }
-        setpassword(password);
-        setpassworderror(null);
+        setRePassword(repassword);
+        setRePassworderror(null);
         return;
     }
 
     //clear Field up data
     const resetScreen = () => {
         setloading(false);
-        setusername(null);
-        setusererror(null);
-        setpassword(null);
-        setpassworderror(null);
+        setNewPassword(null);
+        setNewPassworderror(null);
+        setRePassword(null);
+        setRePassworderror(null);
     }
-
-    //add local storage Records
-    const authenticateUser = (user) => (
-        AsyncStorage.setItem(AUTHUSER, JSON.stringify(user))
-    )
-
-    useEffect(() => {
-    }, [username, password, passworderror, usererror])
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
     const onPressSubmit = async () => {
-        if (!username || !password) {
-            setEmail(username);
-            setPassword(password);
+        axiosConfig(null)
+        if (!newPassword || !rePassword) {
+            setNewPassword(newPassword);
+            setRePassword(rePassword);
+            return;
+        }
+
+        if (newPassword != rePassword) {
+            setRePassworderror('Cant Match Re-Password');
+            setNewPassworderror('Cant Match Password');
             return;
         }
 
         const body = {
-            username: username,
-            password: password
+            "newpassword": newPassword,
+            "username": userName
         }
 
+        console.log(`body`, body);
         setloading(true);
-
         try {
-            const response = await LoginWithPasswordService(body);
+            const response = await ForgetPasswordService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                let token = response.data.user._id;
-                //set header auth user key
-                axiosConfig(token);
-                authenticateUser(response.data.user);
                 setloading(false);
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
+                    ToastAndroid.show('Your Password is Reset', ToastAndroid.LONG);
                 } else {
-                    alert('SignIn Success!');
+                    alert('Your Password is Reset');
                 }
-                props.navigation.navigate(SCREEN.HOMESCREEN);
-                return;
+                props.navigation.navigate(SCREEN.LOGINWITHPASSWORDSCREEN);
             }
         } catch (error) {
+            console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show('Username and Password Invalid!', ToastAndroid.LONG);
+                ToastAndroid.show('Something wrong, try again letter!', ToastAndroid.LONG);
             } else {
-                alert('Username and Password Invalid!');
+                alert('Something wrong, try again letter!');
             }
         };
     }
@@ -124,54 +114,50 @@ const LoginWithPasswordScreen = (props) => {
                         <View style={STYLES.styles.centeView}>
                             <View style={STYLES.Loginpasswordstyle.boxView}>
                                 <View style={{ marginTop: 20 }}>
-                                    <View style={usererror == null ? STYLES.Loginemailstyle.inputView : STYLES.Loginemailstyle.inputErrorView}>
+                                    <View style={newPassworderror == null ? STYLES.Loginemailstyle.inputView : STYLES.Loginemailstyle.inputErrorView}>
                                         <TextInput
                                             style={STYLES.Loginemailstyle.TextInput}
-                                            placeholder='Email/Mobile Number'
+                                            placeholder='New Password'
                                             type='clear'
                                             returnKeyType='next'
                                             placeholderTextColor='#B5B5B5'
-                                            defaultValue={username}
+                                            secureTextEntry={true}
+                                            defaultValue={newPassword}
                                             blurOnSubmit={false}
                                             onSubmitEditing={() => secondTextInputRef.current.focus()}
-                                            onChangeText={(email) => setEmail(email)}
+                                            onChangeText={(password) => setNewPasswordCheck(password)}
                                         />
                                     </View>
                                 </View>
 
                                 <View style={{ marginTop: 10 }}>
-                                    <View style={passworderror == null ? STYLES.Loginemailstyle.inputView : STYLES.Loginemailstyle.inputErrorView}>
+                                    <View style={rePassworderror == null ? STYLES.Loginemailstyle.inputView : STYLES.Loginemailstyle.inputErrorView}>
                                         <TextInput
                                             style={STYLES.Loginemailstyle.TextInput}
-                                            placeholder='Password'
+                                            placeholder='Re Password'
                                             type='clear'
                                             returnKeyType='done'
                                             placeholderTextColor='#B5B5B5'
                                             secureTextEntry={true}
-                                            defaultValue={password}
+                                            defaultValue={rePassword}
                                             blurOnSubmit={false}
                                             ref={secondTextInputRef}
                                             onSubmitEditing={() => onPressSubmit()}
-                                            onChangeText={(password) => setpassword(password)}
+                                            onChangeText={(repassword) => setRePasswordCheck(repassword)}
                                         />
                                     </View>
                                 </View>
 
-                                <View style={STYLES.styles.centeView} >
-                                    <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
-                                        <Text style={STYLES.Loginpasswordstyle.loginText}>Forgot Password?</Text>
-                                    </TouchableOpacity>
-                                </View>
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <TouchableOpacity style={STYLES.Loginpasswordstyle.loginBtn} onPress={() => onPressSubmit()}>
-                                        <Text style={STYLES.Loginpasswordstyle.loginBtnText}>Login</Text>
+                                        <Text style={STYLES.Loginpasswordstyle.loginBtnText}>Reset Password</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                         <View style={STYLES.styles.centeView} >
-                            <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.LOGINWITHEMAILSCREEN), resetScreen() }} >
-                                <Text style={STYLES.styles.createText}>Login With OTP</Text>
+                            <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.REGISTERSCREEN), resetScreen() }} >
+                                <Text style={STYLES.styles.createText}>Don't have an Account?</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -183,5 +169,4 @@ const LoginWithPasswordScreen = (props) => {
     )
 }
 
-export default LoginWithPasswordScreen
-
+export default NewPasswordScreen;
