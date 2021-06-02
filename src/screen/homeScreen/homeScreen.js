@@ -21,21 +21,20 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import { getByIdMemberService } from '../../services/UserService/UserService';
 //import axiosConfig from '../../helpers/axiosConfig';
 import DeviceInfo from 'react-native-device-info';
-//import firebase from 'react-native-firebase';
-//import { useIsFocused } from '@react-navigation/native';
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import PushNotification from "react-native-push-notification";
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
     const [category, setCategory] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
-    //const isFocused = useIsFocused();
+    let userID;
 
     useEffect(() => {
         setloading(true);
         ConsultantList();
         categoryList();
-        // checkPermission();
         getUserData();
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
@@ -48,64 +47,101 @@ const homeScreen = (props) => {
         });
     }, [])
 
-    // //CHECK MESSAGE PERMISSION
-    // const checkPermission = async () => {
-    //     const enabled = await firebase.messaging().hasPermission();
-    //     if (enabled) {
-    //         getFcmToken();
-    //     } else {
-    //         requestPermission();
-    //     }
-    // }
+    useEffect(() => {
+    }, [userInfo, category, loading, consultant])
 
-    // //GET MESSAGE TOKEN
-    // const getFcmToken = async () => {
-    //     const fcmToken = await firebase.messaging().getToken();
-    //     if (fcmToken) {
-    //         let deviceInfo = {
-    //             anroiddevice: {
-    //                 "deviceid": await DeviceInfo.getAndroidId(),
-    //                 "registrationid": fcmToken
-    //             }
-    //         }
-    //         await UserPatch(deviceInfo);
-    //         console.log(`deviceInfo`, deviceInfo);
-    //     }
-    // }
+    const PushNotifications = () => {
+        PushNotification.configure({
+            // (optional) Called when Token is generated (iOS and Android)
+            onRegister: function (token) {
+                console.log(`token.token`, token.token)
+                getFcmToken(token.token)
+            },
 
-    // //REQUEST MESSAGE PERMISSION
-    // const requestPermission = async () => {
-    //     try {
-    //         await firebase.messaging().requestPermission();
-    //         // User has authorised
-    //     } catch (error) {
-    //         // User has rejected permissions
-    //     }
-    // }
+            // (required) Called when a remote is received or opened, or local notification is opened
+            onNotification: function (notification) {
+                console.log("NOTIFICATION:", notification);
+
+                // process the notification
+
+                // (required) Called when a remote is received or opened, or local notification is opened
+                notification.finish(PushNotificationIOS.FetchResult.NoData);
+            },
+
+            // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
+            onAction: function (notification) {
+                console.log("ACTION:", notification.action);
+                console.log("NOTIFICATION:", notification);
+
+                // process the action
+            },
+
+            // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+            onRegistrationError: function (err) {
+                console.error(err.message, err);
+            },
+
+            // IOS ONLY (optional): default: all - Permissions to register.
+            permissions: {
+                alert: true,
+                badge: true,
+                sound: true,
+            },
+
+            // Should the initial notification be popped automatically
+            // default: true
+            popInitialNotification: true,
+
+            /**
+             * (optional) default: true
+             * - Specified if permissions (ios) and token (android and ios) will requested or not,
+             * - if not, you must call PushNotificationsHandler.requestPermissions() later
+             * - if you are not using remote notification or do not have Firebase installed, use this:
+             *     requestPermissions: Platform.OS === 'ios'
+             */
+            requestPermissions: true,
+        });
+    }
+
+    //GET MESSAGE TOKEN
+    const getFcmToken = async (fcmToken) => {
+        if (fcmToken) {
+            let deviceInfo = {
+                anroiddevice: {
+                    "deviceid": await DeviceInfo.getAndroidId(),
+                    "registrationid": fcmToken
+                }
+            }
+            await UserPatch(deviceInfo);
+        }
+    }
 
     //GET ASYNCSTORAGE CURRENT USER DETAILS
     const getUserData = async () => {
         var getUser = await AsyncStorage.getItem(AUTHUSER);
         var UserInfo = JSON.parse(getUser);
-        setUserInfo(UserInfo);
         UserInfo.property.live = true;
+        userID = UserInfo._id
+        setUserInfo(UserInfo);
+        PushNotifications();
         await getByIdMember(UserInfo._id);
         await UpdateUserService(UserInfo);
     }
 
-    // //UPDATE MEMBER INFORMATION API CALL
-    // const UserPatch = async (deviceInfo) => {
-    //     try {
-    //         const response = await UserPatchService(userInfo._id, deviceInfo);
-    //         if (response.data != null && response.data != 'undefind' && response.status == 200) {
-    //             console.log(`DONE`);
-    //         }
-    //     }
-    //     catch (error) {
-    //         console.log(`error`, error);
-    //         setloading(false);
-    //     }
-    // }
+    //UPDATE MEMBER INFORMATION API CALL
+    const UserPatch = async (deviceInfo) => {
+        console.log(`userID`, userID);
+        try {
+            const response = await UserPatchService(userID, deviceInfo);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                console.log(`DONE`);
+            }
+        }
+        catch (error) {
+            console.log(`error`, error);
+            setloading(false);
+        }
+    }
 
     //get member details 
     const getByIdMember = async (id) => {
@@ -147,15 +183,9 @@ const homeScreen = (props) => {
             const response = await UserUpdateService(user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 authenticateUser(user);
-                // if (Platform.OS === 'android') {
-                //     ToastAndroid.show("User is Online", ToastAndroid.SHORT);
-                // } else {
-                //     alert('User is Online');
-                // }
             }
         }
         catch (error) {
-            // console.log(`error`, error);
             setloading(false);
         }
     }
