@@ -19,8 +19,9 @@ export const disputesStyle = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 3,
-        justifyContent: 'center'
+        elevation: 2,
+        justifyContent: 'center',
+        marginBottom: 10
     },
     headerstyle: {
         backgroundColor: '#FA114F',
@@ -34,13 +35,14 @@ export const disputesStyle = StyleSheet.create({
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
-        marginTop: 10,
+        marginTop: 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,
         shadowOffset: {
             height: 0,
             width: 0,
         },
-        elevation: 3
+        elevation: 2,
+        marginBottom: 1
     }
 });

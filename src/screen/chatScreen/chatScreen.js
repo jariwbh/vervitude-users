@@ -26,6 +26,10 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getByIdUser } from '../../services/UserService/UserService';
 import { BillService, BillPaymentService } from '../../services/BillService/BillService';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob';
+import MyPermissionController from '../../helpers/appPermission';
+import { DisputeChatAdd } from '../../services/DisputeChatService/DisputeChatService';
 
 const chatScreen = (props, { navigation }) => {
 	const consultanDetails = props.route.params.consultanDetails;
@@ -51,14 +55,22 @@ const chatScreen = (props, { navigation }) => {
 	const [projectMobileError, setProjectMobileError] = useState(null);
 	const [isTimePickerVisibility, setIsTimePickerVisibility] = useState(false);
 	const [getUser, setGetUser] = useState(null);
+	const [showDisputeChatVisible, setShowDisputeChatVisible] = useState(false);
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
+	const fourTextInputRef = React.createRef();
+	const [disputechatdesc, setDisputechatdesc] = useState(null);
+	const [disputechatdescError, setDisputechatdescError] = useState(null);
+	const [disputechatsubject, setDisputechatsubject] = useState(null);
+	const [disputechatsubjectError, setDisputechatsubjectError] = useState(null);
+	const [disputeImage, setdisputeImage] = useState(null);
 	let formId;
 	let updateFormDatas;
 
 	// chat portion
 	useEffect(
 		() => {
+			checkPermission();
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
 				let sender = JSON.parse(res)._id;
 				axiosConfig(sender);
@@ -83,20 +95,101 @@ const chatScreen = (props, { navigation }) => {
 		[navigation]
 	);
 
+	//check permission 
+	const checkPermission = () => {
+		setTimeout(
+			() => {
+				MyPermissionController.checkAndRequestStoragePermission()
+					.then((granted) => console.log('>Storage Permission Granted'))
+					.catch((err) => console.log(err))
+			},
+			500
+		);
+	}
+
+	//UPLOAD DISPUTE CHAT CLICK TO CALL FUNCTION
+	const onUploadDisputeChat = () => {
+		handlePicker();
+	}
+
+	//IMAGE CLICK TO GET CALL FUNCTION
+	const handlePicker = () => {
+		ImagePicker.showImagePicker({}, (response) => {
+			if (response.didCancel) {
+				setloading(false);
+				// console.log('User cancelled image picker');
+			} else if (response.error) {
+				setloading(false);
+				// console.log('ImagePicker Error: ', response.error);
+			} else if (response.customButton) {
+				setloading(false);
+				//  console.log('User tapped custom button: ', response.customButton);
+			} else {
+				setloading(true);
+				onPressUploadFile(response);
+			}
+		});
+	};
+
+	//Upload Cloud storage function
+	const onPressUploadFile = async (fileObj) => {
+		if (fileObj != null) {
+			const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
+			await RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/dlopjt9le/upload', { 'Content-Type': 'multipart/form-data' },
+				[{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+				{ name: 'upload_preset', data: 'gs95u3um' }])
+				.then(response => response.json())
+				.then(data => {
+					setloading(false);
+					if (data && data.url) {
+						setdisputeImage(data.url);
+					}
+				}).catch(error => {
+					setloading(false);
+					alert("Uploading Failed!");
+				})
+		} else {
+			setloading(false);
+			alert('Please Select File');
+		}
+	}
+
 	//get consultant by id call api
 	const getConsultant = async (id) => {
 		try {
 			const response = await getByIdUser(id);
 			setGetUser(response.data[0])
 		} catch (error) {
+			setloading(false);
 			//console.log(`error`, error);
 		}
 	}
 
 	useEffect(() => {
 	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate, chatId,
-		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError
+		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError,
+		disputechatdesc, disputechatdescError, disputechatsubject, disputechatsubjectError, disputeImage
 	])
+
+	//check disputechat description error message
+	const setDisputechatDescCheck = (disputechatdesc) => {
+		if (!disputechatdesc || disputechatdesc <= 0) {
+			return setDisputechatdescError('disputechat desc cannot be empty');
+		}
+		setDisputechatdesc(disputechatdesc);
+		setDisputechatdescError(null);
+		return;
+	}
+
+	//check disputechat subject error message
+	const setDisputechatsubjectCheck = (disputechatsubject) => {
+		if (!disputechatsubject || disputechatsubject <= 0) {
+			return setDisputechatsubjectError('disputechat desc cannot be empty');
+		}
+		setDisputechatsubject(disputechatsubject);
+		setDisputechatsubjectError(null);
+		return;
+	}
 
 	const startChat = async (sender, item) => {
 		const body = {
@@ -227,6 +320,7 @@ const chatScreen = (props, { navigation }) => {
 	// 	}
 	// };
 
+	//new chat inite
 	const newChat = async (sender, item) => {
 		let getChatId = firestore().collection('chat');
 		let snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
@@ -258,6 +352,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 	};
 
+	//send btn click to send message 
 	const onSend = useCallback((messages = []) => {
 		let setMessage = firestore().collection('chat').doc(chatId).collection('messages').doc();
 		for (let i = 0; i < messages.length; i++) {
@@ -280,6 +375,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 	});
 
+	//open - close model popup
 	const setFilterModalVisible = (visible) => {
 		setfilterModalVisible(visible);
 	};
@@ -302,7 +398,6 @@ const chatScreen = (props, { navigation }) => {
 
 	//current chat in find chat is end or not
 	const FindChatByIdService = async (id) => {
-		//console.log(`id`, id);
 		const response = await FindChatById(id);
 		setFormDataId(response.data[0]._id);
 		try {
@@ -383,6 +478,7 @@ const chatScreen = (props, { navigation }) => {
 			}
 		} catch (error) {
 			//console.log(`error`, error);
+			setloading(false);
 			if (Platform.OS === 'android') {
 				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
 			} else {
@@ -412,7 +508,7 @@ const chatScreen = (props, { navigation }) => {
 				consultantid: formdataDetails.property.consultantid._id,
 				chargable: formdataDetails.property.chargable,
 				category: formdataDetails.property.category,
-				subcategory: formdataDetails.property.subcategory,
+				subcategory: formdataDetails.property.subcategory
 				//fierbasechatid: chatId
 			}
 		}
@@ -455,7 +551,6 @@ const chatScreen = (props, { navigation }) => {
 
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
-
 					let billpayment = {
 						"customerid": sender,
 						"onModel": "Member",
@@ -467,7 +562,6 @@ const chatScreen = (props, { navigation }) => {
 						"walletamount": charges * minsDiff
 					}
 					const billPaymentResponse = await BillPaymentService(billpayment);
-
 					if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
 						setshowshowEndChatModel(false);
 						setfilterModalVisible(false);
@@ -479,7 +573,6 @@ const chatScreen = (props, { navigation }) => {
 						}
 						props.navigation.navigate(SCREEN.HOMESCREEN);
 					}
-
 				}
 			}
 		} catch (error) {
@@ -585,6 +678,53 @@ const chatScreen = (props, { navigation }) => {
 		hideTimePicker();
 	};
 
+	//DisputeChat Submit 
+	const disputechatSubmit = async () => {
+		setloading(true);
+		if (!disputechatsubject || !disputechatdesc) {
+			setDisputechatsubjectCheck(disputechatsubject);
+			setDisputechatDescCheck(disputechatdesc);
+			setloading(false);
+			return;
+		}
+
+		if (disputeImage == null) {
+			alert('Please Upload Image');
+			setloading(false);
+			return;
+		}
+
+		let body = {
+			"attachments": [
+				{
+					"attachment": disputeImage,
+					"extension": "jpg",
+					"originalfilename": "disputeChat-image"
+				}
+			],
+			"customerid": sender,
+			"subject": disputechatsubject,
+			"onModel": "Member",
+			"category": "Dispute",
+			"content": disputechatdesc
+		}
+		try {
+			const response = await DisputeChatAdd(body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setShowDisputeChatVisible(!showDisputeChatVisible);
+				setDisputechatdesc(null);
+				setDisputechatdescError(null);
+				setDisputechatsubject(null);
+				setDisputechatsubjectError(null);
+				setdisputeImage(null);
+				setloading(false);
+			}
+		} catch (error) {
+			setloading(false);
+			//console.log(`error`, error);
+		}
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
@@ -599,9 +739,9 @@ const chatScreen = (props, { navigation }) => {
 							style={{ width: 50, height: 50, borderRadius: 100, marginLeft: 10 }}
 						/>
 
-						<View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginLeft: 10 }}>
+						<View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'column', marginLeft: 10 }}>
 							<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname.split(' ')[0]}</Text>
-							<Text style={{ fontSize: 12, color: '#000000', marginLeft: -20 }}>Online</Text>
+							<Text style={{ fontSize: 12, color: '#000000', marginLeft: 0 }}>{getUser && getUser.property.live ? 'Online' : 'Ofline'}</Text>
 						</View>
 					</View>
 
@@ -640,7 +780,6 @@ const chatScreen = (props, { navigation }) => {
 					/>
 				</View>
 			</ScrollView>
-			<View style={{ marginBottom: 0 }} />
 
 			{/* start project model Pop */}
 			<Modal
@@ -679,7 +818,7 @@ const chatScreen = (props, { navigation }) => {
 							<View style={projectMobileError == null ? styles.inputView : styles.inputViewError}>
 								<TextInput
 									style={styles.TextInput}
-									placeholder='your Phone Number'
+									placeholder='Your Phone Number'
 									type='clear'
 									returnKeyType='next'
 									placeholderTextColor='#999999'
@@ -736,8 +875,8 @@ const chatScreen = (props, { navigation }) => {
 				<View style={{ alignItems: 'center', flex: 1 }}>
 					<View style={{ position: 'absolute', bottom: 20 }}>
 						<View style={styles.modalView}>
-							<TouchableOpacity onPress={() => setshowshowEndChatModel(true)}>
-								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>End Chat</Text>
+							<TouchableOpacity onPress={() => setshowshowEndChatModel(true)} disabled={hideInput}>
+								<Text style={{ padding: 15, textAlign: 'center', color: hideInput ? '#999999' : '#000000' }}>End Chat</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
@@ -746,14 +885,14 @@ const chatScreen = (props, { navigation }) => {
 							<TouchableOpacity>
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
 									Report an issue
-						</Text>
+								</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 							</View>
 
-							<TouchableOpacity>
-								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute </Text>
+							<TouchableOpacity onPress={() => { setFilterModalVisible(!filterModalVisible), setShowDisputeChatVisible(true) }}>
+								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
@@ -770,7 +909,6 @@ const chatScreen = (props, { navigation }) => {
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Check spend</Text>
 							</TouchableOpacity>
 						</View>
-
 						<View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 							<TouchableOpacity
 								onPress={() => { setFilterModalVisible(!filterModalVisible) }}
@@ -810,6 +948,113 @@ const chatScreen = (props, { navigation }) => {
 					</View>
 				</View>
 			</Modal>
+
+			{/* Dispute chat model Pop */}
+			<Modal
+				animationType='slide'
+				transparent={true}
+				visible={showDisputeChatVisible}
+				onRequestClose={() => { setShowDisputeChatVisible(!showDisputeChatVisible) }}
+			>
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.disputeModalView}>
+							<Text style={{ fontSize: 14, marginTop: 15 }}>Are you sure ,you want raise dispute</Text>
+							<Text style={{ fontSize: 14, marginTop: 0 }}>for select chats</Text>
+							<View style={{ marginTop: 10 }} />
+							<View style={disputechatsubjectError == null ? styles.inputView : styles.inputViewError}>
+								<TextInput
+									style={styles.TextInput}
+									placeholder='Subject'
+									type='clear'
+									returnKeyType='next'
+									placeholderTextColor='#999999'
+									defaultValue={disputechatsubject}
+									blurOnSubmit={false}
+									onSubmitEditing={() => fourTextInputRef.current.focus()}
+									onChangeText={(sub) => setDisputechatsubjectCheck(sub)}
+								/>
+							</View>
+							<View style={disputechatdescError == null ? styles.textAreainputView : styles.textAreainputViewError}>
+								<TextInput
+									style={styles.TextareaInput}
+									placeholder='Description'
+									type='clear'
+									returnKeyType='done'
+									placeholderTextColor='#999999'
+									blurOnSubmit={false}
+									numberOfLines={3}
+									multiline={true}
+									defaultValue={disputechatdesc}
+									ref={fourTextInputRef}
+									onSubmitEditing={() => Keyboard.dismiss()}
+									onChangeText={(desc) => setDisputechatDescCheck(desc)}
+								/>
+							</View>
+							<View style={{ marginTop: 10 }} />
+							<TouchableOpacity
+								onPress={() => onUploadDisputeChat()}
+								style={styles.savebtn}
+							>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Upload Photo</Text>
+							</TouchableOpacity>
+						</View>
+						<View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+							<TouchableOpacity
+								onPress={() => disputechatSubmit()}
+								style={styles.yesbtn}
+							>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Yes</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {
+									setShowDisputeChatVisible(!showDisputeChatVisible),
+										setDisputechatdesc(null),
+										setDisputechatdescError(null),
+										setDisputechatsubject(null),
+										setDisputechatsubjectError(null),
+										setdisputeImage(null)
+								}}
+								style={styles.nobtn}
+							>
+								<Text style={{ fontSize: 14, color: '#000000' }}>No</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			</Modal>
+
+			{/* time out model Pop
+			<Modal
+				animationType='slide'
+				transparent={true}
+				visible={timeoutModelVisible}
+				onRequestClose={() => { setTimeoutModelVisible(false) }}
+			>
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.timeoutModalView}>
+							<Text style={{ fontSize: 14, marginTop: 15 }}>The consultant is currently</Text>
+							<Text style={{ fontSize: 14 }}>unavailable to reply, would you like to</Text>
+							<Text style={{ fontSize: 14 }}>chat with another consultant?</Text>
+						</View>
+						<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 10 }}>
+							<TouchableOpacity
+								onPress={() => { setTimeoutModelVisible(false), onpressDoneBtn() }}
+								style={styles.yesbtn}
+							>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Yes</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => { setTimeoutModelVisible(false) }}
+								style={styles.nobtn}
+							>
+								<Text style={{ fontSize: 14, color: '#000000' }}>No</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			</Modal> */}
 
 			{/* end chat Model pop up */}
 			<Modal
@@ -883,7 +1128,7 @@ const chatScreen = (props, { navigation }) => {
 				</ScrollView>
 			</Modal>
 			{ loading ? <Loader /> : null}
-		</SafeAreaView>
+		</SafeAreaView >
 	);
 };
 
@@ -954,8 +1199,38 @@ const styles = StyleSheet.create({
 		shadowRadius: 4,
 		elevation: 5
 	},
+	timeoutModalView: {
+		height: 100,
+		width: WIDTH - 90,
+		borderRadius: 20,
+		backgroundColor: 'white',
+		alignItems: 'center',
+		shadowColor: '#000000',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5
+	},
 	modalView: {
 		height: 250,
+		width: WIDTH - 90,
+		borderRadius: 20,
+		backgroundColor: 'white',
+		alignItems: 'center',
+		shadowColor: '#000000',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5
+	},
+	disputeModalView: {
+		height: 270,
 		width: WIDTH - 90,
 		borderRadius: 20,
 		backgroundColor: 'white',
@@ -1131,5 +1406,40 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		borderColor: '#5EA2FC',
 		borderWidth: 0.5
+	},
+	yesbtn: {
+		flexDirection: 'row',
+		width: WIDTH / 6,
+		height: 25,
+		marginHorizontal: 20,
+		backgroundColor: '#FFB629',
+		borderRadius: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 1
+	},
+	nobtn: {
+		flexDirection: 'row',
+		width: WIDTH / 6,
+		height: 25,
+		backgroundColor: '#EEEEEE',
+		borderRadius: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 1
 	},
 });

@@ -1,9 +1,127 @@
-import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, SafeAreaView, TouchableOpacity, ScrollView, StatusBar, FlatList, RefreshControl, Image } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as STYLES from './styles';
+import moment from 'moment';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AUTHUSER } from '../../context/actions/type';
+import { DisputeChatFilterService } from '../../services/DisputeChatService/DisputeChatService';
+import * as SCREEN from '../../context/screen/screenName';
 
 const disputesScreen = (props) => {
+    const [loading, setloading] = useState(false);
+    const [disputeList, setDisputeList] = useState([]);
+    const [UserId, setUserID] = useState(null);
+    const [refreshing, setrefreshing] = useState(false);
+
+    useEffect(() => {
+    }, [loading, disputeList, UserId, refreshing]);
+
+    useEffect(() => {
+        setloading(true);
+        AsyncStorage.getItem(AUTHUSER).then(async (res) => {
+            let id = JSON.parse(res)._id;
+            getDisputeChatFilter(id);
+            setUserID(id);
+        });
+    }, []);
+
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    //refresh function
+    const onRefresh = () => {
+        setrefreshing(true);
+        getDisputeChatFilter(UserId);
+        wait(3000).then(() => setrefreshing(false));
+    }
+
+    //get Dispute Chat Filter Api 
+    const getDisputeChatFilter = async (id) => {
+        try {
+            const response = await DisputeChatFilterService(id);
+            setDisputeList(response.data)
+            console.log(`response.data`, response.data);
+        } catch (error) {
+            console.log(`error`, error);
+        }
+    }
+
+    //select to collapsible (show data)
+    const onPressToSelectDisputeCard = (item, index, val) => {
+        const DisputeCard = disputeList.map((item) => {
+            item.selected = false;
+            return item;
+        });
+
+        if (val == false) {
+            DisputeCard[index].selected = false;
+        }
+        if (val == true) {
+            DisputeCard[index].selected = true;
+        }
+        setDisputeList(DisputeCard);
+    }
+
+    //render Notification on flatlist function
+    const renderdisputeChat = ({ item, index }) => (
+        item.selected == true ?
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
+                <View style={STYLES.disputesStyle.mycommentview}>
+                    <TouchableOpacity onPress={() => onPressToSelectDisputeCard(item, index, false)}
+                        style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 15 }}>
+                        <View style={{ flexDirection: 'column' }}>
+                            <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>{item.subject}</Text>
+                            <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('DD/MM/YYYY') + ', ' + moment(item.createdAt).format('LT')}</Text>
+                        </View>
+                        {
+                            item.status == "Requested" &&
+                            <View onPress={() => { }}
+                                style={{ width: 100, height: 25, backgroundColor: '#C4C4C4', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>In Review</Text>
+                            </View>
+                        }
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 18, padding: 5, marginTop: 15, color: '#999999' }}> My Comment</Text>
+                    <Text style={{ fontSize: 18, padding: 5, marginLeft: 5 }}>{item.content}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                        <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
+                    </View>
+                    {
+                        item.attachments.length != 0 &&
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}
+                            onTouchStart={() => props.navigation.navigate(SCREEN.DISPUTESDETAILSSCREEN, { item })}>
+                            <Image source={{ uri: item.attachments[0].attachment }} style={{ width: 280, height: 280 }} />
+                        </View>
+                    }
+
+                </View>
+            </View>
+            :
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={STYLES.disputesStyle.chatdisputeview}>
+                    <TouchableOpacity onPress={() => onPressToSelectDisputeCard(item, index, true)}
+                        style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'column' }}>
+                            <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>{item.subject}</Text>
+                            <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('DD/MM/YYYY') + ', ' + moment(item.createdAt).format('LT')}</Text>
+                        </View>
+                        {
+                            item.status == "Requested" &&
+                            <View onPress={() => { }}
+                                style={{ width: 100, height: 25, backgroundColor: '#C4C4C4', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>In Review</Text>
+                            </View>
+                        }
+
+                    </TouchableOpacity>
+                </View>
+            </View>
+    )
+
     return (
         <SafeAreaView style={STYLES.disputesStyle.container}>
             <StatusBar hidden backgroundColor='#FA114F' barStyle='light-content' />
@@ -20,23 +138,24 @@ const disputesScreen = (props) => {
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={STYLES.disputesStyle.chatdisputeview}>
-                        <View onPress={() => { }}
-                            style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>The Consultant Did not Respond </Text>
-                                <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}>14/02/2021 , 2:30 PM</Text>
-                            </View>
-                            <TouchableOpacity style={{ width: 100, height: 25, backgroundColor: '#C4C4C4', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 14, color: '#303030' }}>In Review</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
+            <ScrollView showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FA114F" titleColor="#FA114F" colors={["#FA114F"]} onRefresh={() => onRefresh()} />}>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                {(disputeList == null) || (disputeList && disputeList.length <= 0) ?
+                    (loading ? null :
+                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>No DisputeChat available</Text>
+                    )
+                    :
+                    <FlatList
+                        data={disputeList}
+                        renderItem={renderdisputeChat}
+                        keyExtractor={item => item._id}
+                    />
+                }
+
+
+                {/* <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <View style={STYLES.disputesStyle.chatdisputeview}>
                         <View onPress={() => { }}
                             style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
@@ -65,7 +184,7 @@ const disputesScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </View> */}
                 <View style={{ marginBottom: 50 }} />
             </ScrollView>
         </SafeAreaView>

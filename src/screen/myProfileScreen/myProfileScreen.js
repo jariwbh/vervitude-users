@@ -14,6 +14,7 @@ import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 //import { useIsFocused } from '@react-navigation/native';
 import axiosConfig from '../../helpers/axiosConfig';
+import { NotificationService } from '../../services/NotificationService/NotificationService';
 
 const myProfileScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -28,6 +29,7 @@ const myProfileScreen = (props) => {
     const [description, setdescription] = useState(null);
     const [descriptionerror, setdescriptionerror] = useState(null);
     const secondTextInputRef = React.createRef();
+    const [notification, setNotification] = useState(0);
     //const isFocused = useIsFocused();
 
     useEffect(() => {
@@ -42,17 +44,18 @@ const myProfileScreen = (props) => {
         setshowModalVisible(visible);
     }
 
-    const showModalVisibleSubmit = (visible) => {
-        setshowModalVisible(visible);
-        setshowMessageModalVisible(true);
-    }
-
     const showMessageModal = (visible) => {
         setshowMessageModalVisible(visible);
     }
 
     const showModeVisible = (visible) => {
         setshowdarkModeVisible(visible);
+    }
+
+    //get notification function
+    const getNotification = async (id) => {
+        const response = await NotificationService(id);
+        setNotification(response.data.length)
     }
 
     const toggleSwitch = (toggle) => {
@@ -82,6 +85,7 @@ const myProfileScreen = (props) => {
             var UserInfo = JSON.parse(getUser);
             axiosConfig(UserInfo._id);
             setuserDetails(UserInfo);
+            await getNotification(UserInfo._id);
         }
     }
 
@@ -174,15 +178,17 @@ const myProfileScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start', flexDirection: 'row' }}>
-                        <MenuButton onPress={() => props.navigation.navigate('homeScreen')} />
-                        <View style={{ marginLeft: 30, justifyContent: 'center' }}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}>
-                                <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                            </TouchableOpacity>
-                        </View>
+                        <MenuButton onPress={() => props.navigation.navigate(SCREEN.HOMESCREEN)} />
+                        <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
+                            style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                            <View style={{ marginLeft: 8, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ justifyContent: 'flex-end' }}>
-                        <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
+                        <WallateButton onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)} />
                     </View>
                 </View>
 
@@ -204,7 +210,7 @@ const myProfileScreen = (props) => {
                             </View>
                         </View>
 
-                        <TouchableOpacity onPress={() => props.navigation.navigate('editScreen')}
+                        <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.EDITSCREEN)}
                             style={{ flexDirection: 'row', paddingLeft: 20 }}>
                             <Image source={require('../../assets/Images/profileicon.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>My Profile</Text>
@@ -216,20 +222,20 @@ const myProfileScreen = (props) => {
                             <Text style={STYLES.styles.icontextView}>Mode Settings</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => props.navigation.navigate('recentchatScreen')}
+                        <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}
                             style={{ flexDirection: 'row', marginTop: 20, paddingLeft: 20 }} >
                             <Image source={require('../../assets/Images/conversation.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>My conversations</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, paddingLeft: 20, marginBottom: 5 }}
-                            onPress={() => props.navigation.navigate('myspendsScreen')}>
+                            onPress={() => props.navigation.navigate(SCREEN.MYSPENDSSCREEN)}>
                             <Image source={require('../../assets/Images/Group.png')} style={{ height: 20, width: 29 }} />
                             <Text style={STYLES.styles.icontextView}>My Spends</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }}
-                            onPress={() => props.navigation.navigate('myWalletScreen')}>
+                            onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)}>
                             <Image source={require('../../assets/Images/walleticon.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>My Wallet</Text>
                         </TouchableOpacity>
@@ -239,12 +245,12 @@ const myProfileScreen = (props) => {
                             <Text style={STYLES.styles.icontextView}>Help & Support</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} onPress={() => props.navigation.navigate('inviteScreen')}>
+                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} onPress={() => props.navigation.navigate(SCREEN.INVITESCREEN)}>
                             <Image source={require('../../assets/Images/invite.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>Invite a Friend</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} onPress={() => props.navigation.navigate('disputesScreen')}>
+                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} onPress={() => props.navigation.navigate(SCREEN.DISPUTESSCREEN)}>
                             <Image source={require('../../assets/Images/disputesicon.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>My Disputes</Text>
                         </TouchableOpacity>

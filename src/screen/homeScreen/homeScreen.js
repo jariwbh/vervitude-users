@@ -23,12 +23,14 @@ import { getByIdMemberService } from '../../services/UserService/UserService';
 import DeviceInfo from 'react-native-device-info';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
+import { NotificationService } from '../../services/NotificationService/NotificationService';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
     const [category, setCategory] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
+    const [notification, setNotification] = useState(0);
     let userID;
 
     useEffect(() => {
@@ -103,6 +105,12 @@ const homeScreen = (props) => {
         });
     }
 
+    //get notification function
+    const getNotification = async (id) => {
+        const response = await NotificationService(id);
+        setNotification(response.data.length)
+    }
+
     //GET MESSAGE TOKEN
     const getFcmToken = async (fcmToken) => {
         if (fcmToken) {
@@ -124,7 +132,8 @@ const homeScreen = (props) => {
         userID = UserInfo._id
         setUserInfo(UserInfo);
         PushNotifications();
-        await getByIdMember(UserInfo._id);
+        await getNotification(userID);
+        await getByIdMember(userID);
         await UpdateUserService(UserInfo);
     }
 
@@ -277,11 +286,13 @@ const homeScreen = (props) => {
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
                         <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
-                        <View style={{ marginLeft: 30, justifyContent: 'center' }}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}>
-                                <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}
+                            style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center', height: 30, width: 30 }}>
+                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                            <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={{ justifyContent: 'flex-end' }}>

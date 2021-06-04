@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         height: 90,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        marginTop: 15,
+        marginTop: 10,
         borderRadius: 20,
         shadowOpacity: 0.5,
         shadowRadius: 3,
@@ -20,7 +20,8 @@ export const styles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 4,
+        elevation: 2,
+        marginBottom: 5
     },
     submitbtn: {
         flexDirection: 'row',
@@ -38,7 +39,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5
+        elevation: 1
     },
     headerstyle: {
         backgroundColor: '#00D9CE',
