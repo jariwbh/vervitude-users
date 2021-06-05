@@ -54,10 +54,11 @@ export const categoryStyles = StyleSheet.create({
 export const SubCategoryStyles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFFFFF'
     },
     statusbar: {
         flexDirection: 'row',
-        backgroundColor: '#fff',
+        backgroundColor: '#FFFFFF',
         borderColor: '#737373',
         borderRadius: 15,
         shadowOpacity: 0.5,
@@ -85,9 +86,16 @@ export const SubCategoryStyles = StyleSheet.create({
         height: 70,
         width: 70,
         backgroundColor: '#FFFFFF',
-        borderRadius: 1,
+        borderRadius: 1.5,
         borderColor: '#000000',
-        borderWidth: 0.1
+        borderWidth: 0.1,
+        shadowOpacity: 0.9,
+        shadowRadius: 3,
+        shadowOffset: {
+            height: 2,
+            width: 0,
+        },
+        shadowColor: "#F2F2F2"
     },
     categoryviewSelected: {
         flex: 1,
@@ -96,25 +104,33 @@ export const SubCategoryStyles = StyleSheet.create({
         height: 70,
         width: 70,
         backgroundColor: '#2094FA',
-        borderRadius: 1,
+        borderRadius: 5,
         borderColor: '#2094FA',
-        borderWidth: 0.1
+        borderWidth: 0.1,
+        shadowOpacity: 0.9,
+        shadowRadius: 3,
+        shadowOffset: {
+            height: 2,
+            width: 0,
+        },
+        shadowColor: "#F2F2F2"
     },
     counsultantview: {
         flex: 1,
         height: 180,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        borderRadius: 10,
-        marginTop: 5,
-        shadowOpacity: 10,
-        shadowRadius: 20,
+        borderRadius: 20,
+        marginTop: -5,
+        shadowOpacity: 0.9,
+        shadowRadius: 3,
         shadowOffset: {
-            height: 0,
+            height: 2,
             width: 0,
         },
         elevation: 2,
         overflow: 'hidden',
+        marginBottom: 10
     },
     cauve: {
         justifyContent: 'flex-end',

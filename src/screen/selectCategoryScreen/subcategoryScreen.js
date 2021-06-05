@@ -194,15 +194,13 @@ const subcategoryScreen = (props) => {
                             />
                         </View>
                     </View>
-
                     <View style={{ marginLeft: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
-                        <Text style={{ fontSize: 16, color: '#999999', textTransform: 'capitalize' }}>{item.property.usertag}</Text>
+                        <Text style={{ fontSize: 16, color: '#4D4D4D', textTransform: 'capitalize' }}>{item.property.usertag}</Text>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                             <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
-
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
                         <Text style={{ fontSize: 12, color: '#000000' }}>
                             {
@@ -216,7 +214,7 @@ const subcategoryScreen = (props) => {
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 0 }}>
                             <View style={{ justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
-                                <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
+                                <Text style={{ fontSize: 12, color: '#808080', fontWeight: 'bold' }}>{item.property.location}</Text>
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <TouchableOpacity
@@ -284,7 +282,7 @@ const subcategoryScreen = (props) => {
                         </TouchableOpacity>
                         <TextInput
                             style={STYLES.SubCategoryStyles.statInput}
-                            placeholder='Search Consultants'
+                            placeholder='Search App'
                             type='clear'
                             placeholderTextColor='#999999'
                             returnKeyType='done'
@@ -334,11 +332,13 @@ const subcategoryScreen = (props) => {
                 {(consultantList == null) || (consultantList && consultantList.length == 0) ?
                     <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Consultant are not available</Text>
                     :
-                    <FlatList
-                        renderItem={renderConsultantList}
-                        data={consultantList}
-                        keyExtractor={item => `${item._id}`}
-                    />
+                    <View style={{ marginTop: 5 }}>
+                        <FlatList
+                            renderItem={renderConsultantList}
+                            data={consultantList}
+                            keyExtractor={item => `${item._id}`}
+                        />
+                    </View>
                 }
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>

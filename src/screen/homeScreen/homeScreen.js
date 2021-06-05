@@ -247,30 +247,28 @@ const homeScreen = (props) => {
 
     //render category list useing flatlist
     const renderCategory = ({ item }) => (
-        <View style={{ flex: 1, paddingHorizontal: 7, justifyContent: 'center', alignItems: 'center' }}>
-            { item.add == true ?
-                <View>
-                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                        <Image source={require('../../assets/Images/allicon.png')}
-                            style={{ height: 60, width: 60 }} />
-                    </TouchableOpacity>
-                    <View style={{ marginTop: 5, alignItems: 'center' }}>
-                        <Text>All Catgory</Text>
-                    </View>
+        item.add == true ?
+            <View style={{ flex: 1, paddingHorizontal: 7, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)} style={{
+                    justifyContent: 'center', alignItems: 'center', marginTop: 20
+                }}>
+                    <Image source={require('../../assets/Images/allicon.png')}
+                        style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                </TouchableOpacity>
+                <View style={{ marginTop: 5, alignItems: 'center' }}>
+                    <Text>All Catgory</Text>
                 </View>
-
-                :
-                <View>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item }) }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                        <Image source={{ uri: item.property.image[0].attachment }}
-                            style={{ height: 60, width: 60 }} />
-                    </TouchableOpacity>
-                    <View style={{ marginTop: 5, alignItems: 'center' }}>
-                        <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
-                    </View>
+            </View>
+            :
+            <View style={{ flex: 1, paddingHorizontal: 7, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item }) }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                    <Image source={{ uri: item.property.image[0].attachment }}
+                        style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                </TouchableOpacity>
+                <View style={{ marginTop: 5, alignItems: 'center' }}>
+                    <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
                 </View>
-            }
-        </View>
+            </View>
     )
 
     const renderImage = () => (

@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
+        shadowColor: '#F9EFD6',
         marginBottom: 5
     },
     submitbtn: {

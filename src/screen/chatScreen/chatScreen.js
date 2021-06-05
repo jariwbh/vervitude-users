@@ -30,6 +30,7 @@ import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import MyPermissionController from '../../helpers/appPermission';
 import { DisputeChatAdd } from '../../services/DisputeChatService/DisputeChatService';
+import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 
 const chatScreen = (props, { navigation }) => {
 	const consultanDetails = props.route.params.consultanDetails;
@@ -64,8 +65,34 @@ const chatScreen = (props, { navigation }) => {
 	const [disputechatsubject, setDisputechatsubject] = useState(null);
 	const [disputechatsubjectError, setDisputechatsubjectError] = useState(null);
 	const [disputeImage, setdisputeImage] = useState(null);
+	const [showHelpSupportModel, setShowHelpSupportModel] = useState(false);
+	const [showHelpSupportMessageModel, setShowHelpSupportMessageModel] = useState(false);
+	const [reportSubject, setReportSubject] = useState(null);
+	const [reportSubjectError, setReportSubjectError] = useState(null);
+	const [reportDesc, setReportDesc] = useState(null);
+	const [reportDescError, setReportDescError] = useState(null);
 	let formId;
 	let updateFormDatas;
+
+	//check validation of subject
+	const setReportSubjectCheck = (subject) => {
+		if (!subject || subject <= 0) {
+			return setReportSubjectError('subject cannot be empty');
+		}
+		setReportSubject(subject);
+		setReportSubjectError(null);
+		return;
+	}
+
+	//check validation of description
+	const setReportDescriptionCheck = (description) => {
+		if (!description || description <= 0) {
+			return setReportDescError('description cannot be empty');
+		}
+		setReportDesc(description);
+		setReportDescError(null);
+		return;
+	}
 
 	// chat portion
 	useEffect(
@@ -168,7 +195,8 @@ const chatScreen = (props, { navigation }) => {
 	useEffect(() => {
 	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate, chatId,
 		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError,
-		disputechatdesc, disputechatdescError, disputechatsubject, disputechatsubjectError, disputeImage
+		disputechatdesc, disputechatdescError, disputechatsubject, disputechatsubjectError, disputeImage,
+		reportSubject, reportSubjectError, reportDesc, reportDescError
 	])
 
 	//check disputechat description error message
@@ -725,6 +753,44 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
+	//help model pop up submit button touch to called
+	const onPressReportIssues = async () => {
+		if (!reportDesc || !reportSubject) {
+			setReportSubjectCheck(reportSubject);
+			setReportDescriptionCheck(reportDesc);
+			return;
+		}
+		const body = {
+			'status': 'Requested',
+			'subject': reportSubject,
+			'customerid': sender,
+			'onModel': 'Member',
+			'category': 'System Enhancements',
+			'content': reportDesc
+
+		}
+		try {
+			const response = await HelpSupportService(body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setloading(false);
+				setShowHelpSupportModel(false);
+				setShowHelpSupportMessageModel(true);
+				setReportSubject(null);
+				setReportSubjectError(null);
+				setReportDesc(null);
+				setReportDescError(null);
+			}
+		}
+		catch (error) {
+			setloading(false);
+			if (Platform.OS === 'android') {
+				ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
+			} else {
+				alert('Message Sending Failed!');
+			}
+		}
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
@@ -882,7 +948,7 @@ const chatScreen = (props, { navigation }) => {
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 							</View>
 
-							<TouchableOpacity>
+							<TouchableOpacity onPress={() => { setFilterModalVisible(!filterModalVisible), setShowHelpSupportModel(true) }}>
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>
 									Report an issue
 								</Text>
@@ -1024,6 +1090,90 @@ const chatScreen = (props, { navigation }) => {
 				</View>
 			</Modal>
 
+			{/* Help & Support model Pop */}
+			<Modal
+				animationType='slide'
+				transparent={true}
+				visible={showHelpSupportModel}
+				onRequestClose={() => setShowHelpSupportModel(!showHelpSupportModel)}
+			>
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.helpSupportModalView}>
+							<View style={{ marginTop: 20 }}></View>
+							<View style={reportSubjectError == null ? styles.inputView : styles.inputViewError}>
+								<TextInput
+									style={styles.TextInput}
+									placeholder='Subject'
+									type='clear'
+									returnKeyType='next'
+									placeholderTextColor='#999999'
+									defaultValue={reportSubject}
+									blurOnSubmit={false}
+									onSubmitEditing={() => secondTextInputRef.current.focus()}
+									onChangeText={(subject) => setReportSubjectCheck(subject)}
+								/>
+							</View>
+							<View style={reportDescError == null ? styles.textAreainputView : styles.textAreainputViewError}>
+								<TextInput
+									style={styles.TextareaInput}
+									placeholder='Write Your Descripation'
+									type='clear'
+									returnKeyType='done'
+									placeholderTextColor='#999999'
+									blurOnSubmit={false}
+									numberOfLines={3}
+									multiline={true}
+									defaultValue={setReportDesc}
+									ref={secondTextInputRef}
+									onChangeText={(description) => setReportDescriptionCheck(description)}
+								/>
+							</View>
+						</View>
+						<View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+							<TouchableOpacity onPress={() => onPressReportIssues()}
+								style={styles.savebtn}>
+								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => {
+								setReportSubject(null),
+									setReportSubjectError(null),
+									setReportDesc(null),
+									setReportDescError(null),
+									setShowHelpSupportModel(false)
+							}}
+								style={styles.cancelbtn}>
+								<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			</Modal>
+
+			{/* help support message model Pop */}
+			<Modal
+				animationType='slide'
+				transparent={true}
+				visible={showHelpSupportMessageModel}
+				onRequestClose={() => setShowHelpSupportMessageModel(!showHelpSupportMessageModel)}
+			>
+				<View style={{ alignItems: 'center', flex: 1 }}>
+					<View style={{ position: 'absolute', bottom: 20 }}>
+						<View style={styles.msgModalView}>
+							<Image source={require('../../assets/Images/smileicon.png')} style={{ marginTop: 35, height: 40, width: 40 }} />
+							<Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>Thank you for your feedback</Text>
+							<Text style={{ fontSize: 14, color: '#000000' }}>we will get back to you shortly</Text>
+						</View>
+						<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+							<TouchableOpacity onPress={() => setShowHelpSupportMessageModel(!showHelpSupportMessageModel)}
+								style={styles.cancelbtn}>
+								<Text style={{ fontSize: 14, color: '#000000' }}>Ok</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			</Modal>
+
 			{/* time out model Pop
 			<Modal
 				animationType='slide'
@@ -1128,7 +1278,7 @@ const chatScreen = (props, { navigation }) => {
 				</ScrollView>
 			</Modal>
 			{ loading ? <Loader /> : null}
-		</SafeAreaView >
+		</SafeAreaView>
 	);
 };
 
@@ -1152,6 +1302,7 @@ const styles = StyleSheet.create({
 			width: 0
 		},
 		elevation: 1,
+		marginBottom: 10
 	},
 	chatIcon: {
 		width: 40,
@@ -1216,6 +1367,21 @@ const styles = StyleSheet.create({
 	},
 	modalView: {
 		height: 250,
+		width: WIDTH - 90,
+		borderRadius: 20,
+		backgroundColor: 'white',
+		alignItems: 'center',
+		shadowColor: '#000000',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5
+	},
+	helpSupportModalView: {
+		height: 200,
 		width: WIDTH - 90,
 		borderRadius: 20,
 		backgroundColor: 'white',

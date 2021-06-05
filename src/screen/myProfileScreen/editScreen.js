@@ -3,7 +3,7 @@ import {
     View, Text, Image, SafeAreaView, TouchableOpacity,
     TextInput, ScrollView, Platform, ToastAndroid, StatusBar
 } from 'react-native';
-import { UserUpdateService, UserProfileService } from '../../services/UserService/UserService';
+import { UserPatchService, UserProfileService } from '../../services/UserService/UserService';
 import MyPermissionController from '../../helpers/appPermission';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -217,9 +217,10 @@ const editScreen = (props) => {
         let user = userDetails;
         user.property = body.property;
         try {
-            const response = await UserUpdateService(body);
+            const response = await UserPatchService(userDetails._id, body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                authenticateUser(user);
+                authenticateUser(response.data);
+                console.log(`response.data`, response.data);
                 getUserDetails();
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('Your Profile Update', ToastAndroid.SHORT);

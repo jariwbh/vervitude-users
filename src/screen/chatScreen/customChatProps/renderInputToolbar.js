@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Dimensions } from 'react-native';
+import { Image, Dimensions, TouchableOpacity, TouchableOpacityBase } from 'react-native';
 import { InputToolbar, Composer, Actions, Send } from 'react-native-gifted-chat';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -43,7 +43,13 @@ const renderInputToolbar = (props) => (
 			/>
 		)}
 		renderActions={(props) => (
-			<Actions
+			<TouchableOpacity>
+				<Image
+					source={require('../../../assets/Images/addicon.png')}
+					style={{ width: 25, height: 25, marginLeft: 10, marginBottom: 10 }}
+				/>
+			</TouchableOpacity>
+			/* <Actions
 				{...props}
 				icon={() => (
 					<Image
@@ -51,7 +57,7 @@ const renderInputToolbar = (props) => (
 						style={{ width: 25, height: 25, marginLeft: 10 }}
 					/>
 				)}
-			/>
+			/> */
 		)}
 		renderSend={(props) => (
 			<Send {...props} containerStyle={{ justifyContent: 'center' }}>

@@ -59,15 +59,32 @@ function selectCategoryScreen(props) {
     //render category 
     const renderCategory = ({ item }) => (
         <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
-            <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => onTouchSelectCategory(item)}>
-                <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 70, height: 70, borderRadius: 5, borderColor: '#EEEEEE', borderWidth: 1 }} />
-            </TouchableOpacity>
-            <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                <Text style={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
-                <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
-                    <Foundation name='info' size={15} color='#3399ff' style={{ marginLeft: 5 }} />
-                </TouchableOpacity>
-            </View>
+
+            {item.property.skillcategory == 'COMING SOON' ?
+                <View>
+                    <TouchableOpacity style={STYLES.categoryStyles.categoryview} disabled={true}>
+                        <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 70, height: 70, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                        <Text style={{ fontSize: 12, textAlign: 'center', textTransform: 'capitalize', color: '#8D8D8D' }}>{item.property.skillcategory.substring(0, 6) + ' ...'}</Text>
+                        <TouchableOpacity disabled={true}>
+                            <Foundation name='info' size={15} color='#82C3FC' style={{ marginLeft: 5 }} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                :
+                <View>
+                    <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => onTouchSelectCategory(item)}>
+                        <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 70, height: 70, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                        <Text style={{ fontSize: 12, textAlign: 'center', color: '#000000' }}>{item.property.skillcategory}</Text>
+                        <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
+                            <Foundation name='info' size={15} color='#3399FF' style={{ marginLeft: 5 }} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            }
         </View>
     );
 

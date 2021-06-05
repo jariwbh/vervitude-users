@@ -205,7 +205,7 @@ const newchatsScreen = (props) => {
                     </TouchableOpacity>
                     <TextInput
                         style={STYLES.newChatStyles.statInput}
-                        placeholder='Search Consultants'
+                        placeholder='Search Chat'
                         type='clear'
                         placeholderTextColor='#999999'
                         returnKeyType='done'
