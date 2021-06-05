@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import { DisputeChatFilterService } from '../../services/DisputeChatService/DisputeChatService';
 import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
 
 const disputesScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -43,9 +44,10 @@ const disputesScreen = (props) => {
     const getDisputeChatFilter = async (id) => {
         try {
             const response = await DisputeChatFilterService(id);
-            setDisputeList(response.data)
-            console.log(`response.data`, response.data);
+            setDisputeList(response.data);
+            setloading(false);
         } catch (error) {
+            setloading(false);
             console.log(`error`, error);
         }
     }
@@ -187,6 +189,7 @@ const disputesScreen = (props) => {
                 </View> */}
                 <View style={{ marginBottom: 50 }} />
             </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, Image, SafeAreaView, TouchableOpacity,
-    TextInput, ScrollView, Platform, ToastAndroid, StatusBar
+    TextInput, ScrollView, Platform, ToastAndroid, StatusBar, Keyboard
 } from 'react-native';
 import { UserPatchService, UserProfileService } from '../../services/UserService/UserService';
 import MyPermissionController from '../../helpers/appPermission';
@@ -466,7 +466,7 @@ const editScreen = (props) => {
                                 multiline={true}
                                 defaultValue={about}
                                 ref={sevenTextInputRef}
-                                //onSubmitEditing={() => {}}
+                                onSubmitEditing={() => Keyboard.dismiss()}
                                 onChangeText={(about) => setAbout(about)}
                             />
                         </View>

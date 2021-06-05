@@ -59,12 +59,12 @@ function WalletDetailService(id) {
     return Axios.post('members/filter/view', body);
 }
 
-function WalletUsageListService() {
+function WalletUsageListService(id) {
     let body =
     {
         "viewname": "bi-billspent",
         "formname": "formdata",
-        "search": []
+        "search": [{ "searchfield": "customerid", "searchvalue": id, "criteria": "eq", "datatype": "ObjectId" }]
     }
     return Axios.post('branches/view/filter', body);
 }

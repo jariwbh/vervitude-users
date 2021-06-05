@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         marginTop: 5,
-        shadowOpacity: 10,
-        shadowRadius: 20,
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
         shadowOffset: {
             height: 0,
             width: 0,
@@ -30,13 +30,13 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
         marginTop: 5,
-        shadowOpacity: 1,
-        shadowRadius: 20,
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
         shadowOffset: {
             height: 0,
             width: 0,
         },
-        elevation: 1,
+        elevation: 2,
         overflow: 'hidden',
     },
     headerstyle: {
