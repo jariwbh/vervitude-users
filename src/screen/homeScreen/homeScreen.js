@@ -113,10 +113,16 @@ const homeScreen = (props) => {
 
     //GET MESSAGE TOKEN
     const getFcmToken = async (fcmToken) => {
+        let uniqueId;
+        if (Platform.OS === 'android') {
+            uniqueId = DeviceInfo.getAndroidId()
+        } else {
+            uniqueId = DeviceInfo.getUniqueId();
+        }
         if (fcmToken) {
             let deviceInfo = {
                 anroiddevice: {
-                    "deviceid": await DeviceInfo.getAndroidId(),
+                    "deviceid": uniqueId,
                     "registrationid": fcmToken
                 }
             }
