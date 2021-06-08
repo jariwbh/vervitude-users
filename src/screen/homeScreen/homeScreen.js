@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-    View, Text, SafeAreaView, ScrollView, TextInput, BackHandler,
+    View, Text, SafeAreaView, ScrollView, TextInput, BackHandler, Dimensions, ImageBackground,
     TouchableOpacity, Image, StyleSheet, LogBox, StatusBar, FlatList, ToastAndroid, Platform
 } from 'react-native';
 import WallateButton from '../../components/WallateButton/WallateButton';
 import MenuButton from '../../components/MenuButton/MenuButton';
-import SliderScreen from '../../components/slider/sliderScreen';
 import StarRating from 'react-native-star-rating';
 import * as STYLE from './styles';
 import Loader from '../../components/loader/index';
@@ -22,8 +21,12 @@ import { getByIdMemberService } from '../../services/UserService/UserService';
 //import axiosConfig from '../../helpers/axiosConfig';
 import DeviceInfo from 'react-native-device-info';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
+import PushNotification, { Importance } from "react-native-push-notification";
 import { NotificationService } from '../../services/NotificationService/NotificationService';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
+import Swiper from 'react-native-swiper';
+import SliderService from '../../services/SliderService/SliderService';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
@@ -31,6 +34,7 @@ const homeScreen = (props) => {
     const [category, setCategory] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
     const [notification, setNotification] = useState(0);
+    const [sliderData, setsliderData] = useState([]);
     let userID;
 
     useEffect(() => {
@@ -38,6 +42,7 @@ const homeScreen = (props) => {
         ConsultantList();
         categoryList();
         getUserData();
+        sliderService();
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
         props.navigation.addListener('focus', e => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -50,7 +55,22 @@ const homeScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [userInfo, category, loading, consultant])
+    }, [userInfo, category, loading, consultant, sliderData])
+
+    //silder image manage function
+    const sliderService = async () => {
+        try {
+            const response = await SliderService();
+            setsliderData(response.data);
+        } catch (error) {
+            // console.log(`error`, error);
+        }
+    }
+
+    //open WEB VIEW SCREEN
+    const WebViewScreen = (data) => {
+        props.navigation.navigate(SCREEN.WEBVIEWSCREEN, { data });
+    }
 
     const PushNotifications = () => {
         PushNotification.configure({
@@ -62,19 +82,22 @@ const homeScreen = (props) => {
 
             // (required) Called when a remote is received or opened, or local notification is opened
             onNotification: function (notification) {
-                console.log("NOTIFICATION:", notification);
-
                 // process the notification
-
                 // (required) Called when a remote is received or opened, or local notification is opened
-                notification.finish(PushNotificationIOS.FetchResult.NoData);
+                if (notification.foreground) {
+                    notification.data = {
+                        message: notification.message,
+                        title: notification.title
+                    }
+                    console.log("NOTIFICATION:", notification);
+                    notification.finish(PushNotificationIOS.FetchResult.NoData);
+                }
             },
 
             // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
             onAction: function (notification) {
                 console.log("ACTION:", notification.action);
                 console.log("NOTIFICATION:", notification);
-
                 // process the action
             },
 
@@ -113,10 +136,16 @@ const homeScreen = (props) => {
 
     //GET MESSAGE TOKEN
     const getFcmToken = async (fcmToken) => {
+        let uniqueId;
+        if (Platform.OS === 'android') {
+            uniqueId = DeviceInfo.getAndroidId()
+        } else {
+            uniqueId = DeviceInfo.getUniqueId();
+        }
         if (fcmToken) {
             let deviceInfo = {
                 anroiddevice: {
-                    "deviceid": await DeviceInfo.getAndroidId(),
+                    "deviceid": uniqueId,
                     "registrationid": fcmToken
                 }
             }
@@ -303,7 +332,36 @@ const homeScreen = (props) => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <SliderScreen />
+                <View style={{
+                    top: 20,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+
+                    {(sliderData != null) || (sliderData && sliderData.length != 0) ?
+                        <Swiper
+                            containerStyle={styles.wrapper}
+                            autoplay={true}
+                            autoplayTimeout={5}
+                            autoplayDirection={true}
+                            activeDotColor={'#00D9CE'}
+                        >
+                            {sliderData.map((item, index) => (
+                                <View key={index} >
+                                    <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} >
+                                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
+                                            <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
+                                            <TouchableOpacity onPress={() => WebViewScreen(item.property.link)} >
+                                                <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </ImageBackground>
+                                </View>
+                            ))}
+                        </Swiper>
+                        : null
+                    }
+                </View>
                 <View style={STYLE.styles.categoriesText}>
                     <TouchableOpacity onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
                         <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE', fontWeight: 'bold', marginTop: 10 }}>Categories</Text>
@@ -388,6 +446,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginRight: -60,
         elevation: 2
+    },
+    customImage: {
+        height: 220,
+        width: WIDTH - 20
+    },
+    wrapper: {
+        height: 220,
+        width: WIDTH - 20
     }
 });
 

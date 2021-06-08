@@ -7,8 +7,8 @@ import { AUTHUSER } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
 
 function SplashScreen(props) {
-  // check AuthController use to Login Or Not Login
   useEffect(() => {
+    // check AuthController use to Login Or Not Login
     async function AuthController() {
       var getUser = await AsyncStorage.getItem(AUTHUSER)
       var userData = JSON.parse(getUser);

@@ -151,8 +151,8 @@ const myProfileScreen = (props) => {
             const response = await HelpSupportService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setloading(false);
-                setshowModalVisible(false);
                 setshowMessageModalVisible(true);
+                onPressCancel();
             }
         }
         catch (error) {

@@ -65,14 +65,16 @@ const rechargedetailScreen = (props) => {
 
     //razorpay function
     const razorPay = (options, res) => {
+        console.log(`options, res`, options, res)
         setloading(false);
         RazorpayCheckout.open(options).then((data) => {
             // handle success
-            // console.log(`Success`, data.razorpay_payment_id);
+            console.log(`Success`, data.razorpay_payment_id);
             genratebill(res)
         }).catch((error) => {
             // handle failure
-            //  console.log(`error`, error)
+            setloading(false);
+            console.log(`error`, error)
         });
     }
 
@@ -136,12 +138,13 @@ const rechargedetailScreen = (props) => {
                         }],
                         "rate": 1
                     },
-                    "quantity": Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)),
+                    "quantity": Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1))
                 }]
             }
 
-            // console.log(`body`, body);
+            console.log(`body`, body);
             const response = await BillService(body);
+            console.log(`response`, response);
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 setloading(true);
                 setbillRes(response.data);
@@ -163,7 +166,7 @@ const rechargedetailScreen = (props) => {
             }
         } catch (error) {
             setloading(false);
-            // console.log(`error`, error);
+            console.log(`error`, error);
         }
     }
 

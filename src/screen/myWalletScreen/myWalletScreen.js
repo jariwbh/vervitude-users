@@ -70,7 +70,7 @@ const myWalletScreen = (props) => {
             alert('Please Enter Amount 300 or More');
             return;
         }
-
+        setAmount(null);
         rechargeObj = { id: userID, amount: amount, couponDetails: couponDetails }
         props.navigation.navigate(SCREEN.RECHARGEDETAILSCREEN, { rechargeObj })
     }
