@@ -21,8 +21,8 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import { getByIdMemberService } from '../../services/UserService/UserService';
 //import axiosConfig from '../../helpers/axiosConfig';
 import DeviceInfo from 'react-native-device-info';
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { NotificationService } from '../../services/NotificationService/NotificationService';
 
 const homeScreen = (props) => {
@@ -53,19 +53,23 @@ const homeScreen = (props) => {
     }, [userInfo, category, loading, consultant])
 
     const PushNotifications = () => {
+        if (Platform.OS === 'ios') {
+            console.log('ios');
+        }
+
         PushNotification.configure({
             // (optional) Called when Token is generated (iOS and Android)
             onRegister: function (token) {
-                console.log(`token.token`, token.token)
-                getFcmToken(token.token)
+                console.log(`token`, token)
+                if (token.token != undefined) {
+                    getFcmToken(token.token)
+                }
             },
 
             // (required) Called when a remote is received or opened, or local notification is opened
             onNotification: function (notification) {
                 console.log("NOTIFICATION:", notification);
-
                 // process the notification
-
                 // (required) Called when a remote is received or opened, or local notification is opened
                 notification.finish(PushNotificationIOS.FetchResult.NoData);
             },
@@ -74,7 +78,6 @@ const homeScreen = (props) => {
             onAction: function (notification) {
                 console.log("ACTION:", notification.action);
                 console.log("NOTIFICATION:", notification);
-
                 // process the action
             },
 
@@ -114,20 +117,31 @@ const homeScreen = (props) => {
     //GET MESSAGE TOKEN
     const getFcmToken = async (fcmToken) => {
         let uniqueId;
+        let deviceInfo;
         if (Platform.OS === 'android') {
             uniqueId = DeviceInfo.getAndroidId()
+            if (fcmToken) {
+                deviceInfo = {
+                    anroiddevice: {
+                        "deviceid": uniqueId,
+                        "registrationid": fcmToken
+                    }
+                }
+                await UserPatch(deviceInfo);
+            }
         } else {
             uniqueId = DeviceInfo.getUniqueId();
-        }
-        if (fcmToken) {
-            let deviceInfo = {
-                anroiddevice: {
-                    "deviceid": uniqueId,
-                    "registrationid": fcmToken
+            if (fcmToken) {
+                deviceInfo = {
+                    iosdevice: {
+                        "deviceid": uniqueId,
+                        "registrationid": fcmToken
+                    }
                 }
+                await UserPatch(deviceInfo);
             }
-            await UserPatch(deviceInfo);
         }
+        //console.log('deviceInfo', deviceInfo);
     }
 
     //GET ASYNCSTORAGE CURRENT USER DETAILS
