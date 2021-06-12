@@ -32,6 +32,7 @@ const myspendsScreen = (props) => {
                         setloading(false);
                     }
                 } catch (error) {
+                    setloading(false);
                     // console.log(`error`, error);
                 }
             });
@@ -43,14 +44,15 @@ const myspendsScreen = (props) => {
     }, [walletBalance, userId, refreshing, consultantList])
 
     //get wallate usage list
-    const getWallateUsageList = async () => {
+    const getWallateUsageList = async (userId) => {
         try {
-            const response = await WalletUsageListService();
-            // console.log(`response.data `, response);
+            const response = await WalletUsageListService(userId);
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 setconsultantList(response.data);
+                setloading(false);
             }
         } catch (error) {
+            setloading(false);
             //  console.log(`error`, error);
         }
     }
@@ -65,7 +67,7 @@ const myspendsScreen = (props) => {
     //get pull to refresh function
     const onRefresh = () => {
         setrefreshing(true);
-        getWallateUsageList();
+        getWallateUsageList(userId);
         wait(3000).then(() => setrefreshing(false));
     }
 
@@ -101,7 +103,7 @@ const myspendsScreen = (props) => {
                         <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize' }}>
                             {
                                 item.consultant.skills ?
-                                    item.consultant.skills.map(({
+                                    item.consultant.skills.slice(0, 3).map(({
                                         property
                                     }) => property.title).join(',')
                                     : null
@@ -162,7 +164,7 @@ const myspendsScreen = (props) => {
                 }
                 <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
-            { loading ? <Loader /> : null}
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

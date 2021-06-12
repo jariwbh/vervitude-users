@@ -205,7 +205,7 @@ const subcategoryScreen = (props) => {
                         <Text style={{ fontSize: 12, color: '#000000' }}>
                             {
                                 item.skills ?
-                                    item.skills.map(({
+                                    item.skills.slice(0, 3).map(({
                                         title
                                     }) => title).join(',')
                                     : null

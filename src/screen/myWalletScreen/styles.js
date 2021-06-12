@@ -33,7 +33,7 @@ export const myWalletStyles = StyleSheet.create({
     },
     rechargeview: {
         width: WIDTH,
-        height: HEIGHT - 50,
+        // height: HEIGHT - 50,
         backgroundColor: '#FFFFFF',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -50,7 +50,7 @@ export const myWalletStyles = StyleSheet.create({
         height: 70,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        marginTop: 5,
+        marginTop: 0,
         borderRadius: 20,
         justifyContent: 'center',
         shadowOpacity: 0.5,
@@ -60,6 +60,7 @@ export const myWalletStyles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
+        marginBottom: 10
     },
     gamountview: {
         height: 300,

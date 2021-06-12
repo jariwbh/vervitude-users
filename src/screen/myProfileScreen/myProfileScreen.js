@@ -12,9 +12,9 @@ import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
-//import { useIsFocused } from '@react-navigation/native';
 import axiosConfig from '../../helpers/axiosConfig';
 import { NotificationService } from '../../services/NotificationService/NotificationService';
+import { useFocusEffect } from '@react-navigation/native';
 
 const myProfileScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -30,11 +30,12 @@ const myProfileScreen = (props) => {
     const [descriptionerror, setdescriptionerror] = useState(null);
     const secondTextInputRef = React.createRef();
     const [notification, setNotification] = useState(0);
-    //const isFocused = useIsFocused();
 
-    useEffect(() => {
-        getUserData();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            getUserData();
+        }, [])
+    );
 
     const showVervitudeModal = (visible) => {
         setvervitudeModalVisible(visible);

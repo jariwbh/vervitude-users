@@ -27,6 +27,7 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Swiper from 'react-native-swiper';
 import SliderService from '../../services/SliderService/SliderService';
+import { useFocusEffect } from '@react-navigation/native';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
@@ -36,6 +37,13 @@ const homeScreen = (props) => {
     const [notification, setNotification] = useState(0);
     const [sliderData, setsliderData] = useState([]);
     let userID;
+
+    useFocusEffect(
+        React.useCallback(() => {
+            ConsultantList();
+            getNotification(userID);
+        }, [])
+    );
 
     useEffect(() => {
         setloading(true);
@@ -185,11 +193,10 @@ const homeScreen = (props) => {
 
     //UPDATE MEMBER INFORMATION API CALL
     const UserPatch = async (deviceInfo) => {
-        console.log(`userID`, userID);
         try {
             const response = await UserPatchService(userID, deviceInfo);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                console.log(`DONE`);
+                setloading(false);
             }
         }
         catch (error) {
@@ -354,7 +361,6 @@ const homeScreen = (props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-
                     {(sliderData != null) || (sliderData && sliderData.length != 0) ?
                         <Swiper
                             containerStyle={styles.wrapper}
@@ -430,7 +436,7 @@ const homeScreen = (props) => {
                     <Image source={require('../../assets/Images/moneyicon.png')} style={{ height: 20, width: 15 }} />
                 </ActionButton.Item>
             </ActionButton>
-            { loading ? <Loader /> : null}
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }

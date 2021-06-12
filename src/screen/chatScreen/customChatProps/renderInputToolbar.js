@@ -43,12 +43,13 @@ const renderInputToolbar = (props) => (
 			/>
 		)}
 		renderActions={(props) => (
-			<TouchableOpacity>
-				<Image
-					source={require('../../../assets/Images/addicon.png')}
-					style={{ width: 25, height: 25, marginLeft: 10, marginBottom: 10 }}
-				/>
-			</TouchableOpacity>
+			<></>
+			// <TouchableOpacity>
+			// 	<Image
+			// 		source={require('../../../assets/Images/addicon.png')}
+			// 		style={{ width: 25, height: 25, marginLeft: 10, marginBottom: 10 }}
+			// 	/>
+			// </TouchableOpacity>
 			/* <Actions
 				{...props}
 				icon={() => (

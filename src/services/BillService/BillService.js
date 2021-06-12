@@ -74,4 +74,9 @@ function WalletRechargeWithCouponService(data) {
     return Axios.post('wallettxns', body);
 }
 
-export { BillService, BillListService, WalletDetailService, WalletUsageListService, BillPaymentService, WalletRechargeWithCouponService };
+function WalletRefershService(data) {
+    const body = JSON.stringify(data)
+    return Axios.post('wallettxns', body);
+}
+
+export { BillService, BillListService, WalletDetailService, WalletUsageListService, BillPaymentService, WalletRechargeWithCouponService, WalletRefershService };

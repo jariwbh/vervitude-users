@@ -12,6 +12,8 @@ import * as SCREEN from '../../context/screen/screenName';
 import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+import { useFocusEffect } from '@react-navigation/native';
+import moment from 'moment';
 
 const recentchatScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -20,15 +22,17 @@ const recentchatScreen = (props) => {
     const [currentUserId, setcurrentUserId] = useState(null);
     const [SearchConsultant, setSearchConsultant] = useState([]);
 
-    useEffect(() => {
-        AsyncStorage.getItem(AUTHUSER).then((res) => {
-            setloading(true);
-            let currentUser = JSON.parse(res)._id;
-            axiosConfig(currentUser);
-            setcurrentUserId(currentUser);
-            recentchatlist(currentUser);
-        });
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            AsyncStorage.getItem(AUTHUSER).then((res) => {
+                setloading(true);
+                let currentUser = JSON.parse(res)._id;
+                axiosConfig(currentUser);
+                setcurrentUserId(currentUser);
+                recentchatlist(currentUser);
+            });
+        }, [])
+    );
 
     useEffect(() => {
     }, [currentUserId, recentChat, refreshing])
@@ -65,6 +69,7 @@ const recentchatScreen = (props) => {
             }
         }
         catch (error) {
+            setloading(false);
             // console.log(`error`, error);
         }
     }
@@ -74,7 +79,7 @@ const recentchatScreen = (props) => {
             _id: item.property.consultantid._id,
             profilepic: item.property.consultantid.profilepic,
             fullname: item.property.consultantid.fullname,
-            consultanobject: item,
+            consultanobject: item
             //fierbasechatid: item.property.fierbasechatid
         }
         props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
@@ -84,19 +89,18 @@ const recentchatScreen = (props) => {
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => navigationhandler(item)}>
                 <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
-                    <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>2:30 PM</Text>
+                    <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>{item.updatedAt ? moment(item.updatedAt).format('lll') : moment(item.createdAt).format('lll')}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                     <Image source={{ uri: item ? item.property.consultantid.profilepic !== null && item.property.consultantid.profilepic ? item.property.consultantid.profilepic : noProfile : noProfile }}
-                        style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25 }} />
+                        style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25, borderColor: '#555555', borderWidth: 0.2 }} />
                     <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
                 </View>
-
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000", textTransform: 'capitalize' }}>
                             {item && item.property.consultantid.fullname.split(' ')[0]}</Text>
-                        <Text style={{ fontSize: 14, color: "#999999" }}>Design / UX Design</Text>
+                        <Text style={{ fontSize: 14, color: "#999999" }}>{item && item.property && item.property.consultantid && item.property.consultantid.property && item.property.consultantid.property.usertag ? item.property.consultantid.property.usertag : null}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

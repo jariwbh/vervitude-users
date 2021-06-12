@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native'
+import { CheckUser } from '../../services/UserService/UserService';
+import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
 import { LoginService, LoginWithMobileService } from '../../services/LoginService/LoginService'
 import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
@@ -19,9 +21,11 @@ const loginwithemailScreen = (props) => {
     const [inputOtpNumber, setinputOtpNumber] = useState(null);
     const [verifybtnDisable, setverifybtnDisable] = useState(true);
     const [sendbtnDisable, setsendbtnDisable] = useState(true);
+    const [sendEmailbtnDisable, setsendEmailbtnDisable] = useState(true);
 
     useEffect(() => {
-    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber, inputOtpNumber, verifybtnDisable, sendbtnDisable])
+    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber,
+        inputOtpNumber, verifybtnDisable, sendbtnDisable, sendEmailbtnDisable])
 
     //check email validation
     const setEmail = (email) => {
@@ -37,6 +41,7 @@ const loginwithemailScreen = (props) => {
             return;
         }
         setusername(email);
+        setsendEmailbtnDisable(false);
         setusererror(null);
         return;
     }
@@ -69,6 +74,8 @@ const loginwithemailScreen = (props) => {
         setsendbtnDisable(true);
         setinputOtpNumber(null);
         setverifybtnDisable(true);
+        setverifyOtpNumber(null);
+        setsendEmailbtnDisable(true);
     }
 
     //add local storage Records
@@ -87,36 +94,51 @@ const loginwithemailScreen = (props) => {
     // generate OTP function 
     const createOtp = async () => {
         axiosConfig('606abd8799e17f1678300c12')
-        setloading(true);
+        let body;
+        if (username && mobile_number) {
+            setMobileNumber(mobile_number);
+            setEmail(username);
+            return;
+        }
         try {
-            const response = await LoginWithMobileService(mobile_number);
-            if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
-                let token = response.data[0]._id;
-                //set header auth user key
-                axiosConfig(token);
-                authenticateUser(response.data[0]);
+            setloading(true);
+            if (username) {
+                body = {
+                    "username": username
+                }
+            }
+            if (mobile_number) {
+                body = {
+                    "username": mobile_number
+                }
+            }
+
+            const CheckUserResponse = await CheckUser(body);
+            if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
                 setverifyOtpNumber(verifyOtpNumber);
-                setloading(false);
                 setverifybtnDisable(false);
+                onPressSubmit(verifyOtpNumber);
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
                 } else {
-                    alert('OTP Sending!');
+                    alert('OTP Sending');
                 }
+                setloading(false);
             }
             else {
-                if (response.data[0] == null && response.data[0] == undefined) {
-                    if (Platform.OS === 'android') {
-                        ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-                    } else {
-                        alert('User not exits!');
-                    }
-                    resetScreen();
+                AsyncStorage.removeItem(AUTHUSER);
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+                } else {
+                    alert('User not exits!');
                 }
+                resetScreen();
             }
         }
         catch (error) {
+            AsyncStorage.removeItem(AUTHUSER);
+            console.log(`error`, error)
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
@@ -124,21 +146,38 @@ const loginwithemailScreen = (props) => {
                 alert('User not exits!');
             }
         };
-
     }
 
     //OTP verify function
     const otpVerify = async () => {
+        if (username && mobile_number) {
+            return;
+        }
         setloading(true);
         try {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
-                } else {
-                    alert('SignIn Success!');
-                }
                 setloading(false);
-                props.navigation.navigate(SCREEN.HOMESCREEN);
+                let userValue;
+                if (username) {
+                    userValue = username
+                }
+                if (mobile_number) {
+                    userValue = mobile_number
+                }
+                let response;
+                if (mobile_number) {
+                    response = await LoginWithMobileService(mobile_number);
+                } else if (username) {
+                    response = await LoginService(username);
+                }
+                if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
+                    let token = response.data[0]._id;
+                    //set header auth user key
+                    axiosConfig(token);
+                    authenticateUser(response.data[0]);
+                    props.navigation.navigate(SCREEN.HOMESCREEN);
+                    resetScreen();
+                }
             } else {
                 setloading(false);
                 setinputOtpNumber(null);
@@ -150,6 +189,8 @@ const loginwithemailScreen = (props) => {
             }
         }
         catch (error) {
+            AsyncStorage.removeItem(AUTHUSER);
+            //console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
@@ -160,40 +201,42 @@ const loginwithemailScreen = (props) => {
     }
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
-    const onPressSubmit = async () => {
-        if (!username) {
-            setEmail(username);
-            return;
-        }
+    const onPressSubmit = async (verifyOtpNumber) => {
         axiosConfig('606abd8799e17f1678300c12');
+
+        let body;
+        if (mobile_number) {
+            body = {
+                "messagetype": "SMS",
+                "message": {
+                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": [mobile_number],
+                    "subject": "Login With OTP"
+                }
+            }
+        }
+
+        if (username) {
+            body = {
+                "messagetype": "EMAIL",
+                "message": {
+                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": [username],
+                    "subject": "Login With OTP"
+                }
+            }
+        }
+
         setloading(true);
         try {
-            const response = await LoginService(username);
-            if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
-                let token = response.data[0]._id;
-                //set header auth user key
-                axiosConfig(token);
-                authenticateUser(response.data[0]);
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
-                } else {
-                    alert('SignIn Success!');
-                }
+            const response = await SendEmailandSmsService(body);
+            if (response.data != 'undefind' && response.status == 200) {
                 setloading(false);
-                props.navigation.navigate(SCREEN.HOMESCREEN);
-            }
-            else {
-                if (response.data[0] == null && response.data[0] == undefined) {
-                    if (Platform.OS === 'android') {
-                        ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-                    } else {
-                        alert('User not exits!');
-                    }
-                    resetScreen();
-                }
             }
         }
         catch (error) {
+            AsyncStorage.removeItem(AUTHUSER);
+            //console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
@@ -213,55 +256,59 @@ const loginwithemailScreen = (props) => {
                     <View style={STYLE.Loginemailstyle.centeView}>
                         <View style={STYLE.Loginemailstyle.boxView}>
                             <View style={{ marginTop: 30 }}>
-                                <View style={usererror == null ? STYLE.Loginemailstyle.inputView : STYLE.Loginemailstyle.inputErrorView}>
-                                    <TextInput
-                                        defaultValue={username}
-                                        style={STYLE.Loginemailstyle.TextInput}
-                                        placeholder='Email Address'
-                                        type='clear'
-                                        returnKeyType='done'
-                                        placeholderTextColor='#B5B5B5'
-                                        onSubmitEditing={() => onPressSubmit()}
-                                        onChangeText={(email) => setEmail(email)}
-                                    />
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '900' }}>OR</Text>
-
-                                </View>
-                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                    <View style={mobile_numbererror == null ? STYLE.Loginemailstyle.inputView2 : STYLE.Loginemailstyle.inputErrorView2}>
+                                <View style={{ marginTop: 15 }}>
+                                    <View style={usererror == null ? STYLE.Loginemailstyle.inputView : STYLE.Loginemailstyle.inputErrorView}>
                                         <TextInput
+                                            defaultValue={username}
                                             style={STYLE.Loginemailstyle.TextInput}
-                                            defaultValue={mobile_number}
-                                            placeholder='Phone Number'
+                                            placeholder='Email Address'
                                             type='clear'
                                             returnKeyType='done'
-                                            keyboardType='number-pad'
                                             placeholderTextColor='#B5B5B5'
                                             onSubmitEditing={() => createOtp()}
-                                            onChangeText={(mobile_number) => setMobileNumber(mobile_number)}
+                                            onChangeText={(email) => setEmail(email)}
+                                        />
+                                        <TouchableOpacity style={STYLE.Loginemailstyle.otpBtndisable1} disabled={sendEmailbtnDisable} onPress={() => createOtp()}>
+                                            <Text style={STYLE.Loginemailstyle.otpbtnText1}>Send OTP</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
+                                        <Text style={{ fontSize: 16, fontWeight: '900' }}>OR</Text>
+                                    </View>
+                                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                        <View style={mobile_numbererror == null ? STYLE.Loginemailstyle.inputView2 : STYLE.Loginemailstyle.inputErrorView2}>
+                                            <TextInput
+                                                style={STYLE.Loginemailstyle.TextInput}
+                                                defaultValue={mobile_number}
+                                                placeholder='Phone Number'
+                                                type='clear'
+                                                returnKeyType='done'
+                                                keyboardType='number-pad'
+                                                placeholderTextColor='#B5B5B5'
+                                                onSubmitEditing={() => createOtp()}
+                                                onChangeText={(mobile_number) => setMobileNumber(mobile_number)}
+                                            />
+                                        </View>
+                                        <TouchableOpacity style={sendbtnDisable ? STYLE.Loginemailstyle.otpBtndisable1 : STYLE.Loginemailstyle.otpBtn1} disabled={sendbtnDisable} onPress={() => createOtp()}>
+                                            <Text style={STYLE.Loginemailstyle.otpbtnText1}>Send OTP</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* <Text>{verifyOtpNumber}</Text> */}
+                                    <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
+                                        <OtpInputs
+                                            handleChange={(code) => handleChange(code)}
+                                            numberOfInputs={4}
+                                            inputStyles={STYLE.Loginemailstyle.inputView1}
+                                            defaultValue={inputOtpNumber}
                                         />
                                     </View>
-                                    <TouchableOpacity style={sendbtnDisable ? STYLE.Loginemailstyle.otpBtndisable1 : STYLE.Loginemailstyle.otpBtn1} disabled={sendbtnDisable} onPress={() => createOtp()}>
-                                        <Text style={STYLE.Loginemailstyle.otpbtnText1}>Send OTP</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Text>{verifyOtpNumber}</Text>
-                                <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
-                                    <OtpInputs
-                                        handleChange={(code) => handleChange(code)}
-                                        numberOfInputs={4}
-                                        inputStyles={STYLE.Loginemailstyle.inputView1}
-                                        defaultValue={inputOtpNumber}
-                                    />
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 60 }}>
-                                    <TouchableOpacity style={verifybtnDisable ? STYLE.Loginemailstyle.otpBtndisable : STYLE.Loginemailstyle.otpBtn} disabled={verifybtnDisable} onPress={() => otpVerify()}>
-                                        <Text style={STYLE.Loginemailstyle.otpbtnText}>Verify OTP</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 60 }}>
+                                        <TouchableOpacity style={verifybtnDisable ? STYLE.Loginemailstyle.otpBtndisable : STYLE.Loginemailstyle.otpBtn} disabled={verifybtnDisable} onPress={() => otpVerify()}>
+                                            <Text style={STYLE.Loginemailstyle.otpbtnText}>Verify OTP</Text>
+                                        </TouchableOpacity>
+                                    </View>
 
+                                </View>
                             </View>
                         </View>
                         <View style={STYLE.Loginemailstyle.centeView} >

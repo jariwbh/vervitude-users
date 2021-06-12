@@ -8,6 +8,7 @@ import { AUTHUSER } from '../../context/actions/type';
 import { DisputeChatFilterService } from '../../services/DisputeChatService/DisputeChatService';
 import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
+import { useFocusEffect } from '@react-navigation/native';
 
 const disputesScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -17,6 +18,16 @@ const disputesScreen = (props) => {
 
     useEffect(() => {
     }, [loading, disputeList, UserId, refreshing]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            AsyncStorage.getItem(AUTHUSER).then(async (res) => {
+                let id = JSON.parse(res)._id;
+                getDisputeChatFilter(id);
+                setUserID(id);
+            });
+        }, [])
+    );
 
     useEffect(() => {
         setloading(true);

@@ -129,7 +129,7 @@ export const Loginemailstyle = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
-        marginTop: 120
+        marginTop: 150
     },
     inputView: {
         flexDirection: 'row',
@@ -175,8 +175,7 @@ export const Loginemailstyle = StyleSheet.create({
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
-        fontSize: 18,
-        margin: 20
+        fontSize: 18
     },
     inputViewError1: {
         marginTop: 25,

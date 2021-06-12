@@ -18,9 +18,11 @@ const forgotpasswordScreen = (props) => {
     const [inputOtpNumber, setinputOtpNumber] = useState(null);
     const [verifybtnDisable, setverifybtnDisable] = useState(true);
     const [sendbtnDisable, setsendbtnDisable] = useState(true);
+    const [sendEmailbtnDisable, setsendEmailbtnDisable] = useState(true);
+
 
     useEffect(() => {
-    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber, inputOtpNumber, verifybtnDisable, sendbtnDisable])
+    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber, inputOtpNumber, verifybtnDisable, sendbtnDisable, sendEmailbtnDisable])
 
     //check email validation
     const setEmail = (email) => {
@@ -36,6 +38,7 @@ const forgotpasswordScreen = (props) => {
             return;
         }
         setusername(email);
+        setsendEmailbtnDisable(false);
         setusererror(null);
         return;
     }
@@ -68,6 +71,8 @@ const forgotpasswordScreen = (props) => {
         setsendbtnDisable(true);
         setinputOtpNumber(null);
         setverifybtnDisable(true);
+        setverifyOtpNumber(null);
+        setsendEmailbtnDisable(true);
     }
 
     //user input Code set
@@ -148,6 +153,7 @@ const forgotpasswordScreen = (props) => {
                 if (mobile_number) {
                     userValue = mobile_number
                 }
+                resetScreen();
                 props.navigation.navigate(SCREEN.NEWPASSWORDSCREEN, { userValue });
             } else {
                 setloading(false);
@@ -238,7 +244,7 @@ const forgotpasswordScreen = (props) => {
                                             onChangeText={(email) => setEmail(email)}
                                         />
                                     </View>
-                                    <TouchableOpacity style={STYLE.Forgetpasswordstyle.otpBtndisable1} onPress={() => createOtp()}>
+                                    <TouchableOpacity style={STYLE.Forgetpasswordstyle.otpBtndisable1} disabled={sendEmailbtnDisable} onPress={() => createOtp()}>
                                         <Text style={STYLE.Forgetpasswordstyle.otpbtnText1}>Send OTP</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -264,7 +270,7 @@ const forgotpasswordScreen = (props) => {
                                         <Text style={STYLE.Forgetpasswordstyle.otpbtnText1}>Send OTP</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <Text>{verifyOtpNumber}</Text>
+                                {/* <Text>{verifyOtpNumber}</Text> */}
                                 <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
                                     <OtpInputs
                                         handleChange={(code) => handleChange(code)}

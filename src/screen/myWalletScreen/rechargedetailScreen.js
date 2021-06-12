@@ -65,7 +65,6 @@ const rechargedetailScreen = (props) => {
 
     //razorpay function
     const razorPay = (options, res) => {
-        console.log(`options, res`, options, res)
         setloading(false);
         RazorpayCheckout.open(options).then((data) => {
             // handle success
@@ -74,39 +73,47 @@ const rechargedetailScreen = (props) => {
         }).catch((error) => {
             // handle failure
             setloading(false);
+            props.navigation.navigate(SCREEN.MYWALLETSCREEN);
             console.log(`error`, error)
         });
     }
 
     //generate bill function
     const genratebill = async (res) => {
-        let billpayment = {
-            "customerid": rechargeDetails.id,
-            "onModel": "Member",
-            "paymentdate": moment().format(),
-            "billid": res._id,
-            "amount": rechargeDetails.amount,
-            "totalamount": rechargeDetails.amount,
-            "paidamount": rechargeDetails.amount
-        }
-        const billPaymentResponse = await BillPaymentService(billpayment);
-        if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
-
-            if (rechargeDetails && rechargeDetails.couponDetails) {
-                let walletbody = {
-                    "txntype": "Cr",
-                    "txnref": `Wallet recharged bill no ${response.data.prefix}-${response.data.receiptnumber} - ${rechargeDetails.couponDetails.couponcode}`,
-                    "txndate": moment().format(),
-                    "customerid": rechargeDetails.id,
-                    "onModel": "Member",
-                    "value": rechargeDetails.couponDetails.property.fixvalue
-                }
-                const response1 = await WalletRechargeWithCouponService(walletbody);
-                if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
-                    props.navigation.navigate(SCREEN.MYWALLETSCREEN);
-                }
+        setloading(true);
+        try {
+            let billpayment = {
+                "customerid": rechargeDetails.id,
+                "onModel": "Member",
+                "paymentdate": moment().format(),
+                "billid": res._id,
+                "amount": rechargeDetails.amount,
+                "totalamount": rechargeDetails.amount,
+                "paidamount": rechargeDetails.amount
             }
-            props.navigation.navigate(SCREEN.MYWALLETSCREEN);
+            const billPaymentResponse = await BillPaymentService(billpayment);
+            if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
+                if (rechargeDetails && rechargeDetails.couponDetails) {
+                    let walletbody = {
+                        "txntype": "Cr",
+                        "txnref": `Wallet recharged bill no ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber} - ${rechargeDetails.couponDetails.couponcode}`,
+                        "txndate": moment().format(),
+                        "customerid": rechargeDetails.id,
+                        "onModel": "Member",
+                        "value": rechargeDetails.couponDetails.property.fixvalue
+                    }
+                    const response1 = await WalletRechargeWithCouponService(walletbody);
+                    if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
+                        setloading(false);
+                        props.navigation.navigate(SCREEN.MYWALLETSCREEN);
+                    }
+                }
+                setloading(false);
+                props.navigation.navigate(SCREEN.MYWALLETSCREEN);
+            }
+        } catch (error) {
+            console.log(`error`, error);
+            setloading(false);
         }
     }
 
@@ -141,10 +148,7 @@ const rechargedetailScreen = (props) => {
                     "quantity": Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1))
                 }]
             }
-
-            console.log(`body`, body);
             const response = await BillService(body);
-            console.log(`response`, response);
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 setloading(true);
                 setbillRes(response.data);
@@ -241,7 +245,7 @@ const rechargedetailScreen = (props) => {
                                         </View>
                                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                                             <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
-                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1))}</Text>
+                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -302,7 +306,7 @@ const rechargedetailScreen = (props) => {
                                         </View>
                                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                                             <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
-                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1))}</Text>
+                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
                                         </View>
                                     </View>
                                 </View>

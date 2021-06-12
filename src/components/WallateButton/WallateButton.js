@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { WalletDetailService } from '../../services/BillService/BillService';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function WallateButton(props) {
     const [walletBalance, setwalletBalance] = useState(null);
 
-    useEffect(
-        () => {
+    useFocusEffect(
+        React.useCallback(() => {
             AsyncStorage.getItem(AUTHUSER).then(async (res) => {
                 let userId = JSON.parse(res)._id;
                 try {
@@ -20,12 +21,8 @@ export default function WallateButton(props) {
                     console.log(`error`, error);
                 }
             });
-        },
-        []
-    )
-
-    useEffect(() => {
-    }, [walletBalance])
+        }, [walletBalance])
+    );
 
     return (
         <TouchableOpacity onPress={props.onPress}

@@ -25,7 +25,7 @@ import FeedBackService from '../../services/FeedBackService/FeedBackService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getByIdUser } from '../../services/UserService/UserService';
-import { BillService, BillPaymentService } from '../../services/BillService/BillService';
+import { BillService, BillPaymentService, WalletRefershService } from '../../services/BillService/BillService';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import MyPermissionController from '../../helpers/appPermission';
@@ -55,7 +55,6 @@ const chatScreen = (props, { navigation }) => {
 	const [projectMobile, setProjectMobile] = useState(null);
 	const [projectMobileError, setProjectMobileError] = useState(null);
 	const [isTimePickerVisibility, setIsTimePickerVisibility] = useState(false);
-	const [getUser, setGetUser] = useState(null);
 	const [showDisputeChatVisible, setShowDisputeChatVisible] = useState(false);
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
@@ -71,28 +70,8 @@ const chatScreen = (props, { navigation }) => {
 	const [reportSubjectError, setReportSubjectError] = useState(null);
 	const [reportDesc, setReportDesc] = useState(null);
 	const [reportDescError, setReportDescError] = useState(null);
+	const [timeoutModelVisible, setTimeoutModelVisible] = useState(false);
 	let formId;
-	let updateFormDatas;
-
-	//check validation of subject
-	const setReportSubjectCheck = (subject) => {
-		if (!subject || subject <= 0) {
-			return setReportSubjectError('subject cannot be empty');
-		}
-		setReportSubject(subject);
-		setReportSubjectError(null);
-		return;
-	}
-
-	//check validation of description
-	const setReportDescriptionCheck = (description) => {
-		if (!description || description <= 0) {
-			return setReportDescError('description cannot be empty');
-		}
-		setReportDesc(description);
-		setReportDescError(null);
-		return;
-	}
 
 	// chat portion
 	useEffect(
@@ -103,7 +82,6 @@ const chatScreen = (props, { navigation }) => {
 				axiosConfig(sender);
 				setsender(sender);
 				setloading(true);
-				getConsultant(consultanDetails._id)
 				newChat(sender, consultanDetails).then((id) => {
 					//console.log("chat docs id", id);
 					setchatId(id);
@@ -121,6 +99,29 @@ const chatScreen = (props, { navigation }) => {
 		},
 		[navigation]
 	);
+
+	useEffect(() => {
+	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, rate, chatId,
+		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError,
+		disputechatdesc, disputechatdescError, disputechatsubject, disputechatsubjectError, disputeImage,
+		reportSubject, reportSubjectError, reportDesc, reportDescError
+	])
+
+	const wait = (timeout) => {
+		return new Promise(resolve => {
+			setTimeout(resolve, timeout);
+		});
+	}
+
+	//2 minutes complate to call funtion
+	const oncheckIdelTimeOut = async () => {
+		wait(30000).then(() => {
+			setTimeoutModelVisible(true);
+			wait(5000).then(async () => {
+				await nowAutoEndChat();
+			});
+		});
+	}
 
 	//check permission 
 	const checkPermission = () => {
@@ -181,23 +182,25 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
-	//get consultant by id call api
-	const getConsultant = async (id) => {
-		try {
-			const response = await getByIdUser(id);
-			setGetUser(response.data[0])
-		} catch (error) {
-			setloading(false);
-			//console.log(`error`, error);
+	//check validation of subject
+	const setReportSubjectCheck = (subject) => {
+		if (!subject || subject <= 0) {
+			return setReportSubjectError('subject cannot be empty');
 		}
+		setReportSubject(subject);
+		setReportSubjectError(null);
+		return;
 	}
 
-	useEffect(() => {
-	}, [formDataId, formdataDetails, hideInput, rating, feedback, sender, getUser, rate, chatId,
-		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError,
-		disputechatdesc, disputechatdescError, disputechatsubject, disputechatsubjectError, disputeImage,
-		reportSubject, reportSubjectError, reportDesc, reportDescError
-	])
+	//check validation of description
+	const setReportDescriptionCheck = (description) => {
+		if (!description || description <= 0) {
+			return setReportDescError('description cannot be empty');
+		}
+		setReportDesc(description);
+		setReportDescError(null);
+		return;
+	}
 
 	//check disputechat description error message
 	const setDisputechatDescCheck = (disputechatdesc) => {
@@ -225,128 +228,26 @@ const chatScreen = (props, { navigation }) => {
 			contextid: sender,
 			onModel: "Member",
 			property: {
-				startat: moment().format(),
-				endat: null,
 				consultantid: item,
 				chargable: false,
 				category: consultanDetails.property.livechat,
-				subcategory: consultanDetails.property.skill,
-				fierbasechatid: chatId
+				subcategory: consultanDetails.property.skill
 			}
 		}
 		try {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
-				updateFormDatas = response.data;
+				setFormdataDetails(response.data);
 				formId = response.data._id;
 				setFormDataId(response.data._id);
-				firstTimeChatByIdService(response.data._id)
-				if (Platform.OS === 'android') {
-					ToastAndroid.show('Chat Start Now', ToastAndroid.SHORT);
-				} else {
-					alert('Chat Start Now');
-				}
+				firstTimeChatByIdService(response.data._id);
 			}
 		}
 		catch (error) {
+			console.log(`error`, error);
 			setloading(false);
 		}
 	}
-
-	// const newChat = async (sender, item) => {
-	// 	let getChatId = firestore().collection('chat');
-	// 	let fierbasechatid = item.consultanobject.property.fierbasechatid;
-	// 	let snap;
-	// 	if (fierbasechatid) {
-	// 		snap = await getChatId.doc(fierbasechatid).get()
-	// 	} else {
-	// 		snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
-	// 	}
-	// 	if (snap.empty) {
-	// 		let snap2 = await getChatId.where('member', 'in', [[item._id, sender]]).get();
-	// 		if (snap2.empty) {
-	// 			await startChat(sender, item._id);
-	// 			let ref = await getChatId.add({
-	// 				member: [sender, item._id],
-	// 				createdAt: '',
-	// 				previewMessage: '',
-	// 				formid: formId,
-	// 				memberid: sender,
-	// 				userid: item._id
-	// 			});
-	// 			setloading(false);
-	// 			//update fromdats
-	// 			updateChatId(ref.id);
-	// 			return ref.id;
-	// 		} else {
-	// 			if (snap2.docs[0]._data.endat) {
-	// 				if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
-	// 					await startChat(sender, item._id);
-	// 					let ref = await getChatId.add({
-	// 						member: [sender, item._id],
-	// 						createdAt: '',
-	// 						previewMessage: '',
-	// 						formid: formId,
-	// 						memberid: sender,
-	// 						userid: item._id
-	// 					});
-	// 					setloading(false);
-	// 					//update fromdats
-	// 					updateChatId(ref.id);
-	// 					return ref.id;
-	// 				} else {
-	// 					setFormDataId(snap2.docs[0]._data.formid);
-	// 					FindChatByIdService(snap2.docs[0]._data.formid);
-	// 					setloading(false);
-	// 					return snap2.docs[0].id;
-	// 				}
-	// 			} else {
-	// 				setFormDataId(snap2.docs[0]._data.formid);
-	// 				FindChatByIdService(snap2.docs[0]._data.formid);
-	// 				setloading(false);
-	// 				return snap2.docs[0].id;
-	// 			}
-	// 		}
-	// 	} else {
-	// 		console.log('snap');
-	// 		let data;
-	// 		let id;
-	// 		if (fierbasechatid) {
-	// 			data = snap._data;
-	// 			id = snap.id;
-	// 		} else {
-	// 			data = snap.docs[0]._data
-	// 			id = snap.docs[0].id;
-	// 		}
-	// 		console.log(`data`, data);
-	// 		if (data.endat) {
-	// 			if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
-	// 				await startChat(sender, item._id);
-	// 				let ref = await getChatId.add({
-	// 					member: [sender, item._id],
-	// 					createdAt: '',
-	// 					previewMessage: '',
-	// 					formid: formId,
-	// 					memberid: sender,
-	// 					userid: item._id
-	// 				});
-	// 				setloading(false);
-	// 				//update fromdats
-	// 				updateChatId(ref.id);
-	// 				return ref.id;
-	// 			} else {
-	// 				FindChatByIdService(data.formid);
-	// 				setloading(false);
-	// 				return id;
-	// 			}
-	// 		} else {
-	// 			setFormDataId(data.formid);
-	// 			FindChatByIdService(data.formid);
-	// 			setloading(false);
-	// 			return id;
-	// 		}
-	// 	}
-	// };
 
 	//new chat inite
 	const newChat = async (sender, item) => {
@@ -382,6 +283,10 @@ const chatScreen = (props, { navigation }) => {
 
 	//send btn click to send message 
 	const onSend = useCallback((messages = []) => {
+		if (formdataDetails && formdataDetails.property && formdataDetails.property.startat == undefined && formdataDetails.property.startat == null) {
+			updateChatId();
+			oncheckIdelTimeOut();
+		}
 		let setMessage = firestore().collection('chat').doc(chatId).collection('messages').doc();
 		for (let i = 0; i < messages.length; i++) {
 			const { text, user, createdAt } = messages[i];
@@ -427,13 +332,14 @@ const chatScreen = (props, { navigation }) => {
 	//current chat in find chat is end or not
 	const FindChatByIdService = async (id) => {
 		const response = await FindChatById(id);
-		setFormDataId(response.data[0]._id);
 		try {
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setFormDataId(response.data[0]._id);
 				setFormdataDetails(response.data[0]);
 				if (response.data[0] && response.data[0].property.endat != null) {
 					setHideInput(true);
 				} else {
+					oncheckIdelTimeOut();
 					setHideInput(false);
 				}
 			}
@@ -456,12 +362,8 @@ const chatScreen = (props, { navigation }) => {
 
 	//call feedback form open
 	const feedBack = async () => {
-		if (!rating && !feedback) {
-			return;
-		}
-
 		const body = {
-			formid: formdataDetails.formid._id,
+			formid: '60939df914f2d062cc132d68',
 			contextid: formdataDetails.property.consultantid._id,
 			addedby: sender,
 			property: {
@@ -469,46 +371,54 @@ const chatScreen = (props, { navigation }) => {
 				feedback: feedback
 			}
 		}
-
-		if (!rating || !feedback) {
+		if (rating || feedback) {
 			try {
 				const response = await FeedBackService(body);
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
 					setrate(false);
+					setRating(null);
+					setFeedback(null);
 					setshowshowEndChatModel(false);
 					props.navigation.navigate(SCREEN.HOMESCREEN);
 				}
 			} catch (error) {
-				//console.log(`error`, error);
+				console.log(`error`, error);
 			}
+		} else {
+			setshowshowEndChatModel(false);
+			props.navigation.navigate(SCREEN.HOMESCREEN);
 		}
 	}
 
 	//update chat id
-	const updateChatId = async (chatid) => {
+	const updateChatId = async () => {
 		const body = {
-			formid: '60939df914f2d062cc132d68',
-			contextid: updateFormDatas.contextid._id,
+			formid: '608a5d7ebbeb5b2b03571f2c',
+			contextid: formdataDetails.contextid._id,
 			onModel: 'Member',
 			property: {
-				startat: updateFormDatas.property.startat,
-				endat: updateFormDatas.property.endat,
-				consultantid: updateFormDatas.property.consultantid,
-				chargable: updateFormDatas.property.chargable,
-				category: updateFormDatas.property.category,
-				subcategory: updateFormDatas.property.subcategory,
-				fierbasechatid: chatid
+				startat: moment().format(),
+				consultantid: formdataDetails.property.consultantid,
+				chargable: true,
+				category: formdataDetails.property.category,
+				subcategory: formdataDetails.property.subcategory
 			}
 		}
 		try {
-			const response = await EndChatService(updateFormDatas._id, body);
+			const response = await EndChatService(formdataDetails._id, body);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				setFormdataDetails(response.data);
+				if (Platform.OS === 'android') {
+					ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
+				} else {
+					alert('Your Chat Is Start');
+				}
 			}
 		} catch (error) {
-			//console.log(`error`, error);
+			console.log(`error`, error);
 			setloading(false);
 			if (Platform.OS === 'android') {
-				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
+				ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
 			} else {
 				alert('Your Chat Is Not Closed');
 			}
@@ -516,18 +426,12 @@ const chatScreen = (props, { navigation }) => {
 	}
 
 	//end chat menu click to call function
-	const onpressDoneBtn = async () => {
-		firestore()
-			.collection('chat')
-			.doc(chatId)
-			.update({ endat: moment().format() });
-
-		feedBack();
+	const nowAutoEndChat = async () => {
 		let endtime = moment().format();
 		var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
-		var charges = getUser.property.chargespermin;
+		var charges = formdataDetails.property.consultantid.property.chargespermin;
 		const body = {
-			formid: '60939df914f2d062cc132d68',
+			formid: '608a5d7ebbeb5b2b03571f2c',
 			contextid: formdataDetails.contextid._id,
 			onModel: 'Member',
 			property: {
@@ -536,11 +440,13 @@ const chatScreen = (props, { navigation }) => {
 				consultantid: formdataDetails.property.consultantid._id,
 				chargable: formdataDetails.property.chargable,
 				category: formdataDetails.property.category,
-				subcategory: formdataDetails.property.subcategory
-				//fierbasechatid: chatId
+				subcategory: formdataDetails.property.subcategory,
+				totalcost: charges * minsDiff,
+				totalminutechat: minsDiff,
+				consultanminutecharge: charges
 			}
 		}
-
+		console.log(`body`, body);
 		let generateBill = {
 			"customerid": sender,
 			"onModel": "Member",
@@ -572,7 +478,7 @@ const chatScreen = (props, { navigation }) => {
 				"totalcost": charges * minsDiff
 			}]
 		}
-
+		console.log(`generateBill`, generateBill);
 		try {
 			const response = await EndChatService(formDataId, body);
 			const billResponse = await BillService(generateBill);
@@ -591,20 +497,162 @@ const chatScreen = (props, { navigation }) => {
 					}
 					const billPaymentResponse = await BillPaymentService(billpayment);
 					if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
-						setshowshowEndChatModel(false);
-						setfilterModalVisible(false);
-						showModalVisible(false);
-						if (Platform.OS === 'android') {
-							ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
-						} else {
-							alert('Your Chat Is Closed');
+						let walletbody = {
+							"txntype": "Cr",
+							"txnref": `Earning for bill ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber}`,
+							"value": (charges * minsDiff) / 2,
+							"customerid": formdataDetails.property.consultantid._id,
+							"onModel": "User",
+							"txndate": moment().format()
 						}
-						props.navigation.navigate(SCREEN.HOMESCREEN);
+						const response1 = await WalletRefershService(walletbody);
+						if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
+							let walletbody2 = {
+								"txntype": "Cr",
+								"txnref": `Earning for bill ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber}`,
+								"value": (charges * minsDiff) / 2,
+								"customerid": "6054990599e17f5b4c4bb112",
+								"onModel": "User",
+								"txndate": moment().format()
+							}
+							const response2 = await WalletRefershService(walletbody2);
+							if (response2.data != null && response2.data != 'undefind' && response2.status === 200) {
+								setshowshowEndChatModel(false);
+								setfilterModalVisible(false);
+								showModalVisible(false);
+								if (Platform.OS === 'android') {
+									ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
+								} else {
+									alert('Your Chat Is Closed');
+								}
+								props.navigation.navigate(SCREEN.HOMESCREEN);
+							}
+						}
 					}
 				}
 			}
-		} catch (error) {
-			//console.log(`error`, error);
+		}
+		catch (error) {
+			console.log(`error`, error);
+			if (Platform.OS === 'android') {
+				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
+			} else {
+				alert('Your Chat Is Not Closed');
+			}
+		}
+	}
+
+	//end chat menu click to call function
+	const onpressDoneBtn = async () => {
+		await feedBack();
+		let endtime = moment().format();
+		var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
+		console.log(`minsDiff`, minsDiff);
+		var charges = formdataDetails.property.consultantid.property.chargespermin;
+		const body = {
+			formid: '608a5d7ebbeb5b2b03571f2c',
+			contextid: formdataDetails.contextid._id,
+			onModel: 'Member',
+			property: {
+				startat: formdataDetails.property.startat,
+				endat: endtime,
+				consultantid: formdataDetails.property.consultantid._id,
+				chargable: formdataDetails.property.chargable,
+				category: formdataDetails.property.category,
+				subcategory: formdataDetails.property.subcategory,
+				totalcost: charges * minsDiff,
+				totalminutechat: minsDiff,
+				consultanminutecharge: charges
+			}
+		}
+		console.log(`body`, body);
+		let generateBill = {
+			"customerid": sender,
+			"onModel": "Member",
+			"billdate": moment().format(),
+			"amount": charges * minsDiff,
+			"totalamount": charges * minsDiff,
+			"taxes": [],
+			"balance": charges * minsDiff,
+			"paidamount": 0,
+			"type": "Walletspent",
+			"property": {
+				consultantid: consultanDetails._id,
+				chatrefid: formDataId
+			},
+			"items": [{
+				"item": {
+					"_id": "60a2236e48c98c3638e8b2ac",
+					"sale": {
+						"taxes": [],
+						"rate": charges
+					}
+				},
+				"sale": {
+					"taxes": [],
+					"rate": charges
+				},
+				"quantity": minsDiff,
+				"cost": charges * minsDiff,
+				"totalcost": charges * minsDiff
+			}]
+		}
+		console.log(`generateBill`, generateBill);
+		try {
+			const response = await EndChatService(formDataId, body);
+			const billResponse = await BillService(generateBill);
+
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
+					let billpayment = {
+						"customerid": sender,
+						"onModel": "Member",
+						"paymentdate": moment().format(),
+						"billid": billResponse.data._id,
+						"amount": charges * minsDiff,
+						"totalamount": charges * minsDiff,
+						"paidamount": 0,
+						"walletamount": charges * minsDiff
+					}
+					const billPaymentResponse = await BillPaymentService(billpayment);
+					if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
+						let walletbody = {
+							"txntype": "Cr",
+							"txnref": `Earning for bill ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber}`,
+							"value": (charges * minsDiff) / 2,
+							"customerid": formdataDetails.property.consultantid._id,
+							"onModel": "User",
+							"txndate": moment().format()
+						}
+						const response1 = await WalletRefershService(walletbody);
+						if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
+							let walletbody2 = {
+								"txntype": "Cr",
+								"txnref": `Earning for bill ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber}`,
+								"value": (charges * minsDiff) / 2,
+								"customerid": "6054990599e17f5b4c4bb112",
+								"onModel": "User",
+								"txndate": moment().format()
+							}
+							const response2 = await WalletRefershService(walletbody2);
+							if (response2.data != null && response2.data != 'undefind' && response2.status === 200) {
+								setshowshowEndChatModel(false);
+								setfilterModalVisible(false);
+								showModalVisible(false);
+								if (Platform.OS === 'android') {
+									ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
+								} else {
+									alert('Your Chat Is Closed');
+								}
+								props.navigation.navigate(SCREEN.HOMESCREEN);
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (error) {
+			console.log(`error`, error);
 			if (Platform.OS === 'android') {
 				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
 			} else {
@@ -667,7 +715,6 @@ const chatScreen = (props, { navigation }) => {
 			setDescriptionCheck(projectdesc);
 			return;
 		}
-
 		const body = {
 			formid: '60a2233ddc53910facbc82d0',
 			contextid: sender,
@@ -682,7 +729,6 @@ const chatScreen = (props, { navigation }) => {
 			const response = await StartProject(body);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				showModalVisibleSubmit(!showStartProjectVisible)
-				//props.navigation.navigate(SCREEN.HOMESCREEN);
 			}
 		} catch (error) {
 			//console.log(`error`, error);
@@ -767,7 +813,6 @@ const chatScreen = (props, { navigation }) => {
 			'onModel': 'Member',
 			'category': 'System Enhancements',
 			'content': reportDesc
-
 		}
 		try {
 			const response = await HelpSupportService(body);
@@ -783,11 +828,11 @@ const chatScreen = (props, { navigation }) => {
 		}
 		catch (error) {
 			setloading(false);
-			if (Platform.OS === 'android') {
-				ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
-			} else {
-				alert('Message Sending Failed!');
-			}
+			// if (Platform.OS === 'android') {
+			// 	ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
+			// } else {
+			// 	alert('Message Sending Failed!');
+			// }
 		}
 	}
 
@@ -802,12 +847,14 @@ const chatScreen = (props, { navigation }) => {
 						</TouchableOpacity>
 						<Image
 							source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
-							style={{ width: 50, height: 50, borderRadius: 100, marginLeft: 10 }}
+							style={{ width: 50, height: 52, borderRadius: 100, marginLeft: 5 }}
 						/>
 
 						<View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'column', marginLeft: 10 }}>
 							<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname.split(' ')[0]}</Text>
-							<Text style={{ fontSize: 12, color: '#000000', marginLeft: 0 }}>{getUser && getUser.property.live ? 'Online' : 'Ofline'}</Text>
+							<Text style={{ fontSize: 12, color: '#000000', marginLeft: 0 }}>
+								{formdataDetails && formdataDetails.property && formdataDetails.property.consultantid && formdataDetails.property.consultantid.property && formdataDetails.property.consultantid.property.live ? 'Online' : 'Ofline'}
+							</Text>
 						</View>
 					</View>
 
@@ -1000,7 +1047,7 @@ const chatScreen = (props, { navigation }) => {
 							<Text style={{ marginTop: 50, fontSize: 28, fontWeight: 'bold' }}>Thank You</Text>
 							<Text style={{ fontSize: 14, marginTop: 15 }}>
 								Someone from our team will reach
-						</Text>
+							</Text>
 							<Text style={{ fontSize: 14 }}>out to you</Text>
 						</View>
 						<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
@@ -1090,7 +1137,7 @@ const chatScreen = (props, { navigation }) => {
 				</View>
 			</Modal>
 
-			{/* Help & Support model Pop */}
+			{/* report issues model Pop */}
 			<Modal
 				animationType='slide'
 				transparent={true}
@@ -1174,7 +1221,7 @@ const chatScreen = (props, { navigation }) => {
 				</View>
 			</Modal>
 
-			{/* time out model Pop
+			{/* time out model Pop */}
 			<Modal
 				animationType='slide'
 				transparent={true}
@@ -1190,13 +1237,13 @@ const chatScreen = (props, { navigation }) => {
 						</View>
 						<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 10 }}>
 							<TouchableOpacity
-								onPress={() => { setTimeoutModelVisible(false), onpressDoneBtn() }}
+								onPress={() => { setTimeoutModelVisible(false), nowAutoEndChat() }}
 								style={styles.yesbtn}
 							>
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Yes</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => { setTimeoutModelVisible(false) }}
+								onPress={() => { setTimeoutModelVisible(false), oncheckIdelTimeOut() }}
 								style={styles.nobtn}
 							>
 								<Text style={{ fontSize: 14, color: '#000000' }}>No</Text>
@@ -1204,7 +1251,7 @@ const chatScreen = (props, { navigation }) => {
 						</View>
 					</View>
 				</View>
-			</Modal> */}
+			</Modal>
 
 			{/* end chat Model pop up */}
 			<Modal
@@ -1238,7 +1285,7 @@ const chatScreen = (props, { navigation }) => {
 
 							<View style={{ margin: 10, alignItems: 'center' }} >
 								<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
-								<Text style={{ fontSize: 12, color: '#000000' }}>Design UX</Text>
+								<Text style={{ fontSize: 12, color: '#000000' }}>{formdataDetails && formdataDetails.property && formdataDetails.property.consultantid && formdataDetails.property.consultantid.property && formdataDetails.property.consultantid.property.usertag}</Text>
 							</View>
 
 							<StarRating
@@ -1277,7 +1324,7 @@ const chatScreen = (props, { navigation }) => {
 					</View>
 				</ScrollView>
 			</Modal>
-			{ loading ? <Loader /> : null}
+			{loading ? <Loader /> : null}
 		</SafeAreaView>
 	);
 };

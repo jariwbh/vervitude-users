@@ -12,40 +12,29 @@ import * as SCREEN from '../../context/screen/screenName';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
-//import axiosConfig from '../../helpers/axiosConfig';
+import { useFocusEffect } from '@react-navigation/native';
 
 const myWalletScreen = (props) => {
-    const couponDetails = props.route.params == undefined ? null : props.route.params.coupon;
+    let couponDetails = props.route.params == undefined ? null : props.route.params.coupon;
     const [loading, setloading] = useState(false);
     const [userID, setUserID] = useState(null);
     const [amount, setAmount] = useState(null);
     const [walletBalance, setwalletBalance] = useState(null);
     const [wallateHistory, setwallateHistory] = useState([]);
 
-    //get AsyncStorage current user Details
-    const getUserDetails = async () => {
-        AsyncStorage.getItem(AUTHUSER).then((res) => {
-            let userID = JSON.parse(res)._id;
-            setloading(true);
-            if (userID == null) {
-                setTimeout(() => {
-                    props.navigation.replace(SCREEN.LOGINSCREEN)
-                }, 3000);;
-            } else {
+    useFocusEffect(
+        React.useCallback(() => {
+            AsyncStorage.getItem(AUTHUSER).then((res) => {
+                let userID = JSON.parse(res)._id;
                 setUserID(userID);
-                //axiosConfig(userID);
                 getWallatBalance(userID);
                 wallateBillList(userID);
-            }
-        });
-    }
+            });
+        }, [])
+    );
 
     useEffect(() => {
-        getUserDetails();
-    }, [])
-
-    useEffect(() => {
-    }, [loading, amount, userID, walletBalance, wallateHistory])
+    }, [loading, amount, userID, walletBalance, wallateHistory]);
 
     //get wallate Balance api call
     const getWallatBalance = async (userID) => {
@@ -92,7 +81,7 @@ const myWalletScreen = (props) => {
         item.selected != true ?
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
                 <View style={STYLES.myWalletStyles.bankview}>
-                    <TouchableOpacity onPress={() => onPressToSelectExpandWallate(item, index)}
+                    <TouchableOpacity onPress={() => onPressToSelectExpandWallate(item, index, true)}
                         style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                         <View style={{ width: 50, height: 50, marginLeft: 15, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                             <FontAwesome name='rupee' size={20} color='#FFFFFF' />
@@ -100,9 +89,9 @@ const myWalletScreen = (props) => {
                         <View style={{ flexDirection: 'column', marginLeft: -100 }}>
                             <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Wallet Recharge</Text>
                             <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
-                            <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('LT')}</Text>
+                            <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('lll')}</Text>
                         </View>
-                        <Text style={{ fontSize: 14, color: '#34A853', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.amount)}</Text>
+                        <Text style={{ fontSize: 14, color: '#34A853', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.paidamount)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -111,7 +100,7 @@ const myWalletScreen = (props) => {
                 <View style={STYLES.myWalletStyles.gamountview}>
                     <View style={{ marginLeft: 20, marginRight: 20 }}>
                         <TouchableOpacity
-                            onPress={() => onPressToSelectExpandWallate(item, index)}
+                            onPress={() => onPressToSelectExpandWallate(item, index, false)}
                             style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 15 }}>
                             <Image source={require('../../assets/Images/squarefilled.png')}
                                 style={{ height: 15, width: 15 }} />
@@ -127,7 +116,7 @@ const myWalletScreen = (props) => {
                                 <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
                                 <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('LT')}</Text>
                             </View>
-                            <Text style={{ fontSize: 14, color: '#04DE71', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.amount)}</Text>
+                            <Text style={{ fontSize: 14, color: '#04DE71', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.paidamount)}</Text>
                         </TouchableOpacity>
 
                         <View style={{ marginTop: 15, flexDirection: 'row' }}>
@@ -136,7 +125,7 @@ const myWalletScreen = (props) => {
 
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                             <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Recharge Amount</Text>
-                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {Number(item.amount)}</Text>
+                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {Number(item.paidamount)}</Text>
                         </View>
                         <View style={{ marginTop: 14, flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
@@ -150,7 +139,7 @@ const myWalletScreen = (props) => {
                         </View>
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                             <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>GST (18%) </Text>
-                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹ 0</Text>
+                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹ {item.taxamount ? item.taxamount : 0}</Text>
                         </View>
                         <View style={{ marginTop: 15, flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
@@ -162,22 +151,27 @@ const myWalletScreen = (props) => {
                         <View style={{ marginTop: 14, flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
                         </View>
-                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                        {/* <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                             <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
                             <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Number(item.amount)}</Text>
-                        </View>
+                        </View> */}
                     </View>
                 </View>
             </View>
     )
 
     //select to collapsible (show data)
-    const onPressToSelectExpandWallate = (item, index) => {
+    const onPressToSelectExpandWallate = (item, index, val) => {
         const reacharge = wallateHistory.map((item) => {
             item.selected = false;
             return item;
         });
-        reacharge[index].selected = true;
+        if (val == false) {
+            reacharge[index].selected = false;
+        }
+        if (val == true) {
+            reacharge[index].selected = true;
+        }
         setwallateHistory(reacharge);
     }
 
@@ -212,15 +206,14 @@ const myWalletScreen = (props) => {
                             defaultValue={amount}
                             keyboardType='number-pad'
                             onChangeText={(amount) => setAmount(amount)}
-                        //editable={coupon && coupon.couponcode ? false : true}
                         />
                         <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate(SCREEN.PROMOCODESCREEN)}>
                             <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
                         </TouchableOpacity>
                     </View>
-                    {/* {coupon && coupon.couponcode ?
-                        <Text style={{ fontSize: 16, color: '#000000', marginLeft: 25 }}>{coupon.couponcode}</Text>
-                        : null} */}
+                    {couponDetails && couponDetails.couponcode ?
+                        <Text style={{ fontSize: 16, color: '#000000', marginLeft: 25 }}>{couponDetails.couponcode}</Text>
+                        : null}
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
@@ -249,18 +242,19 @@ const myWalletScreen = (props) => {
                 </View>
 
                 <View style={STYLES.myWalletStyles.rechargeview}>
-                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#34A853', marginTop: 15 }}>Recharge History</Text>
-                    <View style={{ marginLeft: 15, marginTop: 15 }}>
+                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#34A853', marginTop: 25 }}>Recharge History</Text>
+                    {/* <View style={{ marginLeft: 15, marginTop: 15 }}>
                         <Text style={{ fontSize: 14, color: '#999999' }}>14th March 2021</Text>
-                    </View>
+                    </View> */}
                     <FlatList
                         renderItem={renderRechargeHistory}
                         data={wallateHistory}
                         keyExtractor={item => item._id}
                     />
+                    <View style={{ marginBottom: 20 }}></View>
                 </View>
             </ScrollView>
-            { loading ? <Loader /> : null}
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     )
 }
