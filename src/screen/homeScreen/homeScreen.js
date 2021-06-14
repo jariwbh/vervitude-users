@@ -28,6 +28,7 @@ const WIDTH = Dimensions.get('window').width;
 import Swiper from 'react-native-swiper';
 import SliderService from '../../services/SliderService/SliderService';
 import { useFocusEffect } from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
@@ -36,6 +37,9 @@ const homeScreen = (props) => {
     const [userInfo, setUserInfo] = useState(null);
     const [notification, setNotification] = useState(0);
     const [sliderData, setsliderData] = useState([]);
+    const [search, setSearch] = useState(null);
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [filter, setFilter] = useState([]);
     let userID;
 
     useFocusEffect(
@@ -63,7 +67,8 @@ const homeScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [userInfo, category, loading, consultant, sliderData])
+        console.log(`search`, search);
+    }, [userInfo, category, loading, consultant, sliderData, search, filteredDataSource, filter])
 
     //silder image manage function
     const sliderService = async () => {
@@ -256,7 +261,8 @@ const homeScreen = (props) => {
     const ConsultantList = async () => {
         try {
             const response = await TopConsultantViewListService();
-            const slice = response.data.slice(0, 5)
+            const slice = response.data.slice(0, 5);
+            setFilteredDataSource(response.data);
             setConsultant(slice);
             setloading(false);
         } catch (error) {
@@ -264,6 +270,51 @@ const homeScreen = (props) => {
         }
     }
 
+    //search consultants function
+    const searchFilterFunction = (text) => {
+        if (Number(text.length) > 3) {
+            const newData = filteredDataSource.filter(item => {
+                const itemData = item.fullname
+                    ? item.fullname.toLowerCase()
+                    : ''.toLowerCase();
+                const textData = text.toLowerCase();
+                return itemData.indexOf(textData) !== -1;
+            });
+            setFilter(newData);
+            setSearch(text);
+        } else {
+            setSearch(text);
+            setFilter([])
+        }
+    };
+
+    // Flat List Item
+    const ItemView = ({ item }) => {
+        return (
+            <View style={{ width: WIDTH - 25 }}>
+                <Text
+                    style={{ padding: 10, alignItems: 'flex-start', justifyContent: 'center' }}
+                    onPress={() => navigationhandler(item)}>
+                    {item.fullname + ' - ' + ' Consultant'}
+                </Text>
+            </View>
+        );
+    };
+
+    // Flat List Item Separator
+    const ItemSeparatorView = () => {
+        return (
+            <View
+                style={{
+                    height: 0.5,
+                    width: '100%',
+                    backgroundColor: '#C8C8C8',
+                }}
+            />
+        );
+    };
+
+    //navigarte consultant screen
     const navigationhandler = (item) => {
         props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
     }
@@ -351,10 +402,40 @@ const homeScreen = (props) => {
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <SearchBar />
+                    <View style={STYLE.styles.statusbar}>
+                        <TouchableOpacity >
+                            <AntDesign name='search1' size={20} color='#00D9CE' style={{ marginLeft: 20 }} />
+                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            placeholder='Search App'
+                            type='clear'
+                            placeholderTextColor='#999999'
+                            returnKeyType='done'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            onChangeText={(text) => searchFilterFunction(text)}
+                            defaultValue={search}
+                        />
+                    </View>
                 </View>
             </View>
-
+            {
+                (filteredDataSource == null) || (filteredDataSource && filteredDataSource.length == 0) ? null :
+                    <View style={{
+                        marginTop: 150, backgroundColor: '#FFFFFF', position: 'absolute',
+                        zIndex: 2, justifyContent: 'center', alignItems: 'center', margin: 20, height: 100
+                    }}>
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                            <FlatList
+                                data={filter}
+                                keyExtractor={(item, index) => index.toString()}
+                                ItemSeparatorComponent={ItemSeparatorView}
+                                renderItem={ItemView}
+                            />
+                        </ScrollView>
+                    </View>
+            }
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{
                     top: 20,
@@ -477,7 +558,34 @@ const styles = StyleSheet.create({
     wrapper: {
         height: 220,
         width: WIDTH - 20
-    }
+    },
+    statusbar: {
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderColor: '#737373',
+        borderRadius: 15,
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 2,
+        marginTop: 20,
+        width: WIDTH - 20,
+        height: 45,
+        alignItems: 'center',
+    },
+    textInputStyle: {
+        fontSize: 15,
+        flex: 1,
+        marginLeft: 20,
+        alignItems: 'center',
+    },
+    centerView: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 });
 
 export default homeScreen;

@@ -107,7 +107,6 @@ const SearchBar = (props) => {
                         />
                     </View>
             }
-
         </SafeAreaView>
     )
 }

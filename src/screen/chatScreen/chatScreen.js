@@ -115,7 +115,7 @@ const chatScreen = (props, { navigation }) => {
 
 	//2 minutes complate to call funtion
 	const oncheckIdelTimeOut = async () => {
-		wait(30000).then(() => {
+		wait(120000).then(() => {
 			setTimeoutModelVisible(true);
 			wait(5000).then(async () => {
 				await nowAutoEndChat();
@@ -683,12 +683,12 @@ const chatScreen = (props, { navigation }) => {
 	const setMobileCheck = (mobile_number) => {
 		const reg = /^\d{10}$/;
 		if (!mobile_number || mobile_number.length <= 0) {
-			setProjectMobile(null);
+			setProjectMobile(mobile_number);
 			setProjectMobileError('Mobile Number cannot be empty');
 			return;
 		}
 		if (!reg.test(mobile_number)) {
-			setProjectMobile(null);
+			setProjectMobile(mobile_number);
 			setProjectMobileError('Ooops! We need a valid Mobile Number');
 			return;
 		}
@@ -939,6 +939,7 @@ const chatScreen = (props, { navigation }) => {
 									defaultValue={projectMobile}
 									blurOnSubmit={false}
 									ref={secondTextInputRef}
+									maxLength={10}
 									onSubmitEditing={() => thirdTextInputRef.current.focus()}
 									onChangeText={(mobile) => setMobileCheck(mobile)}
 								/>
