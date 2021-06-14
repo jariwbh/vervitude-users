@@ -50,8 +50,7 @@ export const styles = StyleSheet.create({
         height: 40,
         borderWidth: 0.5,
         textAlign: 'center',
-        fontSize: 18,
-        marginHorizontal: 32
+        fontSize: 18
     },
     otpBtn: {
         flexDirection: 'row',
@@ -143,7 +142,6 @@ export const styles = StyleSheet.create({
         borderColor: '#FF0000',
         width: WIDTH / 2 + 20,
         height: 40,
-        marginLeft: 5,
         borderWidth: 0.5
     },
     otpBtn1: {

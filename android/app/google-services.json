@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "909517140999-m4m0afp435t1nhgl1u20tle6k0i0875r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.consultantsuser_app",
+            "certificate_hash": "e7323f337d82de3dd80bb061310350d3478ea02b"
+          }
+        },
+        {
           "client_id": "909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com",
           "client_type": 3
         }

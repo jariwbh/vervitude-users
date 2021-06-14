@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native'
+import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform, Keyboard } from 'react-native'
 import { CheckUser } from '../../services/UserService/UserService';
 import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
 import { LoginService, LoginWithMobileService } from '../../services/LoginService/LoginService'
@@ -257,17 +257,19 @@ const loginwithemailScreen = (props) => {
                         <View style={STYLE.Loginemailstyle.boxView}>
                             <View style={{ marginTop: 30 }}>
                                 <View style={{ marginTop: 15 }}>
-                                    <View style={usererror == null ? STYLE.Loginemailstyle.inputView : STYLE.Loginemailstyle.inputErrorView}>
-                                        <TextInput
-                                            defaultValue={username}
-                                            style={STYLE.Loginemailstyle.TextInput}
-                                            placeholder='Email Address'
-                                            type='clear'
-                                            returnKeyType='done'
-                                            placeholderTextColor='#B5B5B5'
-                                            onSubmitEditing={() => createOtp()}
-                                            onChangeText={(email) => setEmail(email)}
-                                        />
+                                    <View style={{ marginTop: 0, flexDirection: 'row' }}>
+                                        <View style={usererror == null ? STYLE.Loginemailstyle.inputView2 : STYLE.Loginemailstyle.inputErrorView2}>
+                                            <TextInput
+                                                defaultValue={username}
+                                                style={STYLE.Loginemailstyle.TextInput}
+                                                placeholder='Email Address'
+                                                type='clear'
+                                                returnKeyType='done'
+                                                placeholderTextColor='#B5B5B5'
+                                                onSubmitEditing={() => Keyboard.dismiss()}
+                                                onChangeText={(email) => setEmail(email)}
+                                            />
+                                        </View>
                                         <TouchableOpacity style={STYLE.Loginemailstyle.otpBtndisable1} disabled={sendEmailbtnDisable} onPress={() => createOtp()}>
                                             <Text style={STYLE.Loginemailstyle.otpbtnText1}>Send OTP</Text>
                                         </TouchableOpacity>
@@ -283,9 +285,9 @@ const loginwithemailScreen = (props) => {
                                                 placeholder='Phone Number'
                                                 type='clear'
                                                 returnKeyType='done'
-                                                keyboardType='number-pad'
+                                                keyboardType='numeric'
                                                 placeholderTextColor='#B5B5B5'
-                                                onSubmitEditing={() => createOtp()}
+                                                onSubmitEditing={() => Keyboard.dismiss()}
                                                 onChangeText={(mobile_number) => setMobileNumber(mobile_number)}
                                             />
                                         </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform } from 'react-native';
+import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform, Keyboard } from 'react-native';
 import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
 import { CheckUser } from '../../services/UserService/UserService';
 import * as SCREEN from '../../context/screen/screenName';
@@ -34,7 +34,7 @@ const forgotpasswordScreen = (props) => {
         }
         if (!re.test(email)) {
             setusererror('Ooops! We need a valid email address');
-            setusername(null);
+            setusername(email);
             return;
         }
         setusername(email);
@@ -53,6 +53,7 @@ const forgotpasswordScreen = (props) => {
         }
         if (!reg.test(mobile)) {
             setmobile_numbererror('Ooops! We need a valid Mobile Number');
+            setmobile_number(mobile);
             return;
         }
         setmobile_number(mobile);
@@ -203,7 +204,6 @@ const forgotpasswordScreen = (props) => {
         }
 
         setloading(true);
-        console.log(`body`, body);
         try {
             const response = await SendEmailandSmsService(body);
             if (response.data != 'undefind' && response.status == 200) {
@@ -240,7 +240,7 @@ const forgotpasswordScreen = (props) => {
                                             type='clear'
                                             returnKeyType='done'
                                             placeholderTextColor='#B5B5B5'
-                                            onSubmitEditing={() => createOtp()}
+                                            onSubmitEditing={() => Keyboard.dismiss()}
                                             onChangeText={(email) => setEmail(email)}
                                         />
                                     </View>
@@ -260,9 +260,9 @@ const forgotpasswordScreen = (props) => {
                                             placeholder='Phone Number'
                                             type='clear'
                                             returnKeyType='done'
-                                            keyboardType='number-pad'
+                                            keyboardType='numeric'
                                             placeholderTextColor='#B5B5B5'
-                                            onSubmitEditing={() => createOtp()}
+                                            onSubmitEditing={() => Keyboard.dismiss()}
                                             onChangeText={(mobile_number) => setMobileNumber(mobile_number)}
                                         />
                                     </View>
@@ -288,7 +288,7 @@ const forgotpasswordScreen = (props) => {
                             </View>
                         </View>
                         <View style={STYLE.Forgetpasswordstyle.centeView} >
-                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REGISTERSCREEN)}>
+                            <TouchableOpacity onPress={() => { resetScreen(), props.navigation.navigate(SCREEN.REGISTERSCREEN) }}>
                                 <Text style={STYLE.Forgetpasswordstyle.createText}>Don't have an Account?</Text>
                             </TouchableOpacity>
                         </View>

@@ -249,86 +249,87 @@ export default class registerScreen extends Component {
 
                         <View style={STYLES.styles.centeView}>
                             <View style={STYLES.styles.boxView}>
-                                <View style={{ marginTop: 25 }}>
-                                    <View style={usererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
-                                        <TextInput
-                                            defaultValue={this.state.username}
-                                            style={STYLES.styles.TextInput}
-                                            placeholder='Email Address'
-                                            type='clear'
-                                            returnKeyType='next'
-                                            placeholderTextColor='#B5B5B5'
-                                            blurOnSubmit={false}
-                                            onSubmitEditing={() => this.secondTextInputRef.current.focus()}
-                                            onChangeText={(email) => this.setEmail(email)}
-                                        />
+                                <View>
+                                    <View style={{ marginTop: 25 }}>
+                                        <View style={usererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
+                                            <TextInput
+                                                defaultValue={this.state.username}
+                                                style={STYLES.styles.TextInput}
+                                                placeholder='Email Address'
+                                                type='clear'
+                                                returnKeyType='next'
+                                                placeholderTextColor='#B5B5B5'
+                                                blurOnSubmit={false}
+                                                onSubmitEditing={() => this.secondTextInputRef.current.focus()}
+                                                onChangeText={(email) => this.setEmail(email)}
+                                            />
+                                        </View>
                                     </View>
-                                </View>
 
-                                <View style={{ marginTop: 15 }}>
-                                    <View style={fullnameError == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
-                                        <TextInput
-                                            defaultValue={this.state.fullname}
-                                            style={STYLES.styles.TextInput}
-                                            placeholder='Full Name'
-                                            type='clear'
-                                            returnKeyType='next'
-                                            placeholderTextColor='#B5B5B5'
-                                            ref={this.secondTextInputRef}
-                                            blurOnSubmit={false}
-                                            onSubmitEditing={() => this.thirdTextInputRef.current.focus()}
-                                            onChangeText={(fullname) => this.setFullName(fullname)}
-                                        />
+                                    <View style={{ marginTop: 15 }}>
+                                        <View style={fullnameError == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
+                                            <TextInput
+                                                defaultValue={this.state.fullname}
+                                                style={STYLES.styles.TextInput}
+                                                placeholder='Full Name'
+                                                type='clear'
+                                                returnKeyType='next'
+                                                placeholderTextColor='#B5B5B5'
+                                                ref={this.secondTextInputRef}
+                                                blurOnSubmit={false}
+                                                onSubmitEditing={() => this.thirdTextInputRef.current.focus()}
+                                                onChangeText={(fullname) => this.setFullName(fullname)}
+                                            />
+                                        </View>
                                     </View>
-                                </View>
 
-                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                    <View style={mobile_numbererror == null ? STYLES.styles.inputView2 : STYLES.styles.inputErrorView2}>
-                                        <TextInput
-                                            defaultValue={this.state.mobile_number}
-                                            style={STYLES.styles.TextInput}
-                                            placeholder='Phone Number'
-                                            type='clear'
-                                            returnKeyType='done'
-                                            keyboardType='number-pad'
-                                            placeholderTextColor='#B5B5B5'
-                                            ref={this.thirdTextInputRef}
-                                            blurOnSubmit={false}
-                                            onSubmitEditing={() => Keyboard.dismiss()}
-                                            onChangeText={(mobile_number) => this.setMobileNumber(mobile_number)}
+                                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                        <View style={mobile_numbererror == null ? STYLES.styles.inputView2 : STYLES.styles.inputErrorView2}>
+                                            <TextInput
+                                                defaultValue={this.state.mobile_number}
+                                                style={STYLES.styles.TextInput}
+                                                placeholder='Phone Number'
+                                                type='clear'
+                                                returnKeyType='done'
+                                                keyboardType='numeric'
+                                                placeholderTextColor='#B5B5B5'
+                                                ref={this.thirdTextInputRef}
+                                                blurOnSubmit={false}
+                                                onSubmitEditing={() => Keyboard.dismiss()}
+                                                onChangeText={(mobile_number) => this.setMobileNumber(mobile_number)}
+                                            />
+                                        </View>
+                                        <TouchableOpacity style={STYLES.styles.otpBtn1} disabled={this.state.sendbtnDisable} onPress={() => this.createOtp()}>
+                                            <Text style={STYLES.styles.otpbtnText1}>Send OTP</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* <Text>{this.state.verifyOtpNumber}</Text> */}
+                                    <View style={{ flex: 0.5, marginTop: 25, marginLeft: 5, marginRight: 5, marginBottom: 20 }}>
+                                        <OtpInputs
+                                            handleChange={(code) => this.handleChange(code)}
+                                            numberOfInputs={4}
+                                            inputStyles={STYLES.styles.inputView1}
+                                            defaultValue={this.state.inputOtpNumber}
                                         />
                                     </View>
-                                    <TouchableOpacity style={STYLES.styles.otpBtn1} disabled={this.state.sendbtnDisable} onPress={() => this.createOtp()}>
-                                        <Text style={STYLES.styles.otpbtnText1}>Send OTP</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Text>{this.state.verifyOtpNumber}</Text>
-                                <View style={{ flex: 0.5, marginTop: 5, marginLeft: 5, marginRight: 5, marginBottom: 20 }}>
-                                    <OtpInputs
-                                        handleChange={(code) => this.handleChange(code)}
-                                        numberOfInputs={4}
-                                        inputStyles={STYLES.styles.inputView1}
-                                        defaultValue={this.state.inputOtpNumber}
-                                        errorMessage={true}
-                                    />
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
-                                    <TouchableOpacity style={STYLES.styles.otpBtn} disabled={this.state.verifybtnDisable} onPress={() => this.otpVerify()} >
-                                        <Text style={STYLES.styles.otpbtnText}>Verify OTP</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>OR</Text>
-                                </View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                                    <TouchableOpacity style={STYLES.styles.googleBtn} onPress={() => this.onPressSignInGoogle()} >
-                                        <Text style={STYLES.styles.googlebtnText}>Register with Google</Text>
-                                        <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: 15 }} />
-                                    </TouchableOpacity>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
+                                        <TouchableOpacity style={STYLES.styles.otpBtn} disabled={this.state.verifybtnDisable} onPress={() => this.otpVerify()} >
+                                            <Text style={STYLES.styles.otpbtnText}>Verify OTP</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>OR</Text>
+                                    </View>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                                        <TouchableOpacity style={STYLES.styles.googleBtn} onPress={() => this.onPressSignInGoogle()} >
+                                            <Text style={STYLES.styles.googlebtnText}>Register with Google</Text>
+                                            <Image source={require('../../assets/Images/googleicon.png')} style={{ height: 25, width: 25, marginLeft: 15 }} />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                             <View style={STYLES.styles.centeView} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN)} >
+                                <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }} >
                                     <Text style={STYLES.styles.createText}>Already have an Account?</Text>
                                 </TouchableOpacity>
                             </View>

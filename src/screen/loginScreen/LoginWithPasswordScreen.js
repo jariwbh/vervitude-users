@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, TextInput, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView, Platform, ToastAndroid } from 'react-native'
+import { StatusBar, View, TextInput, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView, Platform, ToastAndroid, Keyboard } from 'react-native'
 import { LoginWithPasswordService } from '../../services/LoginService/LoginService';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
@@ -20,15 +20,9 @@ const LoginWithPasswordScreen = (props) => {
     const setEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
         if (!email || email.length <= 0) {
-            //setusername(null);
             setusererror('Email Id can not be empty');
             return;
         }
-        // if (!re.test(email)) {
-        //     setusername(null);
-        //     setusererror('Ooops! We need a valid email address');
-        //     return;
-        // }
         setusername(email);
         setusererror(null);
         return;
@@ -128,7 +122,6 @@ const LoginWithPasswordScreen = (props) => {
                                         <TextInput
                                             style={STYLES.Loginemailstyle.TextInput}
                                             placeholder='Email/Mobile Number'
-                                            type='clear'
                                             returnKeyType='next'
                                             placeholderTextColor='#B5B5B5'
                                             defaultValue={username}
@@ -144,14 +137,13 @@ const LoginWithPasswordScreen = (props) => {
                                         <TextInput
                                             style={STYLES.Loginemailstyle.TextInput}
                                             placeholder='Password'
-                                            type='clear'
                                             returnKeyType='done'
                                             placeholderTextColor='#B5B5B5'
                                             secureTextEntry={true}
                                             defaultValue={password}
                                             blurOnSubmit={false}
                                             ref={secondTextInputRef}
-                                            onSubmitEditing={() => onPressSubmit()}
+                                            onSubmitEditing={() => Keyboard.dismiss()}
                                             onChangeText={(password) => setpassword(password)}
                                         />
                                     </View>

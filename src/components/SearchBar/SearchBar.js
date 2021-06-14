@@ -75,7 +75,7 @@ const SearchBar = (props) => {
 
     // Function for click on an item
     const getItem = (item) => {
-        //alert(' counsultant Name : ' + item.fullname);
+        alert(' counsultant Name : ' + item.fullname);
     };
 
     return (
@@ -92,14 +92,13 @@ const SearchBar = (props) => {
                     returnKeyType='done'
                     autoCapitalize='none'
                     autoCorrect={false}
-                    // onChangeText={(text) => searchFilterFunction(text)}
+                    onChangeText={(text) => searchFilterFunction(text)}
                     defaultValue={search}
                 />
             </View>
-
-            {/* {
+            {
                 search === null ? null :
-                    <View style={{ marginTop: 70, position: 'absolute', backgroundColor: '#FFFFFF', zIndex: 999 }}>
+                    <View style={{ top: 70, position: 'absolute', backgroundColor: '#FFFFFF' }}>
                         <FlatList
                             data={filteredDataSource}
                             keyExtractor={(item, index) => index.toString()}
@@ -107,7 +106,8 @@ const SearchBar = (props) => {
                             renderItem={ItemView}
                         />
                     </View>
-            } */}
+            }
+
         </SafeAreaView>
     )
 }
