@@ -5,7 +5,7 @@ const UserProfileService = (data) => {
     const body = JSON.stringify(data);
     return Axios.patch('members/' + id, body);
 }
-
+// UserUpdateService function
 const UserUpdateService = (data) => {
     let id = data._id;
     const body = JSON.stringify(data);
