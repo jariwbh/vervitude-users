@@ -25,7 +25,6 @@ const recentchatScreen = (props) => {
     useFocusEffect(
         React.useCallback(() => {
             AsyncStorage.getItem(AUTHUSER).then((res) => {
-                setloading(true);
                 let currentUser = JSON.parse(res)._id;
                 axiosConfig(currentUser);
                 setcurrentUserId(currentUser);
@@ -33,6 +32,10 @@ const recentchatScreen = (props) => {
             });
         }, [])
     );
+
+    useEffect(() => {
+        setloading(true);
+    }, [])
 
     useEffect(() => {
     }, [currentUserId, recentChat, refreshing])
@@ -80,7 +83,6 @@ const recentchatScreen = (props) => {
             profilepic: item.property.consultantid.profilepic,
             fullname: item.property.consultantid.fullname,
             consultanobject: item
-            //fierbasechatid: item.property.fierbasechatid
         }
         props.navigation.navigate(SCREEN.CHATSCREEN, { consultanDetails });
     }
@@ -97,7 +99,7 @@ const recentchatScreen = (props) => {
                     <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000", textTransform: 'capitalize' }}>
                             {item && item.property.consultantid.fullname.split(' ')[0]}</Text>
                         <Text style={{ fontSize: 14, color: "#999999" }}>{item && item.property && item.property.consultantid && item.property.consultantid.property && item.property.consultantid.property.usertag ? item.property.consultantid.property.usertag : null}</Text>

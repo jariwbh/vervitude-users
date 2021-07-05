@@ -16,8 +16,8 @@ import * as STYLES from './styles';
 import { SubCategoryService } from '../../services/CategoryService/CategoryService';
 import ActionButton from 'react-native-circular-action-menu';
 import { WalletDetailService } from '../../services/BillService/BillService';
-//import { useIsFocused } from '@react-navigation/native';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+import { useFocusEffect } from '@react-navigation/native';
 const WIDTH = Dimensions.get('window').width;
 
 const subcategoryScreen = (props) => {
@@ -28,18 +28,27 @@ const subcategoryScreen = (props) => {
     const [refreshing, setrefreshing] = useState(false);
     const [subCategory, setSubCategory] = useState([]);
     const [allSub, setAllSub] = useState(true);
-    const [SearchConsultant, setSearchConsultant] = useState([]);
     const [walletBalance, setwalletBalance] = useState(null);
     const [wallatemodel, setWallatemodel] = useState(0);
-    // const isFocused = useIsFocused();
+    const [search, setSearch] = useState(null);
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [filter, setFilter] = useState([]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setFilter([]);
+            setSearch(null);
+            getUserData();
+            subCategoryList();
+        }, [])
+    );
 
     useEffect(() => {
-        getUserData();
-        subCategoryList();
+        setloading(true);
     }, [])
 
     useEffect(() => {
-    }, [userId, consultantList, refreshing, allSub, wallatemodel]);
+    }, [userId, consultantList, refreshing, allSub, wallatemodel, search, filteredDataSource, filter]);
 
     //check wallate balance function
     const checkWallateBalance = async (userId) => {
@@ -80,21 +89,11 @@ const subcategoryScreen = (props) => {
         wait(3000).then(() => setrefreshing(false));
     }
 
-    //Search Function
-    const searchFilterFunction = (text) => {
-        const newData = SearchConsultant.filter(item => {
-            const itemData = `${item.fullname.toUpperCase()}`
-            const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1;
-        });
-        return wait(1000).then(() => setconsultantList(newData));
-    };
-
     //get AsyncStorage current user Details
     const getUserData = async () => {
         var getUser = await AsyncStorage.getItem(AUTHUSER);
-        setloading(true);
         if (getUser == null) {
+            setloading(false);
             setTimeout(() => {
                 props.navigation.replace(SCREEN.LOGINSCREEN)
             }, 3000);;
@@ -117,7 +116,7 @@ const subcategoryScreen = (props) => {
             }
             if (response.data != null && response.data != undefined && response.status == 200) {
                 setconsultantList(response.data);
-                setSearchConsultant(response.data);
+                setFilteredDataSource(response.data);
                 setloading(false);
             }
         } catch (error) {
@@ -257,6 +256,57 @@ const subcategoryScreen = (props) => {
         props.navigation.navigate(SCREEN.MYWALLETSCREEN);
     }
 
+    //search consultants function
+    const searchFilterFunction = (text) => {
+        if (Number(text.length) > 3) {
+            const newData = filteredDataSource.filter(item => {
+                const itemData = item.fullname
+                    ? item.fullname.toLowerCase()
+                    : ''.toLowerCase();
+                const textData = text.toLowerCase();
+                return itemData.indexOf(textData) !== -1;
+            });
+            setFilter(newData);
+            setSearch(text);
+        } else {
+            setSearch(text);
+            setFilter([]);
+        }
+    };
+
+    // Flat List Item
+    const ItemView = ({ item }) => {
+        return (
+            <View style={{ width: WIDTH - 25 }}>
+                <Text
+                    style={{ padding: 10, alignItems: 'flex-start', justifyContent: 'center' }}
+                    onPress={() => navigationhandlerConsultants(item)}>
+                    {item.fullname + ' - ' + ' Consultant'}
+                </Text>
+            </View>
+        );
+    };
+
+    // Flat List Item Separator
+    const ItemSeparatorView = () => {
+        return (
+            <View
+                style={{
+                    height: 0.5,
+                    width: '100%',
+                    backgroundColor: '#C8C8C8',
+                }}
+            />
+        );
+    };
+
+    //on touch to open consultants screen
+    const navigationhandlerConsultants = (item) => {
+        setSearch(null);
+        setFilter([]);
+        props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
+    }
+
     return (
         <SafeAreaView style={STYLES.SubCategoryStyles.container}>
             <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
@@ -285,17 +335,35 @@ const subcategoryScreen = (props) => {
                             placeholder='Search App'
                             type='clear'
                             placeholderTextColor='#999999'
-                            returnKeyType='done'
+                            returnKeyType='search'
                             autoCapitalize='none'
                             autoCorrect={false}
                             onChangeText={(value) => searchFilterFunction(value)}
+                            defaultValue={search}
                         />
-                        <TouchableOpacity >
+                        {/* <TouchableOpacity >
                             <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: 20 }} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
             </View>
+
+            {
+                (filteredDataSource == null) || (filteredDataSource && filteredDataSource.length == 0) ? null :
+                    <View style={{
+                        marginTop: 150, backgroundColor: '#FFFFFF', position: 'absolute',
+                        zIndex: 2, justifyContent: 'center', alignItems: 'center', margin: 20, height: 100
+                    }}>
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                            <FlatList
+                                data={filter}
+                                keyExtractor={(item, index) => index.toString()}
+                                ItemSeparatorComponent={ItemSeparatorView}
+                                renderItem={ItemView}
+                            />
+                        </ScrollView>
+                    </View>
+            }
 
             <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps={'always'}
                 refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>

@@ -51,7 +51,7 @@ function FindChatById(id) {
 }
 
 function EndChatService(id, body) {
-    return Axios.put('formdatas/' + id, body);
+    return Axios.put(`formdatas/${id}`, body);
 }
 
 function StartProject(body) {

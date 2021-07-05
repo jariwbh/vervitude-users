@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, Image, TextInput, SafeAreaView, TouchableOpacity,
-    ScrollView, StatusBar, FlatList
+    ScrollView, StatusBar, FlatList, Dimensions
 } from 'react-native';
 import { CategoryService } from '../../services/CategoryService/CategoryService';
 import WallateButton from '../../components/WallateButton/WallateButton';
@@ -13,20 +13,33 @@ import * as STYLES from './styles';
 import * as SCREEN from '../../context/screen/screenName';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
 import ActionButton from 'react-native-circular-action-menu';
-//import { useIsFocused } from '@react-navigation/native';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
+import { useFocusEffect } from '@react-navigation/native';
+const WIDTH = Dimensions.get('window').width;
 
 function selectCategoryScreen(props) {
     const [category, setCategory] = useState([]);
     const [consultant, setConsultant] = useState([]);
     const [loading, setloading] = useState(false);
-    //const isFocused = useIsFocused();
+    const [search, setSearch] = useState(null);
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [filter, setFilter] = useState([]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setFilter([]);
+            setSearch(null);
+            categoryList();
+            ConsultantList();
+        }, [])
+    );
 
     useEffect(() => {
         setloading(true);
-        categoryList();
-        ConsultantList();
     }, []);
+
+    useEffect(() => {
+    }, [category, loading, consultant, search, filteredDataSource, filter]);
 
     //category List Service to call function
     const categoryList = async () => {
@@ -44,12 +57,57 @@ function selectCategoryScreen(props) {
         try {
             const response = await TopConsultantViewListService();
             const slice = response.data.slice(0, 5)
+            setFilteredDataSource(response.data);
             setConsultant(slice);
             setloading(false);
         } catch (error) {
             // console.log(`error`, error);
         }
     }
+
+    //search consultants function
+    const searchFilterFunction = (text) => {
+        if (Number(text.length) > 3) {
+            const newData = filteredDataSource.filter(item => {
+                const itemData = item.fullname
+                    ? item.fullname.toLowerCase()
+                    : ''.toLowerCase();
+                const textData = text.toLowerCase();
+                return itemData.indexOf(textData) !== -1;
+            });
+            setFilter(newData);
+            setSearch(text);
+        } else {
+            setSearch(text);
+            setFilter([]);
+        }
+    };
+
+    // Flat List Item
+    const ItemView = ({ item }) => {
+        return (
+            <View style={{ width: WIDTH - 25 }}>
+                <Text
+                    style={{ padding: 10, alignItems: 'flex-start', justifyContent: 'center' }}
+                    onPress={() => navigationhandler(item)}>
+                    {item.fullname + ' - ' + ' Consultant'}
+                </Text>
+            </View>
+        );
+    };
+
+    // Flat List Item Separator
+    const ItemSeparatorView = () => {
+        return (
+            <View
+                style={{
+                    height: 0.5,
+                    width: '100%',
+                    backgroundColor: '#C8C8C8',
+                }}
+            />
+        );
+    };
 
     //open WEB VIEW SCREEN
     const WebViewScreen = (data) => {
@@ -122,6 +180,8 @@ function selectCategoryScreen(props) {
 
     //on touch to open consultants screen
     const navigationhandler = (item) => {
+        setSearch(null);
+        setFilter([]);
         props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
     }
 
@@ -153,19 +213,37 @@ function selectCategoryScreen(props) {
                             placeholder='Search App'
                             type='clear'
                             placeholderTextColor='#999999'
-                            returnKeyType='done'
+                            returnKeyType='search'
                             autoCapitalize='none'
                             autoCorrect={false}
-
+                            onChangeText={(text) => searchFilterFunction(text)}
+                            defaultValue={search}
                         />
-                        <TouchableOpacity >
+                        {/* <TouchableOpacity >
                             <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: 20 }} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+            {
+                (filteredDataSource == null) || (filteredDataSource && filteredDataSource.length == 0) ? null :
+                    <View style={{
+                        marginTop: 150, backgroundColor: '#FFFFFF', position: 'absolute',
+                        zIndex: 2, justifyContent: 'center', alignItems: 'center', margin: 20, height: 100
+                    }}>
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                            <FlatList
+                                data={filter}
+                                keyExtractor={(item, index) => index.toString()}
+                                ItemSeparatorComponent={ItemSeparatorView}
+                                renderItem={ItemView}
+                            />
+                        </ScrollView>
+                    </View>
+            }
+
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
                     <FlatList
                         renderItem={renderCategory}
@@ -180,7 +258,7 @@ function selectCategoryScreen(props) {
                     <Text style={{ fontSize: 20, color: '#3399ff' }}>Top Consultants</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <FlatList
                             renderItem={renderConsultants}
                             data={consultant}

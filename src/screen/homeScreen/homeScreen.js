@@ -15,7 +15,6 @@ import { TopConsultantViewListService, UserPatchService, UserUpdateService } fro
 import { AUTHUSER } from '../../context/actions/type';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CategoryService } from '../../services/CategoryService/CategoryService';
-import SearchBar from '../../components/SearchBar/SearchBar';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { getByIdMemberService } from '../../services/UserService/UserService';
 //import axiosConfig from '../../helpers/axiosConfig';
@@ -44,6 +43,8 @@ const homeScreen = (props) => {
 
     useFocusEffect(
         React.useCallback(() => {
+            setFilter([]);
+            setSearch(null);
             ConsultantList();
             getNotification(userID);
         }, [])
@@ -51,7 +52,6 @@ const homeScreen = (props) => {
 
     useEffect(() => {
         setloading(true);
-        ConsultantList();
         categoryList();
         getUserData();
         sliderService();
@@ -67,7 +67,6 @@ const homeScreen = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log(`search`, search);
     }, [userInfo, category, loading, consultant, sliderData, search, filteredDataSource, filter])
 
     //silder image manage function
@@ -316,6 +315,8 @@ const homeScreen = (props) => {
 
     //navigarte consultant screen
     const navigationhandler = (item) => {
+        setSearch(null);
+        setFilter([]);
         props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item });
     }
 
@@ -411,7 +412,7 @@ const homeScreen = (props) => {
                             placeholder='Search App'
                             type='clear'
                             placeholderTextColor='#999999'
-                            returnKeyType='done'
+                            returnKeyType='search'
                             autoCapitalize='none'
                             autoCorrect={false}
                             onChangeText={(text) => searchFilterFunction(text)}
@@ -436,7 +437,7 @@ const homeScreen = (props) => {
                         </ScrollView>
                     </View>
             }
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{
                     top: 20,
                     justifyContent: 'center',
@@ -452,7 +453,7 @@ const homeScreen = (props) => {
                         >
                             {sliderData.map((item, index) => (
                                 <View key={index} >
-                                    <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} >
+                                    <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} imageStyle={{ borderRadius: 10 }} >
                                         <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
                                             <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
                                             <TouchableOpacity onPress={() => WebViewScreen(item.property.link)} >
@@ -473,7 +474,7 @@ const homeScreen = (props) => {
                 </View>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <FlatList
                             renderItem={renderCategory}
                             data={category}
@@ -488,7 +489,7 @@ const homeScreen = (props) => {
                     <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE' }}>Top Consultants</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <FlatList
                             renderItem={renderConsultants}
                             data={consultant}
