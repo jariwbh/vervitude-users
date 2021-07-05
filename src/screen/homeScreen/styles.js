@@ -4,7 +4,8 @@ const HEIGHT = Dimensions.get('window').height;
 //styles css
 export const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#00D9CE'
     },
     statusbar: {
         flexDirection: 'row',
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
         elevation: 2,
         marginTop: 20,
         width: WIDTH - 20,
-        height: 45,
+        height: 50,
         alignItems: 'center',
     },
     statInput: {
@@ -43,5 +44,10 @@ export const styles = StyleSheet.create({
     categoriesText: {
         marginTop: 20,
         marginLeft: 20
+    },
+    homeCardView: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 15,
+        width: WIDTH - 20
     }
 })

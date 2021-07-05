@@ -385,40 +385,38 @@ const homeScreen = (props) => {
     return (
         <SafeAreaView style={STYLE.styles.container}>
             <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
-            <View style={STYLE.styles.headerstyle}>
-                <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
-                    <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-                        <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
-                        <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}
-                            style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center', height: 30, width: 30 }}>
-                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                            <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{ justifyContent: 'flex-end' }}>
-                        <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
-                    </View>
+            <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
+                <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
+                    <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}
+                        style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center', height: 30, width: 30 }}>
+                        <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                        <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={STYLE.styles.statusbar}>
-                        <TouchableOpacity >
-                            <AntDesign name='search1' size={20} color='#00D9CE' style={{ marginLeft: 20 }} />
-                        </TouchableOpacity>
-                        <TextInput
-                            style={styles.textInputStyle}
-                            placeholder='Search App'
-                            type='clear'
-                            placeholderTextColor='#999999'
-                            returnKeyType='search'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            onChangeText={(text) => searchFilterFunction(text)}
-                            defaultValue={search}
-                        />
-                    </View>
+
+                <View style={{ justifyContent: 'flex-end' }}>
+                    <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
+                </View>
+            </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={STYLE.styles.statusbar}>
+                    <TouchableOpacity >
+                        <AntDesign name='search1' size={20} color='#00D9CE' style={{ marginLeft: 20 }} />
+                    </TouchableOpacity>
+                    <TextInput
+                        style={styles.textInputStyle}
+                        placeholder='Search App'
+                        type='clear'
+                        placeholderTextColor='#999999'
+                        returnKeyType='search'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        onChangeText={(text) => searchFilterFunction(text)}
+                        defaultValue={search}
+                    />
                 </View>
             </View>
             {
@@ -438,66 +436,70 @@ const homeScreen = (props) => {
                     </View>
             }
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                <View style={{
-                    top: 20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                    {(sliderData != null) || (sliderData && sliderData.length != 0) ?
-                        <Swiper
-                            containerStyle={styles.wrapper}
-                            autoplay={true}
-                            autoplayTimeout={5}
-                            autoplayDirection={true}
-                            activeDotColor={'#00D9CE'}
-                        >
-                            {sliderData.map((item, index) => (
-                                <View key={index} >
-                                    <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} imageStyle={{ borderRadius: 10 }} >
-                                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
-                                            <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
-                                            <TouchableOpacity onPress={() => WebViewScreen(item.property.link)} >
-                                                <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
-                                            </TouchableOpacity>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                    <View style={STYLE.styles.homeCardView}>
+                        <View style={{
+                            top: 20,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            {(sliderData != null) || (sliderData && sliderData.length != 0) ?
+                                <Swiper
+                                    containerStyle={styles.wrapper}
+                                    autoplay={true}
+                                    autoplayTimeout={5}
+                                    autoplayDirection={true}
+                                    activeDotColor={'#00D9CE'}
+                                >
+                                    {sliderData.map((item, index) => (
+                                        <View key={index} >
+                                            <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} imageStyle={{ borderRadius: 10 }} >
+                                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
+                                                    <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
+                                                    <TouchableOpacity onPress={() => WebViewScreen(item.property.link)} >
+                                                        <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </ImageBackground>
                                         </View>
-                                    </ImageBackground>
-                                </View>
-                            ))}
-                        </Swiper>
-                        : null
-                    }
-                </View>
-                <View style={STYLE.styles.categoriesText}>
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('subcategoryScreen') }}>
-                        <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE', fontWeight: 'bold', marginTop: 10 }}>Categories</Text>
-                    </TouchableOpacity>
-                </View>
+                                    ))}
+                                </Swiper>
+                                : null
+                            }
+                        </View>
+                        <View style={STYLE.styles.categoriesText}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)}>
+                                <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE', fontWeight: 'bold', marginTop: 10 }}>Categories</Text>
+                            </TouchableOpacity>
+                        </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                        <FlatList
-                            renderItem={renderCategory}
-                            data={category}
-                            horizontal={false}
-                            numColumns={5}
-                            keyExtractor={item => item._id}
-                        />
-                    </ScrollView>
-                </View>
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                                <FlatList
+                                    renderItem={renderCategory}
+                                    data={category}
+                                    horizontal={false}
+                                    numColumns={5}
+                                    keyExtractor={item => item._id}
+                                />
+                            </ScrollView>
+                        </View>
 
-                <View style={STYLE.styles.categoriesText}>
-                    <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE' }}>Top Consultants</Text>
-                </View>
-                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                        <FlatList
-                            renderItem={renderConsultants}
-                            data={consultant}
-                            horizontal={false}
-                            numColumns={5}
-                            keyExtractor={item => item._id}
-                        />
-                    </ScrollView>
+                        <View style={STYLE.styles.categoriesText}>
+                            <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE' }}>Top Consultants</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                                <FlatList
+                                    renderItem={renderConsultants}
+                                    data={consultant}
+                                    horizontal={false}
+                                    numColumns={5}
+                                    keyExtractor={item => item._id}
+                                />
+                            </ScrollView>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
 
@@ -554,11 +556,11 @@ const styles = StyleSheet.create({
     },
     customImage: {
         height: 220,
-        width: WIDTH - 20
+        width: WIDTH - 40
     },
     wrapper: {
         height: 220,
-        width: WIDTH - 20
+        width: WIDTH - 40
     },
     statusbar: {
         flexDirection: 'row',

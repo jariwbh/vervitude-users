@@ -118,7 +118,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     boxView: {
         height: 350,
-        width: WIDTH - 20,
+        width: WIDTH - 30,
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 4,
@@ -135,7 +135,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         height: 40,
         margin: 5,
         borderWidth: 0.5
@@ -144,7 +144,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: 'red',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         height: 40,
         margin: 5,
         borderWidth: 0.5
@@ -216,7 +216,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     otpBtn1: {
         flexDirection: 'row',
-        width: WIDTH / 3 - 10,
+        width: WIDTH / 3 - 20,
         backgroundColor: '#00D9CE',
         height: 40,
         alignItems: 'center',
@@ -224,7 +224,7 @@ export const Forgetpasswordstyle = StyleSheet.create({
     },
     otpBtndisable1: {
         flexDirection: 'row',
-        width: WIDTH / 3 - 10,
+        width: WIDTH / 3 - 20,
         backgroundColor: '#00D9CE',
         height: 40,
         alignItems: 'center',
@@ -298,7 +298,7 @@ export const Loginemailstyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         height: 40,
         margin: 5,
         borderWidth: 0.5
@@ -307,7 +307,7 @@ export const Loginemailstyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#FF0000',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         height: 40,
         margin: 5,
         borderWidth: 0.5
@@ -444,7 +444,7 @@ export const Loginpasswordstyle = StyleSheet.create({
     loginBtn: {
         marginTop: 20,
         flexDirection: 'row',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         backgroundColor: '#00D9CE',
         borderColor: '#5EA2FC',
         borderRadius: 50,
@@ -460,7 +460,7 @@ export const Loginpasswordstyle = StyleSheet.create({
     },
     boxView: {
         height: 250,
-        width: WIDTH - 20,
+        width: WIDTH - 30,
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 4,

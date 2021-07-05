@@ -296,7 +296,7 @@ const loginwithemailScreen = (props) => {
                                         </TouchableOpacity>
                                     </View>
                                     {/* <Text>{verifyOtpNumber}</Text> */}
-                                    <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
+                                    <View style={{ flex: 0.5, marginTop: 30, marginLeft: 5, marginRight: 5 }}>
                                         <OtpInputs
                                             handleChange={(code) => handleChange(code)}
                                             numberOfInputs={4}
@@ -309,7 +309,6 @@ const loginwithemailScreen = (props) => {
                                             <Text style={STYLE.Loginemailstyle.otpbtnText}>Verify OTP</Text>
                                         </TouchableOpacity>
                                     </View>
-
                                 </View>
                             </View>
                         </View>

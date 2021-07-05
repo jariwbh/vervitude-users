@@ -271,7 +271,7 @@ const forgotpasswordScreen = (props) => {
                                     </TouchableOpacity>
                                 </View>
                                 {/* <Text>{verifyOtpNumber}</Text> */}
-                                <View style={{ flex: 0.5, marginTop: 20, marginLeft: 5, marginRight: 5 }}>
+                                <View style={{ flex: 0.5, marginTop: 30, marginLeft: 5, marginRight: 5 }}>
                                     <OtpInputs
                                         handleChange={(code) => handleChange(code)}
                                         numberOfInputs={4}
@@ -287,9 +287,16 @@ const forgotpasswordScreen = (props) => {
 
                             </View>
                         </View>
-                        <View style={STYLE.Forgetpasswordstyle.centeView} >
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >
+                        <View style={{ marginLeft: 15 }} >
                             <TouchableOpacity onPress={() => { resetScreen(), props.navigation.navigate(SCREEN.REGISTERSCREEN) }}>
                                 <Text style={STYLE.Forgetpasswordstyle.createText}>Don't have an Account?</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginRight: 15 }} >
+                            <TouchableOpacity >
+                                <Text style={STYLE.Forgetpasswordstyle.createText}>Need Help?</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

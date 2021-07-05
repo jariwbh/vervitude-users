@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     },
     boxView: {
         height: 420,
-        width: WIDTH - 20,
+        width: WIDTH - 30,
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 4,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         height: 40,
         borderWidth: 0.5
     },
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#FF0000',
-        width: WIDTH - 60,
+        width: WIDTH - 80,
         height: 40,
         borderWidth: 0.5
     },
@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH / 2 + 20,
+        width: WIDTH / 2 + 25,
         height: 40,
         borderWidth: 0.5
     },
@@ -140,13 +140,13 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#FF0000',
-        width: WIDTH / 2 + 20,
+        width: WIDTH / 2 + 25,
         height: 40,
         borderWidth: 0.5
     },
     otpBtn1: {
         flexDirection: 'row',
-        width: WIDTH / 3 - 10,
+        width: WIDTH / 4,
         backgroundColor: '#00D9CE',
         height: 40,
         alignItems: 'center',

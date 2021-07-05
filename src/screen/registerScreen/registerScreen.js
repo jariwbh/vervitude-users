@@ -250,7 +250,7 @@ export default class registerScreen extends Component {
                         <View style={STYLES.styles.centeView}>
                             <View style={STYLES.styles.boxView}>
                                 <View>
-                                    <View style={{ marginTop: 25 }}>
+                                    <View style={{ marginTop: 25, alignItems: 'center' }}>
                                         <View style={usererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                             <TextInput
                                                 defaultValue={this.state.username}
@@ -266,7 +266,7 @@ export default class registerScreen extends Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ marginTop: 15 }}>
+                                    <View style={{ marginTop: 15, alignItems: 'center' }}>
                                         <View style={fullnameError == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                             <TextInput
                                                 defaultValue={this.state.fullname}
@@ -283,7 +283,7 @@ export default class registerScreen extends Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                    <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                         <View style={mobile_numbererror == null ? STYLES.styles.inputView2 : STYLES.styles.inputErrorView2}>
                                             <TextInput
                                                 defaultValue={this.state.mobile_number}
@@ -328,9 +328,16 @@ export default class registerScreen extends Component {
                                     </View>
                                 </View>
                             </View>
-                            <View style={STYLES.styles.centeView} >
-                                <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }} >
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }} >
+                            <View style={{ marginLeft: 15 }} >
+                                <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), this.resetScreen() }} >
                                     <Text style={STYLES.styles.createText}>Already have an Account?</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ marginRight: 15 }} >
+                                <TouchableOpacity >
+                                    <Text style={STYLES.styles.createText}>Need Help?</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
