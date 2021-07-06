@@ -157,7 +157,7 @@ const disputesScreen = (props) => {
 
                 {(disputeList == null) || (disputeList && disputeList.length <= 0) ?
                     (loading ? null :
-                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>No DisputeChat available</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#FFFFFF', marginTop: 50 }}>DisputeChat unavailable</Text>
                     )
                     :
                     <FlatList

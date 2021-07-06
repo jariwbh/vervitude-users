@@ -5,7 +5,7 @@ const WIDTH = Dimensions.get('window').width;
 export const disputesStyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FA114F',
     },
     chatdisputeview: {
         height: 75,

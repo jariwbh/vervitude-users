@@ -118,7 +118,7 @@ function selectCategoryScreen(props) {
     const renderCategory = ({ item }) => (
         <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
 
-            {item.property.skillcategory == 'COMING SOON' ?
+            {item.property && item.property.skillcategory == 'COMING SOON' ?
                 <View>
                     <TouchableOpacity style={STYLES.categoryStyles.categoryview} disabled={true}>
                         <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 70, height: 70, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
@@ -188,41 +188,39 @@ function selectCategoryScreen(props) {
     return (
         <SafeAreaView style={STYLES.categoryStyles.container}>
             <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
-            <View style={STYLES.categoryStyles.headerstyle}>
-                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
-                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-                            <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
-                        </TouchableOpacity>
-                        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
-                            <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>Categories</Text>
-                        </View>
-                    </View>
-                    <View style={{ justifyContent: 'flex-end' }}>
-                        <WallateButton onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)} />
+            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
+                    <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                        <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
+                    </TouchableOpacity>
+                    <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+                        <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>Categories</Text>
                     </View>
                 </View>
+                <View style={{ justifyContent: 'flex-end' }}>
+                    <WallateButton onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)} />
+                </View>
+            </View>
 
-                <View style={STYLES.categoryStyles.centerView}>
-                    <View style={STYLES.categoryStyles.statusbar}>
-                        <TouchableOpacity >
-                            <AntDesign name='search1' size={20} color='#3399ff' style={{ marginLeft: 20 }} />
-                        </TouchableOpacity>
-                        <TextInput
-                            style={STYLES.categoryStyles.statInput}
-                            placeholder='Search App'
-                            type='clear'
-                            placeholderTextColor='#999999'
-                            returnKeyType='search'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            onChangeText={(text) => searchFilterFunction(text)}
-                            defaultValue={search}
-                        />
-                        {/* <TouchableOpacity >
+            <View style={STYLES.categoryStyles.centerView}>
+                <View style={STYLES.categoryStyles.statusbar}>
+                    <TouchableOpacity >
+                        <AntDesign name='search1' size={20} color='#3399ff' style={{ marginLeft: 20 }} />
+                    </TouchableOpacity>
+                    <TextInput
+                        style={STYLES.categoryStyles.statInput}
+                        placeholder='Search App'
+                        type='clear'
+                        placeholderTextColor='#999999'
+                        returnKeyType='search'
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        onChangeText={(text) => searchFilterFunction(text)}
+                        defaultValue={search}
+                    />
+                    {/* <TouchableOpacity >
                             <Image source={require('../../assets/Images/filter.png')} style={{ width: 18, height: 20, marginRight: 20 }} />
                         </TouchableOpacity> */}
-                    </View>
                 </View>
             </View>
 
@@ -244,31 +242,35 @@ function selectCategoryScreen(props) {
             }
 
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-                    <FlatList
-                        renderItem={renderCategory}
-                        data={category}
-                        horizontal={false}
-                        numColumns={4}
-                        keyExtractor={item => item._id}
-                    />
-                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                    <View style={STYLES.categoryStyles.homeCardView}>
+                        <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+                            <FlatList
+                                renderItem={renderCategory}
+                                data={category}
+                                horizontal={false}
+                                numColumns={4}
+                                keyExtractor={item => item._id}
+                            />
+                        </View>
 
-                <View style={STYLES.categoryStyles.categoriesText}>
-                    <Text style={{ fontSize: 20, color: '#3399ff' }}>Top Consultants</Text>
+                        <View style={STYLES.categoryStyles.categoriesText}>
+                            <Text style={{ fontSize: 20, color: '#2094FA' }}>Top Consultants</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                                <FlatList
+                                    renderItem={renderConsultants}
+                                    data={consultant}
+                                    horizontal={false}
+                                    numColumns={5}
+                                    keyExtractor={item => item._id}
+                                />
+                            </ScrollView>
+                        </View>
+                        <View style={{ marginBottom: 40 }}></View>
+                    </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                        <FlatList
-                            renderItem={renderConsultants}
-                            data={consultant}
-                            horizontal={false}
-                            numColumns={5}
-                            keyExtractor={item => item._id}
-                        />
-                    </ScrollView>
-                </View>
-                <View style={{ marginBottom: 50 }}></View>
             </ScrollView>
             <ActionButton
                 buttonColor="#00D9CE"

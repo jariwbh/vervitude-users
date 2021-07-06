@@ -91,12 +91,10 @@ const editScreen = (props) => {
         const re = /\S+@\S+\.\S+/;
         if (!email || email.length <= 0) {
             setprimaryemailError('Email Id can not be empty');
-            setprimaryemail(null);
             return;
         }
         if (!re.test(email)) {
             setprimaryemailError('Ooops! We need a valid email address');
-            setprimaryemail(null);
             return;
         }
         setprimaryemail(email);
@@ -108,12 +106,10 @@ const editScreen = (props) => {
     const setMobile_number = (mobile_number) => {
         const reg = /^\d{10}$/;
         if (!mobile_number || mobile_number.length <= 0) {
-            setmobile(null);
             setmobileError('Mobile Number cannot be empty');
             return;
         }
         if (!reg.test(mobile_number)) {
-            setmobile(null);
             setmobileError('Ooops! We need a valid Mobile Number');
             return;
         }
@@ -125,7 +121,7 @@ const editScreen = (props) => {
     //check validation of lastname
     const setLocation = (location) => {
         if (!location || location <= 0) {
-            return setlocationError('Last Name cannot be empty');
+            return setlocationError('Location cannot be empty');
         }
         setlocation(location);
         setlocationError(null);
@@ -245,10 +241,13 @@ const editScreen = (props) => {
     const handlePicker = () => {
         ImagePicker.showImagePicker({}, (response) => {
             if (response.didCancel) {
+                setloading(false);
                 // console.log('User cancelled image picker');
             } else if (response.error) {
+                setloading(false);
                 // console.log('ImagePicker Error: ', response.error);
             } else if (response.customButton) {
+                setloading(false);
                 //  console.log('User tapped custom button: ', response.customButton);
             } else {
                 setloading(true);
@@ -262,8 +261,13 @@ const editScreen = (props) => {
         if (fileObj != null) {
             const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
             await RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/dlopjt9le/upload', { 'Content-Type': 'multipart/form-data' },
-                [{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
-                { name: 'upload_preset', data: 'gs95u3um' }])
+                Platform.OS === 'ios' ?
+                    [{ name: 'file', filename: fileObj.fileSize, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+                    { name: 'upload_preset', data: 'gs95u3um' }]
+                    :
+                    [{ name: 'file', filename: fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(fileObj.uri) },
+                    { name: 'upload_preset', data: 'gs95u3um' }]
+            )
                 .then(response => response.json())
                 .then(data => {
                     setloading(false);
@@ -360,7 +364,7 @@ const editScreen = (props) => {
                             />
                         </View>
 
-                        <View style={{ marginLeft: 10, marginTop: 5 }}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
                             <Text style={{ fontSize: 12 }}>Last Name</Text>
                         </View>
                         <View style={last_nameError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
@@ -378,7 +382,7 @@ const editScreen = (props) => {
                             />
                         </View>
 
-                        <View style={{ marginLeft: 10, marginTop: 5 }}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
                             <Text style={{ fontSize: 12 }}>User Tag</Text>
                         </View>
                         <View style={usertagError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
@@ -396,7 +400,7 @@ const editScreen = (props) => {
                             />
                         </View>
 
-                        <View style={{ marginLeft: 10, marginTop: 5 }}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
                             <Text style={{ fontSize: 12 }}>Phone Number</Text>
                         </View>
                         <View style={mobileError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
@@ -414,7 +418,7 @@ const editScreen = (props) => {
                             />
                         </View>
 
-                        <View style={{ marginLeft: 10, marginTop: 5 }}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
                             <Text style={{ fontSize: 12 }}>Email Address</Text>
                         </View>
                         <View style={primaryemailError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
@@ -432,7 +436,7 @@ const editScreen = (props) => {
                             />
                         </View>
 
-                        <View style={{ marginLeft: 10, marginTop: 5 }}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
                             <Text style={{ fontSize: 12 }}>Location</Text>
                         </View>
                         <View style={locationError == null ? STYLE.Editstyles.inputView : STYLE.Editstyles.inputViewError}>
@@ -451,7 +455,7 @@ const editScreen = (props) => {
                             <Ionicons name='location' size={24} color='#000000' />
                         </View>
 
-                        <View style={{ marginLeft: 10, marginTop: 5 }}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
                             <Text style={{ fontSize: 12 }}>About</Text>
                         </View>
                         <View style={aboutError == null ? STYLE.Editstyles.textAreainputView : STYLE.Editstyles.textAreainputViewError}>
@@ -470,7 +474,7 @@ const editScreen = (props) => {
                                 onChangeText={(about) => setAbout(about)}
                             />
                         </View>
-                        <View style={{ marginBottom: 50 }}></View>
+                        <View style={{ marginBottom: 60 }}></View>
                     </View>
                     <View style={{ marginBottom: 20 }}></View>
                 </View>

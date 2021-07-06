@@ -8,8 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#00D9CE'
     },
     invitetitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 24,
         color: '#000000',
         marginTop: 80,
         textAlign: 'center',
@@ -26,14 +25,15 @@ export const styles = StyleSheet.create({
         width: WIDTH - 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,
-        elevation: 4,
+        elevation: 3,
         shadowOffset: {
             height: 0,
             width: 0,
         },
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
-        marginTop: 50
+        marginTop: 50,
+        marginBottom: 10
     },
     submitBtn: {
         flexDirection: 'row',

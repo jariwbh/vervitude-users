@@ -5,7 +5,7 @@ const WIDTH = Dimensions.get('window').width;
 export const categoryStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#2094FA'
     },
     statusbar: {
         flexDirection: 'row',
@@ -21,7 +21,7 @@ export const categoryStyles = StyleSheet.create({
         elevation: 2,
         marginTop: 20,
         width: WIDTH - 20,
-        height: 45,
+        height: 50,
         alignItems: 'center',
     },
     statInput: {
@@ -47,14 +47,19 @@ export const categoryStyles = StyleSheet.create({
     },
     categoriesText: {
         marginTop: 20,
-        marginLeft: 20
+        marginLeft: 15
+    },
+    homeCardView: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 15,
+        width: WIDTH - 20
     }
 })
 
 export const SubCategoryStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#2094FA'
     },
     statusbar: {
         flexDirection: 'row',
@@ -70,7 +75,7 @@ export const SubCategoryStyles = StyleSheet.create({
         elevation: 2,
         marginTop: 20,
         width: WIDTH - 20,
-        height: 45,
+        height: 50,
         alignItems: 'center',
     },
     statInput: {
@@ -83,8 +88,7 @@ export const SubCategoryStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        height: 70,
-        width: 70,
+        height: 30,
         backgroundColor: '#FFFFFF',
         borderRadius: 1.5,
         borderColor: '#000000',
@@ -101,8 +105,7 @@ export const SubCategoryStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        height: 70,
-        width: 70,
+        height: 30,
         backgroundColor: '#2094FA',
         borderRadius: 5,
         borderColor: '#2094FA',
@@ -118,17 +121,17 @@ export const SubCategoryStyles = StyleSheet.create({
     counsultantview: {
         flex: 1,
         height: 180,
-        width: WIDTH - 20,
+        width: WIDTH - 40,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         marginTop: -5,
-        shadowOpacity: 0.9,
-        shadowRadius: 3,
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
         shadowOffset: {
             height: 2,
             width: 0,
         },
-        elevation: 2,
+        elevation: 3,
         overflow: 'hidden',
         marginBottom: 10
     },
@@ -194,6 +197,11 @@ export const SubCategoryStyles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#04DE71',
         borderColor: '#2094FA',
+    },
+    homeCardView: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 15,
+        width: WIDTH - 20
     }
 })
 

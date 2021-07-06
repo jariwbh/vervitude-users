@@ -141,7 +141,7 @@ const inviteScreen = (props) => {
                 <View style={STYLES.styles.centeView}>
                     <View style={STYLES.styles.boxView}>
                         <Text style={STYLES.styles.invitetitle}>Invite</Text>
-                        <View >
+                        <View>
                             <Text style={STYLES.styles.fieldtitle}>Email Address</Text>
                             <View style={usererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                 <TextInput
@@ -156,7 +156,8 @@ const inviteScreen = (props) => {
                                     onChangeText={(username) => setEmail(username)}
                                 />
                             </View>
-
+                        </View>
+                        <View style={{ marginTop: 10 }}>
                             <Text style={STYLES.styles.fieldtitle}>Phone Number</Text>
                             <View style={mobile_numbererror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                 <TextInput
@@ -172,7 +173,8 @@ const inviteScreen = (props) => {
                                     onChangeText={(mobile_number) => setMobile_number(mobile_number)}
                                 />
                             </View>
-
+                        </View>
+                        <View style={{ marginTop: 10 }}>
                             <Text style={STYLES.styles.fieldtitle}>Full Name</Text>
                             <View style={fullnameerror == null ? STYLES.styles.inputView : STYLES.styles.inputViewError}>
                                 <TextInput
@@ -188,7 +190,6 @@ const inviteScreen = (props) => {
                                     onChangeText={(fullname) => setFullname(fullname)}
                                 />
                             </View>
-
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                             <TouchableOpacity style={STYLES.styles.submitBtn} onPress={() => onPressSubmit()} >

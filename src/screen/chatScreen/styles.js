@@ -114,7 +114,7 @@ export const newChatStyles = StyleSheet.create({
 export const recentChatStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#EEEEEE"
+        backgroundColor: "#FFB629"
     },
     counsultantview: {
         height: 90,
@@ -142,11 +142,12 @@ export const recentChatStyles = StyleSheet.create({
             width: 0,
         },
         elevation: 1,
-        marginTop: 20,
+        marginTop: 0,
         width: WIDTH - 20,
-        height: 45,
+        height: 50,
         alignItems: "center",
         justifyContent: 'center',
+        marginBottom: 10
     },
     statInput: {
         fontSize: 14,

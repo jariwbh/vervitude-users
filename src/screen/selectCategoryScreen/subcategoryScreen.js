@@ -8,6 +8,7 @@ import WallateButton from '../../components/WallateButton/WallateButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
@@ -215,13 +216,12 @@ const subcategoryScreen = (props) => {
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#808080', fontWeight: 'bold' }}>{item.property.location}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
-                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
-                                    <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
+                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
+                                    <MaterialCommunityIcons name='chat' size={28} color='#5AC8FA' />
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
                             </View>
                         </View>
                     </View>
@@ -235,18 +235,15 @@ const subcategoryScreen = (props) => {
         <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
             <TouchableOpacity style={item.selected ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => onPressSelectSubCategory(item._id, index)}>
                 {item.selected ?
-                    <View style={{ height: 30, width: 30, backgroundColor: '#FFFFFF', alignItems: 'center', borderRadius: 100 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#2094FA' }}>{item.property.title.charAt(0)}</Text>
+                    <View style={{ backgroundColor: '#2094FA', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 12, color: '#FFFFFF', marginLeft: 10, marginRight: 10 }}>{item.property.title}</Text>
                     </View>
                     :
-                    <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>{item.property.title.charAt(0)}</Text>
+                    <View style={{ backgroundColor: '#FFFFFF', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 12, color: '#000000', marginLeft: 10, marginRight: 10 }}>{item.property.title}</Text>
                     </View>
                 }
             </TouchableOpacity>
-            <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                <Text style={{ fontSize: 12, textAlign: 'center' }}>{item.property.title}</Text>
-            </View>
         </View>
     )
 
@@ -366,49 +363,52 @@ const subcategoryScreen = (props) => {
             }
 
             <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps={'always'}
-                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
-                <View style={{ marginLeft: 20, marginTop: 15 }}>
-                    <Text style={{ fontSize: 26, textTransform: 'capitalize' }}>{categoryProps.property.skillcategory}</Text>
-                </View>
-                <View style={{ marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 10, flexDirection: 'row' }}>
-                    <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
-                        <TouchableOpacity style={allSub ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => allSubCatBox()}>
-                            {
-                                allSub ?
-                                    <View style={{ height: 30, width: 30, backgroundColor: '#FFFFFF', alignItems: 'center', borderRadius: 100 }}>
-                                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#2094FA' }}>A</Text>
-                                    </View>
-                                    :
-                                    <View style={{ height: 30, width: 30, backgroundColor: '#2094FA', alignItems: 'center', borderRadius: 100 }}>
-                                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>A</Text>
-                                    </View>
-                            }
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>{`All` + ` - ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#2094FA" titleColor="#2094FA" colors={["#2094FA"]} onRefresh={() => onRefresh()} />}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
+                    <View style={STYLES.SubCategoryStyles.homeCardView}>
+                        <View style={{ marginLeft: 20, marginTop: 15 }}>
+                            <Text style={{ fontSize: 26, textTransform: 'capitalize' }}>{categoryProps.property.skillcategory}</Text>
                         </View>
-                    </View>
-                    <FlatList
-                        renderItem={renderSubCategory}
-                        horizontal={false}
-                        numColumns={10}
-                        data={subCategory}
-                        keyExtractor={item => `${item._id}`}
-                    />
-                </View>
+                        <View style={{ marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 10, flexDirection: 'row' }}>
+                            <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
+                                <TouchableOpacity style={allSub ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => allSubCatBox()}>
+                                    {
+                                        allSub ?
+                                            <View style={{ backgroundColor: '#2094FA', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 12, color: '#FFFFFF', marginLeft: 10, marginRight: 10 }}>{`All` + `  ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
+                                            </View>
+                                            :
+                                            <View style={{ backgroundColor: '#FFFFFF', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 12, color: '#000000', marginLeft: 10, marginRight: 10 }}>{`All` + `  ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
+                                            </View>
+                                    }
+                                </TouchableOpacity>
 
-                {(consultantList == null) || (consultantList && consultantList.length == 0) ?
-                    <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Consultant are not available</Text>
-                    :
-                    <View style={{ marginTop: 5 }}>
-                        <FlatList
-                            renderItem={renderConsultantList}
-                            data={consultantList}
-                            keyExtractor={item => `${item._id}`}
-                        />
+                            </View>
+                            <FlatList
+                                renderItem={renderSubCategory}
+                                horizontal={false}
+                                numColumns={10}
+                                data={subCategory}
+                                keyExtractor={item => `${item._id}`}
+                            />
+                        </View>
+
+                        {(consultantList == null) || (consultantList && consultantList.length == 0) ?
+                            <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Consultant are not available</Text>
+                            :
+                            <View style={{ marginTop: 5 }}>
+                                <FlatList
+                                    renderItem={renderConsultantList}
+                                    data={consultantList}
+                                    keyExtractor={item => `${item._id}`}
+                                />
+                            </View>
+                        }
+                        <View style={{ marginBottom: 20 }}></View>
                     </View>
-                }
-                <View style={{ marginBottom: 50 }}></View>
+                </View>
+                <View style={{ marginBottom: 20 }}></View>
             </ScrollView>
             <ActionButton
                 buttonColor="#00D9CE"

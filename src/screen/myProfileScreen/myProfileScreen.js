@@ -183,7 +183,7 @@ const myProfileScreen = (props) => {
                         <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
                             style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center' }}>
                             <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                            <View style={{ marginLeft: 8, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
+                            <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
                             </View>
                         </TouchableOpacity>
@@ -218,18 +218,18 @@ const myProfileScreen = (props) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => showModeVisible(true)}
-                            style={{ flexDirection: 'row', marginTop: 20, paddingLeft: 20 }}>
+                            style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }}>
                             <Image source={require('../../assets/Images/modeicon.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>Mode Settings</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}
-                            style={{ flexDirection: 'row', marginTop: 20, paddingLeft: 20 }} >
+                            style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} >
                             <Image source={require('../../assets/Images/conversation.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>My conversations</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, paddingLeft: 20, marginBottom: 5 }}
+                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20, marginBottom: 5 }}
                             onPress={() => props.navigation.navigate(SCREEN.MYSPENDSSCREEN)}>
                             <Image source={require('../../assets/Images/Group.png')} style={{ height: 20, width: 29 }} />
                             <Text style={STYLES.styles.icontextView}>My Spends</Text>
@@ -261,9 +261,9 @@ const myProfileScreen = (props) => {
                             <Text style={STYLES.styles.icontextView}>Logout</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, paddingLeft: 20, alignItems: 'center' }} onPress={() => showVervitudeModal(true)}>
-                            <Image source={require('../../assets/Images/2.png')} style={{ height: 30, width: 35 }} />
-                            <Text style={{ paddingLeft: 15, color: '#4D4D4D', fontSize: 14, fontWeight: 'bold' }}>Vervitude</Text>
+                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 10, alignItems: 'center' }} onPress={() => showVervitudeModal(true)}>
+                            <Image source={require('../../assets/Images/2.png')} style={{ height: 45, width: 50 }} />
+                            <Text style={{ paddingLeft: 10, color: '#4D4D4D', fontSize: 14, fontWeight: 'bold' }}>Vervitude</Text>
                         </TouchableOpacity>
 
                         <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 20 }}>
@@ -273,7 +273,7 @@ const myProfileScreen = (props) => {
                         </View>
                     </View>
                 </View>
-                <View style={{ paddingBottom: 10 }}></View>
+                <View style={{ paddingBottom: 30 }}></View>
             </ScrollView>
 
             {/* Moad setting */}

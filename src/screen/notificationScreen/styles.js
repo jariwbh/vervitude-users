@@ -5,7 +5,7 @@ const WIDTH = Dimensions.get('window').width;
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#00D9CE',
     },
     notificationview: {
         flexDirection: 'column',

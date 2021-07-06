@@ -105,10 +105,10 @@ const notificationScreen = (props) => {
     const LeftActions = () => {
         return (
             <View
-                style={{ flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'center' }}>
+                style={{ flex: 1, backgroundColor: '#00D9CE', justifyContent: 'center' }}>
                 <Text
                     style={{
-                        color: 'white',
+                        color: '#FFFFFF',
                         paddingHorizontal: 10,
                         fontWeight: '600'
                     }}>
@@ -120,31 +120,31 @@ const notificationScreen = (props) => {
     return (
         <SafeAreaView style={STYLE.styles.container}>
             <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
+            <View style={STYLE.styles.headerstyle}>
+                <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
+                    <View style={{ justifyContent: 'flex-start', flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                            <AntDesign name='arrowleft' size={24} color='#FFFFFF' style={{ marginLeft: 20 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                            <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ justifyContent: 'flex-end' }}>
+                        <TouchableOpacity onPress={() => clearAllNotification()}
+                            style={STYLE.styles.submitbtn}>
+                            <Text style={{ fontSize: 14, color: '#000000' }}>Clear</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+
             <ScrollView showsVerticalScrollIndicator={false}
                 nestedScrollEnabled={true}
                 refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
-                <View style={STYLE.styles.headerstyle}>
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
-                        <View style={{ justifyContent: 'flex-start', flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-                                <AntDesign name='arrowleft' size={24} color='#FFFFFF' style={{ marginLeft: 20 }} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center' }}>
-                                <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                                <View style={{ marginLeft: 8, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={{ justifyContent: 'flex-end' }}>
-                            <TouchableOpacity onPress={() => clearAllNotification()}
-                                style={STYLE.styles.submitbtn}>
-                                <Text style={{ fontSize: 14, color: '#000000' }}>Clear</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
                 {(notificationList == null) || (notificationList && notificationList.length <= 0) ?
                     (loading ? null :
                         <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>No Notification available</Text>

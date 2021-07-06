@@ -28,8 +28,9 @@ export default function WallateButton(props) {
         <TouchableOpacity onPress={props.onPress}
             style={styles.btnstyle} >
             <Text style={styles.btntext}>₹ {Number(walletBalance)}</Text>
+            <View style={styles.verticleLine}></View>
             <Image source={require('../../assets/Images/wallateicon.png')}
-                style={{ alignItems: 'center', height: 20, width: 25 }}
+                style={{ alignItems: 'center', height: 15, width: 20, marginRight: 8 }}
             />
         </TouchableOpacity>
     )
@@ -37,7 +38,7 @@ export default function WallateButton(props) {
 
 const styles = StyleSheet.create({
     btnstyle: {
-        height: 45,
+        height: 50,
         width: 120,
         backgroundColor: '#FFFFFF',
         flexDirection: 'row',
@@ -47,7 +48,12 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     btntext: {
-        fontSize: 20,
-        color: '#04DE71'
-    }
+        fontSize: 18,
+        color: '#04DE71',
+        marginLeft: 5
+    }, verticleLine: {
+        height: '100%',
+        width: 1,
+        backgroundColor: '#EEEEEE',
+    },
 })

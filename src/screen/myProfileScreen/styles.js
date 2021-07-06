@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     },
     cardview: {
         width: WIDTH - 20,
-        height: 700,
+        height: 720,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         marginTop: 30,
@@ -197,7 +197,7 @@ export const styles = StyleSheet.create({
     },
     icontextView: {
         marginLeft: 20,
-        color: '#4D4D4D',
+        color: '#262626',
         fontSize: 16
     }
 })

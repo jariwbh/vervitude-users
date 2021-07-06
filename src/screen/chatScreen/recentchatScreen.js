@@ -98,7 +98,7 @@ const recentchatScreen = (props) => {
                         style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25, borderColor: '#555555', borderWidth: 0.2 }} />
                     <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60, marginLeft: -70 }}>
                     <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000", textTransform: 'capitalize' }}>
                             {item && item.property.consultantid.fullname.split(' ')[0]}</Text>
@@ -160,7 +160,7 @@ const recentchatScreen = (props) => {
 
                 {(recentChat == null) || (recentChat && recentChat.length == 0) ?
                     (loading ? null :
-                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>Recent chat not available</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 16, color: '#555555', marginTop: 50 }}>Recent chat not available</Text>
                     )
                     :
                     <FlatList

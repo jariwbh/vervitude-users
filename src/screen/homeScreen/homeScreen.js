@@ -92,7 +92,7 @@ const homeScreen = (props) => {
         PushNotification.configure({
             // (optional) Called when Token is generated (iOS and Android)
             onRegister: function (token) {
-                console.log(`token`, token)
+                //console.log(`token`, token)
                 if (token.token != undefined) {
                     getFcmToken(token.token)
                 }
