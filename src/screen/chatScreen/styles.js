@@ -5,14 +5,14 @@ const WIDTH = Dimensions.get('window').width;
 export const newChatStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#EEEEEE"
+        backgroundColor: "#FFB629"
     },
     counsultantview: {
         flex: 1,
         height: 180,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
-        borderRadius: 10,
+        borderRadius: 20,
         marginTop: 5,
         shadowOpacity: 10,
         shadowRadius: 20,
@@ -35,10 +35,11 @@ export const newChatStyles = StyleSheet.create({
             width: 0,
         },
         elevation: 1,
-        marginTop: 20,
+        marginTop: 0,
         width: WIDTH - 20,
-        height: 45,
+        height: 50,
         alignItems: 'center',
+        marginBottom: 10
     },
     statInput: {
         fontSize: 14,
@@ -55,7 +56,7 @@ export const newChatStyles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     headerstyle: {
-        backgroundColor: '#5AC8FA',
+        backgroundColor: '#FFB629',
         width: WIDTH,
         height: 150,
         borderBottomLeftRadius: 35,

@@ -5,12 +5,13 @@ const WIDTH = Dimensions.get('window').width;
 export const myWalletStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#04DE71',
     },
     TextInput: {
         width: WIDTH / 2,
         height: 80,
         fontSize: 26,
+        color: '#000000'
     },
     amount: {
         width: 80,
@@ -34,17 +35,17 @@ export const myWalletStyles = StyleSheet.create({
     rechargeview: {
         width: WIDTH,
         // height: HEIGHT - 50,
-        backgroundColor: '#FFFFFF',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        backgroundColor: '#04DE71',
+        // borderTopLeftRadius: 20,
+        // borderTopRightRadius: 20,
         marginTop: 20,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 2,
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 2,
     },
     bankview: {
         height: 70,
@@ -74,7 +75,8 @@ export const myWalletStyles = StyleSheet.create({
         shadowOffset: {
             height: 0,
             width: 0,
-        }
+        },
+        marginBottom: 10
     },
     headerstyle: {
         backgroundColor: '#04DE71',
@@ -82,13 +84,21 @@ export const myWalletStyles = StyleSheet.create({
         height: 100,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30
+    },
+    homeCardView: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 15,
+        width: WIDTH - 20,
+        flexDirection: 'column',
+        marginTop: 0,
+        height: 250,
     }
 })
 
 export const rechargeDetailStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#04DE71',
     },
     gamountview: {
         height: 250,
@@ -137,6 +147,14 @@ export const rechargeDetailStyles = StyleSheet.create({
         height: 100,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30
+    },
+    homeCardView: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 15,
+        width: WIDTH - 20,
+        flexDirection: 'column',
+        marginTop: 0,
+        height: HEIGHT - 100,
     }
 })
 

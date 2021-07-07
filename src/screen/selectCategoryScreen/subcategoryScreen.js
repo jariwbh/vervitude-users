@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import { TopConsultantViewListService } from '../../services/UserService/UserService';
 import WallateButton from '../../components/WallateButton/WallateButton';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

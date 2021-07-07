@@ -105,9 +105,9 @@ const promocodeScreen = (props) => {
                 {
                     item.selected == true &&
                     <>
-                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                        {/* <View style={{ marginTop: 15, flexDirection: 'row' }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)', marginLeft: 30, marginRight: 30 }}></View>
-                        </View>
+                        </View> */}
                         <View style={{ flex: 1 }}>
                             <View style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}>
                                 <HTML
@@ -149,26 +149,27 @@ const promocodeScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps={'always'}
                 nestedScrollEnabled={true}
-                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#787AFF" titleColor="#787AFF" colors={["#787AFF"]} onRefresh={() => onRefresh()} />}>
 
                 <View style={{ flexDirection: 'row', marginTop: 5, justifyContent: 'space-around' }}>
                     <TextInput
                         style={STYLES.styles.TextInput}
                         placeholder='Type Here'
-                        underlineColorAndroid='#999999'
+                        underlineColorAndroid='#FFFFFF'
+                        placeholderTextColor="#FFFFFF"
                         type='clear'
                         autoCorrect={false}
                         onChangeText={(value) => searchFilterFunction(value)}
                         autoCapitalize='characters'
                     />
                     <TouchableOpacity style={{ marginTop: 25 }}>
-                        <Text style={{ fontSize: 18, color: '#787AFF', fontWeight: 'bold' }}>Apply</Text>
+                        <Text style={{ fontSize: 18, color: '#FFFFFF', fontWeight: 'bold' }}>Apply</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={STYLES.styles.mainCardView}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                        <Text style={{ fontSize: 18, color: '#787AFF', fontWeight: 'bold' }}>Available Promotions</Text>
+                        <Text style={{ fontSize: 18, color: '#FFFFFF', fontWeight: 'bold' }}>Available Promotions</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
 

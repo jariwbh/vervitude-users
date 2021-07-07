@@ -17,7 +17,7 @@ const renderInputToolbar = (props) => (
 				width: 0
 			},
 			elevation: 2,
-			width: WIDTH - 20,
+			width: WIDTH - 40,
 			height: 50,
 			borderRadius: 15,
 			borderTopWidth: 0,
@@ -26,7 +26,8 @@ const renderInputToolbar = (props) => (
 			marginBottom: 15,
 			marginHorizontal: 10,
 			justifyContent: 'center',
-			alignItems: 'center'
+			alignItems: 'center',
+			bottom: 0
 		}}
 		renderComposer={(props) => (
 			<Composer

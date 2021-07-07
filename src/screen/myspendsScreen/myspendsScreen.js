@@ -144,7 +144,7 @@ const myspendsScreen = (props) => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps={'always'}
-                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FFE64F" titleColor="#FFE64F" colors={["#FFE64F"]} onRefresh={() => onRefresh()} />}>
 
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                     <View style={STYLES.styles.walletview}>

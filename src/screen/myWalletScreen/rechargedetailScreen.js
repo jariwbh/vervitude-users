@@ -196,139 +196,141 @@ const rechargedetailScreen = (props) => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ marginTop: 15, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#000000' }}>Recharge Amount</Text>
-                    <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#555555' }}>₹ {rechargeDetails && rechargeDetails.amount}</Text>
-                </View>
-                <View style={{ marginTop: 15, marginLeft: 20 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#34A853' }}>Recharge Summary</Text>
-                </View>
-                {
-                    rechargeDetails && rechargeDetails.couponDetails ?
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
-                            {selected == true ?
-                                <View style={STYLES.rechargeDetailStyles.gamountview}>
-                                    <View style={{ marginLeft: 20, marginRight: 20 }}>
-                                        <TouchableOpacity
-                                            onPress={() => showRechargeDeatils(false)}
-                                            style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 0 }}>
-                                            <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 15, width: 15 }} />
-                                        </TouchableOpacity>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={STYLES.rechargeDetailStyles.homeCardView}>
+                        <View style={{ marginTop: 15, justifyContent: 'center', alignItems: 'center' }}>
+                            {/* <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#000000' }}>Recharge Amount</Text> */}
+                            <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#555555' }}>₹ {rechargeDetails && rechargeDetails.amount}</Text>
+                        </View>
+                        <View style={{ marginTop: 15, marginLeft: 20 }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#34A853' }}>Recharge Summary</Text>
+                        </View>
+                        {
+                            rechargeDetails && rechargeDetails.couponDetails ?
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+                                    {selected == true ?
+                                        <View style={STYLES.rechargeDetailStyles.gamountview}>
+                                            <View style={{ marginLeft: 20, marginRight: 20 }}>
+                                                <TouchableOpacity
+                                                    onPress={() => showRechargeDeatils(false)}
+                                                    style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 0 }}>
+                                                    <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 15, width: 15 }} />
+                                                </TouchableOpacity>
 
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 10 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Recharge Amount</Text>
-                                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {rechargeDetails.amount}</Text>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 10 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Recharge Amount</Text>
+                                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {rechargeDetails.amount}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 14, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Coupon Applied ({rechargeDetails.couponDetails.property.title})</Text>
+                                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {rechargeDetails.couponDetails.property.fixvalue}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>GST (18%) </Text>
+                                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) - (Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1))}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Balance Added </Text>
+                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1))}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 14, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
+                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <View style={{ marginTop: 14, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
+                                        :
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+                                            <View style={STYLES.rechargePaymentStyles.gamountview}>
+                                                <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 14, marginLeft: 20 }}>Balance Post Recharge </Text>
+                                                </View>
+                                                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 18, color: '#04DE71', marginRight: 20 }}>₹ {rechargeDetails.amount}</Text>
+                                                    <TouchableOpacity onPress={() => showRechargeDeatils(true)}>
+                                                        <AntDesign name='downsquare' color='#35A453' size={15} style={{ marginRight: 20 }} />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Coupon Applied ({rechargeDetails.couponDetails.property.title})</Text>
-                                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {rechargeDetails.couponDetails.property.fixvalue}</Text>
-                                        </View>
-                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
-                                        </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>GST (18%) </Text>
-                                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) - (Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1))}</Text>
-                                        </View>
-                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
-                                        </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Balance Added </Text>
-                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1))}</Text>
-                                        </View>
-                                        <View style={{ marginTop: 14, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
-                                        </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
-                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
-                                        </View>
-                                    </View>
+                                    }
                                 </View>
                                 :
                                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
-                                    <View style={STYLES.rechargePaymentStyles.gamountview}>
-                                        <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 14, marginLeft: 20 }}>Balance Post Recharge </Text>
-                                        </View>
-                                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 18, color: '#04DE71', marginRight: 20 }}>₹ {rechargeDetails.amount}</Text>
-                                            <TouchableOpacity onPress={() => showRechargeDeatils(true)}>
-                                                <AntDesign name='downsquare' color='#35A453' size={15} style={{ marginRight: 20 }} />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                            }
-                        </View>
-                        :
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
-                            {selected == true ?
-                                <View style={STYLES.rechargeDetailStyles.gamountview}>
-                                    <View style={{ marginLeft: 20, marginRight: 20 }}>
-                                        <TouchableOpacity
-                                            onPress={() => showRechargeDeatils(false)}
-                                            style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 0 }}>
-                                            <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 15, width: 15 }} />
-                                        </TouchableOpacity>
+                                    {selected == true ?
+                                        <View style={STYLES.rechargeDetailStyles.gamountview}>
+                                            <View style={{ marginLeft: 20, marginRight: 20 }}>
+                                                <TouchableOpacity
+                                                    onPress={() => showRechargeDeatils(false)}
+                                                    style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 0 }}>
+                                                    <Image source={require('../../assets/Images/squarefilled.png')} style={{ height: 15, width: 15 }} />
+                                                </TouchableOpacity>
 
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 10 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Recharge Amount</Text>
-                                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {rechargeDetails.amount}</Text>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 10 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Recharge Amount</Text>
+                                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ {rechargeDetails.amount}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 14, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Coupon Applied </Text>
+                                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ 0</Text>
+                                                </View>
+                                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>GST (18%) </Text>
+                                                    <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹  {Math.round((Number(rechargeDetails.amount)) - (Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)))}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Balance Added </Text>
+                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1))}</Text>
+                                                </View>
+                                                <View style={{ marginTop: 14, flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
+                                                </View>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
+                                                    <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
+                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <View style={{ marginTop: 14, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }}></View>
+                                        :
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+                                            <View style={STYLES.rechargePaymentStyles.gamountview}>
+                                                <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 14, marginLeft: 20 }}>Balance Post Recharge </Text>
+                                                </View>
+                                                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 18, color: '#04DE71', marginRight: 20 }}>₹ {rechargeDetails.amount}</Text>
+                                                    <TouchableOpacity onPress={() => showRechargeDeatils(true)}>
+                                                        <AntDesign name='downsquare' color='#35A453' size={15} style={{ marginRight: 20 }} />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Coupon Applied </Text>
-                                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}> ₹ 0</Text>
-                                        </View>
-                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
-                                        </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>GST (18%) </Text>
-                                            <Text style={{ fontSize: 12, color: '#000000', marginRight: 20 }}>- ₹  {Math.round((Number(rechargeDetails.amount)) - (Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)))}</Text>
-                                        </View>
-                                        <View style={{ marginTop: 15, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
-                                        </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>Balance Added </Text>
-                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1))}</Text>
-                                        </View>
-                                        <View style={{ marginTop: 14, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}></View>
-                                        </View>
-                                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
-                                            <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
-                                            <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
-                                        </View>
-                                    </View>
+                                    }
                                 </View>
-                                :
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
-                                    <View style={STYLES.rechargePaymentStyles.gamountview}>
-                                        <View style={{ justifyContent: 'flex-start', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 14, marginLeft: 20 }}>Balance Post Recharge </Text>
-                                        </View>
-                                        <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 18, color: '#04DE71', marginRight: 20 }}>₹ {rechargeDetails.amount}</Text>
-                                            <TouchableOpacity onPress={() => showRechargeDeatils(true)}>
-                                                <AntDesign name='downsquare' color='#35A453' size={15} style={{ marginRight: 20 }} />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-                            }
-                        </View>
 
-                }
-                {/* <View style={{ marginLeft: 20, marginTop: 20 }}>
+                        }
+                        {/* <View style={{ marginLeft: 20, marginTop: 20 }}>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#34A853' }}>Payment Options</Text>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
@@ -376,15 +378,17 @@ const rechargedetailScreen = (props) => {
                     </View>
                 </View> */}
 
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
-                    <TouchableOpacity style={STYLES.rechargeDetailStyles.addmoney} onPress={() => openPaymentScreen()} >
-                        <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Procceed</Text>
-                    </TouchableOpacity>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
+                            <TouchableOpacity style={STYLES.rechargeDetailStyles.addmoney} onPress={() => openPaymentScreen()} >
+                                <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold' }}>Procceed</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balance ₹ {Number(walletBalance)}</Text>
+                        </View>
+                    </View>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balance ₹ {Number(walletBalance)}</Text>
-                </View>
-                <View style={{ marginBottom: 0 }}></View>
+                <View style={{ marginBottom: 20 }}></View>
             </ScrollView>
             {loading ? <Loader /> : null}
         </SafeAreaView>

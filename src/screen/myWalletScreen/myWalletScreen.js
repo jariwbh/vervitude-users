@@ -91,7 +91,7 @@ const myWalletScreen = (props) => {
                             <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
                             <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('lll')}</Text>
                         </View>
-                        <Text style={{ fontSize: 14, color: '#34A853', marginTop: 5, marginRight: 20 }}> ₹ {Number(item.paidamount)}</Text>
+                        <Text style={{ fontSize: 14, color: '#34A853', marginTop: 15, marginRight: 20 }}> ₹ {Number(item.paidamount)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -111,7 +111,7 @@ const myWalletScreen = (props) => {
                             <View style={{ width: 50, height: 50, marginTop: -10, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                                 <FontAwesome name='rupee' size={20} color='#FFFFFF' />
                             </View>
-                            <View style={{ flexDirection: 'column', marginLeft: -90 }}>
+                            <View style={{ flexDirection: 'column', marginLeft: -120, marginTop: 10, }}>
                                 <Text style={{ fontSize: 14, color: '#000000', marginTop: -20, marginLeft: 15 }}>Credit Card</Text>
                                 <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
                                 <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('LT')}</Text>
@@ -197,52 +197,55 @@ const myWalletScreen = (props) => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                <View style={{ flexDirection: 'column', marginTop: 20 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <TextInput
-                            style={STYLES.myWalletStyles.TextInput}
-                            placeholder='₹ Amount'
-                            underlineColorAndroid='#999999'
-                            defaultValue={amount}
-                            keyboardType='number-pad'
-                            onChangeText={(amount) => setAmount(amount)}
-                        />
-                        <TouchableOpacity style={{ marginTop: 15 }} onPress={() => props.navigation.navigate(SCREEN.PROMOCODESCREEN)}>
-                            <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
-                        </TouchableOpacity>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={STYLES.myWalletStyles.homeCardView}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+                                <Text style={{ fontSize: 26, color: '#000000', fontWeight: 'bold' }}>{'₹'}</Text>
+                                <TextInput
+                                    style={STYLES.myWalletStyles.TextInput}
+                                    placeholder='Amount'
+                                    placeholderTextColor="#000000"
+                                    defaultValue={amount}
+                                    keyboardType='number-pad'
+                                    onChangeText={(amount) => setAmount(amount)}
+                                />
+                            </View>
+                            <TouchableOpacity style={{ marginRight: 20 }} onPress={() => props.navigation.navigate(SCREEN.PROMOCODESCREEN)}>
+                                <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {couponDetails && couponDetails.couponcode ?
+                            <Text style={{ fontSize: 16, color: '#000000', marginLeft: 25 }}>{couponDetails.couponcode}</Text>
+                            : null}
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 0 }}>
+                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('500') }}>
+                                <Text style={{ fontSize: 16 }}>₹ 500</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('1000') }}>
+                                <Text style={{ fontSize: 16 }}>₹ 1,000</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('3000')}>
+                                <Text style={{ fontSize: 16 }}>₹ 3,000</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('10000')}>
+                                <Text style={{ fontSize: 16 }}>₹ 10,000</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                            <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => onPressRecharge()}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 'bold' }}>Add Money</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balanced ₹ {Number(walletBalance)}</Text>
+                        </View>
                     </View>
-                    {couponDetails && couponDetails.couponcode ?
-                        <Text style={{ fontSize: 16, color: '#000000', marginLeft: 25 }}>{couponDetails.couponcode}</Text>
-                        : null}
                 </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('500') }}>
-                        <Text style={{ fontSize: 16 }}>₹ 500</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('1000') }}>
-                        <Text style={{ fontSize: 16 }}>₹ 1,000</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('3000')}>
-                        <Text style={{ fontSize: 16 }}>₹ 3,000</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('10000')}>
-                        <Text style={{ fontSize: 16 }}>₹ 10,000</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                    <TouchableOpacity style={STYLES.myWalletStyles.addmoney} onPress={() => onPressRecharge()}>
-                        <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Add Money</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balanced ₹ {Number(walletBalance)}</Text>
-                </View>
-
                 <View style={STYLES.myWalletStyles.rechargeview}>
-                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#34A853', marginTop: 25 }}>Recharge History</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#FFFFFF', marginTop: 5, marginBottom: 10 }}>Recharge History</Text>
                     {/* <View style={{ marginLeft: 15, marginTop: 15 }}>
                         <Text style={{ fontSize: 14, color: '#999999' }}>14th March 2021</Text>
                     </View> */}

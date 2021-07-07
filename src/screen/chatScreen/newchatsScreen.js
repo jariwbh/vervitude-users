@@ -3,8 +3,7 @@ import {
     View, Text, SafeAreaView, TextInput, ScrollView, Dimensions, ImageBackground,
     TouchableOpacity, Image, StatusBar, RefreshControl, Pressable, FlatList, Modal
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
@@ -114,35 +113,41 @@ const newchatsScreen = (props) => {
                             style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
                             imageStyle={{ borderRadius: 100 }}
                         >
-                            {
+                            {/* {
                                 item.property.live === true ?
                                     <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
                                     :
                                     <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
-                            }
+                            } */}
                         </ImageBackground>
-                        <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
-                            <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
-                            <StarRating
-                                disabled={false}
-                                maxStars={5}
-                                starSize={15}
-                                rating={item.ratinglen}
-                                fullStarColor={'#F1C40E'}
-                                emptyStarColor={'#000000'}
-                            />
-                        </View>
+                        {
+                            Number(item.ratinglen) > 30 ?
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
+                                    <StarRating
+                                        disabled={false}
+                                        maxStars={5}
+                                        starSize={15}
+                                        rating={item.ratinglen}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
+                                    />
+                                </View>
+                                :
+                                <View style={{ marginTop: 5, padding: 5, justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: '#000000', fontSize: 12 }}>{'New'}</Text>
+                                </View>
+                        }
                     </View>
 
                     <View style={{ marginLeft: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
-                        <Text style={{ fontSize: 16, color: '#999999' }}>{item.property.usertag}</Text>
+                        <Text style={{ fontSize: 16, color: '#555555' }}>{item.property.usertag}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                             <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
-
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000' }}>
+                        <Text style={{ fontSize: 12, color: '#000000', marginTop: 5 }}>
                             {
                                 item.skills ?
                                     item.skills.slice(0, 3).map(({
@@ -153,17 +158,21 @@ const newchatsScreen = (props) => {
                         </Text>
 
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 0 }}>
-                            <View style={{ justifyContent: 'center' }}>
+                            <View style={{ justifyContent: 'center', marginTop: -20 }}>
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin ? item.property.chargespermin : '0'} per min</Text>
-                                <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text>
+                                {/* <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text> */}
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, flexDirection: 'row' }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
-                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 100, backgroundColor: '#5AC8FA' }}>
-                                    <FontAwesome5 name='edit' size={14} color='#FFFFFF' />
+                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>
+                                    <Image source={require('../../assets/Images/chaticon2.png')} style={{ height: 25, width: 27 }} />
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 12, color: '#000000' }}>chat</Text>
+                                <TouchableOpacity
+                                    onPress={() => navigationhandler(item)}
+                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: -30 }}>
+                                    <Image source={require('../../assets/Images/callicon.png')} style={{ height: 25, width: 25 }} />
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
@@ -174,7 +183,7 @@ const newchatsScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.newChatStyles.container}>
-            <StatusBar hidden backgroundColor='#5AC8FA' barStyle='light-content' />
+            <StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
             <View style={STYLES.newChatStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
@@ -193,7 +202,7 @@ const newchatsScreen = (props) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => { props.navigation.navigate("newchatsScreen") }}
-                    style={{ width: 150, height: 40, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
+                    style={{ width: 150, height: 35, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
                     <Text style={{ fontSize: 14, color: '#5AC8FA' }}>Find a Consultant</Text>
                 </TouchableOpacity>
             </View>
@@ -205,7 +214,7 @@ const newchatsScreen = (props) => {
                     </TouchableOpacity>
                     <TextInput
                         style={STYLES.newChatStyles.statInput}
-                        placeholder='Search Chat'
+                        placeholder='Search Chats'
                         type='clear'
                         placeholderTextColor='#999999'
                         returnKeyType='done'
@@ -219,7 +228,7 @@ const newchatsScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps={'always'}
                 nestedScrollEnabled={true}
-                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FFB629" titleColor="#FFB629" colors={["#FFB629"]} onRefresh={() => onRefresh()} />}>
 
                 {(consultantList == null) || (consultantList && consultantList.length == 0) ?
                     (loading ? null :

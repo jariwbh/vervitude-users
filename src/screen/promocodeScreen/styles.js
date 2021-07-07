@@ -5,12 +5,13 @@ const WIDTH = Dimensions.get('window').width;
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#787AFF',
     },
     TextInput: {
         width: WIDTH / 2 + 40,
         height: 80,
         fontSize: 24,
+        color: '#FFFFFF'
     },
     gamountview: {
         height: 80,
@@ -44,17 +45,17 @@ export const styles = StyleSheet.create({
     mainCardView: {
         width: WIDTH,
         height: HEIGHT - 80,
-        backgroundColor: '#FFFFFF',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        backgroundColor: '#787AFF',
+        //borderTopLeftRadius: 20,
+        //borderTopRightRadius: 20,
         marginTop: 20,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 2,
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 2,
     },
     headerstyle: {
         backgroundColor: '#787AFF',

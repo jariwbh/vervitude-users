@@ -856,7 +856,6 @@ const chatScreen = (props, { navigation }) => {
 							source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
 							style={{ width: 50, height: 52, borderRadius: 100, marginLeft: 5 }}
 						/>
-
 						<View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'column', marginLeft: 10 }}>
 							<Text style={{ fontSize: 18, color: '#FFFFFF', textTransform: 'capitalize' }}>{consultanDetails.fullname.split(' ')[0]}</Text>
 							<Text style={{ fontSize: 12, color: '#000000', marginLeft: 0 }}>
@@ -864,7 +863,6 @@ const chatScreen = (props, { navigation }) => {
 							</Text>
 						</View>
 					</View>
-
 					<View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
 						<TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.HOMESCREEN)}>
 							<Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
@@ -884,20 +882,22 @@ const chatScreen = (props, { navigation }) => {
 				</View>
 			</View>
 			<ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-				<View style={styles.chatview}>
-					<GiftedChat
-						keyboardShouldPersistTaps={'always'}
-						user={{ _id: sender }}
-						isAnimated={true}
-						messages={messages}
-						onSend={onSend}
-						renderAvatar={null}
-						alwaysShowSend={true}
-						renderBubble={(props) => renderBubble(props, navigation)}
-						//renderDay={renderDay}
-						minInputToolbarHeight={80}
-						renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
-					/>
+				<View style={styles.centeView}>
+					<View style={styles.chatview}>
+						<GiftedChat
+							keyboardShouldPersistTaps={'always'}
+							user={{ _id: sender }}
+							isAnimated={true}
+							messages={messages}
+							onSend={onSend}
+							renderAvatar={null}
+							alwaysShowSend={true}
+							renderBubble={(props) => renderBubble(props, navigation)}
+							//renderDay={renderDay}
+							minInputToolbarHeight={80}
+							renderInputToolbar={hideInput ? () => <EndChat /> : renderInputToolbar}
+						/>
+					</View>
 				</View>
 			</ScrollView>
 
@@ -1342,14 +1342,14 @@ export default chatScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#EEEEEE'
+		backgroundColor: '#FFB629'
 	},
 	chatview: {
-		marginTop: 20,
-		width: WIDTH,
+		marginTop: 10,
+		width: WIDTH - 20,
 		backgroundColor: '#FFFFFF',
 		borderRadius: 30,
-		height: HEIGHT - 200,
+		height: HEIGHT - 160,
 		shadowOpacity: 0.5,
 		shadowRadius: 1,
 		shadowOffset: {
@@ -1357,7 +1357,7 @@ const styles = StyleSheet.create({
 			width: 0
 		},
 		elevation: 1,
-		marginBottom: 10
+		marginBottom: 10,
 	},
 	chatIcon: {
 		width: 40,
@@ -1402,23 +1402,25 @@ const styles = StyleSheet.create({
 			height: 2
 		},
 		shadowOpacity: 0.25,
-		shadowRadius: 4,
-		elevation: 5
+		shadowRadius: 1,
+		elevation: 1
 	},
 	timeoutModalView: {
 		height: 100,
 		width: WIDTH - 90,
 		borderRadius: 20,
-		backgroundColor: 'white',
+		backgroundColor: '#EEEEEE',
 		alignItems: 'center',
-		shadowColor: '#000000',
+		shadowColor: '#EEEEEE',
 		shadowOffset: {
 			width: 0,
 			height: 2
 		},
 		shadowOpacity: 0.25,
-		shadowRadius: 4,
-		elevation: 5
+		shadowRadius: 1,
+		elevation: 1,
+		borderColor: '#FFB629',
+		borderWidth: 1
 	},
 	modalView: {
 		height: 250,
@@ -1650,7 +1652,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: WIDTH / 6,
 		height: 25,
-		backgroundColor: '#EEEEEE',
+		backgroundColor: '#AAAAAA',
 		borderRadius: 20,
 		alignItems: 'center',
 		justifyContent: 'center',

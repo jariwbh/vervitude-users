@@ -130,7 +130,7 @@ const recentchatScreen = (props) => {
                 </View>
                 <TouchableOpacity
                     onPress={() => { props.navigation.navigate("newchatsScreen") }}
-                    style={{ width: 150, height: 40, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
+                    style={{ width: 150, height: 35, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
                     <Text style={{ fontSize: 14, color: '#FFB629' }}>Find a Consultant</Text>
                 </TouchableOpacity>
             </View>
@@ -156,7 +156,7 @@ const recentchatScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps={'always'}
                 nestedScrollEnabled={true}
-                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#00D9CE" titleColor="#00D9CE" colors={["#00D9CE"]} onRefresh={() => onRefresh()} />}>
+                refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FFB629" titleColor="#FFB629" colors={["#FFB629"]} onRefresh={() => onRefresh()} />}>
 
                 {(recentChat == null) || (recentChat && recentChat.length == 0) ?
                     (loading ? null :
