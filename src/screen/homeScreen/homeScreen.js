@@ -360,7 +360,7 @@ const homeScreen = (props) => {
     //render category list useing flatlist
     const renderCategory = ({ item }) => (
         item.add == true ?
-            <View style={{ flex: 1, paddingHorizontal: 7, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, padding: 5, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)} style={{
                     justifyContent: 'center', alignItems: 'center', marginTop: 20
                 }}>
@@ -372,7 +372,7 @@ const homeScreen = (props) => {
                 </View>
             </View>
             :
-            <View style={{ flex: 1, paddingHorizontal: 7, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, padding: 5, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item }) }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     <Image source={{ uri: item.property.image[0].attachment }}
                         style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
