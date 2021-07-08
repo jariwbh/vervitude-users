@@ -95,10 +95,10 @@ const recentchatScreen = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                     <Image source={{ uri: item ? item.property.consultantid.profilepic !== null && item.property.consultantid.profilepic ? item.property.consultantid.profilepic : noProfile : noProfile }}
-                        style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 25, borderColor: '#555555', borderWidth: 0.2 }} />
+                        style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 20, borderColor: '#555555', borderWidth: 0.2 }} />
                     <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60, marginLeft: -70 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60, marginLeft: -20 }}>
                     <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: "#000000", textTransform: 'capitalize' }}>
                             {item && item.property.consultantid.fullname.split(' ')[0]}</Text>

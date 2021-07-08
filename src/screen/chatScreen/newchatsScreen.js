@@ -3,7 +3,7 @@ import {
     View, Text, SafeAreaView, TextInput, ScrollView, Dimensions, ImageBackground,
     TouchableOpacity, Image, StatusBar, RefreshControl, Pressable, FlatList, Modal
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 import * as STYLES from './styles';
@@ -101,27 +101,57 @@ const newchatsScreen = (props) => {
         <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
             style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
             <View style={STYLES.newChatStyles.counsultantview}>
-                {/* <View style={STYLES.newChatStyles.cauve}>
-                    <FontAwesome name='circle' size={110} color='#FFB629' />
-                    <Image source={require('../../assets/Images/medal1.png')}
-                        style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
-                    />
-                </View> */}
-                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 10, flex: 1, marginLeft: 20 }}>
+                <View style={STYLES.newChatStyles.cauve}>
+                    {item.property.consultantgrade && item.property.consultantgrade == "Gold" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.property.consultantgrade && item.property.consultantgrade == "Silver" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#E5E4E2' />
+                            <Image source={require('../../assets/Images/medal2.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.property.consultantgrade && item.property.consultantgrade == "Platinum" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#E5E4E2' />
+                            <Image source={require('../../assets/Images/medal4.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.property.consultantgrade && item.property.consultantgrade == "Diamond" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#9DF9FF' />
+                            <Image source={require('../../assets/Images/medal3.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                </View>
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: -50, flex: 1, marginLeft: 20 }}>
                     <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
-                        <ImageBackground source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
-                            style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
-                            imageStyle={{ borderRadius: 100 }}
-                        >
-                            {/* {
+                        <View style={{ borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1.5 }}>
+                            <ImageBackground source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
+                                style={{ width: 90, height: 90 }}
+                                imageStyle={{ borderRadius: 100 }}
+                            >
+                                {/* {
                                 item.property.live === true ?
                                     <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
                                     :
                                     <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
                             } */}
-                        </ImageBackground>
+                            </ImageBackground>
+                        </View>
                         {
-                            Number(item.ratinglen) > 30 ?
+                            Number(item.ratinglen) > 1000 ?
                                 <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
                                     <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
                                     <StarRating
@@ -147,7 +177,7 @@ const newchatsScreen = (props) => {
                             <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000', marginTop: 5 }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 150 }}>
                             {
                                 item.skills ?
                                     item.skills.slice(0, 3).map(({
@@ -162,15 +192,15 @@ const newchatsScreen = (props) => {
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin ? item.property.chargespermin : '0'} per min</Text>
                                 {/* <Text style={{ fontSize: 12, color: '#999999' }}>{item.property.location}</Text> */}
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, flexDirection: 'row' }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
                                     style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>
                                     <Image source={require('../../assets/Images/chaticon2.png')} style={{ height: 25, width: 27 }} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={() => navigationhandler(item)}
-                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: -30 }}>
+                                    onPress={() => alert('This feature is currently not available')}
+                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: 0 }}>
                                     <Image source={require('../../assets/Images/callicon.png')} style={{ height: 25, width: 25 }} />
                                 </TouchableOpacity>
                             </View>

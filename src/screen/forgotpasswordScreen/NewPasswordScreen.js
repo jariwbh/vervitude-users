@@ -161,7 +161,7 @@ const NewPasswordScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ marginVertical: 50 }} />
+                    <View style={{ marginVertical: 20 }} />
                 </ScrollView>
                 {loading ? <Loader /> : null}
             </ImageBackground>

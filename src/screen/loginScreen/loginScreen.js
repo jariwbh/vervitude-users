@@ -75,9 +75,9 @@ function loginScreen(props) {
             const response = await registerServices(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
+                    ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
                 } else {
-                    alert('SignIn Success!');
+                    alert('SignIn Success');
                 }
                 setloading(false);
                 this.props.navigation.navigate(SCREEN.LOGINSCREEN);
@@ -86,9 +86,9 @@ function loginScreen(props) {
         catch (error) {
             setloading(false);
             if (Platform.OS === 'android') {
-                ToastAndroid.show('SignIn Failed!', ToastAndroid.LONG);
+                ToastAndroid.show('UserName Not Valid', ToastAndroid.LONG);
             } else {
-                alert('SignIn Failed!');
+                alert('UserName Not Valid');
             }
         };
     }
@@ -142,6 +142,7 @@ function loginScreen(props) {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <View style={{ marginBottom: 20 }} />
                 </ScrollView>
             </ImageBackground>
             {loading ? <Loader /> : null}

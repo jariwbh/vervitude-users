@@ -23,6 +23,7 @@ export const categoryStyles = StyleSheet.create({
         width: WIDTH - 20,
         height: 50,
         alignItems: 'center',
+        marginBottom: 10
     },
     statInput: {
         fontSize: 15,
@@ -90,9 +91,9 @@ export const SubCategoryStyles = StyleSheet.create({
         alignItems: 'center',
         height: 30,
         backgroundColor: '#FFFFFF',
-        borderRadius: 1.5,
-        borderColor: '#000000',
-        borderWidth: 0.1,
+        borderRadius: 1.3,
+        borderColor: '#555555',
+        borderWidth: 0.2,
         shadowOpacity: 0.9,
         shadowRadius: 3,
         shadowOffset: {
@@ -109,7 +110,7 @@ export const SubCategoryStyles = StyleSheet.create({
         backgroundColor: '#2094FA',
         borderRadius: 5,
         borderColor: '#2094FA',
-        borderWidth: 0.1,
+        borderWidth: 0.3,
         shadowOpacity: 0.9,
         shadowRadius: 3,
         shadowOffset: {
@@ -146,7 +147,7 @@ export const SubCategoryStyles = StyleSheet.create({
     headerstyle: {
         backgroundColor: '#2094FA',
         width: WIDTH,
-        height: 180,
+        height: 170,
         borderBottomLeftRadius: 35,
         borderBottomRightRadius: 35
     },

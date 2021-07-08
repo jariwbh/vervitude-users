@@ -300,7 +300,7 @@ const forgotpasswordScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ marginVertical: 80 }} />
+                    <View style={{ marginVertical: 20 }} />
                 </ScrollView>
                 {loading ? <Loader /> : null}
             </ImageBackground>

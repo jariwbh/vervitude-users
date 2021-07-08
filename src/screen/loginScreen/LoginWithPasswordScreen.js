@@ -80,9 +80,9 @@ const LoginWithPasswordScreen = (props) => {
                 authenticateUser(response.data.user);
                 setloading(false);
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
+                    ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
                 } else {
-                    alert('SignIn Success!');
+                    alert('SignIn Success');
                 }
                 props.navigation.navigate(SCREEN.HOMESCREEN);
                 return;
@@ -90,9 +90,9 @@ const LoginWithPasswordScreen = (props) => {
         } catch (error) {
             resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show('Username and Password Invalid!', ToastAndroid.LONG);
+                ToastAndroid.show('Username and Password Invalid', ToastAndroid.LONG);
             } else {
-                alert('Username and Password Invalid!');
+                alert('Username and Password Invalid');
             }
         };
     }
@@ -167,7 +167,7 @@ const LoginWithPasswordScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ marginVertical: 50 }} />
+                    <View style={{ marginVertical: 20 }} />
                 </ScrollView>
                 {loading ? <Loader /> : null}
             </ImageBackground>

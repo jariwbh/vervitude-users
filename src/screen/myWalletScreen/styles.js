@@ -14,7 +14,7 @@ export const myWalletStyles = StyleSheet.create({
         color: '#000000'
     },
     amount: {
-        width: 80,
+        width: 70,
         height: 40,
         borderRadius: 10,
         justifyContent: 'center',
@@ -23,7 +23,7 @@ export const myWalletStyles = StyleSheet.create({
         borderColor: '#04DE71'
     },
     addmoney: {
-        width: WIDTH / 2 - 50,
+        width: WIDTH / 2,
         height: 50,
         borderWidth: 1,
         borderRadius: 100,
@@ -81,7 +81,7 @@ export const myWalletStyles = StyleSheet.create({
     headerstyle: {
         backgroundColor: '#04DE71',
         width: WIDTH,
-        height: 100,
+        height: 90,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30
     },

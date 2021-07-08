@@ -334,17 +334,24 @@ const homeScreen = (props) => {
                         {item.property.first_name}
                     </Text>
                     <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
-                    <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>{item.ratinglen + 'k'}</Text>
-                        <StarRating
-                            disabled={false}
-                            maxStars={5}
-                            starSize={15}
-                            rating={item.ratings}
-                            fullStarColor={'#F1C40E'}
-                            emptyStarColor={'#000000'}
-                        />
-                    </View>
+                    {
+                        Number(item.ratinglen) > 0 ?
+                            <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>{item.ratinglen + 'k'}</Text>
+                                <StarRating
+                                    disabled={false}
+                                    maxStars={5}
+                                    starSize={15}
+                                    rating={item.ratings}
+                                    fullStarColor={'#F1C40E'}
+                                    emptyStarColor={'#000000'}
+                                />
+                            </View>
+                            :
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ color: '#000000', fontSize: 12 }}>{'New'}</Text>
+                            </View>
+                    }
                 </View>
             </View>
         )
@@ -385,38 +392,40 @@ const homeScreen = (props) => {
     return (
         <SafeAreaView style={STYLE.styles.container}>
             <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
-            <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
-                <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-                    <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
-                    <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}
-                        style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center', height: 30, width: 30 }}>
-                        <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
-                        <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+            <View style={STYLE.styles.headerstyle}>
+                <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
+                    <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
+                        <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
+                        <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}
+                            style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center', height: 30, width: 30 }}>
+                            <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
+                            <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 12, color: '#FFFFFF' }}>{notification}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={{ justifyContent: 'flex-end' }}>
-                    <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
+                    <View style={{ justifyContent: 'flex-end' }}>
+                        <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
+                    </View>
                 </View>
-            </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <View style={STYLE.styles.statusbar}>
-                    <TouchableOpacity >
-                        <AntDesign name='search1' size={20} color='#00D9CE' style={{ marginLeft: 20 }} />
-                    </TouchableOpacity>
-                    <TextInput
-                        style={styles.textInputStyle}
-                        placeholder='Search App'
-                        type='clear'
-                        placeholderTextColor='#999999'
-                        returnKeyType='search'
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        onChangeText={(text) => searchFilterFunction(text)}
-                        defaultValue={search}
-                    />
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={STYLE.styles.statusbar}>
+                        <TouchableOpacity >
+                            <AntDesign name='search1' size={20} color='#00D9CE' style={{ marginLeft: 20 }} />
+                        </TouchableOpacity>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            placeholder='Search App'
+                            type='clear'
+                            placeholderTextColor='#999999'
+                            returnKeyType='search'
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            onChangeText={(text) => searchFilterFunction(text)}
+                            defaultValue={search}
+                        />
+                    </View>
                 </View>
             </View>
             {
@@ -436,7 +445,7 @@ const homeScreen = (props) => {
                     </View>
             }
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                     <View style={STYLE.styles.homeCardView}>
                         <View style={{
                             top: 20,
@@ -501,6 +510,7 @@ const homeScreen = (props) => {
                         </View>
                     </View>
                 </View>
+                <View style={{ marginBottom: 20 }}></View>
             </ScrollView>
 
             <ActionButton
@@ -588,7 +598,7 @@ const styles = StyleSheet.create({
     centerView: {
         alignItems: 'center',
         justifyContent: 'center'
-    },
+    }
 });
 
 export default homeScreen;

@@ -76,19 +76,49 @@ const myspendsScreen = (props) => {
         <Pressable
             style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, flex: 1 }}>
             <View style={STYLES.styles.counsultantview}>
-                {/* <View style={STYLES.styles.cauve}>
-                    <FontAwesome name='circle' size={110} color='#FFB629' />
-                    <Image source={require('../../assets/Images/medal1.png')}
-                        style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
-                    />
-                </View> */}
-                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 0, marginLeft: 20, flex: 1 }}>
+                <View style={STYLES.styles.cauve}>
+                    {item.consultant.property.consultantgrade && item.consultant.property.consultantgrade == "Gold" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.consultant.property.consultantgrade && item.consultant.property.consultantgrade == "Silver" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#E5E4E2' />
+                            <Image source={require('../../assets/Images/medal2.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.consultant.property.consultantgrade && item.consultant.property.consultantgrade == "Platinum" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#E5E4E2' />
+                            <Image source={require('../../assets/Images/medal4.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.consultant.property.consultantgrade && item.consultant.property.consultantgrade == "Diamond" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#9DF9FF' />
+                            <Image source={require('../../assets/Images/medal3.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                </View>
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: -50, marginLeft: 20, flex: 1 }}>
                     <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
-                        <Image source={{ uri: item.consultant.profilepic !== null && item.consultant.profilepic != undefined ? item.consultant.profilepic : noProfile }}
-                            style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
-                            imageStyle={{ borderRadius: 100 }}
-                        >
-                        </Image>
+                        <View style={{ borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1.5 }}>
+                            <Image source={{ uri: item.consultant.profilepic !== null && item.consultant.profilepic != undefined ? item.consultant.profilepic : noProfile }}
+                                style={{ width: 100, height: 100 }}
+                                imageStyle={{ borderRadius: 100 }}
+                            >
+                            </Image>
+                        </View>
                     </View>
 
                     <View style={{ marginLeft: 30 }}>
@@ -100,7 +130,7 @@ const myspendsScreen = (props) => {
                         </View>
 
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize' }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 150 }}>
                             {
                                 item.consultant.skills ?
                                     item.consultant.skills.slice(0, 3).map(({
@@ -134,7 +164,7 @@ const myspendsScreen = (props) => {
                             <AntDesign name='arrowleft' color='#FFFFFF' size={24} />
                         </TouchableOpacity>
                         <View style={{ justifyContent: 'center', marginLeft: 20 }}>
-                            <Text style={{ fontSize: 28, color: '#FFFFFF', fontWeight: 'bold' }}>My Spends</Text>
+                            <Text style={{ fontSize: 26, color: '#FFFFFF', fontWeight: 'bold' }}>My Spends</Text>
                         </View>
                     </View>
                     <View style={{ justifyContent: 'flex-end' }}>

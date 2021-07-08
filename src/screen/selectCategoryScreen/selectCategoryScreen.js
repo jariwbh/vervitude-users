@@ -116,15 +116,15 @@ function selectCategoryScreen(props) {
 
     //render category 
     const renderCategory = ({ item }) => (
-        <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
+        <View style={{ paddingHorizontal: 8, paddingVertical: 5 }}>
 
             {item.property && item.property.skillcategory == 'COMING SOON' ?
                 <View>
                     <TouchableOpacity style={STYLES.categoryStyles.categoryview} disabled={true}>
-                        <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 70, height: 70, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                        <Image source={{ uri: item && item.property && item.property.image[0] && item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                        <Text style={{ fontSize: 12, textAlign: 'center', textTransform: 'capitalize', color: '#8D8D8D' }}>{item.property.skillcategory.substring(0, 6) + ' ...'}</Text>
+                        <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#8D8D8D', width: 50 }}>{item.property.skillcategory.substring(0, 6) + ' ...'}</Text>
                         <TouchableOpacity disabled={true}>
                             <Foundation name='info' size={15} color='#82C3FC' style={{ marginLeft: 5 }} />
                         </TouchableOpacity>
@@ -133,10 +133,10 @@ function selectCategoryScreen(props) {
                 :
                 <View>
                     <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => onTouchSelectCategory(item)}>
-                        <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 70, height: 70, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                        <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                        <Text style={{ fontSize: 12, textAlign: 'center', color: '#000000' }}>{item.property.skillcategory}</Text>
+                        <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000', width: 50 }}>{item.property.skillcategory}</Text>
                         <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
                             <Foundation name='info' size={15} color='#3399FF' style={{ marginLeft: 5 }} />
                         </TouchableOpacity>
@@ -242,7 +242,7 @@ function selectCategoryScreen(props) {
             }
 
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                     <View style={STYLES.categoryStyles.homeCardView}>
                         <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
@@ -271,6 +271,7 @@ function selectCategoryScreen(props) {
                         <View style={{ marginBottom: 40 }}></View>
                     </View>
                 </View>
+                <View style={{ marginBottom: 20 }}></View>
             </ScrollView>
             <ActionButton
                 buttonColor="#00D9CE"

@@ -729,7 +729,8 @@ const chatScreen = (props, { navigation }) => {
 			property: {
 				time: projectTime,
 				mobile_number: projectMobile,
-				description: projectdesc
+				description: projectdesc,
+				consultantid: formdataDetails.property.consultantid
 			}
 		}
 		try {
@@ -1345,7 +1346,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFB629'
 	},
 	chatview: {
-		marginTop: 10,
 		width: WIDTH - 20,
 		backgroundColor: '#FFFFFF',
 		borderRadius: 30,

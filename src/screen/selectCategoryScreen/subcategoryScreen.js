@@ -7,7 +7,7 @@ import { TopConsultantViewListService } from '../../services/UserService/UserSer
 import WallateButton from '../../components/WallateButton/WallateButton';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
@@ -162,36 +162,73 @@ const subcategoryScreen = (props) => {
         <Pressable onPress={() => props.navigation.navigate(SCREEN.CONSULTANTSSCREEN, { item })}
             style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, flex: 1 }}>
             <View style={STYLES.SubCategoryStyles.counsultantview}>
-                {/* <View style={STYLES.SubCategoryStyles.cauve}>
-                    <FontAwesome name='circle' size={110} color='#FFB629' />
-                    <Image source={require('../../assets/Images/medal1.png')}
-                        style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
-                    />
-                </View> */}
-                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: 20, marginLeft: 20, flex: 1 }}>
-                    <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
-                        <ImageBackground source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
-                            style={{ width: 100, height: 100, borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1 }}
-                            imageStyle={{ borderRadius: 100 }}
-                        >
-                            {
-                                item.property.live === true ?
-                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
-                                    :
-                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
-                            }
-                        </ImageBackground>
-                        <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
-                            <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
-                            <StarRating
-                                disabled={false}
-                                maxStars={5}
-                                starSize={15}
-                                rating={item.ratinglen}
-                                fullStarColor={'#F1C40E'}
-                                emptyStarColor={'#000000'}
+                <View style={STYLES.SubCategoryStyles.cauve}>
+                    {item.property.consultantgrade && item.property.consultantgrade == "Gold" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#FFB629' />
+                            <Image source={require('../../assets/Images/medal1.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
                             />
+                        </>
+                    }
+                    {item.property.consultantgrade && item.property.consultantgrade == "Silver" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#E5E4E2' />
+                            <Image source={require('../../assets/Images/medal2.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.property.consultantgrade && item.property.consultantgrade == "Platinum" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#E5E4E2' />
+                            <Image source={require('../../assets/Images/medal4.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                    {item.property.consultantgrade && item.property.consultantgrade == "Diamond" &&
+                        <>
+                            <FontAwesome name='circle' size={110} color='#9DF9FF' />
+                            <Image source={require('../../assets/Images/medal3.png')}
+                                style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 50 }}
+                            />
+                        </>
+                    }
+                </View>
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: -50, marginLeft: 20, flex: 1 }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
+                        <View style={{ borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1.5 }}>
+                            <ImageBackground source={{ uri: item ? item.profilepic !== null && item.profilepic ? item.profilepic : noProfile : null }}
+                                style={{ width: 90, height: 90 }}
+                                imageStyle={{ borderRadius: 100 }}
+                            >
+                                {
+                                    item.property.live === true ?
+                                        <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
+                                        :
+                                        <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
+                                }
+                            </ImageBackground>
                         </View>
+                        {
+                            Number(item.ratinglen) > 1000 ?
+                                <View style={{ marginTop: 5, padding: 10, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#000000', fontSize: 12, marginRight: 5 }}>{item.ratinglen + 'K'}</Text>
+                                    <StarRating
+                                        disabled={false}
+                                        maxStars={5}
+                                        starSize={15}
+                                        rating={item.ratinglen}
+                                        fullStarColor={'#F1C40E'}
+                                        emptyStarColor={'#000000'}
+                                    />
+                                </View>
+                                :
+                                <View style={{ marginTop: 5, padding: 5, justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: '#000000', fontSize: 12 }}>{'New'}</Text>
+                                </View>
+                        }
                     </View>
                     <View style={{ marginLeft: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
@@ -201,7 +238,7 @@ const subcategoryScreen = (props) => {
                             <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000' }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 150 }}>
                             {
                                 item.skills ?
                                     item.skills.slice(0, 3).map(({
@@ -215,11 +252,16 @@ const subcategoryScreen = (props) => {
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#808080', fontWeight: 'bold' }}>{item.property.location}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
                                 <TouchableOpacity
                                     onPress={() => navigationhandler(item)}
-                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
-                                    <MaterialCommunityIcons name='chat' size={28} color='#5AC8FA' />
+                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: 15 }}>
+                                    <Image source={require('../../assets/Images/chaticon2.png')} style={{ height: 25, width: 27 }} />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => alert('This feature is currently not available')}
+                                    style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: 0 }}>
+                                    <Image source={require('../../assets/Images/callicon.png')} style={{ height: 25, width: 25 }} />
                                 </TouchableOpacity>
                             </View>
                         </View>

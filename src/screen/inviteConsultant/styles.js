@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
         marginBottom: 5
     },
     boxView: {
-        height: HEIGHT / 2 + 150,
+        height: HEIGHT - 100,
         width: WIDTH - 20,
         shadowOpacity: 0.5,
         shadowRadius: 1,

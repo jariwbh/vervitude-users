@@ -217,11 +217,11 @@ const myProfileScreen = (props) => {
                             <Text style={STYLES.styles.icontextView}>My Profile</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => showModeVisible(true)}
+                        {/* <TouchableOpacity onPress={() => showModeVisible(true)}
                             style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }}>
                             <Image source={require('../../assets/Images/modeicon.png')} style={{ height: 30, width: 30 }} />
                             <Text style={STYLES.styles.icontextView}>Mode Settings</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.RECENTCHATSCREEN)}
                             style={{ flexDirection: 'row', marginTop: 25, paddingLeft: 20 }} >

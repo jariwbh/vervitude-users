@@ -115,14 +115,14 @@ export default class registerScreen extends Component {
             if (Platform.OS === 'android') {
                 ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
             } else {
-                alert('OTP Sending!');
+                alert('OTP Sending');
             }
         }
         catch (error) {
             if (Platform.OS === 'android') {
-                ToastAndroid.show('OTP Sending Failed!', ToastAndroid.LONG);
+                ToastAndroid.show('OTP Sending Failed', ToastAndroid.LONG);
             } else {
-                alert('OTP Sending Failed!');
+                alert('OTP Sending Failed');
             }
         };
     }
@@ -165,9 +165,9 @@ export default class registerScreen extends Component {
             const response = await registerServices(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
+                    ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
                 } else {
-                    alert('SignIn Success!');
+                    alert('SignIn Success');
                 }
                 this.setState({ loading: false });
                 this.props.navigation.navigate(SCREEN.LOGINSCREEN);
@@ -176,9 +176,9 @@ export default class registerScreen extends Component {
         catch (error) {
             this.setState({ loading: false });
             if (Platform.OS === 'android') {
-                ToastAndroid.show('SignIn Failed!', ToastAndroid.LONG);
+                ToastAndroid.show('UserName Not Valid', ToastAndroid.LONG);
             } else {
-                alert('SignIn Failed!');
+                alert('UserName Not Valid');
             }
         };
     }
@@ -206,9 +206,9 @@ export default class registerScreen extends Component {
                 const response = await registerServices(body);
                 if (response.data != null && response.data != 'undefind' && response.status == 200) {
                     if (Platform.OS === 'android') {
-                        ToastAndroid.show('SignIn Success!', ToastAndroid.LONG);
+                        ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
                     } else {
-                        alert('SignIn Success!');
+                        alert('SignIn Success');
                     }
                     this.setState({ loading: false });
                     return this.props.navigation.navigate(SCREEN.LOGINSCREEN);
@@ -216,9 +216,9 @@ export default class registerScreen extends Component {
             } else {
                 this.setState({ inputOtpNumber: null, loading: false });
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('OTP not Match!', ToastAndroid.LONG)
+                    ToastAndroid.show('OTP not Match', ToastAndroid.LONG)
                 } else {
-                    alert('OTP not Match!');
+                    alert('OTP not Match');
                 }
                 return;
             }
@@ -226,9 +226,9 @@ export default class registerScreen extends Component {
         catch (error) {
             this.resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show('SignIn Failed!', ToastAndroid.LONG);
+                ToastAndroid.show('UserName Not Valid', ToastAndroid.LONG);
             } else {
-                alert('SignIn Failed!');
+                alert('UserName Not Valid');
             }
         };
     }
@@ -283,7 +283,7 @@ export default class registerScreen extends Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
                                         <View style={mobile_numbererror == null ? STYLES.styles.inputView2 : STYLES.styles.inputErrorView2}>
                                             <TextInput
                                                 defaultValue={this.state.mobile_number}
@@ -303,6 +303,7 @@ export default class registerScreen extends Component {
                                             <Text style={STYLES.styles.otpbtnText1}>Send OTP</Text>
                                         </TouchableOpacity>
                                     </View>
+
                                     {/* <Text>{this.state.verifyOtpNumber}</Text> */}
                                     <View style={{ flex: 0.5, marginTop: 25, marginLeft: 5, marginRight: 5, marginBottom: 20 }}>
                                         <OtpInputs
@@ -341,7 +342,7 @@ export default class registerScreen extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ marginVertical: 80 }} />
+                        <View style={{ marginVertical: 20 }} />
                     </ScrollView>
                 </ImageBackground>
                 {loading ? <Loader /> : null}

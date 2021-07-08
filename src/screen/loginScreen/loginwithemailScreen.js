@@ -129,7 +129,7 @@ const loginwithemailScreen = (props) => {
             else {
                 AsyncStorage.removeItem(AUTHUSER);
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+                    ToastAndroid.show('User not exits', ToastAndroid.LONG);
                 } else {
                     alert('User not exits!');
                 }
@@ -141,7 +141,7 @@ const loginwithemailScreen = (props) => {
             console.log(`error`, error)
             resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+                ToastAndroid.show('User not exits', ToastAndroid.LONG);
             } else {
                 alert('User not exits!');
             }
@@ -182,7 +182,7 @@ const loginwithemailScreen = (props) => {
                 setloading(false);
                 setinputOtpNumber(null);
                 if (Platform.OS === 'android') {
-                    ToastAndroid.show('OTP not Match!', ToastAndroid.LONG)
+                    ToastAndroid.show('OTP not Match', ToastAndroid.LONG)
                 } else {
                     alert('OTP not Match!');
                 }
@@ -193,7 +193,7 @@ const loginwithemailScreen = (props) => {
             //console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+                ToastAndroid.show('User not exits', ToastAndroid.LONG);
             } else {
                 alert('User not exits!');
             }
@@ -239,9 +239,9 @@ const loginwithemailScreen = (props) => {
             //console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
-                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
+                ToastAndroid.show('User not exits', ToastAndroid.LONG);
             } else {
-                alert('User not exits!');
+                alert('User not exits');
             }
         };
     }
@@ -318,7 +318,7 @@ const loginwithemailScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ marginVertical: 80 }} />
+                    <View style={{ marginVertical: 20 }} />
                 </ScrollView>
                 {loading ? <Loader /> : null}
             </ImageBackground>

@@ -211,25 +211,27 @@ const myWalletScreen = (props) => {
                                     onChangeText={(amount) => setAmount(amount)}
                                 />
                             </View>
+
                             <TouchableOpacity style={{ marginRight: 20 }} onPress={() => props.navigation.navigate(SCREEN.PROMOCODESCREEN)}>
-                                <Text style={{ fontSize: 14, color: 'blue' }}>Apply Promo Code</Text>
+                                <Text style={{ fontSize: 14, color: '#5A5CC0', fontWeight: 'bold' }}>Apply Promo Code</Text>
+                                {couponDetails && couponDetails.couponcode ?
+                                    <Text style={{ fontSize: 12, color: '#5A5CC0', fontWeight: 'bold', marginLeft: 25 }}>{`(${couponDetails.couponcode})`}</Text>
+                                    : null}
                             </TouchableOpacity>
                         </View>
-                        {couponDetails && couponDetails.couponcode ?
-                            <Text style={{ fontSize: 16, color: '#000000', marginLeft: 25 }}>{couponDetails.couponcode}</Text>
-                            : null}
+
                         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 0 }}>
-                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('500') }}>
-                                <Text style={{ fontSize: 16 }}>₹ 500</Text>
+                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('500')}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>₹ 500</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => { setAmount('1000') }}>
-                                <Text style={{ fontSize: 16 }}>₹ 1,000</Text>
+                            <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('1000')}>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>₹ 1,000</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('3000')}>
-                                <Text style={{ fontSize: 16 }}>₹ 3,000</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>₹ 3,000</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={STYLES.myWalletStyles.amount} onPress={() => setAmount('10000')}>
-                                <Text style={{ fontSize: 16 }}>₹ 10,000</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>₹ 10,000</Text>
                             </TouchableOpacity>
                         </View>
 

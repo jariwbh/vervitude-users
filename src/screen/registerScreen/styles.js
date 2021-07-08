@@ -132,17 +132,19 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#555555',
-        width: WIDTH / 2 + 25,
+        width: WIDTH / 2 + 10,
         height: 40,
-        borderWidth: 0.5
+        borderWidth: 0.5,
+        marginLeft: 5
     },
     inputErrorView2: {
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
         borderColor: '#FF0000',
-        width: WIDTH / 2 + 25,
+        width: WIDTH / 2 + 10,
         height: 40,
-        borderWidth: 0.5
+        borderWidth: 0.5,
+        marginLeft: 5
     },
     otpBtn1: {
         flexDirection: 'row',
