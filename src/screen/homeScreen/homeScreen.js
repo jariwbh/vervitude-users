@@ -157,7 +157,7 @@ const homeScreen = (props) => {
         let uniqueId;
         let deviceInfo;
         if (Platform.OS === 'android') {
-            uniqueId = DeviceInfo.getAndroidId()
+            uniqueId = await DeviceInfo.getAndroidId()
             if (fcmToken) {
                 deviceInfo = {
                     anroiddevice: {
@@ -179,7 +179,6 @@ const homeScreen = (props) => {
                 await UserPatch(deviceInfo);
             }
         }
-        //console.log('deviceInfo', deviceInfo);
     }
 
     //GET ASYNCSTORAGE CURRENT USER DETAILS
@@ -364,17 +363,17 @@ const homeScreen = (props) => {
                 <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)}
                     style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     <Image source={require('../../assets/Images/allicon.png')}
-                        style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                        style={{ height: 55, width: 55, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
-                <View style={{ marginTop: 5, alignItems: 'center' }}>
-                    <Text>All Catgory</Text>
+                <View style={{ marginTop: 5, alignItems: 'center', width: 50, justifyContent: 'center' }}>
+                    <Text styles={{ fontSize: 12, textAlign: 'center' }}>All</Text>
                 </View>
             </View>
             :
             <View style={{ flex: 1, padding: 0, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item }) }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     <Image source={{ uri: item.property.image['1'].attachment }}
-                        style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                        style={{ height: 55, width: 55, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
                 <View style={{ marginTop: 5, alignItems: 'center' }}>
                     <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
@@ -463,7 +462,7 @@ const homeScreen = (props) => {
                                         <View key={index} >
                                             <ImageBackground source={{ uri: item.property.image[0].attachment }} style={styles.customImage} imageStyle={{ borderRadius: 10 }} >
                                                 <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 100, flex: 0.5 }}>
-                                                    <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold' }}>{item.property.title} </Text>
+                                                    <Text style={{ color: '#FFFFFF', fontSize: 28, fontWeight: 'bold', }}>{item.property.title} </Text>
                                                     <TouchableOpacity onPress={() => WebViewScreen(item.property.link)} >
                                                         <Text style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 'bold', textDecorationLine: 'underline', marginRight: 10 }}>{item.property.title_link} </Text>
                                                     </TouchableOpacity>
@@ -490,7 +489,7 @@ const homeScreen = (props) => {
                                     showsHorizontalScrollIndicator={false}
                                     numColumns={5}
                                     keyExtractor={item => item._id}
-                                    style={{ width: WIDTH - 20 }}
+                                    style={{ width: WIDTH - 40 }}
                                 />
                             </ScrollView>
                         </View>

@@ -238,7 +238,7 @@ const subcategoryScreen = (props) => {
                             <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 150 }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 160 }}>
                             {
                                 item.skills ?
                                     item.skills.slice(0, 3).map(({
