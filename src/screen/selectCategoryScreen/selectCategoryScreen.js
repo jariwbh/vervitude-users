@@ -116,34 +116,30 @@ function selectCategoryScreen(props) {
 
     //render category 
     const renderCategory = ({ item }) => (
-        <View style={{ paddingHorizontal: 8, paddingVertical: 5 }}>
-
-            {item.property && item.property.skillcategory == 'COMING SOON' ?
-                <View>
-                    <TouchableOpacity style={STYLES.categoryStyles.categoryview} disabled={true}>
-                        <Image source={{ uri: item && item.property && item.property.image[0] && item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+        item.property && item.property.skillcategory == 'COMING SOON' ?
+            <View style={{ flex: 1, padding: 0, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity style={STYLES.categoryStyles.categoryview} disabled={true}>
+                    <Image source={{ uri: item && item.property && item.property.image[0] && item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                    <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#8D8D8D' }}>{item.property.skillcategory.substring(0, 6) + ' ...'}</Text>
+                    <TouchableOpacity disabled={true}>
+                        <Foundation name='info' size={15} color='#82C3FC' style={{ marginLeft: 5 }} />
                     </TouchableOpacity>
-                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                        <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#8D8D8D', width: 50 }}>{item.property.skillcategory.substring(0, 6) + ' ...'}</Text>
-                        <TouchableOpacity disabled={true}>
-                            <Foundation name='info' size={15} color='#82C3FC' style={{ marginLeft: 5 }} />
-                        </TouchableOpacity>
-                    </View>
                 </View>
-                :
-                <View>
-                    <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => onTouchSelectCategory(item)}>
-                        <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+            </View>
+            :
+            <View style={{ flex: 1, padding: 0, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity style={STYLES.categoryStyles.categoryview} onPress={() => onTouchSelectCategory(item)}>
+                    <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                    <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000' }}>{item.property.skillcategory}</Text>
+                    <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
+                        <Foundation name='info' size={15} color='#3399FF' style={{ marginLeft: 5 }} />
                     </TouchableOpacity>
-                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                        <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000', width: 50 }}>{item.property.skillcategory}</Text>
-                        <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
-                            <Foundation name='info' size={15} color='#3399FF' style={{ marginLeft: 5 }} />
-                        </TouchableOpacity>
-                    </View>
                 </View>
-            }
-        </View>
+            </View>
     );
 
     //render Consultants
@@ -155,20 +151,28 @@ function selectCategoryScreen(props) {
                 />
             </TouchableOpacity>
             <View>
-                <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}
-                >{item.property.first_name}</Text>
+                <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}>
+                    {item.property.first_name}
+                </Text>
                 <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
-                <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>{item.ratinglen + 'k'}</Text>
-                    <StarRating
-                        disabled={false}
-                        maxStars={5}
-                        starSize={15}
-                        rating={item.ratinglen}
-                        fullStarColor={'#F1C40E'}
-                        emptyStarColor={'#000000'}
-                    />
-                </View>
+                {
+                    Number(item.ratinglen) > 0 ?
+                        <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
+                            <Text style={{ fontSize: 12, color: '#000000', textAlign: 'center', marginRight: 2 }}>{item.ratinglen + 'k'}</Text>
+                            <StarRating
+                                disabled={false}
+                                maxStars={5}
+                                starSize={15}
+                                rating={item.ratinglen}
+                                fullStarColor={'#F1C40E'}
+                                emptyStarColor={'#000000'}
+                            />
+                        </View>
+                        :
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#000000', fontSize: 12 }}>{'New'}</Text>
+                        </View>
+                }
             </View>
         </View>
     )
@@ -249,8 +253,10 @@ function selectCategoryScreen(props) {
                                 renderItem={renderCategory}
                                 data={category}
                                 horizontal={false}
+                                showsHorizontalScrollIndicator={false}
                                 numColumns={4}
                                 keyExtractor={item => item._id}
+                                style={{ width: WIDTH - 20 }}
                             />
                         </View>
 

@@ -360,10 +360,9 @@ const homeScreen = (props) => {
     //render category list useing flatlist
     const renderCategory = ({ item }) => (
         item.add == true ?
-            <View style={{ flex: 1, padding: 5, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)} style={{
-                    justifyContent: 'center', alignItems: 'center', marginTop: 20
-                }}>
+            <View style={{ flex: 1, padding: 0, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SELECTCATEGORYSCREEN)}
+                    style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                     <Image source={require('../../assets/Images/allicon.png')}
                         style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
@@ -372,9 +371,9 @@ const homeScreen = (props) => {
                 </View>
             </View>
             :
-            <View style={{ flex: 1, padding: 5, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, padding: 0, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.SUBCATEGORYSCREEN, { item }) }} style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                    <Image source={{ uri: item.property.image[0].attachment }}
+                    <Image source={{ uri: item.property.image['1'].attachment }}
                         style={{ height: 60, width: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
                 <View style={{ marginTop: 5, alignItems: 'center' }}>
@@ -488,8 +487,10 @@ const homeScreen = (props) => {
                                     renderItem={renderCategory}
                                     data={category}
                                     horizontal={false}
+                                    showsHorizontalScrollIndicator={false}
                                     numColumns={5}
                                     keyExtractor={item => item._id}
+                                    style={{ width: WIDTH - 20 }}
                                 />
                             </ScrollView>
                         </View>

@@ -34,6 +34,7 @@ export const categoryStyles = StyleSheet.create({
     categoryview: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 10
     },
     headerstyle: {
         backgroundColor: '#2094FA',
