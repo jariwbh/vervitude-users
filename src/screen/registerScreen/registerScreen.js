@@ -11,6 +11,9 @@ import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLES from './styles';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AUTHUSER } from '../../context/actions/type';
 
 export default class registerScreen extends Component {
     constructor(props) {
@@ -108,15 +111,41 @@ export default class registerScreen extends Component {
 
     // generate OTP function 
     createOtp = async () => {
+        const { mobile_number } = this.state;
+        const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
         this.setState({ loading: true });
-        try {
-            const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
-            this.setState({ verifyOtpNumber: verifyOtpNumber, loading: false });
-            if (Platform.OS === 'android') {
-                ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
-            } else {
-                alert('OTP Sending');
+        axiosConfig('606abd8799e17f1678300c12');
+        let body;
+        if (mobile_number) {
+            body = {
+                "messagetype": "SMS",
+                "message": {
+                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": [mobile_number],
+                    "subject": "OTP Verification E-QUEST CONSULTING"
+                }
             }
+        }
+        try {
+            try {
+                const response = await SendEmailandSmsService(body);
+                if (response.data != 'undefind' && response.status == 200) {
+                    this.setState({ verifyOtpNumber: verifyOtpNumber, loading: false });
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
+                    } else {
+                        alert('OTP Sending');
+                    }
+                }
+            }
+            catch (error) {
+                //console.log(`error`, error);              
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('User not exits', ToastAndroid.LONG);
+                } else {
+                    alert('User not exits');
+                }
+            };
         }
         catch (error) {
             if (Platform.OS === 'android') {
@@ -145,7 +174,7 @@ export default class registerScreen extends Component {
             } else {
                 this.setState({ loading: false });
                 // some other error happened
-                console.log(`error`, error);
+                //console.log(`error`, error);
             }
         }
     };
@@ -183,6 +212,11 @@ export default class registerScreen extends Component {
         };
     }
 
+    //add local storage Records
+    authenticateUser = (user) => (
+        AsyncStorage.setItem(AUTHUSER, JSON.stringify(user))
+    )
+
     //OTP verify function
     otpVerify = async () => {
         const { inputOtpNumber, verifyOtpNumber, fullname, mobile_number, username } = this.state;
@@ -205,13 +239,17 @@ export default class registerScreen extends Component {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
                 const response = await registerServices(body);
                 if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                    let token = response.data._id;
+                    axiosConfig(token);
+                    this.authenticateUser(response.data);
+                    this.resetScreen();
                     if (Platform.OS === 'android') {
                         ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
                     } else {
                         alert('SignIn Success');
                     }
                     this.setState({ loading: false });
-                    return this.props.navigation.navigate(SCREEN.LOGINSCREEN);
+                    return this.props.navigation.navigate(SCREEN.HOMESCREEN);
                 }
             } else {
                 this.setState({ inputOtpNumber: null, loading: false });
@@ -224,6 +262,7 @@ export default class registerScreen extends Component {
             }
         }
         catch (error) {
+            //console.log(`error`, error);
             this.resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('UserName Not Valid', ToastAndroid.LONG);

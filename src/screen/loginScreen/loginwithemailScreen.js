@@ -211,7 +211,7 @@ const loginwithemailScreen = (props) => {
                 "message": {
                     "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
                     "to": [mobile_number],
-                    "subject": "Login With OTP"
+                    "subject": "Login OTP Verification E-QUEST CONSULTING"
                 }
             }
         }
@@ -222,7 +222,7 @@ const loginwithemailScreen = (props) => {
                 "message": {
                     "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
                     "to": [username],
-                    "subject": "Login With OTP"
+                    "subject": "Login OTP Verification E-QUEST CONSULTING"
                 }
             }
         }

@@ -246,18 +246,24 @@ const myWalletScreen = (props) => {
                         </View>
                     </View>
                 </View>
-                <View style={STYLES.myWalletStyles.rechargeview}>
-                    <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#FFFFFF', marginTop: 5, marginBottom: 10 }}>Recharge History</Text>
-                    {/* <View style={{ marginLeft: 15, marginTop: 15 }}>
+                {(wallateHistory == null) || (wallateHistory && wallateHistory.length < 0) ?
+                    <>
+                        <View style={STYLES.myWalletStyles.rechargeview}>
+                            <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#FFFFFF', marginTop: 5, marginBottom: 10 }}>Recharge History</Text>
+                            {/* <View style={{ marginLeft: 15, marginTop: 15 }}>
                         <Text style={{ fontSize: 14, color: '#999999' }}>14th March 2021</Text>
                     </View> */}
-                    <FlatList
-                        renderItem={renderRechargeHistory}
-                        data={wallateHistory}
-                        keyExtractor={item => item._id}
-                    />
-                    <View style={{ marginBottom: 20 }}></View>
-                </View>
+                            <FlatList
+                                renderItem={renderRechargeHistory}
+                                data={wallateHistory}
+                                keyExtractor={item => item._id}
+                            />
+                        </View>
+                        <View style={{ marginBottom: 20 }}></View>
+                    </>
+                    :
+                    null
+                }
             </ScrollView>
             {loading ? <Loader /> : null}
         </SafeAreaView>
