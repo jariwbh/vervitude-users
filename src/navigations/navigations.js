@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { StatusBar, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SELECTCATEGORYSCREEN from '../screen/selectCategoryScreen/selectCategoryScreen';
@@ -29,6 +28,7 @@ import EDITSCREEN from '../screen/myProfileScreen/editScreen';
 import LOGINSCREEN from '../screen/loginScreen/loginScreen';
 import HOMESCREEN from '../screen/homeScreen/homeScreen';
 import CHATSCREEN from '../screen/chatScreen/chatScreen';
+import RATEINGSCREEN from '../screen/RateingScreen/RateingScreen';
 
 const Stack = createStackNavigator();
 export default navigationsApp = () => {
@@ -63,34 +63,35 @@ export default navigationsApp = () => {
                 <Stack.Screen name='chatScreen' component={CHATSCREEN} />
                 <Stack.Screen name='WebViewScreen' component={WEBVIEWSCREEN} />
                 <Stack.Screen name='NewPasswordScreen' component={NEWPASSWORDSCREEN} />
+                <Stack.Screen name='RateingScreen' component={RATEINGSCREEN} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
 
-const HomeStack = createStackNavigator();
-function MainNavigation() {
-    return (
-        <HomeStack.Navigator headerMode='none' initialRouteName='homeScreen'>
-            <HomeStack.Screen name='homeScreen' component={HOMESCREEN} />
-            <HomeStack.Screen name='rechargepaymentScreen' component={RECHARGEPAYMENTSCREEN} />
-            <HomeStack.Screen name='disputesdetailsScreen' component={DISPUTESDETAILSSCREEN} />
-            <HomeStack.Screen name='rechargedetailScreen' component={RECHARGEDETAILSCREEN} />
-            <HomeStack.Screen name='selectCategoryScreen' component={SELECTCATEGORYSCREEN} />
-            <HomeStack.Screen name='notificationScreen' component={NOTIFICATIONSCREEN} />
-            <HomeStack.Screen name='consultantsScreen' component={CONSULTANTSSCREEN} />
-            <HomeStack.Screen name='subcategoryScreen' component={SUBCATEGORYSCREEN} />
-            <HomeStack.Screen name='recentchatScreen' component={RECENTCHATSCREEN} />
-            <HomeStack.Screen name='ViewFullPicture' component={VIEWPROFILESCREEN} />
-            <HomeStack.Screen name='myProfileScreen' component={MYPROFILESCREEN} />
-            <HomeStack.Screen name='promocodeScreen' component={PROMOCODESCREEN} />
-            <HomeStack.Screen name='myWalletScreen' component={MYWALLETSCREEN} />
-            <HomeStack.Screen name='disputesScreen' component={DISPUTESSCREEN} />
-            <HomeStack.Screen name='myspendsScreen' component={MYSPENDSSCREEN} />
-            <HomeStack.Screen name='newchatsScreen' component={NEWCHATSSCREEN} />
-            <HomeStack.Screen name='inviteScreen' component={INVITESCREEN} />
-            <HomeStack.Screen name='editScreen' component={EDITSCREEN} />
-            <HomeStack.Screen name='chatScreen' component={CHATSCREEN} />
-        </HomeStack.Navigator>
-    );
-};
+// const HomeStack = createStackNavigator();
+// function MainNavigation() {
+//     return (
+//         <HomeStack.Navigator headerMode='none' initialRouteName='homeScreen'>
+//             <HomeStack.Screen name='homeScreen' component={HOMESCREEN} />
+//             <HomeStack.Screen name='rechargepaymentScreen' component={RECHARGEPAYMENTSCREEN} />
+//             <HomeStack.Screen name='disputesdetailsScreen' component={DISPUTESDETAILSSCREEN} />
+//             <HomeStack.Screen name='rechargedetailScreen' component={RECHARGEDETAILSCREEN} />
+//             <HomeStack.Screen name='selectCategoryScreen' component={SELECTCATEGORYSCREEN} />
+//             <HomeStack.Screen name='notificationScreen' component={NOTIFICATIONSCREEN} />
+//             <HomeStack.Screen name='consultantsScreen' component={CONSULTANTSSCREEN} />
+//             <HomeStack.Screen name='subcategoryScreen' component={SUBCATEGORYSCREEN} />
+//             <HomeStack.Screen name='recentchatScreen' component={RECENTCHATSCREEN} />
+//             <HomeStack.Screen name='ViewFullPicture' component={VIEWPROFILESCREEN} />
+//             <HomeStack.Screen name='myProfileScreen' component={MYPROFILESCREEN} />
+//             <HomeStack.Screen name='promocodeScreen' component={PROMOCODESCREEN} />
+//             <HomeStack.Screen name='myWalletScreen' component={MYWALLETSCREEN} />
+//             <HomeStack.Screen name='disputesScreen' component={DISPUTESSCREEN} />
+//             <HomeStack.Screen name='myspendsScreen' component={MYSPENDSSCREEN} />
+//             <HomeStack.Screen name='newchatsScreen' component={NEWCHATSSCREEN} />
+//             <HomeStack.Screen name='inviteScreen' component={INVITESCREEN} />
+//             <HomeStack.Screen name='editScreen' component={EDITSCREEN} />
+//             <HomeStack.Screen name='chatScreen' component={CHATSCREEN} />
+//         </HomeStack.Navigator>
+//     );
+// };

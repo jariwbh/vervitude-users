@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import {
-	View, Text, SafeAreaView, StyleSheet, ScrollView, Pressable,
-	TouchableOpacity, Image, TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid, Keyboard
+	View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, Image,
+	TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid, Keyboard
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,12 +16,9 @@ import firestore from '@react-native-firebase/firestore';
 //
 import { EndChatService, FindChatById, StartChatService, StartProject } from '../../services/ChatService/ChatService';
 import moment from 'moment';
-import StarRating from 'react-native-star-rating';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
-import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
-import FeedBackService from '../../services/FeedBackService/FeedBackService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { BillService, BillPaymentService, WalletRefershService } from '../../services/BillService/BillService';
@@ -44,12 +41,8 @@ const chatScreen = (props, { navigation }) => {
 	//another variable 
 	const [showStartProjectVisible, setshowStartProjectVisible] = useState(false);
 	const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
-	const [showEndChatModel, setshowshowEndChatModel] = useState(false);
 	const [filterModalVisible, setfilterModalVisible] = useState(false);
 	const [hideInput, setHideInput] = useState(false);
-	const [rate, setrate] = useState(false);
-	const [rating, setRating] = useState(null);
-	const [feedback, setFeedback] = useState(null);
 	const [projectTime, setProjectTime] = useState(null);
 	const [projectTimeError, setProjectTimeError] = useState(null);
 	const [projectdesc, setProjectdesc] = useState(null);
@@ -70,6 +63,7 @@ const chatScreen = (props, { navigation }) => {
 	const [reportDesc, setReportDesc] = useState(null);
 	const [reportDescError, setReportDescError] = useState(null);
 	const [timeoutModelVisible, setTimeoutModelVisible] = useState(false);
+	const [nowAutoEndChat, setnowAutoEndChat] = useState(false);
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
 	const fourTextInputRef = React.createRef();
@@ -100,26 +94,27 @@ const chatScreen = (props, { navigation }) => {
 	);
 
 	useEffect(() => {
-	}, [formdataDetails, hideInput, rating, feedback, sender, rate, chatId,
-		projectTime, projectTimeError, projectdesc, projectdescError, projectMobile, projectMobileError,
-		disputechatdesc, disputechatdescError, disputechatsubject, disputechatsubjectError, disputeImage,
-		reportSubject, reportSubjectError, reportDesc, reportDescError
+	}, [formdataDetails, hideInput, sender, chatId, projectTime, projectTimeError, projectdesc,
+		projectdescError, projectMobile, projectMobileError, disputechatdesc, disputechatdescError,
+		disputechatsubject, disputechatsubjectError, disputeImage, reportSubject, reportSubjectError,
+		reportDesc, reportDescError, nowAutoEndChat
 	])
 
-	// const wait = (timeout) => {
-	// 	return new Promise(resolve => {
-	// 		setTimeout(resolve, timeout);
-	// 	});
-	// }
+	const wait = (timeout) => {
+		return new Promise(resolve => {
+			setTimeout(resolve, timeout);
+		});
+	}
 
 	// //2 minutes complate to call funtion
 	const oncheckIdelTimeOut = async () => {
-		// 	wait(120000).then(() => {
-		// 		setTimeoutModelVisible(true);
-		// 		wait(5000).then(async () => {
-		// 			await nowAutoEndChat();
-		// 		});
-		// 	});
+		wait(120000).then(() => {
+			setTimeoutModelVisible(true);
+			wait(5000).then(async () => {
+				setnowAutoEndChat(true);
+				onpressDoneBtn();
+			});
+		});
 	}
 
 	//check permission 
@@ -238,7 +233,6 @@ const chatScreen = (props, { navigation }) => {
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
 				setFormdataDetails(response.data);
 				formId = response.data._id;
-				firstTimeChatByIdService(response.data._id);
 			}
 		}
 		catch (error) {
@@ -281,9 +275,7 @@ const chatScreen = (props, { navigation }) => {
 
 	//send btn click to send message 
 	const onSend = useCallback((messages = []) => {
-		console.log(`formdataDetails.property.startat`, formdataDetails.property.startat);
 		if (formdataDetails && formdataDetails.property && (formdataDetails.property.startat == undefined || formdataDetails.property.startat == null)) {
-			console.log('called update');
 			updateChatId();
 			oncheckIdelTimeOut();
 		}
@@ -322,11 +314,10 @@ const chatScreen = (props, { navigation }) => {
 				subcategory: formdataDetails.property.subcategory
 			}
 		}
-		console.log(`body`, body);
 		try {
 			const response = await EndChatService(formdataDetails._id, body);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
-				console.log(`response.data`, response.data);
+				console.log(`response.data update`);
 				setFormdataDetails(response.data);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
@@ -335,12 +326,12 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 		} catch (error) {
-			console.log(`error`, error);
+			console.log(`error updateChatId`, error);
 			setloading(false);
 			if (Platform.OS === 'android') {
-				ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
+				ToastAndroid.show('Your Chat Not Start', ToastAndroid.SHORT);
 			} else {
-				alert('Your Chat Is Not Closed');
+				alert('Your Chat Is Not Start');
 			}
 		}
 	}
@@ -350,15 +341,13 @@ const chatScreen = (props, { navigation }) => {
 		setfilterModalVisible(visible);
 	};
 
-	const showModalVisible = (visible) => {
+	const showModalVisible = () => {
 		setProjectTime(null);
 		setProjectTimeError(null);
 		setProjectdesc(null);
 		setProjectdescError(null);
 		setProjectMobile(null);
 		setProjectMobileError(null);
-		//setshowStartProjectVisible(visible);
-		setshowshowEndChatModel(false);
 	};
 
 	const showModalVisibleSubmit = (visible) => {
@@ -385,167 +374,14 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
-	//first time chat initial chat to call funaction
-	const firstTimeChatByIdService = async (id) => {
-		const response = await FindChatById(id);
-		try {
-			if (response.data != null && response.data != 'undefind' && response.status == 200) {
-				setFormdataDetails(response.data[0]);
-			}
-		} catch (error) {
-			//console.log(`error`, error);
-		}
-	}
-
 	//call feedback form open
 	const feedBack = async () => {
-		const body = {
-			formid: '60939df914f2d062cc132d68',
-			contextid: formdataDetails.property.consultantid._id,
-			addedby: sender,
-			property: {
-				rating: rating,
-				feedback: feedback
-			}
-		}
-		if (rating || feedback) {
-			try {
-				const response = await FeedBackService(body);
-				if (response.data != null && response.data != 'undefind' && response.status == 200) {
-					setrate(false);
-					setRating(null);
-					setFeedback(null);
-					setshowshowEndChatModel(false);
-					props.navigation.navigate(SCREEN.HOMESCREEN);
-				}
-			} catch (error) {
-				console.log(`error`, error);
-			}
-		} else {
-			setshowshowEndChatModel(false);
-			props.navigation.navigate(SCREEN.HOMESCREEN);
-		}
+		setFilterModalVisible(false);
+		props.navigation.navigate(SCREEN.RATEINGSCREEN, { consultanDetails, formdataDetails });
 	}
 
-	//end chat menu click to call function
-	const nowAutoEndChat = async () => {
-		let endtime = moment().format();
-		var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
-		var charges = formdataDetails.property.consultantid.property.chargespermin;
-		const body = {
-			formid: '608a5d7ebbeb5b2b03571f2c',
-			contextid: formdataDetails.contextid._id,
-			onModel: 'Member',
-			property: {
-				startat: formdataDetails.property.startat,
-				endat: endtime,
-				consultantid: formdataDetails.property.consultantid._id,
-				chargable: formdataDetails.property.chargable,
-				category: formdataDetails.property.category,
-				subcategory: formdataDetails.property.subcategory,
-				totalcost: charges * minsDiff,
-				totalminutechat: minsDiff,
-				consultanminutecharge: charges
-			}
-		}
-		console.log(`body`, body);
-		let generateBill = {
-			"customerid": sender,
-			"onModel": "Member",
-			"billdate": moment().format(),
-			"amount": charges * minsDiff,
-			"totalamount": charges * minsDiff,
-			"taxes": [],
-			"balance": charges * minsDiff,
-			"paidamount": 0,
-			"type": "Walletspent",
-			"property": {
-				consultantid: consultanDetails._id,
-				chatrefid: formId
-			},
-			"items": [{
-				"item": {
-					"_id": "60a2236e48c98c3638e8b2ac",
-					"sale": {
-						"taxes": [],
-						"rate": charges
-					}
-				},
-				"sale": {
-					"taxes": [],
-					"rate": charges
-				},
-				"quantity": minsDiff,
-				"cost": charges * minsDiff,
-				"totalcost": charges * minsDiff
-			}]
-		}
-		try {
-			const response = await EndChatService(formId, body);
-			const billResponse = await BillService(generateBill);
-
-			if (response.data != null && response.data != 'undefind' && response.status == 200) {
-				if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
-					let billpayment = {
-						"customerid": sender,
-						"onModel": "Member",
-						"paymentdate": moment().format(),
-						"billid": billResponse.data._id,
-						"amount": charges * minsDiff,
-						"totalamount": charges * minsDiff,
-						"paidamount": 0,
-						"walletamount": charges * minsDiff
-					}
-					const billPaymentResponse = await BillPaymentService(billpayment);
-					if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
-						let walletbody = {
-							"txntype": "Cr",
-							"txnref": `Earning for bill ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber}`,
-							"value": (charges * minsDiff) / 2,
-							"customerid": formdataDetails.property.consultantid._id,
-							"onModel": "User",
-							"txndate": moment().format()
-						}
-						const response1 = await WalletRefershService(walletbody);
-						if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
-							let walletbody2 = {
-								"txntype": "Cr",
-								"txnref": `Earning for bill ${billPaymentResponse.data.prefix}-${billPaymentResponse.data.receiptnumber}`,
-								"value": (charges * minsDiff) / 2,
-								"customerid": "6054990599e17f5b4c4bb112",
-								"onModel": "User",
-								"txndate": moment().format()
-							}
-							const response2 = await WalletRefershService(walletbody2);
-							if (response2.data != null && response2.data != 'undefind' && response2.status === 200) {
-								setshowshowEndChatModel(false);
-								setfilterModalVisible(false);
-								showModalVisible(false);
-								if (Platform.OS === 'android') {
-									ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
-								} else {
-									alert('Your Chat Is Closed');
-								}
-								props.navigation.navigate(SCREEN.HOMESCREEN);
-							}
-						}
-					}
-				}
-			}
-		}
-		catch (error) {
-			console.log(`error`, error);
-			if (Platform.OS === 'android') {
-				ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
-			} else {
-				alert('Your Chat Is Not Closed');
-			}
-		}
-	}
-
-	//end chat menu click to call function
+	//end chat menu click to call function(END CHAT API CALL)
 	const onpressDoneBtn = async () => {
-		await feedBack();
 		if (formdataDetails) {
 			let endtime = moment().format();
 			var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
@@ -568,7 +404,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 
-			console.log(`body`, body);
+			//console.log(`body EndChatService`, body);
 			let generateBill = {
 				"customerid": sender,
 				"onModel": "Member",
@@ -581,7 +417,7 @@ const chatScreen = (props, { navigation }) => {
 				"type": "Walletspent",
 				"property": {
 					consultantid: consultanDetails._id,
-					chatrefid: formId
+					chatrefid: formdataDetails._id
 				},
 				"items": [{
 					"item": {
@@ -600,9 +436,9 @@ const chatScreen = (props, { navigation }) => {
 					"totalcost": charges * minsDiff
 				}]
 			}
-			console.log(`generateBill`, generateBill);
+			//console.log(`generateBill`, generateBill);
 			try {
-				const response = await EndChatService(formId, body);
+				const response = await EndChatService(formdataDetails._id, body);
 				const billResponse = await BillService(generateBill);
 
 				console.log(`response`, response);
@@ -642,15 +478,14 @@ const chatScreen = (props, { navigation }) => {
 								}
 								const response2 = await WalletRefershService(walletbody2);
 								if (response2.data != null && response2.data != 'undefind' && response2.status === 200) {
-									setshowshowEndChatModel(false);
 									setfilterModalVisible(false);
 									showModalVisible(false);
+									if (nowAutoEndChat === false) { feedBack() }
 									if (Platform.OS === 'android') {
 										ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
 									} else {
 										alert('Your Chat Is Closed');
 									}
-									props.navigation.navigate(SCREEN.HOMESCREEN);
 								}
 							}
 						}
@@ -836,11 +671,6 @@ const chatScreen = (props, { navigation }) => {
 		}
 		catch (error) {
 			setloading(false);
-			// if (Platform.OS === 'android') {
-			// 	ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
-			// } else {
-			// 	alert('Message Sending Failed!');
-			// }
 		}
 	}
 
@@ -992,12 +822,12 @@ const chatScreen = (props, { navigation }) => {
 				animationType='slide'
 				transparent={true}
 				visible={filterModalVisible}
-				onRequestClose={() => { setFilterModalVisible(!filterModalVisible) }}
+				onRequestClose={() => setFilterModalVisible(!filterModalVisible)}
 			>
 				<View style={{ alignItems: 'center', flex: 1 }}>
 					<View style={{ position: 'absolute', bottom: 20 }}>
 						<View style={styles.modalView}>
-							<TouchableOpacity onPress={() => setshowshowEndChatModel(true)} disabled={hideInput}>
+							<TouchableOpacity onPress={() => onpressDoneBtn()} disabled={hideInput}>
 								<Text style={{ padding: 15, textAlign: 'center', color: hideInput ? '#999999' : '#000000' }}>End Chat</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
@@ -1020,7 +850,7 @@ const chatScreen = (props, { navigation }) => {
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 							</View>
 
-							<TouchableOpacity onPress={() => { setrate(true), setshowshowEndChatModel(true) }}>
+							<TouchableOpacity onPress={() => feedBack()}>
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Rate</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
@@ -1033,7 +863,7 @@ const chatScreen = (props, { navigation }) => {
 						</View>
 						<View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 							<TouchableOpacity
-								onPress={() => { setFilterModalVisible(!filterModalVisible) }}
+								onPress={() => setFilterModalVisible(!filterModalVisible)}
 								style={styles.cancelbtn}
 							>
 								<Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
@@ -1260,78 +1090,6 @@ const chatScreen = (props, { navigation }) => {
 						</View>
 					</View>
 				</View>
-			</Modal>
-
-			{/* end chat Model pop up */}
-			<Modal
-				animationType='slide'
-				transparent={true}
-				visible={showEndChatModel}
-				onRequestClose={() => { showModalVisible(!showStartProjectVisible) }}
-			>
-				<ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-					<View style={styles.centerView}>
-						<View style={styles.EndChatModalView}>
-							<View style={{ marginTop: 10 }} />
-							<View style={styles.messageModalView}>
-								<Text style={{ marginTop: 10, fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>Thank You</Text>
-								<Text style={{ marginTop: 10, fontSize: 14, color: '#FFFFFF' }}>Your chat with {consultanDetails.fullname},</Text>
-								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>ended. I hope it was nice</Text>
-								<Text style={{ fontSize: 14, color: '#FFFFFF' }}> experience for you.</Text>
-							</View>
-
-							<View style={{ margin: 7, alignItems: 'center' }} >
-								<Text style={{ fontSize: 12, color: '#4D4D4D' }}> Your feedback can help {consultanDetails.fullname},all other </Text>
-								<Text style={{ fontSize: 12, color: '#4D4D4D' }}> people who have same questions like you.</Text>
-							</View>
-
-							<Pressable onPress={() => onTouchViewProfile()}
-								style={styles.profileImageView}>
-								<Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
-									style={styles.profileImage}
-								/>
-							</Pressable>
-
-							<View style={{ margin: 10, alignItems: 'center' }} >
-								<Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize', fontWeight: 'bold' }}> {consultanDetails.fullname} </Text>
-								<Text style={{ fontSize: 12, color: '#000000' }}>{formdataDetails && formdataDetails.property && formdataDetails.property.consultantid && formdataDetails.property.consultantid.property && formdataDetails.property.consultantid.property.usertag}</Text>
-							</View>
-
-							<StarRating
-								disabled={false}
-								maxStars={5}
-								starSize={20}
-								rating={rating}
-								fullStarColor={'#C4C4C4'}
-								emptyStarColor={'#000000'}
-								selectedStar={(rating) => setRating(rating)}
-							/>
-
-							<View style={styles.commectView}>
-								<TextInput
-									style={styles.TextareaInput}
-									placeholder='Your Comments'
-									type='clear'
-									returnKeyType='done'
-									placeholderTextColor='#999999'
-									blurOnSubmit={false}
-									numberOfLines={3}
-									multiline={true}
-									defaultValue={feedback}
-									onChangeText={(val) => setFeedback(val)}
-								/>
-							</View>
-							<View style={{ margin: 10 }}>
-								<TouchableOpacity
-									onPress={() => { rate == true ? feedBack() : onpressDoneBtn() }}
-									style={styles.doneBtn}
-								>
-									<Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF' }}>Done</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-					</View>
-				</ScrollView>
 			</Modal>
 			{loading ? <Loader /> : null}
 		</SafeAreaView>
