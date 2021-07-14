@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import {
 	View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, Image,
 	TextInput, Modal, Dimensions, StatusBar, Platform, ToastAndroid, Keyboard
@@ -37,7 +37,6 @@ const chatScreen = (props, { navigation }) => {
 	const [sender, setsender] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [formdataDetails, setFormdataDetails] = useState(null);
-
 	//another variable 
 	const [showStartProjectVisible, setshowStartProjectVisible] = useState(false);
 	const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
@@ -64,6 +63,8 @@ const chatScreen = (props, { navigation }) => {
 	const [reportDescError, setReportDescError] = useState(null);
 	const [timeoutModelVisible, setTimeoutModelVisible] = useState(false);
 	const [nowAutoEndChat, setnowAutoEndChat] = useState(false);
+	const timerRef = useRef(null);
+	const timerRef1 = useRef(null);
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
 	const fourTextInputRef = React.createRef();
@@ -100,21 +101,19 @@ const chatScreen = (props, { navigation }) => {
 		reportDesc, reportDescError, nowAutoEndChat
 	])
 
-	const wait = (timeout) => {
-		return new Promise(resolve => {
-			setTimeout(resolve, timeout);
-		});
+	// //2 minutes complate to call funtion
+	const oncheckIdelTimeOut = async (val) => {
+		// timerRef.current = setTimeout(() => {
+		// 	setTimeoutModelVisible(true);
+		// 	autoendnow();
+		// }, 10000);
 	}
 
-	// //2 minutes complate to call funtion
-	const oncheckIdelTimeOut = async () => {
-		wait(120000).then(() => {
-			setTimeoutModelVisible(true);
-			wait(5000).then(async () => {
-				setnowAutoEndChat(true);
-				onpressDoneBtn();
-			});
-		});
+	const autoendnow = () => {
+		// timerRef1.current = setTimeout(() => {
+		// 	setnowAutoEndChat(true);
+		// 	onpressDoneBtn();
+		// }, 5000);
 	}
 
 	//check permission 
@@ -231,8 +230,8 @@ const chatScreen = (props, { navigation }) => {
 		try {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
-				setFormdataDetails(response.data);
 				formId = response.data._id;
+				FindChatByIdService(response.data._id);
 			}
 		}
 		catch (error) {
@@ -273,12 +272,16 @@ const chatScreen = (props, { navigation }) => {
 		}
 	};
 
-	//send btn click to send message 
-	const onSend = useCallback((messages = []) => {
+	//check start chat or not function
+	const checkstartchat = () => {
 		if (formdataDetails && formdataDetails.property && (formdataDetails.property.startat == undefined || formdataDetails.property.startat == null)) {
 			updateChatId();
-			oncheckIdelTimeOut();
 		}
+	}
+
+	//send btn click to send message 
+	const onSend = useCallback((messages = []) => {
+		checkstartchat();
 		let setMessage = firestore().collection('chat').doc(chatId).collection('messages').doc();
 		for (let i = 0; i < messages.length; i++) {
 			const { text, user, createdAt } = messages[i];
@@ -302,23 +305,28 @@ const chatScreen = (props, { navigation }) => {
 
 	//update chat id
 	const updateChatId = async () => {
-		const body = {
+		let body = {
 			formid: '608a5d7ebbeb5b2b03571f2c',
 			contextid: formdataDetails.contextid._id,
 			onModel: 'Member',
 			property: {
 				startat: moment().format(),
-				consultantid: formdataDetails.property.consultantid,
+				consultantid: formdataDetails.property.consultantid._id,
 				chargable: true,
 				category: formdataDetails.property.category,
 				subcategory: formdataDetails.property.subcategory
 			}
 		}
+		if (chatId) {
+			body.property.fierbasechatid = chatId
+		}
 		try {
 			const response = await EndChatService(formdataDetails._id, body);
+			//console.log(`response`, response);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
-				console.log(`response.data update`);
-				setFormdataDetails(response.data);
+				FindChatByIdService(response.data._id)
+				//setFormdataDetails(response.data);
+				oncheckIdelTimeOut(true);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
 				} else {
@@ -326,7 +334,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 		} catch (error) {
-			console.log(`error updateChatId`, error);
+			//console.log(`error updateChatId`, error);
 			setloading(false);
 			if (Platform.OS === 'android') {
 				ToastAndroid.show('Your Chat Not Start', ToastAndroid.SHORT);
@@ -365,11 +373,14 @@ const chatScreen = (props, { navigation }) => {
 				if (response.data[0] && response.data[0].property.endat != null) {
 					setHideInput(true);
 				} else {
-					oncheckIdelTimeOut();
+					if (response.data[0] && response.data[0].property.startat) {
+						oncheckIdelTimeOut(true);
+					}
 					setHideInput(false);
 				}
 			}
 		} catch (error) {
+			//console.log(`error FindChatByIdService`, error);
 			setloading(false);
 		}
 	}
@@ -383,10 +394,14 @@ const chatScreen = (props, { navigation }) => {
 	//end chat menu click to call function(END CHAT API CALL)
 	const onpressDoneBtn = async () => {
 		if (formdataDetails) {
+			console.log('formdataDetails', formdataDetails)
 			let endtime = moment().format();
-			var minsDiff = moment.utc(moment(endtime, "HH:mm:ss").diff(moment(formdataDetails.property.startat, "HH:mm:ss"))).format("mm")
+			var duration = moment.duration(moment().diff(formdataDetails.property.startat))
+			var minsDiff = duration.asMinutes();
+
 			console.log(`minsDiff`, minsDiff);
 			var charges = formdataDetails.property.consultantid.property.chargespermin;
+			console.log(`charges`, charges)
 			const body = {
 				formid: '608a5d7ebbeb5b2b03571f2c',
 				contextid: formdataDetails.contextid._id,
@@ -400,7 +415,8 @@ const chatScreen = (props, { navigation }) => {
 					subcategory: formdataDetails.property.subcategory,
 					totalcost: charges * minsDiff,
 					totalminutechat: minsDiff,
-					consultanminutecharge: charges
+					consultanminutecharge: charges,
+					fierbasechatid: formdataDetails.property.fierbasechatid
 				}
 			}
 
@@ -436,16 +452,14 @@ const chatScreen = (props, { navigation }) => {
 					"totalcost": charges * minsDiff
 				}]
 			}
-			//console.log(`generateBill`, generateBill);
+			console.log(`generateBill`, generateBill);
 			try {
 				const response = await EndChatService(formdataDetails._id, body);
 				const billResponse = await BillService(generateBill);
-
-				console.log(`response`, response);
-				console.log(`billResponse`, billResponse);
-
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
+					console.log(`response`, response);
 					if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
+						console.log(`billResponse`, billResponse);
 						let billpayment = {
 							"customerid": sender,
 							"onModel": "Member",
@@ -457,6 +471,7 @@ const chatScreen = (props, { navigation }) => {
 							"walletamount": charges * minsDiff
 						}
 						const billPaymentResponse = await BillPaymentService(billpayment);
+						console.log(`billPaymentResponse`, billPaymentResponse);
 						if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
 							let walletbody = {
 								"txntype": "Cr",
@@ -467,6 +482,7 @@ const chatScreen = (props, { navigation }) => {
 								"txndate": moment().format()
 							}
 							const response1 = await WalletRefershService(walletbody);
+							console.log(`response1`, response1);
 							if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
 								let walletbody2 = {
 									"txntype": "Cr",
@@ -477,10 +493,21 @@ const chatScreen = (props, { navigation }) => {
 									"txndate": moment().format()
 								}
 								const response2 = await WalletRefershService(walletbody2);
+								console.log(`response2`, response2);
 								if (response2.data != null && response2.data != 'undefind' && response2.status === 200) {
 									setfilterModalVisible(false);
 									showModalVisible(false);
-									if (nowAutoEndChat === false) { feedBack() }
+									setnowAutoEndChat(false);
+									if (nowAutoEndChat === false) { feedBack() } else {
+										if (timerRef.current) {
+											clearTimeout(timerRef.current);
+										}
+										if (timerRef1.current) {
+											clearTimeout(timerRef1.current);
+										}
+										setnowAutoEndChat(false);
+										props.navigation.navigate(SCREEN.HOMESCREEN);
+									}
 									if (Platform.OS === 'android') {
 										ToastAndroid.show('Your Chat Is Closed', ToastAndroid.SHORT);
 									} else {
@@ -1076,13 +1103,13 @@ const chatScreen = (props, { navigation }) => {
 						</View>
 						<View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 10 }}>
 							<TouchableOpacity
-								onPress={() => { setTimeoutModelVisible(false), nowAutoEndChat() }}
+								onPress={() => { setTimeoutModelVisible(false), onpressDoneBtn() }}
 								style={styles.yesbtn}
 							>
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Yes</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => { setTimeoutModelVisible(false), oncheckIdelTimeOut() }}
+								onPress={() => { setTimeoutModelVisible(false), oncheckIdelTimeOut(false) }}
 								style={styles.nobtn}
 							>
 								<Text style={{ fontSize: 14, color: '#000000' }}>No</Text>

@@ -242,7 +242,7 @@ const myWalletScreen = (props) => {
                         </View>
 
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balanced ₹ {Number(walletBalance)}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balanced ₹ {Number(walletBalance).toFixed(0)}</Text>
                         </View>
                     </View>
                 </View>

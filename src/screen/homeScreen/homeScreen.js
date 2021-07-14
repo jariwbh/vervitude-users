@@ -107,7 +107,7 @@ const homeScreen = (props) => {
                         message: notification.message,
                         title: notification.title
                     }
-                    console.log("NOTIFICATION:", notification);
+                    //  console.log("NOTIFICATION:", notification);
                     notification.finish(PushNotificationIOS.FetchResult.NoData);
                 }
             },
