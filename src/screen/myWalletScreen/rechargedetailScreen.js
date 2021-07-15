@@ -247,7 +247,7 @@ const rechargedetailScreen = (props) => {
                                                 </View>
                                                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                                                     <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
-                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
+                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(((Number(rechargeDetails.amount) + Number(rechargeDetails.couponDetails.property.fixvalue)) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance))}</Text>
                                                 </View>
                                             </View>
                                         </View>
@@ -308,7 +308,7 @@ const rechargedetailScreen = (props) => {
                                                 </View>
                                                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 5 }}>
                                                     <Text style={{ fontSize: 12, marginLeft: 15, color: '#999999' }}>New Balance </Text>
-                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round(Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance)}</Text>
+                                                    <Text style={{ fontSize: 14, color: '#04DE71', marginRight: 20 }}> ₹ {Math.round((Number(rechargeDetails.amount) / ((Number(18) / Number(100)) + 1)) + Number(walletBalance))}</Text>
                                                 </View>
                                             </View>
                                         </View>
@@ -384,7 +384,7 @@ const rechargedetailScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balance ₹ {Number(walletBalance)}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Current Balance ₹ {Number(walletBalance).toFixed(0)}</Text>
                         </View>
                     </View>
                 </View>

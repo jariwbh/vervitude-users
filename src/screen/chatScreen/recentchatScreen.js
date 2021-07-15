@@ -89,7 +89,7 @@ const recentchatScreen = (props) => {
 
     const renderChatUser = ({ item }) => (
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => navigationhandler(item)}>
+            <TouchableOpacity style={item.property.endat ? STYLES.recentChatStyles.counsultantview2 : STYLES.recentChatStyles.counsultantview} onPress={() => navigationhandler(item)}>
                 <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
                     <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>{item.updatedAt ? moment(item.updatedAt).format('lll') : moment(item.createdAt).format('lll')}</Text>
                 </View>

@@ -179,7 +179,7 @@ const myspendsScreen = (props) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                     <View style={STYLES.styles.walletview}>
                         <Text style={{ fontSize: 14, color: '#9D9D9D' }}>Wallet Balance</Text>
-                        <Text style={{ fontSize: 26, color: '#04DE71', fontWeight: 'bold' }}>₹ {Number(walletBalance)}</Text>
+                        <Text style={{ fontSize: 26, color: '#04DE71', fontWeight: 'bold' }}>₹ {Number(walletBalance).toFixed(0)}</Text>
                     </View>
                 </View>
 

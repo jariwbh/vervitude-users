@@ -147,7 +147,7 @@ const homeScreen = (props) => {
                         message: notification.message,
                         title: notification.title
                     }
-                    console.log("NOTIFICATION:", notification);
+                    //  console.log("NOTIFICATION:", notification);
                     notification.finish(PushNotificationIOS.FetchResult.NoData);
                 }
             },
@@ -469,7 +469,7 @@ const homeScreen = (props) => {
                 </View>
             </View>
             {
-                (filteredDataSource == null) || (filteredDataSource && filteredDataSource.length == 0) ? null :
+                (filteredDataSource == null) || (filteredDataSource && filteredDataSource.length < 0) ? null :
                     <View style={{
                         marginTop: 150, backgroundColor: '#FFFFFF', position: 'absolute',
                         zIndex: 2, justifyContent: 'center', alignItems: 'center', margin: 20, height: 100
@@ -492,7 +492,7 @@ const homeScreen = (props) => {
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}>
-                            {(sliderData != null) || (sliderData && sliderData.length != 0) ?
+                            {(sliderData != null) || (sliderData && sliderData.length < 0) ?
                                 <Swiper
                                     containerStyle={styles.wrapper}
                                     autoplay={true}
