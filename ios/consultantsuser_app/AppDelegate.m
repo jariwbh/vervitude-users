@@ -1,4 +1,4 @@
-#import "AppDelegate.h".
+#import "AppDelegate.h"
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
 #import <Firebase.h>

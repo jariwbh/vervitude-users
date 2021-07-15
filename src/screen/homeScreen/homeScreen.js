@@ -20,7 +20,7 @@ import { getByIdMemberService } from '../../services/UserService/UserService';
 //import axiosConfig from '../../helpers/axiosConfig';
 import DeviceInfo from 'react-native-device-info';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification, { Importance } from "react-native-push-notification";
+import PushNotification from "react-native-push-notification";
 import { NotificationService } from '../../services/NotificationService/NotificationService';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -28,6 +28,8 @@ import Swiper from 'react-native-swiper';
 import SliderService from '../../services/SliderService/SliderService';
 import { useFocusEffect } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import firebase from '@react-native-firebase/app';
+import messaging from '@react-native-firebase/messaging';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
@@ -84,18 +86,56 @@ const homeScreen = (props) => {
         props.navigation.navigate(SCREEN.WEBVIEWSCREEN, { data });
     }
 
-    const PushNotifications = () => {
+    async function requestUserPermission() {
+        const authorizationStatus = await messaging().requestPermission();
+
+        if (authorizationStatus) {
+            console.log('Permission status:', authorizationStatus);
+        } else {
+            console.log('not permission');
+        }
+    }
+
+    const PushNotifications = async () => {
+        requestUserPermission();
         if (Platform.OS === 'ios') {
             console.log('ios');
         }
+
+        let fcmToken = await firebase.messaging().getToken();
+        if (fcmToken != undefined) {
+            console.log(`fcmToken`, fcmToken);
+            getFcmToken(fcmToken);
+        }
+
+        messaging().onNotificationOpenedApp(remoteMessage => {
+            console.log(
+                'Notification caused app to open from background state:',
+                remoteMessage.notification,
+            );
+        });
+
+        // Check whether an initial notification is available
+        messaging()
+            .getInitialNotification()
+            .then(remoteMessage => {
+                if (remoteMessage) {
+                    console.log(
+                        'Notification caused app to open from quit state:',
+                        remoteMessage.notification,
+                    );
+
+                }
+                setloading(false);
+            });
 
         PushNotification.configure({
             // (optional) Called when Token is generated (iOS and Android)
             onRegister: function (token) {
                 //console.log(`token`, token)
-                if (token.token != undefined) {
-                    getFcmToken(token.token)
-                }
+                // if (token.token != undefined) {
+                //     getFcmToken(token.token)
+                // }
             },
 
             // (required) Called when a remote is received or opened, or local notification is opened
@@ -121,6 +161,7 @@ const homeScreen = (props) => {
 
             // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
             onRegistrationError: function (err) {
+                console.log(`err`, err);
                 console.error(err.message, err);
             },
 
@@ -133,6 +174,7 @@ const homeScreen = (props) => {
 
             // Should the initial notification be popped automatically
             // default: true
+            senderID: '909517140999',
             popInitialNotification: true,
 
             /**
