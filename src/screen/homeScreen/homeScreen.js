@@ -102,6 +102,23 @@ const homeScreen = (props) => {
             console.log('ios');
         }
 
+        // When a user tap on a push notification and the app is in background
+        messaging().onNotificationOpenedApp(async (remoteMessage) => {
+            alert("Background Push Notification opened")
+        });
+
+        // When a user tap on a push notification and the app is CLOSED
+        messaging().getInitialNotification().then((remoteMessage) => {
+            if (remoteMessage) {
+                alert("App Closed Push Notification opened")
+            }
+        });
+
+        // When a user receives a push notification and the app is in foreground
+        messaging().onMessage(() => {
+            alert("Foreground Push Notification opened")
+        });
+
         let fcmToken = await firebase.messaging().getToken();
         if (fcmToken != undefined) {
             console.log(`fcmToken`, fcmToken);

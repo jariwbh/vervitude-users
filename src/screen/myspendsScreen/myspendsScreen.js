@@ -110,13 +110,11 @@ const myspendsScreen = (props) => {
                         </>
                     }
                 </View>
-                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: -50, marginLeft: 20, flex: 1 }}>
+                <View style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginTop: -70, marginLeft: 20, flex: 1 }}>
                     <View style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
                         <View style={{ borderColor: '#55BCEB', borderRadius: 100, borderWidth: 1.5 }}>
                             <Image source={{ uri: item.consultant.profilepic !== null && item.consultant.profilepic != undefined ? item.consultant.profilepic : noProfile }}
-                                style={{ width: 100, height: 100 }}
-                                imageStyle={{ borderRadius: 100 }}
-                            >
+                                style={{ width: 100, height: 100, borderRadius: 100 }}>
                             </Image>
                         </View>
                     </View>
@@ -143,7 +141,7 @@ const myspendsScreen = (props) => {
                             <View style={{ justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 16, color: '#FB3267', fontWeight: 'bold' }}>₹ {Number(item.amount)}</Text>
                             </View>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: WIDTH / 5 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: WIDTH / 5 - 20 }}>
                                 <Text style={{ fontSize: 16, color: '#000000', fontWeight: 'bold' }}>{moment.utc(moment.duration(item.items[0].quantity, "minutes").asMilliseconds()).format("H") + 'h'
                                     + moment.utc(moment.duration(item.items[0].quantity, "minutes").asMilliseconds()).format("mm") + 'min'}</Text>
                             </View>

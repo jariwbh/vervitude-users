@@ -284,12 +284,12 @@ const chatScreen = (props, { navigation }) => {
 						setloading(false);
 						return ref.id;
 					} else {
-						FindChatByIdService(snap2.docs[0]._data.formid);
+						await FindChatByIdService(snap2.docs[0]._data.formid);
 						setloading(false);
 						return snap2.docs[0].id;
 					}
 				} else {
-					FindChatByIdService(snap2.docs[0]._data.formid);
+					await FindChatByIdService(snap2.docs[0]._data.formid);
 					setloading(false);
 					return snap2.docs[0].id;
 				}
@@ -320,12 +320,12 @@ const chatScreen = (props, { navigation }) => {
 					setloading(false);
 					return ref.id;
 				} else {
-					FindChatByIdService(data.formid);
+					await FindChatByIdService(data.formid);
 					setloading(false);
 					return id;
 				}
 			} else {
-				FindChatByIdService(data.formid);
+				await FindChatByIdService(data.formid);
 				setloading(false);
 				return id;
 			}
