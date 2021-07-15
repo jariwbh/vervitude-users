@@ -102,11 +102,11 @@ const chatScreen = (props, { navigation }) => {
 	])
 
 	// //2 minutes complate to call funtion
-	const oncheckIdelTimeOut = async (val) => {
-		// timerRef.current = setTimeout(() => {
-		// 	setTimeoutModelVisible(true);
-		// 	autoendnow();
-		// }, 10000);
+	const oncheckIdelTimeOut = async () => {
+		timerRef.current = setTimeout(() => {
+			setTimeoutModelVisible(true);
+			autoendnow();
+		}, 1200000);
 	}
 
 	const autoendnow = () => {
@@ -242,10 +242,19 @@ const chatScreen = (props, { navigation }) => {
 
 	//new chat inite
 	const newChat = async (sender, item) => {
+		console.log(`consultanDetails`, consultanDetails);
 		let getChatId = firestore().collection('chat');
-		let snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
+		let fierbasechatid = item && item.consultanobject && item.consultanobject.property && item.consultanobject.property.fierbasechatid;
+		console.log(`fierbasechatid`, fierbasechatid);
+		let snap;
+		if (fierbasechatid) {
+			snap = await getChatId.doc(fierbasechatid).get()
+		} else {
+			snap = await getChatId.where('member', 'in', [[sender, item._id]]).get();
+		}
 		if (snap.empty) {
 			let snap2 = await getChatId.where('member', 'in', [[item._id, sender]]).get();
+			console.log(`snap2`, snap2);
 			if (snap2.empty) {
 				await startChat(sender, item._id);
 				let ref = await getChatId.add({
@@ -259,16 +268,67 @@ const chatScreen = (props, { navigation }) => {
 				setloading(false);
 				return ref.id;
 			} else {
-				formId = snap2.docs[0]._data.formid;
-				FindChatByIdService(snap2.docs[0]._data.formid);
-				setloading(false);
-				return snap2.docs[0].id;
+				console.log(`snap2 else`, snap2);
+				if (snap2.docs[0]._data.endat) {
+					console.log('called2');
+					if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
+						await startChat(sender, item._id);
+						let ref = await getChatId.add({
+							member: [sender, item._id],
+							createdAt: '',
+							previewMessage: '',
+							formid: formId,
+							memberid: sender,
+							userid: item._id
+						});
+						setloading(false);
+						return ref.id;
+					} else {
+						FindChatByIdService(snap2.docs[0]._data.formid);
+						setloading(false);
+						return snap2.docs[0].id;
+					}
+				} else {
+					FindChatByIdService(snap2.docs[0]._data.formid);
+					setloading(false);
+					return snap2.docs[0].id;
+				}
 			}
-		} else {
-			formId = snap.docs[0]._data.formid;
-			FindChatByIdService(snap.docs[0]._data.formid);
-			setloading(false);
-			return snap.docs[0].id;
+		}
+		else {
+			let data;
+			let id;
+			if (fierbasechatid) {
+				data = snap._data;
+				id = snap.id;
+			} else {
+				data = snap.docs[0]._data
+				id = snap.docs[0].id;
+			}
+			console.log(`data`, data);
+			if (data.endat) {
+				if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
+					await startChat(sender, item._id);
+					let ref = await getChatId.add({
+						member: [sender, item._id],
+						createdAt: '',
+						previewMessage: '',
+						formid: formId,
+						memberid: sender,
+						userid: item._id
+					});
+					setloading(false);
+					return ref.id;
+				} else {
+					FindChatByIdService(data.formid);
+					setloading(false);
+					return id;
+				}
+			} else {
+				FindChatByIdService(data.formid);
+				setloading(false);
+				return id;
+			}
 		}
 	};
 
@@ -454,10 +514,14 @@ const chatScreen = (props, { navigation }) => {
 			}
 			console.log(`generateBill`, generateBill);
 			try {
+				console.log(`formdataDetails._id`, formdataDetails._id)
+				console.log(`body formdataDetails`, body)
 				const response = await EndChatService(formdataDetails._id, body);
-				const billResponse = await BillService(generateBill);
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
+					//firestore().collection('chat').doc(chatId).update({ member: [[sender, item._id, 'chatend']], createdAt: createdAt.toString() });
+					firestore().collection('chat').doc(chatId).update({ 'endat': endtime });
 					console.log(`response`, response);
+					const billResponse = await BillService(generateBill);
 					if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
 						console.log(`billResponse`, billResponse);
 						let billpayment = {

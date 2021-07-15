@@ -131,6 +131,22 @@ export const recentChatStyles = StyleSheet.create({
         },
         elevation: 1
     },
+    counsultantview2: {
+        borderColor: '#ff0000',
+        borderWidth: 1,
+        height: 90,
+        width: WIDTH - 20,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        marginTop: 15,
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 1
+    },
     statusbar: {
         flexDirection: 'row',
         backgroundColor: "#fff",
