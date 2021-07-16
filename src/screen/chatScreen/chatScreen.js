@@ -584,6 +584,7 @@ const chatScreen = (props, { navigation }) => {
 								"value": (charges * minsDiff) / 2,
 								"customerid": formdataDetails.property.consultantid._id,
 								"onModel": "User",
+								"billid": billResponse.data._id,
 								"txndate": moment().format()
 							}
 							const response1 = await WalletRefershService(walletbody);
@@ -595,6 +596,7 @@ const chatScreen = (props, { navigation }) => {
 									"value": (charges * minsDiff) / 2,
 									"customerid": "6054990599e17f5b4c4bb112",
 									"onModel": "User",
+									"billid": billResponse.data._id,
 									"txndate": moment().format()
 								}
 								const response2 = await WalletRefershService(walletbody2);

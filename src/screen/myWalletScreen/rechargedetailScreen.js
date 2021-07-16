@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StatusBar, ToastAndroid, Platform } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as STYLES from './styles';
 import * as SCREEN from '../../context/screen/screenName';
 import { BillService, WalletDetailService, WalletRechargeWithCouponService, BillPaymentService } from '../../services/BillService/BillService';
@@ -100,6 +99,7 @@ const rechargedetailScreen = (props) => {
                         "txndate": moment().format(),
                         "customerid": rechargeDetails.id,
                         "onModel": "Member",
+                        "billid": res._id,
                         "value": rechargeDetails.couponDetails.property.fixvalue
                     }
                     const response1 = await WalletRechargeWithCouponService(walletbody);
