@@ -94,7 +94,7 @@ const recentchatScreen = (props) => {
                     <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>{item.updatedAt ? moment(item.updatedAt).format('lll') : moment(item.createdAt).format('lll')}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
-                    <Image source={{ uri: item ? item.property.consultantid.profilepic !== null && item.property.consultantid.profilepic ? item.property.consultantid.profilepic : noProfile : noProfile }}
+                    <Image source={{ uri: item && item.property && item.property.consultantid && item.property.consultantid.profilepic ? item.property.consultantid.profilepic : noProfile }}
                         style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 20, borderColor: '#555555', borderWidth: 0.2 }} />
                     <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
                 </View>

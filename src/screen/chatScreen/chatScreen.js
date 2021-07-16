@@ -68,6 +68,8 @@ const chatScreen = (props, { navigation }) => {
 	const secondTextInputRef = React.createRef();
 	const thirdTextInputRef = React.createRef();
 	const fourTextInputRef = React.createRef();
+	let formdatas;
+	let userid;
 
 	// chat portion
 	useEffect(
@@ -75,6 +77,7 @@ const chatScreen = (props, { navigation }) => {
 			checkPermission();
 			AsyncStorage.getItem(AUTHUSER).then((res) => {
 				let sender = JSON.parse(res)._id;
+				userid = JSON.parse(res)._id;
 				setsender(sender);
 				setloading(true);
 				newChat(sender, consultanDetails).then((id) => {
@@ -216,6 +219,7 @@ const chatScreen = (props, { navigation }) => {
 	}
 
 	const startChat = async (sender, item) => {
+		//console.log(`consultanDetails`, consultanDetails);
 		const body = {
 			formid: '608a5d7ebbeb5b2b03571f2c',
 			contextid: sender,
@@ -223,7 +227,7 @@ const chatScreen = (props, { navigation }) => {
 			property: {
 				consultantid: item,
 				chargable: false,
-				category: consultanDetails.property.livechat,
+				category: consultanDetails && consultanDetails.property && consultanDetails.property.livechat ? consultanDetails.property.livechat : [],
 				subcategory: consultanDetails.property.skill
 			}
 		}
@@ -231,21 +235,20 @@ const chatScreen = (props, { navigation }) => {
 			const response = await StartChatService(body);
 			if (response.data != null && response.data != 'undefind' && response.status === 200) {
 				formId = response.data._id;
+				formdatas = response.data;
 				FindChatByIdService(response.data._id);
 			}
 		}
 		catch (error) {
-			console.log(`error`, error);
+			//console.log(`error`, error);
 			setloading(false);
 		}
 	}
 
 	//new chat inite
 	const newChat = async (sender, item) => {
-		console.log(`consultanDetails`, consultanDetails);
 		let getChatId = firestore().collection('chat');
 		let fierbasechatid = item && item.consultanobject && item.consultanobject.property && item.consultanobject.property.fierbasechatid;
-		console.log(`fierbasechatid`, fierbasechatid);
 		let snap;
 		if (fierbasechatid) {
 			snap = await getChatId.doc(fierbasechatid).get()
@@ -254,7 +257,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 		if (snap.empty) {
 			let snap2 = await getChatId.where('member', 'in', [[item._id, sender]]).get();
-			console.log(`snap2`, snap2);
+			//console.log(`snap2`, snap2);
 			if (snap2.empty) {
 				await startChat(sender, item._id);
 				let ref = await getChatId.add({
@@ -265,12 +268,12 @@ const chatScreen = (props, { navigation }) => {
 					memberid: sender,
 					userid: item._id
 				});
+				updateChatdata(ref.id);
 				setloading(false);
 				return ref.id;
 			} else {
-				console.log(`snap2 else`, snap2);
+				//console.log(`snap2 else`, snap2);
 				if (snap2.docs[0]._data.endat) {
-					console.log('called2');
 					if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
 						await startChat(sender, item._id);
 						let ref = await getChatId.add({
@@ -281,15 +284,16 @@ const chatScreen = (props, { navigation }) => {
 							memberid: sender,
 							userid: item._id
 						});
+						updateChatdata(ref.id);
 						setloading(false);
 						return ref.id;
 					} else {
-						await FindChatByIdService(snap2.docs[0]._data.formid);
+						FindChatByIdService(snap2.docs[0]._data.formid);
 						setloading(false);
 						return snap2.docs[0].id;
 					}
 				} else {
-					await FindChatByIdService(snap2.docs[0]._data.formid);
+					FindChatByIdService(snap2.docs[0]._data.formid);
 					setloading(false);
 					return snap2.docs[0].id;
 				}
@@ -305,7 +309,7 @@ const chatScreen = (props, { navigation }) => {
 				data = snap.docs[0]._data
 				id = snap.docs[0].id;
 			}
-			console.log(`data`, data);
+			//console.log(`data`, data);
 			if (data.endat) {
 				if (consultanDetails && consultanDetails.property && consultanDetails.property.livechat) {
 					await startChat(sender, item._id);
@@ -317,15 +321,16 @@ const chatScreen = (props, { navigation }) => {
 						memberid: sender,
 						userid: item._id
 					});
+					updateChatdata(ref.id);
 					setloading(false);
 					return ref.id;
 				} else {
-					await FindChatByIdService(data.formid);
+					FindChatByIdService(data.formid);
 					setloading(false);
 					return id;
 				}
 			} else {
-				await FindChatByIdService(data.formid);
+				FindChatByIdService(data.formid);
 				setloading(false);
 				return id;
 			}
@@ -364,28 +369,64 @@ const chatScreen = (props, { navigation }) => {
 	});
 
 	//update chat id
-	const updateChatId = async () => {
+	const updateChatdata = async (chatId) => {
+		//console.log(`chatId`, chatId);
 		let body = {
 			formid: '608a5d7ebbeb5b2b03571f2c',
-			contextid: formdataDetails.contextid._id,
+			contextid: userid,
 			onModel: 'Member',
 			property: {
-				startat: moment().format(),
-				consultantid: formdataDetails.property.consultantid._id,
-				chargable: true,
-				category: formdataDetails.property.category,
-				subcategory: formdataDetails.property.subcategory
+				consultantid: formdatas.property.consultantid,
+				chargable: false,
+				category: formdatas && formdatas.property && formdatas.property.category ? formdatas.property.category : [],
+				subcategory: formdatas && formdatas.property && formdatas.property.subcategory ? formdatas.property.subcategory : [],
 			}
 		}
 		if (chatId) {
 			body.property.fierbasechatid = chatId
 		}
 		try {
+			const response = await EndChatService(formdatas._id, body);
+			if (response.data != null && response.data != 'undefind' && response.status == 200) {
+				FindChatByIdService(response.data._id);
+				if (Platform.OS === 'android') {
+					ToastAndroid.show('Your Chat Is Initial', ToastAndroid.SHORT);
+				} else {
+					alert('Your Chat Is Initial');
+				}
+			}
+		} catch (error) {
+			//console.log(`error updateChatId`, error);
+			setloading(false);
+			if (Platform.OS === 'android') {
+				ToastAndroid.show('Your Chat Not Initial', ToastAndroid.SHORT);
+			} else {
+				alert('Your Chat Is Not Initial');
+			}
+		}
+	}
+
+	//first time message send to call update chat time
+	const updateChatId = async () => {
+		//console.log(`formdataDetails`, formdataDetails);
+		let body = {
+			formid: '608a5d7ebbeb5b2b03571f2c',
+			contextid: sender,
+			onModel: 'Member',
+			property: {
+				startat: moment().format(),
+				consultantid: formdataDetails.property.consultantid._id,
+				chargable: true,
+				category: formdataDetails.property.category,
+				subcategory: formdataDetails.property.subcategory,
+				fierbasechatid: formdataDetails.property.fierbasechatid
+			}
+		}
+
+		try {
 			const response = await EndChatService(formdataDetails._id, body);
-			//console.log(`response`, response);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				FindChatByIdService(response.data._id)
-				//setFormdataDetails(response.data);
 				oncheckIdelTimeOut(true);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
@@ -454,14 +495,14 @@ const chatScreen = (props, { navigation }) => {
 	//end chat menu click to call function(END CHAT API CALL)
 	const onpressDoneBtn = async () => {
 		if (formdataDetails) {
-			console.log('formdataDetails', formdataDetails)
+			//('formdataDetails', formdataDetails)
 			let endtime = moment().format();
 			var duration = moment.duration(moment().diff(formdataDetails.property.startat))
 			var minsDiff = duration.asMinutes();
 
-			console.log(`minsDiff`, minsDiff);
+			//console.log(`minsDiff`, minsDiff);
 			var charges = formdataDetails.property.consultantid.property.chargespermin;
-			console.log(`charges`, charges)
+			//console.log(`charges`, charges)
 			const body = {
 				formid: '608a5d7ebbeb5b2b03571f2c',
 				contextid: formdataDetails.contextid._id,
@@ -476,7 +517,7 @@ const chatScreen = (props, { navigation }) => {
 					totalcost: charges * minsDiff,
 					totalminutechat: minsDiff,
 					consultanminutecharge: charges,
-					fierbasechatid: formdataDetails.property.fierbasechatid
+					fierbasechatid: chatId
 				}
 			}
 
@@ -512,18 +553,18 @@ const chatScreen = (props, { navigation }) => {
 					"totalcost": charges * minsDiff
 				}]
 			}
-			console.log(`generateBill`, generateBill);
+			//console.log(`generateBill`, generateBill);
 			try {
-				console.log(`formdataDetails._id`, formdataDetails._id)
-				console.log(`body formdataDetails`, body)
+				//console.log(`formdataDetails._id`, formdataDetails._id)
+				//console.log(`body formdataDetails`, body)
 				const response = await EndChatService(formdataDetails._id, body);
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
 					//firestore().collection('chat').doc(chatId).update({ member: [[sender, item._id, 'chatend']], createdAt: createdAt.toString() });
 					firestore().collection('chat').doc(chatId).update({ 'endat': endtime });
-					console.log(`response`, response);
+					//console.log(`response`, response);
 					const billResponse = await BillService(generateBill);
 					if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
-						console.log(`billResponse`, billResponse);
+						//console.log(`billResponse`, billResponse);
 						let billpayment = {
 							"customerid": sender,
 							"onModel": "Member",
@@ -535,7 +576,7 @@ const chatScreen = (props, { navigation }) => {
 							"walletamount": charges * minsDiff
 						}
 						const billPaymentResponse = await BillPaymentService(billpayment);
-						console.log(`billPaymentResponse`, billPaymentResponse);
+						//console.log(`billPaymentResponse`, billPaymentResponse);
 						if (billPaymentResponse.data != null && billPaymentResponse.data != 'undefind' && billPaymentResponse.status == 200) {
 							let walletbody = {
 								"txntype": "Cr",
@@ -546,7 +587,7 @@ const chatScreen = (props, { navigation }) => {
 								"txndate": moment().format()
 							}
 							const response1 = await WalletRefershService(walletbody);
-							console.log(`response1`, response1);
+							//console.log(`response1`, response1);
 							if (response1.data != null && response1.data != 'undefind' && response1.status === 200) {
 								let walletbody2 = {
 									"txntype": "Cr",
@@ -557,7 +598,7 @@ const chatScreen = (props, { navigation }) => {
 									"txndate": moment().format()
 								}
 								const response2 = await WalletRefershService(walletbody2);
-								console.log(`response2`, response2);
+								//console.log(`response2`, response2);
 								if (response2.data != null && response2.data != 'undefind' && response2.status === 200) {
 									setfilterModalVisible(false);
 									showModalVisible(false);
@@ -584,7 +625,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 			catch (error) {
-				console.log(`error`, error);
+				//console.log(`error`, error);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);
 				} else {
@@ -775,7 +816,7 @@ const chatScreen = (props, { navigation }) => {
 							<AntDesign name='arrowleft' color='#FFFFFF' size={24} />
 						</TouchableOpacity>
 						<Image
-							source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
+							source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : noProfile }}
 							style={{ width: 50, height: 52, borderRadius: 100, marginLeft: 5 }}
 						/>
 						<View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'column', marginLeft: 10 }}>
