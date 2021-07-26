@@ -347,6 +347,7 @@ const chatScreen = (props, { navigation }) => {
 	//send btn click to send message 
 	const onSend = useCallback((messages = []) => {
 		checkstartchat();
+		sendpushalertmsgCheck(messages[0].text);
 		let setMessage = firestore().collection('chat').doc(chatId).collection('messages').doc();
 		for (let i = 0; i < messages.length; i++) {
 			const { text, user, createdAt } = messages[i];
@@ -805,6 +806,60 @@ const chatScreen = (props, { navigation }) => {
 		}
 		catch (error) {
 			setloading(false);
+		}
+	}
+
+	async function sendpushalert(registrationid, message, subject) {
+		var form = {
+			to: registrationid,
+			priority: "high",
+			notification: {
+				sound: "default",
+				title: subject.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' '),
+				body: message
+			}
+		};
+		var formData = JSON.stringify(form);
+		await fetch('https://fcm.googleapis.com/fcm/send', {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "key=AAAA08NyNAc:APA91bFZMgg6K7PalDJfmhRHo6dtoc0NyFv32mohAN9ZKya5VT-U1XCycqnowYROV6SnaZBFvtTRm-JzxXuBUrPF8WmWiFCyRcrR-yQ0y010Zj3rKWeVFZqbMm2xygQW_UTFNs03CRMO",
+			},
+			body: formData
+		})
+			.then(response => response.json())
+			.then((responseData) => {
+				console.log('responseData', responseData);
+			})
+			.catch(error => {
+				//this.setState({ errorMessage: error });
+				console.error('There was an error!', error);
+			});
+	}
+
+	function sendpushalertmsgCheck(message) {
+		let userInformation = formdataDetails.property.consultantid;
+		if (userInformation) {
+			if (userInformation.anroiddevices && userInformation.anroiddevices.length !== 0) {
+				userInformation.anroiddevices.forEach(elementAndroidDevices => {
+					if (
+						elementAndroidDevices.registrationid &&
+						elementAndroidDevices.registrationid != ""
+					)
+						sendpushalert(elementAndroidDevices.registrationid, message, userInformation.fullname)
+				});
+			}
+
+			if (userInformation.iosdevices && userInformation.iosdevices.length !== 0) {
+				userInformation.iosdevices.forEach(elementIosDevices => {
+					if (
+						elementIosDevices.registrationid &&
+						elementIosDevices.registrationid != ""
+					)
+						sendpushalert(elementIosDevices.registrationid, message, userInformation.fullname)
+				});
+			}
 		}
 	}
 
