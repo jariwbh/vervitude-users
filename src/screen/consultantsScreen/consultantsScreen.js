@@ -262,7 +262,7 @@ const consultantsScreen = (props) => {
               </View>
               <View style={STYLES.styles.verticleLine}></View>
               <View>
-                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000' }}>₹{consultanDetails.property.chargespermin}</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000' }}>₹{Number(consultanDetails.property.chargespermin).toFixed(0)}</Text>
                 <Text style={{ fontSize: 10, color: '#000000' }}>Charges Per Minute </Text>
               </View>
               <View style={STYLES.styles.verticleLine}></View>
@@ -277,7 +277,7 @@ const consultantsScreen = (props) => {
                     emptyStarColor={'#000000'}
                   />
                 </View>
-                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{consultanDetails.ratings == null ? '0' : consultanDetails.ratings}</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{consultanDetails.ratings == null ? '0' : Number(consultanDetails.ratings).toFixed(2)}</Text>
                 <Text style={{ fontSize: 10, color: '#000000' }}>{consultanDetails.ratinglen + 'k'} Ratings</Text>
               </View>
             </View>

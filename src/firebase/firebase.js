@@ -1,13 +1,13 @@
 import firebase from '@react-native-firebase/app';
 
 var firebaseConfig = {
-	apiKey: 'AIzaSyDyLLNbXsTesRnTVR4DlhgNbQl875Hfju8',
-	authDomain: 'membroz-vervitude.firebaseapp.com',
-	projectId: 'membroz-vervitude',
-	storageBucket: 'membroz-vervitude.appspot.com',
-	messagingSenderId: '909517140999',
-	appId: '1:909517140999:web:892bb94d74d185f52366a2',
-	measurementId: 'G-JZTGCZB2JW'
+	apiKey: "AIzaSyCScuYHUA1XXJYxg-7yUiYEhWYfXDlsZ_w",
+	authDomain: "vervitude-redefined.firebaseapp.com",
+	projectId: "vervitude-redefined",
+	storageBucket: "vervitude-redefined.appspot.com",
+	messagingSenderId: "79264411371",
+	appId: "1:79264411371:web:f5781bcab700f01cadd8ae",
+	measurementId: "G-GMS2SJ86TG"
 };
 
 if (!firebase.apps.length) {

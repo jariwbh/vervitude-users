@@ -42,11 +42,11 @@ export default class registerScreen extends Component {
             scopes: ['https://www.googleapis.com/auth/drive.readonly'],
             // Repleace with your webClientId
             // Generated from Firebase console
-            webClientId: '909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com',
+            //step: authentication => select google => Web SDK configuration => Web client ID
+            webClientId: '79264411371-ipd84mi57slncv18r1004j5ql5i1osfk.apps.googleusercontent.com',
             offlineAccess: true,
             forceCodeForRefreshToken: true,
         });
-
     }
 
     //check Fullname validation

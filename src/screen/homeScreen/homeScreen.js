@@ -138,7 +138,7 @@ const homeScreen = (props) => {
 
             // Should the initial notification be popped automatically
             // default: true
-            senderID: '909517140999',
+            senderID: '79264411371',
             popInitialNotification: true,
 
             /**

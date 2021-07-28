@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "909517140999",
-    "project_id": "membroz-vervitude",
-    "storage_bucket": "membroz-vervitude.appspot.com"
+    "project_number": "79264411371",
+    "project_id": "vervitude-redefined",
+    "storage_bucket": "vervitude-redefined.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909517140999:android:bfdb6bfc276491db2366a2",
+        "mobilesdk_app_id": "1:79264411371:android:21d4a04ad9cfb958add8ae",
         "android_client_info": {
           "package_name": "com.consultantsuser_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "909517140999-96sk5g9s0iu37oeob5sboon82kb7lur7.apps.googleusercontent.com",
+          "client_id": "79264411371-glu05h1btrb9cg4d7jaolmkjoqsarde4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.consultantsuser_app",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "909517140999-m4m0afp435t1nhgl1u20tle6k0i0875r.apps.googleusercontent.com",
+          "client_id": "79264411371-s0rih5mc4livko2j4ghjua2mu5h46b4d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.consultantsuser_app",
@@ -30,27 +30,27 @@
           }
         },
         {
-          "client_id": "909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com",
+          "client_id": "79264411371-ipd84mi57slncv18r1004j5ql5i1osfk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBx9moDfijhi6q_NO-e9ahEPt9tRfewkQc"
+          "current_key": "AIzaSyDAF-M4Eveg_OZzv_P0tJo7H2P0ngbeovo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com",
+              "client_id": "79264411371-ipd84mi57slncv18r1004j5ql5i1osfk.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "909517140999-9ahq9outuch1ui2b7l3rpnukrbckbll9.apps.googleusercontent.com",
+              "client_id": "79264411371-6uls8np74q57jelvbsrf7uum5d0n3s37.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.consultantsuser-app"
+                "bundle_id": "com.vervitudeconsultants"
               }
             }
           ]
@@ -59,34 +59,34 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909517140999:android:351dcf56829841202366a2",
+        "mobilesdk_app_id": "1:79264411371:android:d4b34c6721e57b0dadd8ae",
         "android_client_info": {
           "package_name": "com.vervitudeconsultants"
         }
       },
       "oauth_client": [
         {
-          "client_id": "909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com",
+          "client_id": "79264411371-ipd84mi57slncv18r1004j5ql5i1osfk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBx9moDfijhi6q_NO-e9ahEPt9tRfewkQc"
+          "current_key": "AIzaSyDAF-M4Eveg_OZzv_P0tJo7H2P0ngbeovo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "909517140999-ip9cpvc7gak7kemvlcoq06b3dpt6ckcq.apps.googleusercontent.com",
+              "client_id": "79264411371-ipd84mi57slncv18r1004j5ql5i1osfk.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "909517140999-9ahq9outuch1ui2b7l3rpnukrbckbll9.apps.googleusercontent.com",
+              "client_id": "79264411371-6uls8np74q57jelvbsrf7uum5d0n3s37.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.consultantsuser-app"
+                "bundle_id": "com.vervitudeconsultants"
               }
             }
           ]
