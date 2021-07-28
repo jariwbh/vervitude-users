@@ -354,7 +354,7 @@ const chatScreen = (props, { navigation }) => {
 			firestore()
 				.collection('chat')
 				.doc(chatId)
-				.update({ previewMessage: messages[0].text, createdAt: createdAt.toString() });
+				.update({ previewMessage: { previewMessage: messages[0].text, read: false },createdAt: createdAt.toString() });
 			const message = {
 				_id: Math.random(),
 				text,
