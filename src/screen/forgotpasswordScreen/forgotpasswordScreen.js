@@ -7,6 +7,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
+import SendSmsService from '../../services/SendSmsService/SendSmsService';
 
 const forgotpasswordScreen = (props) => {
     const [username, setusername] = useState(null);
@@ -87,11 +88,12 @@ const forgotpasswordScreen = (props) => {
     // generate OTP function 
     const createOtp = async () => {
         let body;
-        if (username && mobile_number) {
+        if (!username && !mobile_number) {
             setMobileNumber(mobile_number);
             setEmail(username);
             return;
         }
+
         try {
             setloading(true);
             if (username) {
@@ -99,6 +101,7 @@ const forgotpasswordScreen = (props) => {
                     "username": username
                 }
             }
+
             if (mobile_number) {
                 body = {
                     "username": mobile_number
@@ -110,7 +113,7 @@ const forgotpasswordScreen = (props) => {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
                 setverifyOtpNumber(verifyOtpNumber);
                 setverifybtnDisable(false);
-                onPressSubmit(verifyOtpNumber);
+                onPressSubmit(verifyOtpNumber, CheckUserResponse.data.property);
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
                 } else {
@@ -178,39 +181,55 @@ const forgotpasswordScreen = (props) => {
     }
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
-    const onPressSubmit = async (verifyOtpNumber) => {
+    const onPressSubmit = async (verifyOtpNumber, member) => {
+        console.log(`data`, member);
         axiosConfig('606abd8799e17f1678300c12');
+        let mobilebody;
+        let emailbody;
         let body;
-        if (mobile_number) {
-            body = {
+
+        if (member && member.mobile) {
+            mobilebody = {
                 "messagetype": "SMS",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [mobile_number],
-                    "subject": "Reset Password OTP"
+                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to reset your password for Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "to": member.mobile,
+                    "subject": "Reset Password OTP Verification E-QUEST CONSULTING"
                 }
             }
         }
 
-        if (username) {
-            body = {
+        if (member && member.primaryemail) {
+            emailbody = {
                 "messagetype": "EMAIL",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [username],
-                    "subject": "Reset Password OTP"
+                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to reset your password for Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "to": member.primaryemail,
+                    "subject": "Reset Password OTP Verification E-QUEST CONSULTING"
                 }
             }
         }
 
         setloading(true);
         try {
-            const response = await SendEmailandSmsService(body);
-            if (response.data != 'undefind' && response.status == 200) {
-                setloading(false);
+            if (member && member.primaryemail) {
+                const response = await SendEmailandSmsService(body);
+                if (response.data != 'undefind' && response.status == 200) {
+                    setloading(false);
+
+                }
+            }
+
+            if (member && member.mobile) {
+                const response1 = await SendSmsService(mobilebody);
+                if (response1.data != 'undefind' && response1.status == 200) {
+                    setloading(false);
+                }
+
             }
         }
         catch (error) {
+            console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
