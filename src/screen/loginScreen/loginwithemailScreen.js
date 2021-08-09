@@ -10,6 +10,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
+//import SendSmsService from '../../services/SendSmsService/SendSmsService';
 
 const loginwithemailScreen = (props) => {
     const [username, setusername] = useState(null);
@@ -190,7 +191,7 @@ const loginwithemailScreen = (props) => {
         }
         catch (error) {
             AsyncStorage.removeItem(AUTHUSER);
-            //console.log(`error`, error);
+            console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
@@ -209,19 +210,20 @@ const loginwithemailScreen = (props) => {
             body = {
                 "messagetype": "SMS",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [mobile_number],
+                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to log in to your Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "to": mobile_number,
                     "subject": "Login OTP Verification E-QUEST CONSULTING"
                 }
             }
         }
 
+
         if (username) {
             body = {
                 "messagetype": "EMAIL",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [username],
+                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to log in to your Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "to": username,
                     "subject": "Login OTP Verification E-QUEST CONSULTING"
                 }
             }
@@ -236,7 +238,7 @@ const loginwithemailScreen = (props) => {
         }
         catch (error) {
             AsyncStorage.removeItem(AUTHUSER);
-            //console.log(`error`, error);
+            console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
@@ -245,6 +247,7 @@ const loginwithemailScreen = (props) => {
             }
         };
     }
+
     return (
         <SafeAreaView style={STYLE.Loginemailstyle.container}>
             <StatusBar hidden translucent backgroundColor='transparent' />

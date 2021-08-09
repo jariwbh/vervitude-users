@@ -120,12 +120,13 @@ export default class registerScreen extends Component {
             body = {
                 "messagetype": "SMS",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on E-QUEST CONSULTING. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [mobile_number],
-                    "subject": "OTP Verification E-QUEST CONSULTING"
+                    "content": `Dear User, Use this 4-digit OTP ${verifyOtpNumber} to verify your mobile number with Vervitude app. Please note that this code is only valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "to": mobile_number,
+                    "subject": "OTP For Mobile Number Verification E-QUEST CONSULTING"
                 }
             }
         }
+
         try {
             try {
                 const response = await SendEmailandSmsService(body);

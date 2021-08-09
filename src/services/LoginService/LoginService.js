@@ -35,7 +35,7 @@ function LoginWithMobileService(mobile) {
 }
 
 function LoginWithPasswordService(data) {
-    const body = JSON.stringify(data)
+    const body = JSON.stringify(data);
     return Axios.post('auth/memberlogin', body);
 }
 

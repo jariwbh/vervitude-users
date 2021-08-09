@@ -9,9 +9,9 @@ import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 
 const LoginWithPasswordScreen = (props) => {
-    const [username, setusername] = useState(null);
+    const [username, setusername] = useState('9016353077');
     const [usererror, setusererror] = useState(null);
-    const [password, setpassword] = useState(null);
+    const [password, setpassword] = useState('pass#123');
     const [passworderror, setpassworderror] = useState(null);
     const [loading, setloading] = useState(false);
     const secondTextInputRef = React.createRef();
@@ -70,24 +70,26 @@ const LoginWithPasswordScreen = (props) => {
         }
 
         setloading(true);
-
+        console.log(`body`, body);
         try {
             const response = await LoginWithPasswordService(body);
-            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+            console.log(`response`, response);
+            if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 let token = response.data.user._id;
                 //set header auth user key
                 axiosConfig(token);
                 authenticateUser(response.data.user);
                 setloading(false);
+                resetScreen();
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
                 } else {
                     alert('SignIn Success');
                 }
                 props.navigation.navigate(SCREEN.HOMESCREEN);
-                return;
             }
         } catch (error) {
+            console.log(`error`, error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Username and Password Invalid', ToastAndroid.LONG);
