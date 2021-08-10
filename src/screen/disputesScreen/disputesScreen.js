@@ -87,14 +87,28 @@ const disputesScreen = (props) => {
                     <TouchableOpacity onPress={() => onPressToSelectDisputeCard(item, index, false)}
                         style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 15 }}>
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>{item.subject}</Text>
+                            <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15, textTransform: 'capitalize' }}>{item.subject}</Text>
                             <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('DD/MM/YYYY') + ', ' + moment(item.createdAt).format('LT')}</Text>
                         </View>
                         {
                             item.status == "Requested" &&
                             <View onPress={() => { }}
                                 style={{ width: 100, height: 25, backgroundColor: '#C4C4C4', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>In Review</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>In Review</Text>
+                            </View>
+                        }
+                        {
+                            item.status == "Resolved" &&
+                            <View onPress={() => { }}
+                                style={{ width: 100, height: 25, backgroundColor: '#04DE71', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Dipute Won</Text>
+                            </View>
+                        }
+                        {
+                            item.status == "Decline" &&
+                            <View onPress={() => { }}
+                                style={{ width: 100, height: 25, backgroundColor: '#FF114F', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Dipute Lost</Text>
                             </View>
                         }
                     </TouchableOpacity>
@@ -119,17 +133,30 @@ const disputesScreen = (props) => {
                     <TouchableOpacity onPress={() => onPressToSelectDisputeCard(item, index, true)}
                         style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>{item.subject}</Text>
+                            <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15, textTransform: 'capitalize' }}>{item.subject}</Text>
                             <Text style={{ fontSize: 14, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('DD/MM/YYYY') + ', ' + moment(item.createdAt).format('LT')}</Text>
                         </View>
                         {
                             item.status == "Requested" &&
                             <View onPress={() => { }}
                                 style={{ width: 100, height: 25, backgroundColor: '#C4C4C4', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>In Review</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>In Review</Text>
                             </View>
                         }
-
+                        {
+                            item.status == "Resolved" &&
+                            <View onPress={() => { }}
+                                style={{ width: 100, height: 25, backgroundColor: '#04DE71', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Dipute Won</Text>
+                            </View>
+                        }
+                        {
+                            item.status == "Decline" &&
+                            <View onPress={() => { }}
+                                style={{ width: 100, height: 25, backgroundColor: '#FF114F', marginRight: 20, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Dipute Lost</Text>
+                            </View>
+                        }
                     </TouchableOpacity>
                 </View>
             </View>

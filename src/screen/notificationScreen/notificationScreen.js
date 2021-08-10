@@ -45,8 +45,9 @@ const notificationScreen = (props) => {
     const getNotification = async (id) => {
         try {
             const response = await NotificationService(id);
-            setNotification(response.data.length)
-            setNotificationList(response.data)
+            console.log(`response.data`, response.data);
+            setNotification(response.data.length);
+            setNotificationList(response.data);
         } catch (error) {
             console.log(`error`, error);
         }

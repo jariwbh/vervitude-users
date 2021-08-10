@@ -27,12 +27,14 @@ import RNFetchBlob from 'rn-fetch-blob';
 import MyPermissionController from '../../helpers/appPermission';
 import { DisputeChatAdd } from '../../services/DisputeChatService/DisputeChatService';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const chatScreen = (props, { navigation }) => {
 	//chat variable 
 	const consultanDetails = props.route.params.consultanDetails;
 	let formId;
 	const [loading, setloading] = useState(false);
+	const [spinner, setSpinner] = useState(false);
 	const [chatId, setchatId] = useState(null);
 	const [sender, setsender] = useState(null);
 	const [messages, setMessages] = useState([]);
@@ -115,7 +117,7 @@ const chatScreen = (props, { navigation }) => {
 	const autoendnow = () => {
 		// timerRef1.current = setTimeout(() => {
 		// 	setnowAutoEndChat(true);
-		// 	onpressDoneBtn();
+		//onpressDoneBtn();
 		// }, 5000);
 	}
 
@@ -140,16 +142,16 @@ const chatScreen = (props, { navigation }) => {
 	const handlePicker = () => {
 		ImagePicker.showImagePicker({}, (response) => {
 			if (response.didCancel) {
-				setloading(false);
+				setSpinner(false);
 				// console.log('User cancelled image picker');
 			} else if (response.error) {
-				setloading(false);
+				setSpinner(false);
 				// console.log('ImagePicker Error: ', response.error);
 			} else if (response.customButton) {
-				setloading(false);
+				setSpinner(false);
 				//  console.log('User tapped custom button: ', response.customButton);
 			} else {
-				setloading(true);
+				setSpinner(true);
 				onPressUploadFile(response);
 			}
 		});
@@ -164,16 +166,16 @@ const chatScreen = (props, { navigation }) => {
 				{ name: 'upload_preset', data: 'gs95u3um' }])
 				.then(response => response.json())
 				.then(data => {
-					setloading(false);
+					setSpinner(false);
 					if (data && data.url) {
 						setdisputeImage(data.url);
 					}
 				}).catch(error => {
-					setloading(false);
+					setSpinner(false);
 					alert("Uploading Failed!");
 				})
 		} else {
-			setloading(false);
+			setSpinner(false);
 			alert('Please Select File');
 		}
 	}
@@ -732,17 +734,17 @@ const chatScreen = (props, { navigation }) => {
 
 	//DisputeChat Submit 
 	const disputechatSubmit = async () => {
-		setloading(true);
+		setSpinner(true);
 		if (!disputechatsubject || !disputechatdesc) {
 			setDisputechatsubjectCheck(disputechatsubject);
 			setDisputechatDescCheck(disputechatdesc);
-			setloading(false);
+			setSpinner(false);
 			return;
 		}
 
 		if (disputeImage == null) {
 			alert('Please Upload Image');
-			setloading(false);
+			setSpinner(false);
 			return;
 		}
 
@@ -769,10 +771,10 @@ const chatScreen = (props, { navigation }) => {
 				setDisputechatsubject(null);
 				setDisputechatsubjectError(null);
 				setdisputeImage(null);
-				setloading(false);
+				setSpinner(false);
 			}
 		} catch (error) {
-			setloading(false);
+			setSpinner(false);
 			//console.log(`error`, error);
 		}
 	}
@@ -1280,6 +1282,10 @@ const chatScreen = (props, { navigation }) => {
 					</View>
 				</View>
 			</Modal>
+			<Spinner
+				visible={spinner}
+				textStyle={{ color: '#2855AE' }}
+			/>
 			{loading ? <Loader /> : null}
 		</SafeAreaView>
 	);
