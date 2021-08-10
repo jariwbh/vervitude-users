@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, View, TextInput, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView, Platform, ToastAndroid, Keyboard, BackHandler } from 'react-native'
+import { StatusBar, View, TextInput, Text, SafeAreaView, Image, TouchableOpacity, ImageBackground, ScrollView, Platform, ToastAndroid, Keyboard } from 'react-native'
 import { LoginWithPasswordService } from '../../services/LoginService/LoginService';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
@@ -9,7 +9,6 @@ import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 
 export default class LoginWithPasswordScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -23,13 +22,6 @@ export default class LoginWithPasswordScreen extends Component {
         this.setPassword = this.setPassword.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
         this.secondTextInputRef = React.createRef();
-        this._unsubscribeSiFocus = this.props.navigation.addListener('focus', e => {
-            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-        });
-
-        this._unsubscribeSiBlur = this.props.navigation.addListener('blur', e => {
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-        });
     }
 
     //check email validation
@@ -72,17 +64,13 @@ export default class LoginWithPasswordScreen extends Component {
             setPassword(password);
             return;
         }
-
         const body = {
             username: username,
             password: password
         }
-
         this.setState({ loading: true });
-        console.log(`body`, body);
         try {
             const response = await LoginWithPasswordService(body);
-            console.log(`response`, response);
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 let token = response.data.user._id;
                 //set header auth user key
@@ -98,7 +86,6 @@ export default class LoginWithPasswordScreen extends Component {
                 this.props.navigation.navigate(SCREEN.HOMESCREEN);
             }
         } catch (error) {
-            console.log(`error`, error);
             this.resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Username and Password Invalid', ToastAndroid.LONG);
@@ -107,6 +94,7 @@ export default class LoginWithPasswordScreen extends Component {
             }
         };
     }
+
     render() {
         const { loading, usererror, username, passworderror, password } = this.state;
         return (

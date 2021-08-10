@@ -266,7 +266,7 @@ const myProfileScreen = (props) => {
                             <Text style={{ paddingLeft: 10, color: '#4D4D4D', fontSize: 14, fontWeight: 'bold' }}>Vervitude</Text>
                         </TouchableOpacity>
 
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 20 }}>
+                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 20, marginTop: 20 }}>
                             <Text style={{ fontSize: 12, color: '#000000', marginBottom: 3 }}>© Copyright 2021</Text>
                             <Text style={{ fontSize: 12, color: '#000000', marginBottom: 3 }}>E-Quest Counsulting Solutions Pvt. Ltd.</Text>
                             <Text style={{ fontSize: 12, color: '#000000' }}>All Rights Reserved</Text>

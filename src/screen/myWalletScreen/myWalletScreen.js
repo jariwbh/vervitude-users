@@ -72,7 +72,7 @@ const myWalletScreen = (props) => {
                 setwallateHistory(response.data);
             }
         } catch (error) {
-            //console.log(`error`, error);
+            console.log(`error`, error);
         }
     }
 
@@ -86,7 +86,7 @@ const myWalletScreen = (props) => {
                         <View style={{ width: 50, height: 50, marginLeft: 15, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                             <FontAwesome name='rupee' size={20} color='#FFFFFF' />
                         </View>
-                        <View style={{ flexDirection: 'column', marginLeft: -100 }}>
+                        <View style={{ flexDirection: 'column', marginLeft: -80 }}>
                             <Text style={{ fontSize: 14, color: '#000000', marginLeft: 15 }}>Wallet Recharge</Text>
                             <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
                             <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('lll')}</Text>
@@ -101,7 +101,7 @@ const myWalletScreen = (props) => {
                     <View style={{ marginLeft: 20, marginRight: 20 }}>
                         <TouchableOpacity
                             onPress={() => onPressToSelectExpandWallate(item, index, false)}
-                            style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 15 }}>
+                            style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 15, marginRight: 5 }}>
                             <Image source={require('../../assets/Images/squarefilled.png')}
                                 style={{ height: 15, width: 15 }} />
                         </TouchableOpacity>
@@ -111,7 +111,7 @@ const myWalletScreen = (props) => {
                             <View style={{ width: 50, height: 50, marginTop: -10, backgroundColor: '#04DE71', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
                                 <FontAwesome name='rupee' size={20} color='#FFFFFF' />
                             </View>
-                            <View style={{ flexDirection: 'column', marginLeft: -120, marginTop: 10, }}>
+                            <View style={{ flexDirection: 'column', marginLeft: -80, marginTop: 10, }}>
                                 <Text style={{ fontSize: 14, color: '#000000', marginTop: -20, marginLeft: 15 }}>Credit Card</Text>
                                 <Text style={{ fontSize: 12, color: '#000000', marginLeft: 15 }}>{item.status == 'Paid' ? 'Success' : 'Failed'}</Text>
                                 <Text style={{ fontSize: 12, color: '#999999', marginLeft: 15 }}>{moment(item.createdAt).format('LT')}</Text>
@@ -246,7 +246,7 @@ const myWalletScreen = (props) => {
                         </View>
                     </View>
                 </View>
-                {(wallateHistory == null) || (wallateHistory && wallateHistory.length < 0) ?
+                {(wallateHistory == null) || (wallateHistory && wallateHistory.length > 0) ?
                     <>
                         <View style={STYLES.myWalletStyles.rechargeview}>
                             <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: '#FFFFFF', marginTop: 5, marginBottom: 10 }}>Recharge History</Text>
