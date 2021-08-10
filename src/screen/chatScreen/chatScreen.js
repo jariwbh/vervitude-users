@@ -498,6 +498,7 @@ const chatScreen = (props, { navigation }) => {
 	//end chat menu click to call function(END CHAT API CALL)
 	const onpressDoneBtn = async () => {
 		if (formdataDetails) {
+			setSpinner(true);
 			//('formdataDetails', formdataDetails)
 			let endtime = moment().format();
 			var duration = moment.duration(moment().diff(formdataDetails.property.startat))
@@ -608,14 +609,19 @@ const chatScreen = (props, { navigation }) => {
 									setfilterModalVisible(false);
 									showModalVisible(false);
 									setnowAutoEndChat(false);
+									//console.log(`body formdataDetails`, body)
+									setSpinner(false);
 									if (nowAutoEndChat === false) { feedBack() } else {
 										if (timerRef.current) {
 											clearTimeout(timerRef.current);
+											setSpinner(false);
 										}
 										if (timerRef1.current) {
 											clearTimeout(timerRef1.current);
+											setSpinner(false);
 										}
 										setnowAutoEndChat(false);
+										setSpinner(false);
 										props.navigation.navigate(SCREEN.HOMESCREEN);
 									}
 									if (Platform.OS === 'android') {
@@ -630,6 +636,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 			catch (error) {
+				setSpinner(false);
 				//console.log(`error`, error);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Not Closed', ToastAndroid.SHORT);

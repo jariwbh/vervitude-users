@@ -372,7 +372,7 @@ export default class registerScreen extends Component {
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }} >
                             <View style={{ marginLeft: 15 }} >
-                                <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), this.resetScreen() }} >
+                                <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.LOGINWITHEMAILSCREEN), this.resetScreen() }} >
                                     <Text style={STYLES.styles.createText}>Already have an Account?</Text>
                                 </TouchableOpacity>
                             </View>
