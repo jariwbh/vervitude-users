@@ -162,7 +162,7 @@ export default class LoginWithPasswordScreen extends Component {
                                     </View>
 
                                     <View style={STYLES.styles.centeView} >
-                                        <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), this.resetScreen() }}>
+                                        <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), this.resetScreen() }}>
                                             <Text style={STYLES.Loginpasswordstyle.loginText}>Forgot Password?</Text>
                                         </TouchableOpacity>
                                     </View>
@@ -174,7 +174,7 @@ export default class LoginWithPasswordScreen extends Component {
                                 </View>
                             </View>
                             <View style={STYLES.styles.centeView} >
-                                <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.LOGINWITHEMAILSCREEN), this.resetScreen() }} >
+                                <TouchableOpacity onPress={() => { this.props.navigation.navigate(SCREEN.LOGINWITHEMAILSCREEN), this.resetScreen() }} >
                                     <Text style={STYLES.styles.createText}>Login With OTP</Text>
                                 </TouchableOpacity>
                             </View>
