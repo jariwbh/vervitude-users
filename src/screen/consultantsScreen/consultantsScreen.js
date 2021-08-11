@@ -257,7 +257,7 @@ const consultantsScreen = (props) => {
             <Image source={require('../../assets/Images/consultantview.png')} style={STYLES.styles.imagestyle} />
             <View style={{ flexDirection: 'row', marginTop: 80, justifyContent: 'space-between', marginRight: 15, marginLeft: 15 }}>
               <View>
-                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{moment().diff(consultanDetails.property.careerstart, 'years')}</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{consultanDetails.property.careerstart ? moment().diff(consultanDetails.property.careerstart, 'years') : 0}</Text>
                 <Text style={{ fontSize: 10, color: '#000000' }}>Year of Experience</Text>
               </View>
               <View style={STYLES.styles.verticleLine}></View>
