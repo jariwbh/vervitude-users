@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform, Keyboard } from 'react-native'
-import { CheckUser } from '../../services/UserService/UserService';
-import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
-import { LoginService, LoginWithMobileService } from '../../services/LoginService/LoginService'
+import {
+    StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity
+    , ImageBackground, ScrollView, ToastAndroid, Platform, Keyboard
+} from 'react-native'
+import SendSmsService from '../../services/SendSmsService/SendSmsService';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
 import { AUTHUSER } from '../../context/actions/type';
@@ -10,42 +11,21 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
-//import SendSmsService from '../../services/SendSmsService/SendSmsService';
+import { UserPatchService } from '../../services/UserService/UserService';
 
-const loginwithemailScreen = (props) => {
-    const [username, setusername] = useState(null);
+export default function VerifyMobileScreen(props) {
+    let userDetails = props.route.params.user;
     const [loading, setloading] = useState(false);
-    const [usererror, setusererror] = useState(null);
     const [mobile_number, setmobile_number] = useState(null);
     const [mobile_numbererror, setmobile_numbererror] = useState(null);
     const [verifyOtpNumber, setverifyOtpNumber] = useState(null);
     const [inputOtpNumber, setinputOtpNumber] = useState(null);
     const [verifybtnDisable, setverifybtnDisable] = useState(true);
     const [sendbtnDisable, setsendbtnDisable] = useState(true);
-    const [sendEmailbtnDisable, setsendEmailbtnDisable] = useState(true);
 
     useEffect(() => {
-    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber,
-        inputOtpNumber, verifybtnDisable, sendbtnDisable, sendEmailbtnDisable])
-
-    //check email validation
-    const setEmail = (email) => {
-        const re = /\S+@\S+\.\S+/;
-        if (!email || email.length <= 0) {
-            //setusername(null);
-            setusererror('Email Id can not be empty');
-            return;
-        }
-        if (!re.test(email)) {
-            setusername(email);
-            setusererror(null);
-            return;
-        }
-        setusername(email);
-        setsendEmailbtnDisable(false);
-        setusererror(null);
-        return;
-    }
+    }, [loading, mobile_number, mobile_numbererror, verifyOtpNumber,
+        inputOtpNumber, verifybtnDisable, sendbtnDisable])
 
     //check mobile number validation
     const setMobileNumber = (mobile) => {
@@ -68,15 +48,12 @@ const loginwithemailScreen = (props) => {
     //clear Field up data
     const resetScreen = () => {
         setloading(false);
-        setusername(null);
-        setusererror(null);
         setmobile_number(null);
         setmobile_numbererror(null);
         setsendbtnDisable(true);
         setinputOtpNumber(null);
         setverifybtnDisable(true);
         setverifyOtpNumber(null);
-        setsendEmailbtnDisable(true);
     }
 
     //add local storage Records
@@ -95,30 +72,17 @@ const loginwithemailScreen = (props) => {
     // generate OTP function 
     const createOtp = async () => {
         axiosConfig('606abd8799e17f1678300c12')
-        let body;
-        if (username && mobile_number) {
+        if (!mobile_number) {
             setMobileNumber(mobile_number);
-            setEmail(username);
             return;
         }
         try {
             setloading(true);
-            if (username) {
-                body = {
-                    "username": username
-                }
-            }
-            if (mobile_number) {
-                body = {
-                    "username": mobile_number
-                }
-            }
-
-            const CheckUserResponse = await CheckUser(body);
-            if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
+            if (mobile_number != null) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
                 setverifyOtpNumber(verifyOtpNumber);
                 setverifybtnDisable(false);
+
                 onPressSubmit(verifyOtpNumber);
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
@@ -128,7 +92,6 @@ const loginwithemailScreen = (props) => {
                 setloading(false);
             }
             else {
-                AsyncStorage.removeItem(AUTHUSER);
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('User not exits', ToastAndroid.LONG);
                 } else {
@@ -138,8 +101,6 @@ const loginwithemailScreen = (props) => {
             }
         }
         catch (error) {
-            AsyncStorage.removeItem(AUTHUSER);
-            console.log(`error`, error)
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
@@ -151,38 +112,35 @@ const loginwithemailScreen = (props) => {
 
     //OTP verify function
     const otpVerify = async () => {
-        if (username && mobile_number) {
+        if (!mobile_number) {
             return;
         }
         setloading(true);
         try {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
-                setloading(false);
-                let userValue;
-                if (username) {
-                    userValue = username
-                }
-                if (mobile_number) {
-                    userValue = mobile_number
-                }
-                let response;
-                if (mobile_number) {
-                    response = await LoginWithMobileService(mobile_number);
-                } else if (username) {
-                    response = await LoginService(username);
-                }
-                if (response.data[0] != null && response.data[0] != 'undefind' && response.status == 200) {
-                    if (response.data[0].property.mobile) {
-                        let token = response.data[0]._id;
-                        //set header auth user key
-                        axiosConfig(token);
-                        authenticateUser(response.data[0]);
-                        resetScreen();
-                        props.navigation.navigate(SCREEN.HOMESCREEN);
+                setloading(true);
+                const body = {
+                    property: {
+                        live: true,
+                        first_name: userDetails.fullname.split(' ')[0],
+                        last_name: userDetails.fullname.split(' ')[1],
+                        mobile: mobile_number,
+                        primaryemail: userDetails.property.primaryemail,
+                        usertag: null,
+                        location: null,
+                        about: null,
+                        type: 'user'
                     }
-                    else {
-                        props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: response.data[0] });
-                    }
+                }
+
+                const response = await UserPatchService(userDetails._id, body);
+                if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                    let token = response.data._id;
+                    //set header auth user key
+                    resetScreen();
+                    axiosConfig(token);
+                    authenticateUser(response.data);
+                    props.navigation.navigate(SCREEN.HOMESCREEN);
                 }
             } else {
                 setloading(false);
@@ -195,7 +153,6 @@ const loginwithemailScreen = (props) => {
             }
         }
         catch (error) {
-            AsyncStorage.removeItem(AUTHUSER);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
@@ -208,40 +165,26 @@ const loginwithemailScreen = (props) => {
     //SIGN IN BUTTON ONPRESS TO PROCESS
     const onPressSubmit = async (verifyOtpNumber) => {
         axiosConfig('606abd8799e17f1678300c12');
-
         let body;
         if (mobile_number) {
             body = {
                 "messagetype": "SMS",
                 "message": {
-                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to log in to your Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "content": `Dear User, Use this 4-digit OTP ${verifyOtpNumber} to verify your mobile number with Vervitude app. Please note that this code is only valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
                     "to": mobile_number,
-                    "subject": "Login OTP Verification E-QUEST CONSULTING"
-                }
-            }
-        }
-
-
-        if (username) {
-            body = {
-                "messagetype": "EMAIL",
-                "message": {
-                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to log in to your Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
-                    "to": username,
-                    "subject": "Login OTP Verification E-QUEST CONSULTING"
+                    "subject": "Mobile Number OTP Verification E-QUEST CONSULTING"
                 }
             }
         }
 
         setloading(true);
         try {
-            const response = await SendEmailandSmsService(body);
+            const response = await SendSmsService(body);
             if (response.data != 'undefind' && response.status == 200) {
                 setloading(false);
             }
         }
         catch (error) {
-            AsyncStorage.removeItem(AUTHUSER);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
@@ -263,27 +206,7 @@ const loginwithemailScreen = (props) => {
                         <View style={STYLE.Loginemailstyle.boxView}>
                             <View style={{ marginTop: 30 }}>
                                 <View style={{ marginTop: 15 }}>
-                                    <View style={{ marginTop: 0, flexDirection: 'row' }}>
-                                        <View style={usererror == null ? STYLE.Loginemailstyle.inputView2 : STYLE.Loginemailstyle.inputErrorView2}>
-                                            <TextInput
-                                                defaultValue={username}
-                                                style={STYLE.Loginemailstyle.TextInput}
-                                                placeholder='Email Address'
-                                                type='clear'
-                                                returnKeyType='done'
-                                                placeholderTextColor='#B5B5B5'
-                                                onSubmitEditing={() => Keyboard.dismiss()}
-                                                onChangeText={(email) => setEmail(email)}
-                                            />
-                                        </View>
-                                        <TouchableOpacity style={STYLE.Loginemailstyle.otpBtndisable1} disabled={sendEmailbtnDisable} onPress={() => createOtp()}>
-                                            <Text style={STYLE.Loginemailstyle.otpbtnText1}>Send OTP</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10, flexDirection: 'row' }}>
-                                        <Text style={{ fontSize: 16, fontWeight: '900' }}>OR</Text>
-                                    </View>
-                                    <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                    <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                         <View style={mobile_numbererror == null ? STYLE.Loginemailstyle.inputView2 : STYLE.Loginemailstyle.inputErrorView2}>
                                             <TextInput
                                                 style={STYLE.Loginemailstyle.TextInput}
@@ -318,11 +241,6 @@ const loginwithemailScreen = (props) => {
                                 </View>
                             </View>
                         </View>
-                        <View style={STYLE.Loginemailstyle.centeView} >
-                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REGISTERSCREEN)}>
-                                <Text style={STYLE.Loginemailstyle.createText}>Don't have an Account?</Text>
-                            </TouchableOpacity>
-                        </View>
                     </View>
                     <View style={{ marginVertical: 20 }} />
                 </ScrollView>
@@ -331,5 +249,3 @@ const loginwithemailScreen = (props) => {
         </SafeAreaView>
     )
 }
-
-export default loginwithemailScreen;

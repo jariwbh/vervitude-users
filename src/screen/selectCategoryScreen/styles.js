@@ -125,6 +125,8 @@ export const SubCategoryStyles = StyleSheet.create({
         height: 180,
         width: WIDTH - 40,
         backgroundColor: '#FFFFFF',
+        borderColor: '#FFFFFF',
+        borderWidth: 1,
         borderRadius: 20,
         marginTop: -5,
         shadowOpacity: 0.5,

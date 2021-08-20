@@ -12,6 +12,8 @@ export const newChatStyles = StyleSheet.create({
         height: 180,
         width: WIDTH - 20,
         backgroundColor: '#FFFFFF',
+        borderColor: '#FFFFFF',
+        borderWidth: 1,
         borderRadius: 20,
         marginTop: 5,
         shadowOpacity: 10,

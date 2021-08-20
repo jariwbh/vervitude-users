@@ -142,12 +142,12 @@ const newchatsScreen = (props) => {
                                 style={{ width: 90, height: 90 }}
                                 imageStyle={{ borderRadius: 100 }}
                             >
-                                {/* {
-                                item.property.live === true ?
-                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
-                                    :
-                                    <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
-                            } */}
+                                {
+                                    item.property.live === true ?
+                                        <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
+                                        :
+                                        <View style={{ marginTop: 10, marginRight: -40, height: 15, width: 15, backgroundColor: '#555555', borderColor: '#FFFFFF', borderRadius: 100, borderWidth: 1 }}></View>
+                                }
                             </ImageBackground>
                         </View>
                         {
@@ -180,7 +180,7 @@ const newchatsScreen = (props) => {
                         <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 150 }}>
                             {
                                 item.skills ?
-                                    item.skills.slice(0, 3).map(({
+                                    item.skills.slice(0, 2).map(({
                                         title
                                     }) => title).join(',')
                                     : null
@@ -225,15 +225,15 @@ const newchatsScreen = (props) => {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'flex-start', marginRight: 20 }}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('homeScreen')}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.HOMESCREEN)}>
                             <Image source={require('../../assets/Images/homeicon.png')} style={{ height: 30, width: 30 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <TouchableOpacity
-                    onPress={() => { props.navigation.navigate("newchatsScreen") }}
+                    onPress={() => { props.navigation.navigate(SCREEN.RECENTCHATSCREEN) }}
                     style={{ width: 150, height: 35, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
-                    <Text style={{ fontSize: 14, color: '#5AC8FA' }}>Find a Consultant</Text>
+                    <Text style={{ fontSize: 14, color: '#5AC8FA' }}>Recent Consultant</Text>
                 </TouchableOpacity>
             </View>
 

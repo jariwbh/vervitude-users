@@ -89,14 +89,19 @@ const recentchatScreen = (props) => {
 
     const renderChatUser = ({ item }) => (
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <TouchableOpacity style={item.property.endat ? STYLES.recentChatStyles.counsultantview2 : STYLES.recentChatStyles.counsultantview} onPress={() => navigationhandler(item)}>
+            <TouchableOpacity style={STYLES.recentChatStyles.counsultantview} onPress={() => navigationhandler(item)}>
                 <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
                     <Text style={{ color: '#999999', fontSize: 12, marginRight: 15 }}>{item.updatedAt ? moment(item.updatedAt).format('lll') : moment(item.createdAt).format('lll')}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: -10 }}>
                     <Image source={{ uri: item && item.property && item.property.consultantid && item.property.consultantid.profilepic ? item.property.consultantid.profilepic : noProfile }}
                         style={{ width: 70, height: 70, borderRadius: 100, marginLeft: 20, borderColor: '#555555', borderWidth: 0.2 }} />
-                    <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
+                    {
+                        item.property.consultantid.property.live ?
+                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#5AC8FA', borderColor: '#5AC8FA', borderRadius: 100, borderWidth: 1 }}></View>
+                            :
+                            <View style={{ marginLeft: -20, height: 15, width: 15, backgroundColor: '#EEEEEE', borderColor: '#000000', borderRadius: 100, borderWidth: 1 }}></View>
+                    }
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -60, marginLeft: -20 }}>
                     <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
@@ -104,6 +109,9 @@ const recentchatScreen = (props) => {
                             {item && item.property.consultantid.fullname.split(' ')[0]}</Text>
                         <Text style={{ fontSize: 14, color: "#999999" }}>{item && item.property && item.property.consultantid && item.property.consultantid.property && item.property.consultantid.property.usertag ? item.property.consultantid.property.usertag : null}</Text>
                     </View>
+                </View>
+                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 0 }}>
+                    <Text style={{ color: !item.property.endat ? '#5AC8FA' : '#555555', fontSize: 12, marginRight: 15, textTransform: 'capitalize' }}>{item.property.endat ? 'chat is closed' : 'chat is Active'}</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -131,7 +139,7 @@ const recentchatScreen = (props) => {
                 <TouchableOpacity
                     onPress={() => { props.navigation.navigate("newchatsScreen") }}
                     style={{ width: 150, height: 35, backgroundColor: '#FFFFFF', borderRadius: 100, alignItems: 'center', justifyContent: 'center', margin: 20 }}>
-                    <Text style={{ fontSize: 14, color: '#FFB629' }}>Find a Consultant</Text>
+                    <Text style={{ fontSize: 14, color: '#FFB629' }}>Top Consultants</Text>
                 </TouchableOpacity>
             </View>
 

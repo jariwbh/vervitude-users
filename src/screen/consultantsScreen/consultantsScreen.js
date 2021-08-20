@@ -158,7 +158,6 @@ const consultantsScreen = (props) => {
         consultantid: consultanDetails._id
       }
     }
-    console.log(`body`, body);
     try {
       const response = await StartProject(body);
       if (response.data != null && response.data != 'undefind' && response.status == 200) {
@@ -230,11 +229,19 @@ const consultantsScreen = (props) => {
                 <>
                   <FontAwesome name='circle' size={110} color='#E5E4E2' />
                   <Image source={require('../../assets/Images/medal4.png')}
-                    style={{ width: 40, height: 32, position: 'absolute', right: 40, top: 55 }}
+                    style={{ width: 40, height: 34, position: 'absolute', right: 40, top: 55 }}
                   />
                 </>
               }
               {consultanDetails.property.consultantgrade && consultanDetails.property.consultantgrade == "Diamond" &&
+                <>
+                  <FontAwesome name='circle' size={110} color='#9DF9FF' />
+                  <Image source={require('../../assets/Images/medal3.png')}
+                    style={{ width: 40, height: 26, position: 'absolute', right: 40, top: 55 }}
+                  />
+                </>
+              }
+              {consultanDetails.property.consultantgrade && consultanDetails.property.consultantgrade == "No Badge" &&
                 <>
                   <FontAwesome name='circle' size={110} color='#9DF9FF' />
                   <Image source={require('../../assets/Images/medal3.png')}
@@ -257,7 +264,7 @@ const consultantsScreen = (props) => {
             <Image source={require('../../assets/Images/consultantview.png')} style={STYLES.styles.imagestyle} />
             <View style={{ flexDirection: 'row', marginTop: 80, justifyContent: 'space-between', marginRight: 15, marginLeft: 15 }}>
               <View>
-                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{consultanDetails.property.careerstart ? moment().diff(consultanDetails.property.careerstart, 'years') : 0}</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', color: '#000000', fontWeight: 'bold' }}>{consultanDetails.property.careerstart ? consultanDetails.property.careerstart : 0}</Text>
                 <Text style={{ fontSize: 10, color: '#000000' }}>Year of Experience</Text>
               </View>
               <View style={STYLES.styles.verticleLine}></View>

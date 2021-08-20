@@ -382,7 +382,7 @@ const homeScreen = (props) => {
                         style={{ height: 55, width: 55, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
                 <View style={{ marginTop: 5, alignItems: 'center' }}>
-                    <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory}</Text>
+                    <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory.split(' ')[0]}</Text>
                 </View>
             </View>
     )
@@ -399,8 +399,8 @@ const homeScreen = (props) => {
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
-                        <MenuButton onPress={() => props.navigation.navigate('myProfileScreen')} />
-                        <TouchableOpacity onPress={() => props.navigation.navigate('notificationScreen')}
+                        <MenuButton onPress={() => props.navigation.navigate(SCREEN.MYPROFILESCREEN)} />
+                        <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
                             style={{ marginLeft: 30, marginTop: -10, justifyContent: 'center', alignItems: 'center', height: 30, width: 30 }}>
                             <Image source={require('../../assets/Images/notificationicon.png')} style={{ height: 25, width: 20 }} />
                             <View style={{ marginLeft: 15, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#EB5757' }}>
@@ -410,7 +410,7 @@ const homeScreen = (props) => {
                     </View>
 
                     <View style={{ justifyContent: 'flex-end' }}>
-                        <WallateButton onPress={() => props.navigation.navigate('myWalletScreen')} />
+                        <WallateButton onPress={() => props.navigation.navigate(SCREEN.MYWALLETSCREEN)} />
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -501,7 +501,9 @@ const homeScreen = (props) => {
                         </View>
 
                         <View style={STYLE.styles.categoriesText}>
-                            <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE' }}>Top Consultants</Text>
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NEWCHATSSCREEN)}>
+                                <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#00D9CE' }}>Top Consultants</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>

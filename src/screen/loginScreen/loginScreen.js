@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import {
     StatusBar, View, Text, SafeAreaView, Image, BackHandler,
     TouchableOpacity, ImageBackground, ScrollView, Platform, ToastAndroid
-} from 'react-native'
+} from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import registerServices from '../../services/RegisterService/RegisterService';
+import { CheckUser } from '../../services/UserService/UserService';
 import * as SCREEN from '../../context/screen/screenName';
 import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AUTHUSER } from '../../context/actions/type';
 
 function loginScreen(props) {
     const [loading, setloading] = useState(false);
@@ -58,37 +60,44 @@ function loginScreen(props) {
         }
     };
 
+    //add local storage Records
+    const authenticateUser = (user) => (
+        AsyncStorage.setItem(AUTHUSER, JSON.stringify(user))
+    )
+
     //OTP verify function
-    const onPressSubmit = async (res) => {
+    const onPressSubmit = async (username) => {
         axiosConfig('5e899bb161eb802d6037c4d7');
-        setloading(true);
-
-        const body = {
-            property: {
-                live: false,
-                fullname: res.name,
-                primaryemail: res.email
-            }
-        }
-
         try {
-            const response = await registerServices(body);
-            if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
-                } else {
-                    alert('SignIn Success');
+            if (username) {
+                let body = {
+                    "username": username.email
                 }
+            }
+            setloading(true);
+            const CheckUserResponse = await CheckUser(body);
+            if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 setloading(false);
-                this.props.navigation.navigate(SCREEN.LOGINSCREEN);
+                if (CheckUserResponse.data.property.mobile) {
+                    let token = CheckUserResponse.data._id;
+                    axiosConfig(token);
+                    authenticateUser(CheckUserResponse.data);
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
+                        props.navigation.navigate(SCREEN.HOMESCREEN);
+                    }
+                }
+                else {
+                    props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: CheckUserResponse.data });
+                }
             }
         }
         catch (error) {
             setloading(false);
             if (Platform.OS === 'android') {
-                ToastAndroid.show('UserName Not Valid', ToastAndroid.LONG);
+                ToastAndroid.show('User Not Valid', ToastAndroid.LONG);
             } else {
-                alert('UserName Not Valid');
+                alert('User Not Valid');
             }
         };
     }

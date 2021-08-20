@@ -411,27 +411,32 @@ const subcategoryScreen = (props) => {
                             <Text style={{ fontSize: 26, textTransform: 'capitalize' }}>{categoryProps.property.skillcategory}</Text>
                         </View>
                         <View style={{ marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 10, flexDirection: 'row' }}>
-                            <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
-                                <TouchableOpacity style={allSub ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => allSubCatBox()}>
-                                    {
-                                        allSub ?
-                                            <View style={{ backgroundColor: '#2094FA', alignItems: 'center' }}>
-                                                <Text style={{ fontSize: 12, color: '#FFFFFF', marginLeft: 10, marginRight: 10 }}>{`All` + `  ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
-                                            </View>
-                                            :
-                                            <View style={{ backgroundColor: '#FFFFFF', alignItems: 'center' }}>
-                                                <Text style={{ fontSize: 12, color: '#000000', marginLeft: 10, marginRight: 10 }}>{`All` + `  ` + categoryProps.property.skillcategory.substring(0, 4)}</Text>
-                                            </View>
-                                    }
-                                </TouchableOpacity>
 
-                            </View>
                             <FlatList
+                                showsHorizontalScrollIndicator={false}
+                                legacyImplementation={false}
                                 renderItem={renderSubCategory}
-                                horizontal={false}
-                                numColumns={10}
+                                horizontal
+                                //numColumns={100}
                                 data={subCategory}
                                 keyExtractor={item => `${item._id}`}
+                                ListHeaderComponent={() => (
+                                    <View style={{ paddingHorizontal: 10, paddingVertical: 5, alignItems: 'center' }}>
+                                        <TouchableOpacity style={allSub ? STYLES.SubCategoryStyles.categoryviewSelected : STYLES.SubCategoryStyles.categoryview} onPress={() => allSubCatBox()}>
+                                            {
+                                                allSub ?
+                                                    <View style={{ backgroundColor: '#2094FA', alignItems: 'center' }}>
+                                                        <Text style={{ fontSize: 12, color: '#FFFFFF', marginLeft: 10, marginRight: 10 }}>{`All` + ` - ` + categoryProps.property.skillcategory}</Text>
+                                                    </View>
+                                                    :
+                                                    <View style={{ backgroundColor: '#FFFFFF', alignItems: 'center' }}>
+                                                        <Text style={{ fontSize: 12, color: '#000000', marginLeft: 10, marginRight: 10 }}>{`All` + ` - ` + categoryProps.property.skillcategory}</Text>
+                                                    </View>
+                                            }
+                                        </TouchableOpacity>
+
+                                    </View>
+                                )}
                             />
                         </View>
 

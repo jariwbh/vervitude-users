@@ -28,9 +28,10 @@ import MyPermissionController from '../../helpers/appPermission';
 import { DisputeChatAdd } from '../../services/DisputeChatService/DisputeChatService';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { captureScreen } from "react-native-view-shot";
 
 const chatScreen = (props, { navigation }) => {
-	//chat variable 
+	//chat variable
 	const consultanDetails = props.route.params.consultanDetails;
 	let formId;
 	const [loading, setloading] = useState(false);
@@ -39,7 +40,7 @@ const chatScreen = (props, { navigation }) => {
 	const [sender, setsender] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [formdataDetails, setFormdataDetails] = useState(null);
-	//another variable 
+	//another variable
 	const [showStartProjectVisible, setshowStartProjectVisible] = useState(false);
 	const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
 	const [filterModalVisible, setfilterModalVisible] = useState(false);
@@ -72,7 +73,7 @@ const chatScreen = (props, { navigation }) => {
 	const fourTextInputRef = React.createRef();
 	let formdatas;
 	let userid;
-
+	const cardRef = useRef();
 	// chat portion
 	useEffect(
 		() => {
@@ -110,18 +111,11 @@ const chatScreen = (props, { navigation }) => {
 	const oncheckIdelTimeOut = async () => {
 		timerRef.current = setTimeout(() => {
 			setTimeoutModelVisible(true);
-			autoendnow();
-		}, 1200000);
+			// 	autoendnow();
+		}, 2 * 60 * 1000);
 	}
 
-	const autoendnow = () => {
-		// timerRef1.current = setTimeout(() => {
-		// 	setnowAutoEndChat(true);
-		//onpressDoneBtn();
-		// }, 5000);
-	}
-
-	//check permission 
+	//check permission
 	const checkPermission = () => {
 		setTimeout(
 			() => {
@@ -134,43 +128,55 @@ const chatScreen = (props, { navigation }) => {
 	}
 
 	//UPLOAD DISPUTE CHAT CLICK TO CALL FUNCTION
-	const onUploadDisputeChat = () => {
-		handlePicker();
-	}
+	// const onUploadDisputeChat = () => {
+	// 	handlePicker();
+	// }
 
 	//IMAGE CLICK TO GET CALL FUNCTION
-	const handlePicker = () => {
-		ImagePicker.showImagePicker({}, (response) => {
-			if (response.didCancel) {
-				setSpinner(false);
-				// console.log('User cancelled image picker');
-			} else if (response.error) {
-				setSpinner(false);
-				// console.log('ImagePicker Error: ', response.error);
-			} else if (response.customButton) {
-				setSpinner(false);
-				//  console.log('User tapped custom button: ', response.customButton);
-			} else {
-				setSpinner(true);
-				onPressUploadFile(response);
-			}
-		});
+	const handlePicker = (data) => {
+		let img = {
+			name: 'file',
+			filename: Math.floor(1000 + Math.random() * 9000) + '.jpg',
+			type: 'jpg',
+			data: data //.replace('file:///', 'content://')
+		}
+		console.log(`img`, img);
+		// ImagePicker.showImagePicker({}, (response) => {
+		// 	if (response.didCancel) {
+		// 		setSpinner(false);
+		// 		// console.log('User cancelled image picker');
+		// 	} else if (response.error) {
+		// 		setSpinner(false);
+		// 		// console.log('ImagePicker Error: ', response.error);
+		// 	} else if (response.customButton) {
+		// 		setSpinner(false);
+		// 		//  console.log('User tapped custom button: ', response.customButton);
+		// 	} else {
+		// 		setSpinner(true);
+		onPressUploadFile(img);
+		// 	}
+		// });
 	};
 
 	//Upload Cloud storage function
 	const onPressUploadFile = async (fileObj) => {
 		if (fileObj != null) {
-			const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
+			//const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
+			const realPath = fileObj.data;
+			console.log(`realPath`, realPath);
 			await RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/dlopjt9le/upload', { 'Content-Type': 'multipart/form-data' },
-				[{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+				//[{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+				[{ name: 'file', filename: fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
 				{ name: 'upload_preset', data: 'gs95u3um' }])
 				.then(response => response.json())
 				.then(data => {
+					console.log(`data`, data);
 					setSpinner(false);
 					if (data && data.url) {
 						setdisputeImage(data.url);
 					}
 				}).catch(error => {
+					console.log(`error`, error);
 					setSpinner(false);
 					alert("Uploading Failed!");
 				})
@@ -271,7 +277,7 @@ const chatScreen = (props, { navigation }) => {
 					userid: item._id
 				});
 				updateChatdata(ref.id);
-				setloading(false);
+				//setloading(false);
 				return ref.id;
 			} else {
 				//console.log(`snap2 else`, snap2);
@@ -287,16 +293,16 @@ const chatScreen = (props, { navigation }) => {
 							userid: item._id
 						});
 						updateChatdata(ref.id);
-						setloading(false);
+						//setloading(false);
 						return ref.id;
 					} else {
 						FindChatByIdService(snap2.docs[0]._data.formid);
-						setloading(false);
+						//setloading(false);
 						return snap2.docs[0].id;
 					}
 				} else {
 					FindChatByIdService(snap2.docs[0]._data.formid);
-					setloading(false);
+					//setloading(false);
 					return snap2.docs[0].id;
 				}
 			}
@@ -346,7 +352,7 @@ const chatScreen = (props, { navigation }) => {
 		}
 	}
 
-	//send btn click to send message 
+	//send btn click to send message
 	const onSend = useCallback((messages = []) => {
 		checkstartchat();
 		sendpushalertmsgCheck(messages[0].text);
@@ -388,10 +394,12 @@ const chatScreen = (props, { navigation }) => {
 		if (chatId) {
 			body.property.fierbasechatid = chatId
 		}
+		console.log(`formdatas`, formdatas.property.livechat);
 		try {
 			const response = await EndChatService(formdatas._id, body);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				FindChatByIdService(response.data._id);
+				setHideInput(true);
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Initial', ToastAndroid.SHORT);
 				} else {
@@ -430,7 +438,7 @@ const chatScreen = (props, { navigation }) => {
 			const response = await EndChatService(formdataDetails._id, body);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
 				FindChatByIdService(response.data._id)
-				oncheckIdelTimeOut(true);
+				oncheckIdelTimeOut();
 				if (Platform.OS === 'android') {
 					ToastAndroid.show('Your Chat Is Start', ToastAndroid.SHORT);
 				} else {
@@ -478,10 +486,18 @@ const chatScreen = (props, { navigation }) => {
 					setHideInput(true);
 				} else {
 					if (response.data[0] && response.data[0].property.startat) {
-						oncheckIdelTimeOut(true);
+						if (!response.data[0].property.consultantid.property.live) {
+							setHideInput(true);
+						} else {
+							oncheckIdelTimeOut();
+							setHideInput(false);
+						}
 					}
-					setHideInput(false);
 				}
+				if (!response.data[0].property.consultantid.property.live) {
+					setHideInput(true);
+				}
+				setloading(false);
 			}
 		} catch (error) {
 			//console.log(`error FindChatByIdService`, error);
@@ -497,13 +513,12 @@ const chatScreen = (props, { navigation }) => {
 
 	//end chat menu click to call function(END CHAT API CALL)
 	const onpressDoneBtn = async () => {
+		console.log(`formdataDetails`, formdataDetails);
 		if (formdataDetails) {
 			setSpinner(true);
-			//('formdataDetails', formdataDetails)
 			let endtime = moment().format();
 			var duration = moment.duration(moment().diff(formdataDetails.property.startat))
 			var minsDiff = duration.asMinutes();
-
 			//console.log(`minsDiff`, minsDiff);
 			var charges = formdataDetails.property.consultantid.property.chargespermin;
 			//console.log(`charges`, charges)
@@ -525,7 +540,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 
-			//console.log(`body EndChatService`, body);
+			console.log(`body EndChatService`, body);
 			let generateBill = {
 				"customerid": sender,
 				"onModel": "Member",
@@ -557,15 +572,14 @@ const chatScreen = (props, { navigation }) => {
 					"totalcost": charges * minsDiff
 				}]
 			}
-			//console.log(`generateBill`, generateBill);
+			console.log(`generateBill`, generateBill);
 			try {
-				//console.log(`formdataDetails._id`, formdataDetails._id)
-				//console.log(`body formdataDetails`, body)
+				console.log(`body formdataDetails`, body)
 				const response = await EndChatService(formdataDetails._id, body);
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
 					//firestore().collection('chat').doc(chatId).update({ member: [[sender, item._id, 'chatend']], createdAt: createdAt.toString() });
 					firestore().collection('chat').doc(chatId).update({ 'endat': endtime });
-					//console.log(`response`, response);
+					console.log(`EndChatService response`, response);
 					const billResponse = await BillService(generateBill);
 					if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
 						//console.log(`billResponse`, billResponse);
@@ -636,6 +650,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 			catch (error) {
+				console.log(`error`, error);
 				setSpinner(false);
 				//console.log(`error`, error);
 				if (Platform.OS === 'android') {
@@ -649,10 +664,16 @@ const chatScreen = (props, { navigation }) => {
 
 	//check end chat or not
 	const EndChat = () => (
-		<View style={{ alignItems: 'center', margin: 5 }}>
-			<Text style={{ fontSize: 14, color: '#000000' }}>{`Your Chat is close in this Date ${formdataDetails && moment(formdataDetails.property.endat).format("MMM Do YYYY")}`}</Text>
-			<Text style={{ fontSize: 14, color: '#000000' }}>{`and time ${formdataDetails && moment(formdataDetails.property.endat).format('LTS')}`}</Text>
-		</View>
+		formdataDetails.property.endat ?
+			<View style={{ alignItems: 'center', margin: 5 }}>
+				<Text style={{ fontSize: 14, color: '#000000' }}>{`Your Chat is close in this Date ${formdataDetails && moment(formdataDetails.property.endat).format("MMM Do YYYY")}`}</Text>
+				<Text style={{ fontSize: 14, color: '#000000' }}>{`and time ${formdataDetails && moment(formdataDetails.property.endat).format('LTS')}`}</Text>
+			</View>
+			:
+			<View style={{ alignItems: 'center', margin: 5 }}>
+				<Text style={{ fontSize: 14, color: '#000000', textAlign: 'center' }}>{`Consultant Currently Offline Dose `}</Text>
+				<Text style={{ fontSize: 14, color: '#000000', textAlign: 'center' }}>{`not allowed chat`}</Text>
+			</View>
 	)
 
 	//check project time error message
@@ -739,7 +760,7 @@ const chatScreen = (props, { navigation }) => {
 		hideTimePicker();
 	};
 
-	//DisputeChat Submit 
+	//DisputeChat Submit
 	const disputechatSubmit = async () => {
 		setSpinner(true);
 		if (!disputechatsubject || !disputechatdesc) {
@@ -870,6 +891,25 @@ const chatScreen = (props, { navigation }) => {
 				});
 			}
 		}
+	}
+
+	const disputechatScrenShort = async () => {
+		setFilterModalVisible(!filterModalVisible);
+		try {
+			await captureScreen({
+				format: "jpg",
+				quality: 0.8
+			}).then(
+				uri => {
+					handlePicker(uri)
+					//console.log("Image saved to", uri)
+				},
+				error => console.error("Oops, snapshot failed", error)
+			);
+		} catch (e) {
+			console.log(e);
+		}
+		setShowDisputeChatVisible(true)
 	}
 
 	return (
@@ -1041,7 +1081,7 @@ const chatScreen = (props, { navigation }) => {
 								<View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }} />
 							</View>
 
-							<TouchableOpacity onPress={() => { setFilterModalVisible(!filterModalVisible), setShowDisputeChatVisible(true) }}>
+							<TouchableOpacity onPress={() => disputechatScrenShort()}>
 								<Text style={{ padding: 15, textAlign: 'center', color: '#000000' }}>Dispute</Text>
 							</TouchableOpacity>
 							<View style={{ flexDirection: 'row' }}>
@@ -1141,13 +1181,13 @@ const chatScreen = (props, { navigation }) => {
 									onChangeText={(desc) => setDisputechatDescCheck(desc)}
 								/>
 							</View>
-							<View style={{ marginTop: 10 }} />
+							{/* <View style={{ marginTop: 10 }} />
 							<TouchableOpacity
 								onPress={() => onUploadDisputeChat()}
 								style={styles.savebtn}
 							>
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Upload Photo</Text>
-							</TouchableOpacity>
+							</TouchableOpacity> */}
 						</View>
 						<View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
 							<TouchableOpacity
@@ -1280,7 +1320,7 @@ const chatScreen = (props, { navigation }) => {
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Yes</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								onPress={() => { setTimeoutModelVisible(false), oncheckIdelTimeOut(false) }}
+								onPress={() => { setTimeoutModelVisible(false), oncheckIdelTimeOut() }}
 								style={styles.nobtn}
 							>
 								<Text style={{ fontSize: 14, color: '#000000' }}>No</Text>

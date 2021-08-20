@@ -12,6 +12,7 @@ import NOTIFICATIONSCREEN from '../screen/notificationScreen/notificationScreen'
 import RECHARGEDETAILSCREEN from '../screen/myWalletScreen/rechargedetailScreen';
 import LOGINWITHEMAILSCREEN from '../screen/loginScreen/loginwithemailScreen';
 import CONSULTANTSSCREEN from '../screen/consultantsScreen/consultantsScreen';
+import VERIFYMOBILESCREEN from '../screen/registerScreen/VerifyMobileScreen';
 import VIEWPROFILESCREEN from '../screen/myProfileScreen/ViewFullPicture';
 import MYPROFILESCREEN from '../screen/myProfileScreen/myProfileScreen';
 import PROMOCODESCREEN from '../screen/promocodeScreen/promocodeScreen';
@@ -21,6 +22,7 @@ import DISPUTESSCREEN from '../screen/disputesScreen/disputesScreen';
 import MYWALLETSCREEN from '../screen/myWalletScreen/myWalletScreen';
 import MYSPENDSSCREEN from '../screen/myspendsScreen/myspendsScreen';
 import INVITESCREEN from '../screen/inviteConsultant/inviteScreen';
+import RATEINGSCREEN from '../screen/RateingScreen/RateingScreen';
 import WEBVIEWSCREEN from '../screen/WebViewScreen/WebViewScreen';
 import NEWCHATSSCREEN from '../screen/chatScreen/newchatsScreen';
 import SPLASHSCREEN from '../screen/SplashScreen/splashScreen';
@@ -28,7 +30,6 @@ import EDITSCREEN from '../screen/myProfileScreen/editScreen';
 import LOGINSCREEN from '../screen/loginScreen/loginScreen';
 import HOMESCREEN from '../screen/homeScreen/homeScreen';
 import CHATSCREEN from '../screen/chatScreen/chatScreen';
-import RATEINGSCREEN from '../screen/RateingScreen/RateingScreen';
 
 const Stack = createStackNavigator();
 export default navigationsApp = () => {
@@ -39,6 +40,7 @@ export default navigationsApp = () => {
                 <Stack.Screen name='forgotpasswordScreen' component={FORGOTPASSWORDSCREEN} />
                 <Stack.Screen name='loginwithemailScreen' component={LOGINWITHEMAILSCREEN} />
                 <Stack.Screen name='registerScreen' component={REGISTERSCREEN} />
+                <Stack.Screen name='VerifyMobileScreen' component={VERIFYMOBILESCREEN} />
                 {/* <Stack.Screen name='MainScreen' component={MainNavigation} /> */}
                 <Stack.Screen name='splashScreen' component={SPLASHSCREEN} />
                 <Stack.Screen name='loginScreen' component={LOGINSCREEN} />

@@ -104,6 +104,122 @@ export const styles = StyleSheet.create({
         height: HEIGHT,
         width: WIDTH
     },
+    modelInputView: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 0.5,
+        borderColor: '#000000',
+        width: WIDTH - 120,
+        height: 40,
+        borderRadius: 5,
+        marginBottom: 20
+    },
+    modelInputViewError: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#FF0000',
+        width: WIDTH - 120,
+        height: 40,
+        borderRadius: 5,
+        marginBottom: 20
+    },
+    modelTextAreainputView: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 0.5,
+        borderColor: '#000000',
+        width: WIDTH - 120,
+        height: 100,
+        borderRadius: 5
+    },
+    modelTextAreainputViewError: {
+        flexDirection: 'row',
+        backgroundColor: '#F4F4F4',
+        borderWidth: 1,
+        borderColor: '#FF0000',
+        width: WIDTH - 120,
+        height: 100,
+        borderRadius: 5
+    },
+    modelTextareaInput: {
+        fontSize: 14,
+        flex: 1,
+        backgroundColor: '#F4F4F4',
+        marginLeft: 5,
+    },
+    savebtn: {
+        flexDirection: 'row',
+        marginRight: 50,
+        width: 100,
+        height: 35,
+        backgroundColor: '#00D9CE',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    cancelbtn: {
+        flexDirection: 'row',
+        width: 100,
+        height: 35,
+        backgroundColor: '#EEEEEE',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    modalView: {
+        height: 200,
+        width: WIDTH - 90,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    msgModalView: {
+        marginTop: HEIGHT / 2 - 150,
+        height: 200,
+        width: WIDTH - 90,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    modelTextInput: {
+        fontSize: 14,
+        flex: 1,
+        backgroundColor: '#F4F4F4',
+        marginLeft: 5
+    },
 })
 
 /// forgetpassword

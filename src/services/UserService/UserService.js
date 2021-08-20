@@ -95,18 +95,6 @@ const TopConsultantViewListService = (id) => {
     return Axios.post('users/view/filter', body);
 }
 
-const UserListService = () => {
-    const body = {
-        'search': [{
-            'searchfield': 'status',
-            'searchvalue': 'active',
-            'criteria': 'eq',
-            'datatype': 'text'
-        }]
-    }
-    return Axios.patch('members/' + id, body);
-}
-
 const getByIdUser = (id) => {
     const body = {
         "search": [{
@@ -133,5 +121,5 @@ const CheckUser = (body) => {
 
 export {
     UserProfileService, UserUpdateService, getByIdUser, getByIdMemberService, CheckUser,
-    ConsultantListService, UserListService, TopConsultantViewListService, UserPatchService
+    ConsultantListService, TopConsultantViewListService, UserPatchService
 };

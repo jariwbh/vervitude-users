@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, ImageBackground, ScrollView, ToastAndroid, Platform, Keyboard } from 'react-native';
+import {
+    StatusBar, View, Text, SafeAreaView, TextInput, Image, TouchableOpacity,
+    ImageBackground, ScrollView, ToastAndroid, Platform, Keyboard, Modal
+} from 'react-native';
 import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
 import { CheckUser } from '../../services/UserService/UserService';
 import * as SCREEN from '../../context/screen/screenName';
@@ -8,6 +11,7 @@ import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
 import SendSmsService from '../../services/SendSmsService/SendSmsService';
+import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 
 const forgotpasswordScreen = (props) => {
     const [username, setusername] = useState(null);
@@ -20,10 +24,92 @@ const forgotpasswordScreen = (props) => {
     const [verifybtnDisable, setverifybtnDisable] = useState(true);
     const [sendbtnDisable, setsendbtnDisable] = useState(true);
     const [sendEmailbtnDisable, setsendEmailbtnDisable] = useState(true);
-
+    const [showModalVisible, setshowModalVisible] = useState(false);
+    const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
+    const [subject, setsubject] = useState(null);
+    const [subjecterror, setsubjecterror] = useState(null);
+    const [description, setdescription] = useState(null);
+    const [descriptionerror, setdescriptionerror] = useState(null);
+    const secondTextInputRef = React.createRef();
+    const [spinner, setspinner] = useState(false);
 
     useEffect(() => {
-    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber, inputOtpNumber, verifybtnDisable, sendbtnDisable, sendEmailbtnDisable])
+    }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber,
+        inputOtpNumber, verifybtnDisable, sendbtnDisable, sendEmailbtnDisable, showModalVisible,
+        showMessageModalVisible, spinner])
+
+    const showModal = (visible) => {
+        setshowModalVisible(visible);
+    }
+
+    const showMessageModal = (visible) => {
+        setshowMessageModalVisible(visible);
+    }
+
+    //help model pop up cancel button touch to called
+    const onPressCancel = () => {
+        setsubject(null);
+        setdescription(null);
+        setsubjecterror(null);
+        setdescriptionerror(null);
+        setshowModalVisible(false);
+    }
+
+    //check validation of subject
+    const setSubject = (subject) => {
+        if (!subject || subject <= 0) {
+            return setsubjecterror('subject cannot be empty');
+        }
+        setsubject(subject);
+        setsubjecterror(null);
+        return;
+    }
+
+    //check validation of description
+    const setDescription = (description) => {
+        if (!description || description <= 0) {
+            return setdescriptionerror('description cannot be empty');
+        }
+        setdescription(description);
+        setdescriptionerror(null);
+        return;
+    }
+
+    //help model pop up submit button touch to called
+    const onPressSubmitModel = async () => {
+        if (!description || !subject) {
+            setSubject(subject);
+            setDescription(description);
+            return;
+        }
+
+        const body = {
+            'status': 'Requested',
+            'subject': subject,
+            'customerid': '5e899bb161eb802d6037c4d7',
+            'onModel': 'Member',
+            'category': 'System Enhancements',
+            'content': description
+        }
+        setspinner(true);
+        try {
+            const response = await HelpSupportService(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                setspinner(false);
+                setshowMessageModalVisible(true);
+                onPressCancel();
+            }
+        }
+        catch (error) {
+            setspinner(false);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
+            } else {
+                alert('Message Sending Failed!');
+            }
+            onPressCancel();
+        }
+    }
 
     //check email validation
     const setEmail = (email) => {
@@ -314,7 +400,7 @@ const forgotpasswordScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginRight: 15 }} >
-                            <TouchableOpacity >
+                            <TouchableOpacity onPress={() => showModal(true)} >
                                 <Text style={STYLE.Forgetpasswordstyle.createText}>Need Help?</Text>
                             </TouchableOpacity>
                         </View>
@@ -322,6 +408,84 @@ const forgotpasswordScreen = (props) => {
                     <View style={{ marginVertical: 20 }} />
                 </ScrollView>
                 {loading ? <Loader /> : null}
+
+                {/* Help & Support model Pop */}
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={showModalVisible}
+                    onRequestClose={() => showModal(!showModalVisible)}
+                >
+                    <View style={{ alignItems: 'center', flex: 1 }}>
+                        <View style={{ position: 'absolute', bottom: 20 }}>
+                            <View style={STYLE.styles.modalView}>
+                                <View style={{ marginTop: 20 }}></View>
+                                <View style={subjecterror == null ? STYLE.styles.modelInputView : STYLE.styles.modelInputViewError}>
+                                    <TextInput
+                                        style={STYLE.styles.modelTextInput}
+                                        placeholder='Subject'
+                                        type='clear'
+                                        returnKeyType='next'
+                                        placeholderTextColor='#999999'
+                                        defaultValue={subject}
+                                        blurOnSubmit={false}
+                                        onSubmitEditing={() => secondTextInputRef.current.focus()}
+                                        onChangeText={(subject) => setSubject(subject)}
+                                    />
+                                </View>
+                                <View style={descriptionerror == null ? STYLE.styles.modelTextAreainputView : STYLE.styles.modelTextAreainputViewError}>
+                                    <TextInput
+                                        style={STYLE.styles.modelTextareaInput}
+                                        placeholder='Write Your Descripation'
+                                        type='clear'
+                                        returnKeyType='done'
+                                        placeholderTextColor='#999999'
+                                        blurOnSubmit={false}
+                                        numberOfLines={3}
+                                        multiline={true}
+                                        defaultValue={description}
+                                        ref={secondTextInputRef}
+                                        onChangeText={(description) => setdescription(description)}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <TouchableOpacity onPress={() => onPressSubmitModel()}
+                                    style={STYLE.styles.savebtn}>
+                                    <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => onPressCancel()}
+                                    style={STYLE.styles.cancelbtn}>
+                                    <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                {/* message model Pop */}
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={showMessageModalVisible}
+                    onRequestClose={() => showMessageModal(!showMessageModalVisible)}
+                >
+                    <View style={{ alignItems: 'center', flex: 1 }}>
+                        <View style={{ position: 'absolute', bottom: 20 }}>
+                            <View style={STYLE.styles.msgModalView}>
+                                <Image source={require('../../assets/Images/smileicon.png')} style={{ marginTop: 15, height: 40, width: 40 }} />
+                                <Text style={{ marginTop: 15, fontSize: 14, color: '#000000' }}>Thank you for your feedback</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>we will get back to you shortly</Text>
+                            </View>
+                            <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+                                <TouchableOpacity onPress={() => showMessageModal(!showMessageModalVisible)}
+                                    style={STYLE.styles.cancelbtn}>
+                                    <Text style={{ fontSize: 14, color: '#000000' }}>Ok</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </ImageBackground>
         </SafeAreaView>
     )

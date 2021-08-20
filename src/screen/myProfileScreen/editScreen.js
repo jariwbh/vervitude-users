@@ -452,7 +452,7 @@ const editScreen = (props) => {
                                 onSubmitEditing={() => sevenTextInputRef.current.focus()}
                                 onChangeText={(location) => setLocation(location)}
                             />
-                            <Ionicons name='location' size={24} color='#000000' />
+                            {/* <Ionicons name='location' size={24} color='#000000' /> */}
                         </View>
 
                         <View style={{ marginLeft: 10, marginTop: 10 }}>

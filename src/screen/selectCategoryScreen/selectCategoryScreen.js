@@ -261,7 +261,9 @@ function selectCategoryScreen(props) {
                         </View>
 
                         <View style={STYLES.categoryStyles.categoriesText}>
-                            <Text style={{ fontSize: 20, color: '#2094FA' }}>Top Consultants</Text>
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NEWCHATSSCREEN)}>
+                                <Text style={{ fontSize: 20, color: '#2094FA' }}>Top Consultants</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>

@@ -72,18 +72,23 @@ export default class LoginWithPasswordScreen extends Component {
         try {
             const response = await LoginWithPasswordService(body);
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
-                let token = response.data.user._id;
-                //set header auth user key
-                axiosConfig(token);
-                this.authenticateUser(response.data.user);
-                this.setState({ loading: true });
-                this.resetScreen();
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
-                } else {
-                    alert('SignIn Success');
+                if (response.data.user.property.mobile) {
+                    let token = response.data.user._id;
+                    //set header auth user key
+                    axiosConfig(token);
+                    this.authenticateUser(response.data.user);
+                    this.setState({ loading: true });
+                    this.resetScreen();
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
+                    } else {
+                        alert('SignIn Success');
+                    }
+                    this.props.navigation.navigate(SCREEN.HOMESCREEN);
                 }
-                this.props.navigation.navigate(SCREEN.HOMESCREEN);
+                else {
+                    this.props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: response.data });
+                }
             }
         } catch (error) {
             this.resetScreen();

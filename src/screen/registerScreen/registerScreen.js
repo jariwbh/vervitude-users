@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     StatusBar, View, Text, SafeAreaView, TextInput,
     Image, TouchableOpacity, ImageBackground, ScrollView,
-    ToastAndroid, Platform, Keyboard
+    ToastAndroid, Platform, Keyboard, Modal
 } from 'react-native';
 import registerServices from '../../services/RegisterService/RegisterService';
 import * as SCREEN from '../../context/screen/screenName';
@@ -14,6 +14,8 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import SendEmailandSmsService from '../../services/SendEmailandSmsService/SendEmailandSmsService';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
+import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class registerScreen extends Component {
     constructor(props) {
@@ -29,7 +31,14 @@ export default class registerScreen extends Component {
             verifyOtpNumber: null,
             inputOtpNumber: null,
             verifybtnDisable: true,
-            sendbtnDisable: true
+            sendbtnDisable: true,
+            showModalVisible: false,
+            showMessageModalVisible: false,
+            subject: null,
+            subjecterror: null,
+            description: null,
+            descriptionerror: null,
+            spinner: false
         };
         this.setFullName = this.setFullName.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -47,6 +56,85 @@ export default class registerScreen extends Component {
             offlineAccess: true,
             forceCodeForRefreshToken: true,
         });
+    }
+
+    showModalVisible = (visible) => {
+        this.setState({ showModalVisible: visible });
+    }
+
+    showMessageModalVisible = (visible) => {
+        this.setState({ showMessageModalVisible: visible });
+    }
+
+    //help model pop up cancel button touch to called
+    onPressCancel = () => {
+        this.setState({
+            showModalVisible: false,
+            subject: null,
+            subjecterror: null,
+            description: null,
+            descriptionerror: null
+        });
+    }
+
+    //check validation of subject
+    setSubject = (subject) => {
+        if (!subject || subject <= 0) {
+            return this.setState({ subjecterror: 'subject cannot be empty' });
+        }
+        return this.setState({ subject: subject, subjecterror: null });
+    }
+
+    //check validation of description
+    setDescription = (description) => {
+        if (!description || description <= 0) {
+            return this.setState({ descriptionerror: 'description cannot be empty' });
+        }
+        return this.setState({ description: description, descriptionerror: null });
+    }
+
+    //help model pop up submit button touch to called
+    onModelSubmit = () => {
+        const { description, subject } = this.state;
+        if (!description || !subject) {
+            this.setSubject(subject);
+            this.setDescription(description);
+            return;
+        }
+        const body = {
+            'status': 'Requested',
+            'subject': subject,
+            'customerid': '5e899bb161eb802d6037c4d7',
+            'onModel': 'User',
+            'category': 'System Enhancements',
+            'content': description
+        }
+        this.setState({ spinner: true });
+        try {
+            HelpSupportService(body).then(response => {
+                console.log(`response.data`, response.data);
+                if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                    this.setState({
+                        spinner: false,
+                        showModalVisible: false,
+                        subject: null,
+                        description: null,
+                        subjecterror: null,
+                        descriptionerror: null
+                    });
+                    this.showMessageModalVisible(true);
+                }
+            })
+        }
+        catch (error) {
+            this.setState({ spinner: false });
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Requested Sending Failed!', ToastAndroid.SHORT);
+            } else {
+                alert('Requested Sending Failed!');
+            }
+
+        }
     }
 
     //check Fullname validation
@@ -196,19 +284,17 @@ export default class registerScreen extends Component {
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
-                } else {
-                    alert('SignIn Success');
                 }
                 this.setState({ loading: false });
-                this.props.navigation.navigate(SCREEN.LOGINSCREEN);
+                this.props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: response.data });
             }
         }
         catch (error) {
             this.setState({ loading: false });
             if (Platform.OS === 'android') {
-                ToastAndroid.show('UserName Not Valid', ToastAndroid.LONG);
+                ToastAndroid.show('User Not Valid', ToastAndroid.LONG);
             } else {
-                alert('UserName Not Valid');
+                alert('User Not Valid');
             }
         };
     }
@@ -274,7 +360,7 @@ export default class registerScreen extends Component {
     }
 
     render() {
-        const { loading, usererror, mobile_numbererror, fullnameError } = this.state;
+        const { loading, usererror, mobile_numbererror, fullnameError, showModalVisible, showMessageModalVisible, subject, subjecterror, description, descriptionerror } = this.state;
         return (
             <SafeAreaView style={STYLES.styles.container} >
                 <StatusBar hidden translucent backgroundColor='transparent' />
@@ -377,7 +463,7 @@ export default class registerScreen extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ marginRight: 15 }} >
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={() => this.showModalVisible(true)} >
                                     <Text style={STYLES.styles.createText}>Need Help?</Text>
                                 </TouchableOpacity>
                             </View>
@@ -386,6 +472,85 @@ export default class registerScreen extends Component {
                     </ScrollView>
                 </ImageBackground>
                 {loading ? <Loader /> : null}
+
+                {/* Help & Support model Pop */}
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={showModalVisible}
+                    onRequestClose={() => { this.showModalVisible(!showModalVisible) }}
+                >
+                    <View style={{ alignItems: 'center', flex: 1 }}>
+                        <View style={{ position: 'absolute', bottom: 20 }}>
+                            <View style={STYLES.styles.modalView}>
+                                <View style={{ marginTop: 20 }}></View>
+                                <View style={subjecterror == null ? STYLES.styles.modelInputView : STYLES.styles.modelInputViewError}>
+                                    <TextInput
+                                        style={STYLES.styles.modelTextInput}
+                                        placeholder='Subject'
+                                        type='clear'
+                                        returnKeyType='next'
+                                        placeholderTextColor='#999999'
+                                        defaultValue={subject}
+                                        blurOnSubmit={false}
+                                        onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
+                                        onChangeText={(subject) => this.setSubject(subject)}
+                                    />
+                                </View>
+                                <View style={descriptionerror == null ? STYLES.styles.modelTextAreainputView : STYLES.styles.modelTextAreainputViewError}>
+                                    <TextInput
+                                        style={STYLES.styles.modelTextareaInput}
+                                        placeholder='Write Your Descripation'
+                                        type='clear'
+                                        returnKeyType='done'
+                                        placeholderTextColor='#999999'
+                                        blurOnSubmit={false}
+                                        numberOfLines={3}
+                                        multiline={true}
+                                        defaultValue={description}
+                                        ref={this.secondTextInputRef}
+                                        onSubmitEditing={() => Keyboard.dismiss()}
+                                        onChangeText={(description) => this.setDescription(description)}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => this.onModelSubmit()}
+                                    style={STYLES.styles.savebtn}>
+                                    <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => this.onPressCancel()}
+                                    style={STYLES.styles.cancelbtn}>
+                                    <Text style={{ fontSize: 14, color: '#000000' }}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                {/* message model Pop */}
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={showMessageModalVisible}
+                    onRequestClose={() => { this.showMessageModalVisible(!showMessageModalVisible) }}
+                >
+                    <View style={{ alignItems: 'center', flex: 1 }}>
+                        <View style={{ position: 'absolute', bottom: 20 }}>
+                            <View style={STYLES.styles.msgModalView}>
+                                <Image source={require('../../assets/Images/smileicon.png')} style={{ marginTop: 35, height: 40, width: 40 }} />
+                                <Text style={{ fontSize: 14, color: '#000000', marginTop: 15 }}>Thank you for your Feedback</Text>
+                                <Text style={{ fontSize: 14, color: '#000000' }}>We will get back you shortly</Text>
+                            </View>
+                            <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15 }}>
+                                <TouchableOpacity onPress={() => { this.showMessageModalVisible(!showMessageModalVisible) }}
+                                    style={STYLES.styles.cancelbtn}>
+                                    <Text style={{ fontSize: 14, color: '#000000' }}>Ok</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </SafeAreaView>
         )
     }
