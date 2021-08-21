@@ -230,7 +230,8 @@ const homeScreen = (props) => {
     const categoryList = async () => {
         try {
             const response = await CategoryService();
-            const slice = response.data.slice(0, 4)
+            const uniqueValues = [...new Map(response.data.map(item => [item["property"]["skillcategory"], item])).values()];
+            const slice = uniqueValues.slice(0, 4);
             setCategory([...slice, { add: true }]);
         } catch (error) {
             // console.log(`error`, error);
@@ -382,7 +383,7 @@ const homeScreen = (props) => {
                         style={{ height: 55, width: 55, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
                 <View style={{ marginTop: 5, alignItems: 'center' }}>
-                    <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory.split(' ')[0]}</Text>
+                    <Text styles={{ fontSize: 12, textAlign: 'center' }}>{item.property.skillcategory.split(' ')[0].substring(0, 8)}</Text>
                 </View>
             </View>
     )
@@ -443,6 +444,7 @@ const homeScreen = (props) => {
                                 data={filter}
                                 keyExtractor={(item, index) => index.toString()}
                                 ItemSeparatorComponent={ItemSeparatorView}
+                                keyboardShouldPersistTaps={'always'}
                                 renderItem={ItemView}
                             />
                         </ScrollView>

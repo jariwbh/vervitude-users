@@ -219,6 +219,6 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: WIDTH - 20,
         height: 200,
-        top: 120
+        top: 150
     }
 })

@@ -232,13 +232,13 @@ const subcategoryScreen = (props) => {
                     </View>
                     <View style={{ marginLeft: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#000000', textTransform: 'capitalize' }}>{item.property.first_name}</Text>
-                        <Text style={{ fontSize: 16, color: '#4D4D4D', textTransform: 'capitalize' }}>{item.property.usertag}</Text>
+                        <Text style={{ fontSize: 16, color: '#4D4D4D', textTransform: 'capitalize', width: WIDTH / 2 }}>{item.property.usertag}</Text>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginBottom: 5 }}>
                             <View style={{ width: WIDTH / 2, height: 1, backgroundColor: '#C2C2C2' }} />
                         </View>
                         <Text style={{ fontSize: 12, color: '#999999' }}>Speciliazition</Text>
-                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: 160 }}>
+                        <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: WIDTH / 2 }}>
                             {
                                 item.skills ?
                                     item.skills.slice(0, 3).map(({
@@ -247,7 +247,7 @@ const subcategoryScreen = (props) => {
                                     : null
                             }
                         </Text>
-                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 0 }}>
+                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
                             <View style={{ justifyContent: 'center' }}>
                                 <Text style={{ fontSize: 14, color: '#6ABF81', fontWeight: 'bold' }}>₹ {item.property.chargespermin} per min</Text>
                                 <Text style={{ fontSize: 12, color: '#808080', fontWeight: 'bold' }}>{item.property.location}</Text>
@@ -397,6 +397,7 @@ const subcategoryScreen = (props) => {
                                 data={filter}
                                 keyExtractor={(item, index) => index.toString()}
                                 ItemSeparatorComponent={ItemSeparatorView}
+                                keyboardShouldPersistTaps={'always'}
                                 renderItem={ItemView}
                             />
                         </ScrollView>
@@ -416,6 +417,7 @@ const subcategoryScreen = (props) => {
                                 showsHorizontalScrollIndicator={false}
                                 legacyImplementation={false}
                                 renderItem={renderSubCategory}
+                                keyboardShouldPersistTaps={'always'}
                                 horizontal
                                 //numColumns={100}
                                 data={subCategory}

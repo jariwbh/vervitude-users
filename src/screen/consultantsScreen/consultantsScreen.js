@@ -52,6 +52,7 @@ const consultantsScreen = (props) => {
   )
 
   useEffect(() => {
+    console.log(`consultanDetails`, consultanDetails)
   }, [walletBalance])
 
   //render Brand Photo 
@@ -251,13 +252,28 @@ const consultantsScreen = (props) => {
               }
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', margin: 20, marginTop: -50, alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', margin: 20, marginTop: -40, alignItems: 'center' }}>
               <Image source={{ uri: consultanDetails ? consultanDetails.profilepic !== null && consultanDetails.profilepic ? consultanDetails.profilepic : noProfile : null }}
                 style={{ width: 120, height: 120, borderColor: '#D1E8EA', borderRadius: 100, borderWidth: 5 }} />
               <View style={{ justifyContent: 'center', marginLeft: 30 }}>
                 <Text style={{ fontSize: 26, color: '#000000', fontWeight: 'bold', textTransform: 'capitalize' }}>{consultanDetails.property.first_name}</Text>
                 <Text style={{ fontSize: 16, color: '#000000', textTransform: 'capitalize' }}>{consultanDetails.property.usertag}</Text>
-                <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textTransform: 'capitalize' }}>{consultanDetails.property.location}</Text>
+                {consultanDetails && consultanDetails.skills && consultanDetails.skills.length > 0 ?
+                  <>
+                    <Text style={{ fontSize: 12, color: '#000000', marginTop: 3 }}>Speciliazition : </Text>
+                    <Text style={{ fontSize: 12, color: '#000000', textTransform: 'capitalize', width: '45%' }}>
+                      {
+                        consultanDetails.skills ?
+                          consultanDetails.skills.slice(0, 3).map(({
+                            title
+                          }) => title).join(',')
+                          : null
+                      }
+                    </Text>
+                  </>
+                  : null
+                }
+                <Text style={{ fontSize: 12, color: '#000000', fontWeight: 'bold', textTransform: 'capitalize', marginTop: 3 }}>{consultanDetails.property.location}</Text>
               </View>
             </View>
 
@@ -489,7 +505,7 @@ const consultantsScreen = (props) => {
           {/* <Ionicons name="chatbubbles" color='#FFFFFF' size={30} style={{ top: -45, right: 50 }} /> */}
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }
 

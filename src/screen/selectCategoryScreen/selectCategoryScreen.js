@@ -46,7 +46,24 @@ function selectCategoryScreen(props) {
         try {
             const response = await CategoryService();
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                setCategory(response.data);
+                var distinctItems = [];
+                response.data.forEach(element => {
+                    if (element["property"]["skillcategory"].toLowerCase() == 'coming soon') {
+                        distinctItems.push(element)
+                    } else {
+                        var skillObj = distinctItems.find(p => p?.property?.skillcategory == element["property"]["skillcategory"]);
+                        if (!skillObj) {
+                            distinctItems.push(element)
+                        }
+                    }
+
+                });
+                // const uniqueValues = [...new Map(response.data.map(item =>
+                //     console.log("item", item)
+                //     [item["property"]["skillcategory"], item]
+
+                // )).values()];
+                setCategory(distinctItems);
                 setloading(false);
             }
         } catch (error) {
@@ -122,7 +139,7 @@ function selectCategoryScreen(props) {
 
     //render category 
     const renderCategory = ({ item }) => (
-        item.property && item.property.skillcategory == 'COMING SOON' ?
+        item.property && item.property.skillcategory == 'Coming Soon' ?
             <View style={{ flex: 1, padding: 0, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity style={STYLES.categoryStyles.categoryview} disabled={true}>
                     <Image source={{ uri: item && item.property && item.property.image[0] && item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
@@ -140,7 +157,7 @@ function selectCategoryScreen(props) {
                     <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                    <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000' }}>{item.property.skillcategory}</Text>
+                    <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000' }}>{item.property.skillcategory.substring(0, 8) + ' ...'}</Text>
                     <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
                         <Foundation name='info' size={15} color='#3399FF' style={{ marginLeft: 5 }} />
                     </TouchableOpacity>
@@ -245,6 +262,7 @@ function selectCategoryScreen(props) {
                                 data={filter}
                                 keyExtractor={(item, index) => index.toString()}
                                 ItemSeparatorComponent={ItemSeparatorView}
+                                keyboardShouldPersistTaps={'always'}
                                 renderItem={ItemView}
                             />
                         </ScrollView>

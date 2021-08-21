@@ -216,7 +216,6 @@ const editScreen = (props) => {
             const response = await UserPatchService(userDetails._id, body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 authenticateUser(response.data);
-                console.log(`response.data`, response.data);
                 getUserDetails();
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('Your Profile Update', ToastAndroid.SHORT);

@@ -122,7 +122,7 @@ export const SubCategoryStyles = StyleSheet.create({
     },
     counsultantview: {
         flex: 1,
-        height: 180,
+        //height: 180,
         width: WIDTH - 40,
         backgroundColor: '#FFFFFF',
         borderColor: '#FFFFFF',

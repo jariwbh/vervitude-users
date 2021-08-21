@@ -198,7 +198,7 @@ const myProfileScreen = (props) => {
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 20 }}>
                             <View style={{ justifyContent: 'flex-start', marginLeft: 20 }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, textTransform: 'capitalize' }}>{userDetails ? userDetails.fullname : null}</Text>
-                                <Text style={{ fontSize: 14, color: '#000000' }}>{userDetails ? userDetails.property.usertag && userDetails.property.usertag : null}</Text>
+                                <Text style={{ fontSize: 14, color: '#000000', textTransform: 'capitalize' }}>{userDetails ? userDetails.property.usertag && userDetails.property.usertag : null}</Text>
                             </View>
 
                             <View style={{ justifyContent: 'flex-end', marginRight: 20 }}>
