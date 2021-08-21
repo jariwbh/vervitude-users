@@ -45,9 +45,12 @@ function selectCategoryScreen(props) {
     const categoryList = async () => {
         try {
             const response = await CategoryService();
-            setCategory(response.data);
-            setloading(false);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                setCategory(response.data);
+                setloading(false);
+            }
         } catch (error) {
+            setloading(false);
             //  console.log(`error`, error);
         }
     }
@@ -56,11 +59,14 @@ function selectCategoryScreen(props) {
     const ConsultantList = async () => {
         try {
             const response = await TopConsultantViewListService();
-            const slice = response.data.slice(0, 5)
-            setFilteredDataSource(response.data);
-            setConsultant(slice);
-            setloading(false);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                const slice = response.data.slice(0, 5)
+                setFilteredDataSource(response.data);
+                setConsultant(slice);
+                // setloading(false);
+            }
         } catch (error) {
+            setloading(false);
             // console.log(`error`, error);
         }
     }

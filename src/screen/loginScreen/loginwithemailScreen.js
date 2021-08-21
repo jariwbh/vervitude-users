@@ -139,7 +139,6 @@ const loginwithemailScreen = (props) => {
         }
         catch (error) {
             AsyncStorage.removeItem(AUTHUSER);
-            console.log(`error`, error)
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);

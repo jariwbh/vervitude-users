@@ -77,7 +77,7 @@ export default class LoginWithPasswordScreen extends Component {
                     //set header auth user key
                     axiosConfig(token);
                     this.authenticateUser(response.data.user);
-                    this.setState({ loading: true });
+                    this.setState({ loading: false });
                     this.resetScreen();
                     if (Platform.OS === 'android') {
                         ToastAndroid.show('SignIn Success', ToastAndroid.LONG);
@@ -87,7 +87,7 @@ export default class LoginWithPasswordScreen extends Component {
                     this.props.navigation.navigate(SCREEN.HOMESCREEN);
                 }
                 else {
-                    this.props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: response.data });
+                    this.props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: response.data.user });
                 }
             }
         } catch (error) {

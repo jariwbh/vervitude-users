@@ -268,7 +268,6 @@ const forgotpasswordScreen = (props) => {
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
     const onPressSubmit = async (verifyOtpNumber, member) => {
-        console.log(`data`, member);
         axiosConfig('606abd8799e17f1678300c12');
         let mobilebody;
         let emailbody;
@@ -302,7 +301,6 @@ const forgotpasswordScreen = (props) => {
                 const response = await SendEmailandSmsService(body);
                 if (response.data != 'undefind' && response.status == 200) {
                     setloading(false);
-
                 }
             }
 
@@ -311,7 +309,6 @@ const forgotpasswordScreen = (props) => {
                 if (response1.data != 'undefind' && response1.status == 200) {
                     setloading(false);
                 }
-
             }
         }
         catch (error) {

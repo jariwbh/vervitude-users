@@ -68,9 +68,10 @@ function loginScreen(props) {
     //OTP verify function
     const onPressSubmit = async (username) => {
         axiosConfig('5e899bb161eb802d6037c4d7');
+        let body
         try {
             if (username) {
-                let body = {
+                body = {
                     "username": username.email
                 }
             }
