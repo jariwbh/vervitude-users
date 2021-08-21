@@ -28,7 +28,8 @@ import MyPermissionController from '../../helpers/appPermission';
 import { DisputeChatAdd } from '../../services/DisputeChatService/DisputeChatService';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { captureScreen } from "react-native-view-shot";
+//import { captureScreen ,captureRef} from "react-native-view-shot";
+import * as UPLOADKEY from '../../context/actions/type';
 
 const chatScreen = (props, { navigation }) => {
 	//chat variable
@@ -128,55 +129,72 @@ const chatScreen = (props, { navigation }) => {
 	}
 
 	//UPLOAD DISPUTE CHAT CLICK TO CALL FUNCTION
-	// const onUploadDisputeChat = () => {
-	// 	handlePicker();
-	// }
+	const onUploadDisputeChat = () => {
+		handlePicker();
+	}
 
 	//IMAGE CLICK TO GET CALL FUNCTION
 	const handlePicker = (data) => {
-		let img = {
-			name: 'file',
-			filename: Math.floor(1000 + Math.random() * 9000) + '.jpg',
-			type: 'jpg',
-			data: data //.replace('file:///', 'content://')
-		}
-		console.log(`img`, img);
-		// ImagePicker.showImagePicker({}, (response) => {
-		// 	if (response.didCancel) {
-		// 		setSpinner(false);
-		// 		// console.log('User cancelled image picker');
-		// 	} else if (response.error) {
-		// 		setSpinner(false);
-		// 		// console.log('ImagePicker Error: ', response.error);
-		// 	} else if (response.customButton) {
-		// 		setSpinner(false);
-		// 		//  console.log('User tapped custom button: ', response.customButton);
-		// 	} else {
-		// 		setSpinner(true);
-		onPressUploadFile(img);
-		// 	}
-		// });
+		// console.log(`data`, data);
+		// let img = {
+		// 	name: 'file',
+		// 	filename: Math.floor(1000 + Math.random() * 9000) + '.jpg',
+		// 	type: 'jpg',
+		// 	data: data //.replace('file:///', 'content://')
+		// }
+		// onPressUploadFile(img);
+		// console.log(`img`, img);
+
+		ImagePicker.showImagePicker({}, (response) => {
+			if (response.didCancel) {
+				setloading(false);
+				// console.log('User cancelled image picker');
+			} else if (response.error) {
+				setloading(false);
+				// console.log('ImagePicker Error: ', response.error);
+			} else if (response.customButton) {
+				setloading(false);
+				//  console.log('User tapped custom button: ', response.customButton);
+			} else {
+				setSpinner(true);
+				onPressUploadFile(response);
+			}
+		});
 	};
 
 	//Upload Cloud storage function
 	const onPressUploadFile = async (fileObj) => {
 		if (fileObj != null) {
-			//const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
-			const realPath = fileObj.data;
-			console.log(`realPath`, realPath);
-			await RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/dlopjt9le/upload', { 'Content-Type': 'multipart/form-data' },
-				//[{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
-				[{ name: 'file', filename: fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
-				{ name: 'upload_preset', data: 'gs95u3um' }])
+			// //const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
+			// const realPath = fileObj.data;
+			// await RNFetchBlob.fetch('POST', UPLOADKEY.CLOUD_URL, { 'Content-Type': 'multipart/form-data' },
+			// 	//[{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+			// 	[{ name: 'file', filename: fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+			// 	{ name: 'upload_preset', data: UPLOADKEY.UPLOAD_PRESET }])
+			// 	.then(response => response.json())
+			// 	.then(data => {
+			// 		console.log(`data`, data);
+			// 		setSpinner(false);
+			// 		if (data && data.url) {
+			// 			setdisputeImage(data.url);
+			// 		}
+			// 	}).catch(error => {
+			// 		console.log(`error`, error);
+			// 		setSpinner(false);
+			// 		alert("Uploading Failed!");
+			// 	})
+
+			const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
+			await RNFetchBlob.fetch('POST', UPLOADKEY.CLOUD_URL, { 'Content-Type': 'multipart/form-data' },
+				[{ name: 'file', filename: Platform.OS === 'ios' ? fileObj.fileSize : fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
+				{ name: 'upload_preset', data: UPLOADKEY.UPLOAD_PRESET }])
 				.then(response => response.json())
 				.then(data => {
-					console.log(`data`, data);
 					setSpinner(false);
 					if (data && data.url) {
 						setdisputeImage(data.url);
 					}
 				}).catch(error => {
-					console.log(`error`, error);
 					setSpinner(false);
 					alert("Uploading Failed!");
 				})
@@ -854,7 +872,7 @@ const chatScreen = (props, { navigation }) => {
 			method: 'POST',
 			headers: {
 				"Content-Type": "application/json",
-				"Authorization": "key=AAAAEnSG7us:APA91bF_fsNvJ-RoDW56GfT8wyg4nYt78wBlcsyVb4Sa5kzqVWHLU-kWsueU9HcOoOX6qF8Esu9BoCHPNvTT6zntXmOd6UQ-ygrPxP42ldjwqDH0DzW5U2bf4UlPXL1NswPsLFaRNT3x"
+				"Authorization": UPLOADKEY.MESSAGEKEY
 			},
 			body: formData
 		})
@@ -895,20 +913,20 @@ const chatScreen = (props, { navigation }) => {
 
 	const disputechatScrenShort = async () => {
 		setFilterModalVisible(!filterModalVisible);
-		try {
-			await captureScreen({
-				format: "jpg",
-				quality: 0.8
-			}).then(
-				uri => {
-					handlePicker(uri)
-					//console.log("Image saved to", uri)
-				},
-				error => console.error("Oops, snapshot failed", error)
-			);
-		} catch (e) {
-			console.log(e);
-		}
+		// try {
+		// 	await captureScreen({
+		// 		format: "jpg",
+		// 		quality: 0.8
+		// 	}).then(
+		// 		uri => {
+		// 			handlePicker(uri)
+		// 			//console.log("Image saved to", uri)
+		// 		},
+		// 		error => console.error("Oops, snapshot failed", error)
+		// 	);
+		// } catch (e) {
+		// 	console.log(e);
+		// }
 		setShowDisputeChatVisible(true)
 	}
 
@@ -1181,13 +1199,13 @@ const chatScreen = (props, { navigation }) => {
 									onChangeText={(desc) => setDisputechatDescCheck(desc)}
 								/>
 							</View>
-							{/* <View style={{ marginTop: 10 }} />
+							<View style={{ marginTop: 10 }} />
 							<TouchableOpacity
 								onPress={() => onUploadDisputeChat()}
 								style={styles.savebtn}
 							>
 								<Text style={{ fontSize: 14, color: '#FFFFFF' }}>Upload Photo</Text>
-							</TouchableOpacity> */}
+							</TouchableOpacity>
 						</View>
 						<View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
 							<TouchableOpacity

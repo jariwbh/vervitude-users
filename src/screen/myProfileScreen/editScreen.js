@@ -10,7 +10,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as SCREEN from '../../context/screen/screenName';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import { AUTHUSER } from '../../context/actions/type';
+import { AUTHUSER, CLOUD_URL, UPLOAD_PRESET } from '../../context/actions/type';
 import ImagePicker from 'react-native-image-picker';
 import Loader from '../../components/loader/index';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -259,13 +259,13 @@ const editScreen = (props) => {
     const onPressUploadFile = async (fileObj) => {
         if (fileObj != null) {
             const realPath = Platform.OS === 'ios' ? fileObj.uri.replace('file://', '') : fileObj.uri;
-            await RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/dlopjt9le/upload', { 'Content-Type': 'multipart/form-data' },
+            await RNFetchBlob.fetch('POST', CLOUD_URL, { 'Content-Type': 'multipart/form-data' },
                 Platform.OS === 'ios' ?
                     [{ name: 'file', filename: fileObj.fileSize, type: fileObj.type, data: RNFetchBlob.wrap(decodeURIComponent(realPath)) },
-                    { name: 'upload_preset', data: 'gs95u3um' }]
+                    { name: 'upload_preset', data: UPLOAD_PRESET }]
                     :
                     [{ name: 'file', filename: fileObj.fileName, type: fileObj.type, data: RNFetchBlob.wrap(fileObj.uri) },
-                    { name: 'upload_preset', data: 'gs95u3um' }]
+                    { name: 'upload_preset', data: UPLOAD_PRESET }]
             )
                 .then(response => response.json())
                 .then(data => {

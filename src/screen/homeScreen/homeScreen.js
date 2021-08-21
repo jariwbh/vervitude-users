@@ -89,7 +89,7 @@ const homeScreen = (props) => {
     const PushNotifications = async () => {
         let fcmToken = await firebase.messaging().getToken();
         if (fcmToken != undefined) {
-            console.log(`fcmToken`, fcmToken);
+            // console.log(`fcmToken`, fcmToken);
             getFcmToken(fcmToken);
         }
 
@@ -118,15 +118,15 @@ const homeScreen = (props) => {
 
             // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
             onAction: function (notification) {
-                console.log("ACTION:", notification.action);
-                console.log("NOTIFICATION:", notification);
+                //  console.log("ACTION:", notification.action);
+                // console.log("NOTIFICATION:", notification);
                 // process the action
             },
 
             // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
             onRegistrationError: function (err) {
-                console.log(`err`, err);
-                console.error(err.message, err);
+                //  console.log(`err`, err);
+                // console.error(err.message, err);
             },
 
             // IOS ONLY (optional): default: all - Permissions to register.

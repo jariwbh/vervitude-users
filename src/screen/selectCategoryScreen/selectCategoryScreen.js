@@ -157,7 +157,7 @@ function selectCategoryScreen(props) {
                     <Image source={{ uri: item.property.image[0].attachment }} style={{ width: 60, height: 60, borderRadius: 8, borderWidth: 0.2, borderColor: '#000000' }} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                    <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000' }}>{item.property.skillcategory.substring(0, 8) + ' ...'}</Text>
+                    <Text style={{ fontSize: 10, textAlign: 'center', textTransform: 'uppercase', color: '#000000' }}>{item?.property?.skillcategory?.substring(0, 8) + ' ...'}</Text>
                     <TouchableOpacity onPress={() => WebViewScreen(item.property.link)}>
                         <Foundation name='info' size={15} color='#3399FF' style={{ marginLeft: 5 }} />
                     </TouchableOpacity>
@@ -177,7 +177,9 @@ function selectCategoryScreen(props) {
                 <Text style={{ fontSize: 14, color: '#000000', fontWeight: 'bold', textAlign: 'center', marginTop: -10, textTransform: 'capitalize' }}>
                     {item.property.first_name}
                 </Text>
-                <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item.property.usertag}</Text>
+                <View style={{}}>
+                    <Text style={{ fontSize: 12, color: '#999999', textAlign: 'center', textTransform: 'uppercase' }}>{item?.property?.usertag?.substring(0, 10)}</Text>
+                </View>
                 {
                     Number(item.ratinglen) > 0 ?
                         <View style={{ marginTop: -12, padding: 15, flexDirection: 'row' }}>
