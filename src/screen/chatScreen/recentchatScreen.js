@@ -14,6 +14,7 @@ import Loader from '../../components/loader/index';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const recentchatScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -119,7 +120,7 @@ const recentchatScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.recentChatStyles.container}>
-            <StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.recentChatStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

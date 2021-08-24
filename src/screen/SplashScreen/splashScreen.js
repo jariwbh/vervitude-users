@@ -5,6 +5,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import { StatusBar, SafeAreaView } from 'react-native';
 import { AUTHUSER } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 function SplashScreen(props) {
   useEffect(() => {
@@ -39,7 +40,7 @@ function SplashScreen(props) {
 
   return (
     <SafeAreaView style={{ flex: 1 }} >
-      <StatusBar hidden barStyle='light-content' />
+      <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
     </SafeAreaView>
   );
 }

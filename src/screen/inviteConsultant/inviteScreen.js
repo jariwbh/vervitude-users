@@ -8,6 +8,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const inviteScreen = (props) => {
     const [fullname, setfullname] = useState(null);
@@ -120,7 +121,7 @@ const inviteScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

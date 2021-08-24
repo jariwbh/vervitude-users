@@ -9,6 +9,7 @@ import moment from 'moment';
 import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const rechargedetailScreen = (props) => {
@@ -176,7 +177,7 @@ const rechargedetailScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.rechargeDetailStyles.container}>
-            <StatusBar hidden backgroundColor='#04DE71' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.myWalletStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

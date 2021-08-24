@@ -9,6 +9,7 @@ import { DisputeChatFilterService } from '../../services/DisputeChatService/Disp
 import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import { useFocusEffect } from '@react-navigation/native';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const disputesScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -164,7 +165,7 @@ const disputesScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.disputesStyle.container}>
-            <StatusBar hidden backgroundColor='#FA114F' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.disputesStyle.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

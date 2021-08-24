@@ -11,6 +11,7 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Loader from '../../components/loader/index';
 import FeedBackService from '../../services/FeedBackService/FeedBackService';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const RateingScreen = (props) => {
@@ -63,7 +64,8 @@ const RateingScreen = (props) => {
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{flex:1}}>
+        <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={styles.centerView}>
                     <View style={styles.EndChatModalView}>

@@ -7,6 +7,7 @@ import { AUTHUSER } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 export default class LoginWithPasswordScreen extends Component {
     constructor(props) {
@@ -104,7 +105,7 @@ export default class LoginWithPasswordScreen extends Component {
         const { loading, usererror, username, passworderror, password } = this.state;
         return (
             <SafeAreaView style={STYLES.styles.container} >
-                <StatusBar hidden translucent backgroundColor='transparent' />
+                <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLES.styles.circle}>

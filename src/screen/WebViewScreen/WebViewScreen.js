@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-na
 import { WebView } from 'react-native-webview';
 import Entypo from 'react-native-vector-icons/Entypo';
 const WIDTH = Dimensions.get('window').width;
-
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor'
 const WebViewScreen = (props) => {
     const URI = props.route.params.data;
     const [title, settitle] = useState('');
@@ -17,6 +17,7 @@ const WebViewScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15 }}>
                     <TouchableOpacity onPress={() => props.navigation.goBack(null)}>

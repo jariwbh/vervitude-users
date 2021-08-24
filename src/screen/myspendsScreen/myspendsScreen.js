@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 const WIDTH = Dimensions.get('window').width;
 
@@ -154,7 +155,7 @@ const myspendsScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar hidden backgroundColor='#FFE64F' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

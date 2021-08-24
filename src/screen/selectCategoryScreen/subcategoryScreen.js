@@ -18,6 +18,7 @@ import ActionButton from 'react-native-circular-action-menu';
 import { WalletDetailService } from '../../services/BillService/BillService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { useFocusEffect } from '@react-navigation/native';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const WIDTH = Dimensions.get('window').width;
 
 const subcategoryScreen = (props) => {
@@ -347,7 +348,7 @@ const subcategoryScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.SubCategoryStyles.container}>
-            <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.SubCategoryStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

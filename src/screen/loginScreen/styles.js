@@ -108,9 +108,9 @@ export const styles = StyleSheet.create({
 
 /// lginwitheamiscreen
 export const Loginemailstyle = StyleSheet.create({
-    container: {
+    container: {  
         flex: 1,
-        backgroundColor: '#00ff99',
+        //backgroundColor: '#00ff99',
     },
     centeView: {
         justifyContent: 'center',

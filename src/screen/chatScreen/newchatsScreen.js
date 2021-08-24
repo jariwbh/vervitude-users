@@ -14,6 +14,7 @@ import { TopConsultantViewListService } from '../../services/UserService/UserSer
 import { WalletDetailService } from '../../services/BillService/BillService';
 import { AUTHUSER } from '../../context/actions/type';
 import AsyncStorage from '@react-native-community/async-storage';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const WIDTH = Dimensions.get('window').width;
 
 const newchatsScreen = (props) => {
@@ -213,7 +214,7 @@ const newchatsScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.newChatStyles.container}>
-            <StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.newChatStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

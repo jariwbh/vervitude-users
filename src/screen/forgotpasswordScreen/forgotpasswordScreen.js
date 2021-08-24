@@ -12,6 +12,7 @@ import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
 import SendSmsService from '../../services/SendSmsService/SendSmsService';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const forgotpasswordScreen = (props) => {
     const [username, setusername] = useState(null);
@@ -324,7 +325,7 @@ const forgotpasswordScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.Forgetpasswordstyle.container}>
-            <StatusBar hidden translucent backgroundColor='transparent' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Forgetpasswordstyle.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLE.Forgetpasswordstyle.circle}>

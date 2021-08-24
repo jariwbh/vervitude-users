@@ -5,6 +5,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import axiosConfig from '../../helpers/axiosConfig';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const NewPasswordScreen = (props) => {
     const userName = props.route.params.userValue;
@@ -95,7 +96,7 @@ const NewPasswordScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar hidden translucent backgroundColor='transparent' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLES.styles.circle}>

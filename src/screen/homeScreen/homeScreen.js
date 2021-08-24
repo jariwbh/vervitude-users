@@ -30,6 +30,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
@@ -396,7 +397,7 @@ const homeScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.styles.container}>
-            <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ marginTop: 30, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }} >
                     <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>

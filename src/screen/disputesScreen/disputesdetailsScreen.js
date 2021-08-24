@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 import * as STYLES from './styles';
 
 const disputesdetailsScreen = (props) => {
@@ -8,7 +9,7 @@ const disputesdetailsScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.disputesStyle.container}>
-            <StatusBar hidden backgroundColor='#FA114F' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.disputesStyle.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

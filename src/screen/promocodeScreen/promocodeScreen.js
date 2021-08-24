@@ -9,6 +9,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import HTML from 'react-native-render-html';
 import * as STYLES from './styles';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const promocodeScreen = (props) => {
     const [SearchPromoCode, setSearchPromoCode] = useState([]);
@@ -127,7 +128,7 @@ const promocodeScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar hidden backgroundColor='#787AFF' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

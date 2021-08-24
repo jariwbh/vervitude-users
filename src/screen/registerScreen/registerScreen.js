@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import Spinner from 'react-native-loading-spinner-overlay';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 export default class registerScreen extends Component {
     constructor(props) {
@@ -363,7 +364,7 @@ export default class registerScreen extends Component {
         const { loading, usererror, mobile_numbererror, fullnameError, showModalVisible, showMessageModalVisible, subject, subjecterror, description, descriptionerror } = this.state;
         return (
             <SafeAreaView style={STYLES.styles.container} >
-                <StatusBar hidden translucent backgroundColor='transparent' />
+                <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLES.styles.circle}>
@@ -514,7 +515,7 @@ export default class registerScreen extends Component {
                                     />
                                 </View>
                             </View>
-                            <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                            <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <TouchableOpacity onPress={() => this.onModelSubmit()}
                                     style={STYLES.styles.savebtn}>
                                     <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Submit</Text>

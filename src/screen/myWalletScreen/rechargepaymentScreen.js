@@ -3,6 +3,7 @@ import { Text, View, SafeAreaView, TouchableOpacity, ScrollView, Image, StatusBa
 import { WebView } from 'react-native-webview';
 import * as STYLES from './styles';
 import RazorpayCheckout from 'react-native-razorpay';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const rechargepaymentScreen = (props) => {
     const URI = props.route.params.data;
@@ -21,6 +22,7 @@ const rechargepaymentScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.rechargePaymentStyles.container}>
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <WebView source={{ uri: URI }} />
         </SafeAreaView>
     )

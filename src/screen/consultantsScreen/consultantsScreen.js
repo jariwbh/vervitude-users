@@ -14,6 +14,7 @@ import { WalletDetailService } from '../../services/BillService/BillService';
 import AsyncStorage from '@react-native-community/async-storage';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { StartProject } from '../../services/ChatService/ChatService';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const consultantsScreen = (props) => {
@@ -174,7 +175,7 @@ const consultantsScreen = (props) => {
 
   return (
     <SafeAreaView style={STYLES.styles.container}>
-      <StatusBar hidden backgroundColor='#5AC8FA' barStyle='light-content' />
+      <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
       <View style={STYLES.styles.headerstyle}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 30, marginBottom: 10 }}>
           <View style={{ justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>

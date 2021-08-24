@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const myWalletScreen = (props) => {
     let couponDetails = props.route.params == undefined ? null : props.route.params.coupon;
@@ -177,7 +178,7 @@ const myWalletScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.myWalletStyles.container}>
-            <StatusBar hidden backgroundColor='#04DE71' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLES.myWalletStyles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

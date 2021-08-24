@@ -15,6 +15,7 @@ import ImagePicker from 'react-native-image-picker';
 import Loader from '../../components/loader/index';
 import RNFetchBlob from 'rn-fetch-blob';
 import * as STYLE from './styles';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const editScreen = (props) => {
 
@@ -313,7 +314,7 @@ const editScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.Editstyles.container}>
-            <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ justifyContent: 'flex-start' }}>

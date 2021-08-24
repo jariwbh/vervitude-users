@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import { getByIdNotificationDeleteService, NotificationService, deleteAllNotificationService } from '../../services/NotificationService/NotificationService';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const notificationScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -120,7 +121,7 @@ const notificationScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.styles.container}>
-            <StatusBar hidden backgroundColor='#00D9CE' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ justifyContent: 'flex-start', flexDirection: 'row' }}>

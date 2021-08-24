@@ -150,7 +150,7 @@ export const styles = StyleSheet.create({
     },
     savebtn: {
         flexDirection: 'row',
-        marginRight: 50,
+        marginLeft: 20,
         width: 100,
         height: 35,
         backgroundColor: '#00D9CE',
@@ -168,6 +168,7 @@ export const styles = StyleSheet.create({
     },
     cancelbtn: {
         flexDirection: 'row',
+        marginRight: 20,
         width: 100,
         height: 35,
         backgroundColor: '#EEEEEE',
@@ -225,8 +226,8 @@ export const styles = StyleSheet.create({
 /// forgetpassword
 export const Forgetpasswordstyle = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#00ff99',
+        flex: 1
+        // backgroundColor: '#00ff99',
     },
     centeView: {
         justifyContent: 'center',

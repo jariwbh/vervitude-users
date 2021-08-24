@@ -30,6 +30,7 @@ import HelpSupportService from '../../services/HelpSupportService/HelpSupportSer
 import Spinner from 'react-native-loading-spinner-overlay';
 //import { captureScreen ,captureRef} from "react-native-view-shot";
 import * as UPLOADKEY from '../../context/actions/type';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 const chatScreen = (props, { navigation }) => {
 	//chat variable
@@ -932,7 +933,7 @@ const chatScreen = (props, { navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<StatusBar hidden backgroundColor='#FFB629' barStyle='light-content' />
+			<GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
 			<View style={styles.headerstyle}>
 				<View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>

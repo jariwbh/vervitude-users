@@ -10,6 +10,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 //import SendSmsService from '../../services/SendSmsService/SendSmsService';
 
 const loginwithemailScreen = (props) => {
@@ -252,7 +253,7 @@ const loginwithemailScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.Loginemailstyle.container}>
-            <StatusBar hidden translucent backgroundColor='transparent' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLE.Loginemailstyle.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLE.Loginemailstyle.circle}>

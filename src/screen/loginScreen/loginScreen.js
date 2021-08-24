@@ -11,7 +11,7 @@ import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
-
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor'
 function loginScreen(props) {
     const [loading, setloading] = useState(false);
 
@@ -111,7 +111,7 @@ function loginScreen(props) {
 
     return (
         <SafeAreaView style={STYLES.styles.container}>
-            <StatusBar hidden barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={STYLES.styles.circle}>

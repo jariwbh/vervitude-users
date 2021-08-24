@@ -15,6 +15,7 @@ import { TopConsultantViewListService } from '../../services/UserService/UserSer
 import ActionButton from 'react-native-circular-action-menu';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { useFocusEffect } from '@react-navigation/native';
+import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 const WIDTH = Dimensions.get('window').width;
 
 function selectCategoryScreen(props) {
@@ -216,7 +217,7 @@ function selectCategoryScreen(props) {
 
     return (
         <SafeAreaView style={STYLES.categoryStyles.container}>
-            <StatusBar hidden backgroundColor='#2094FA' barStyle='light-content' />
+            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
             <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 20 }}>
                     <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
