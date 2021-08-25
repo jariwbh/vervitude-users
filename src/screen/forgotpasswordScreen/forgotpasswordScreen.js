@@ -387,8 +387,10 @@ const forgotpasswordScreen = (props) => {
                                         <Text style={STYLE.Forgetpasswordstyle.otpbtnText}>Verify OTP</Text>
                                     </TouchableOpacity>
                                 </View>
-
                             </View>
+                            <TouchableOpacity onPress={() => { props.navigation.goBack(null), resetScreen() }} style={{ marginTop: -5, justifyContent: 'center', alignItems: 'center' }} >
+                                <Text style={{ color: '#000000', fontSize: 14, textTransform: 'capitalize', fontWeight: 'bold' }}>{`<< Back`}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} >

@@ -317,6 +317,9 @@ const loginwithemailScreen = (props) => {
                                     </View>
                                 </View>
                             </View>
+                            <TouchableOpacity onPress={() => { props.navigation.goBack(null), resetScreen() }} style={{ marginTop: -10, justifyContent: 'center', alignItems: 'center' }} >
+                                <Text style={{ color: '#000000', fontSize: 14, textTransform: 'capitalize', fontWeight: 'bold' }}>{`<< Back`}</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={STYLE.Loginemailstyle.centeView} >
                             <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REGISTERSCREEN)}>

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     boxView: {
-        height: 420,
+        height: 440,
         width: WIDTH - 30,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -274,7 +274,16 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F4F4F4',
         marginLeft: 5
-    }
+    },
+    backBtn: {
+        flexDirection: 'row',
+        width: WIDTH / 3,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 50,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 })
 
 /// lginwitheamiscreen

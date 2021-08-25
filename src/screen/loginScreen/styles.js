@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
 
 /// lginwitheamiscreen
 export const Loginemailstyle = StyleSheet.create({
-    container: {  
+    container: {
         flex: 1,
         //backgroundColor: '#00ff99',
     },
@@ -295,7 +295,7 @@ export const Loginpasswordstyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     boxView: {
-        height: 250,
+        height: 260,
         width: WIDTH - 30,
         shadowOpacity: 0.5,
         shadowRadius: 1,

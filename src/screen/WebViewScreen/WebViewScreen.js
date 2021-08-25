@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import Entypo from 'react-native-vector-icons/Entypo';
 const WIDTH = Dimensions.get('window').width;
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor'
+
 const WebViewScreen = (props) => {
     const URI = props.route.params.data;
     const [title, settitle] = useState('');
 
     const _onNavigationStateChange = (webViewState) => {
         settitle(webViewState.url);
+    }
+
+    function LoadingIndicatorView() {
+        <ActivityIndicator color='#009b88' size='large' />
     }
 
     useEffect(() => {
@@ -32,9 +37,10 @@ const WebViewScreen = (props) => {
                 style={{ flex: 1 }}
                 source={{ uri: URI }}
                 onNavigationStateChange={_onNavigationStateChange}
+                renderLoading={LoadingIndicatorView}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
-                startInLoadingState={false}
+                startInLoadingState={true}
             />
         </SafeAreaView>
     )

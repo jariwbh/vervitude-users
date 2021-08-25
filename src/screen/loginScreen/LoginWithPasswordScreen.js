@@ -165,6 +165,9 @@ export default class LoginWithPasswordScreen extends Component {
                                             <Text style={STYLES.Loginpasswordstyle.loginBtnText}>Login</Text>
                                         </TouchableOpacity>
                                     </View>
+                                    <TouchableOpacity onPress={() => { this.props.navigation.goBack(null), this.resetScreen() }} style={{ marginTop: 5, justifyContent: 'center', alignItems: 'center' }} >
+                                        <Text style={{ color: '#000000', fontSize: 14, textTransform: 'capitalize', fontWeight: 'bold' }}>{`<< Back`}</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                             <View style={STYLES.styles.centeView} >

@@ -432,7 +432,7 @@ const myProfileScreen = (props) => {
                 <View style={{ alignItems: 'center', flex: 1 }}>
                     <View style={{ position: 'absolute', bottom: 20 }}>
                         <View style={STYLES.styles.vervitudemodalView}>
-                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://vervitude.findaconsultant.co/')}>
                                 <Text
                                     style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>About Us</Text>
                             </TouchableOpacity>
@@ -440,7 +440,7 @@ const myProfileScreen = (props) => {
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>
 
-                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://vervitude.findaconsultant.co/')}>
                                 <Text
                                     style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Terms of use</Text>
                             </TouchableOpacity>
@@ -448,7 +448,7 @@ const myProfileScreen = (props) => {
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>
 
-                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://vervitude.findaconsultant.co/')}>
                                 <Text
                                     style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Privacy Policy</Text>
                             </TouchableOpacity>
@@ -456,7 +456,7 @@ const myProfileScreen = (props) => {
                                 <View style={{ flex: 1, height: 1, backgroundColor: '#EEEEEE' }}></View>
                             </View>
 
-                            <TouchableOpacity onPress={() => WebViewScreen('https://www.vervitude.co/')}>
+                            <TouchableOpacity onPress={() => WebViewScreen('https://vervitude.findaconsultant.co/')}>
                                 <Text
                                     style={{ padding: 15, textAlign: 'center', color: '#000000', fontSize: 14 }}>Contact & Legas</Text>
                             </TouchableOpacity>

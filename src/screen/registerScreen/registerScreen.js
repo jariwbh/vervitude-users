@@ -373,7 +373,6 @@ export default class registerScreen extends Component {
                         <View style={{ marginTop: 20 }}>
                             <Text style={STYLES.styles.registertext}>Register</Text>
                         </View>
-
                         <View style={STYLES.styles.centeView}>
                             <View style={STYLES.styles.boxView}>
                                 <View>
@@ -455,6 +454,9 @@ export default class registerScreen extends Component {
                                         </TouchableOpacity>
                                     </View>
                                 </View>
+                                <TouchableOpacity onPress={() => { this.props.navigation.goBack(null), this.resetScreen() }} style={{ marginTop: -10, justifyContent: 'center', alignItems: 'center' }} >
+                                    <Text style={{ color: '#000000', fontSize: 14, textTransform: 'capitalize', fontWeight: 'bold' }}>{`<< Back`}</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }} >
@@ -481,6 +483,7 @@ export default class registerScreen extends Component {
                     visible={showModalVisible}
                     onRequestClose={() => { this.showModalVisible(!showModalVisible) }}
                 >
+                    {/* <View style={{ alignItems: 'center', height: '50%', marginTop: 'auto' }}> */}
                     <View style={{ alignItems: 'center', flex: 1 }}>
                         <View style={{ position: 'absolute', bottom: 20 }}>
                             <View style={STYLES.styles.modalView}>
