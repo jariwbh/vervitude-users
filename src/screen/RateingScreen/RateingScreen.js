@@ -64,8 +64,8 @@ const RateingScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{flex:1}}>
-        <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
+        <SafeAreaView style={{ flex: 1 }}>
+            <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                 <View style={styles.centerView}>
                     <View style={styles.EndChatModalView}>

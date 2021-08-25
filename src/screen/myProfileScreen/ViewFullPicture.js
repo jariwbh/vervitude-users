@@ -7,7 +7,7 @@ export default function ViewFullPicture(props) {
     const userProfile = props.route.params.userProfileImage;
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
+            <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
             <View style={{ justifyContent: 'flex-start', marginTop: 30 }}>
                 <TouchableOpacity onPress={() => { props.navigation.goBack(null) }}>
                     <AntDesign name='arrowleft' size={24} color='#00D9CE' style={{ marginLeft: 15 }} />

@@ -121,7 +121,7 @@ const notificationScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLE.styles.container}>
-            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
+            <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
             <View style={STYLE.styles.headerstyle}>
                 <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                     <View style={{ justifyContent: 'flex-start', flexDirection: 'row' }}>

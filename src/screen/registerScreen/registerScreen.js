@@ -364,7 +364,7 @@ export default class registerScreen extends Component {
         const { loading, usererror, mobile_numbererror, fullnameError, showModalVisible, showMessageModalVisible, subject, subjecterror, description, descriptionerror } = this.state;
         return (
             <SafeAreaView style={STYLES.styles.container} >
-                <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
+                <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/Images/background.png')} style={STYLES.styles.backgroundImage}>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={STYLES.styles.circle}>

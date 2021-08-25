@@ -22,7 +22,7 @@ const rechargepaymentScreen = (props) => {
 
     return (
         <SafeAreaView style={STYLES.rechargePaymentStyles.container}>
-            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
+            <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
             <WebView source={{ uri: URI }} />
         </SafeAreaView>
     )

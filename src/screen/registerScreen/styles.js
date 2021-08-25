@@ -4,7 +4,7 @@ const WIDTH = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1       
+        flex: 1
     },
     centeView: {
         justifyContent: 'center',
@@ -222,7 +222,7 @@ export const styles = StyleSheet.create({
     },
     cancelbtn: {
         flexDirection: 'row',
-        marginRight:20,
+        marginRight: 20,
         width: 100,
         height: 35,
         backgroundColor: '#EEEEEE',
@@ -281,7 +281,7 @@ export const styles = StyleSheet.create({
 export const Loginemailstyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#00ff99',
+        // backgroundColor: '#00ff99',
     },
     centeView: {
         justifyContent: 'center',

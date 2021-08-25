@@ -17,7 +17,7 @@ const WebViewScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <GeneralStatusBarColor hidden={'false'} translucent={'true'} backgroundColor="transparent" barStyle="dark-content" />
+            <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 15 }}>
                     <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
