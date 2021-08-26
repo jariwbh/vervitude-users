@@ -95,9 +95,9 @@ const loginwithemailScreen = (props) => {
 
     // generate OTP function 
     const createOtp = async () => {
-        axiosConfig('606abd8799e17f1678300c12')
+        axiosConfig('5e899bb161eb802d6037c4d7')
         let body;
-        if (username && mobile_number) {
+        if (!username && !mobile_number) {
             setMobileNumber(mobile_number);
             setEmail(username);
             return;
@@ -114,7 +114,7 @@ const loginwithemailScreen = (props) => {
                     "username": mobile_number
                 }
             }
-
+            console.log('call');
             const CheckUserResponse = await CheckUser(body);
             if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
@@ -207,7 +207,7 @@ const loginwithemailScreen = (props) => {
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
     const onPressSubmit = async (verifyOtpNumber) => {
-        axiosConfig('606abd8799e17f1678300c12');
+        axiosConfig('5e899bb161eb802d6037c4d7');
 
         let body;
         if (mobile_number) {
@@ -226,9 +226,18 @@ const loginwithemailScreen = (props) => {
             body = {
                 "messagetype": "EMAIL",
                 "message": {
-                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to log in to your Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "content": `Dear User,  
+
+                    Your One Time Password(OTP) is ${verifyOtpNumber} Use this to login into your Vervitude app account.  
+                    
+                    Please note this OTP is valid for 2 minutes.Do not share your otp with anyone. 
+                    
+                    For any queries or clarifications please write to us at info@vervitude.co  
+                    
+                    With Regards, 
+                    Team Vervitude`,
                     "to": username,
-                    "subject": "Login OTP Verification E-QUEST CONSULTING"
+                    "subject": " OTP for Login - Vervitude | Find a Consultant"
                 }
             }
         }
@@ -236,6 +245,7 @@ const loginwithemailScreen = (props) => {
         setloading(true);
         try {
             const response = await SendEmailandSmsService(body);
+            console.log(`response`, response)
             if (response.data != 'undefind' && response.status == 200) {
                 setloading(false);
             }

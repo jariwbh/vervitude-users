@@ -13,6 +13,7 @@ import * as STYLE from './styles';
 import SendSmsService from '../../services/SendSmsService/SendSmsService';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+//import OrganizationSetting from '../../services/OrganizationSetting/OrganizationSetting';
 
 const forgotpasswordScreen = (props) => {
     const [username, setusername] = useState(null);
@@ -33,11 +34,21 @@ const forgotpasswordScreen = (props) => {
     const [descriptionerror, setdescriptionerror] = useState(null);
     const secondTextInputRef = React.createRef();
     const [spinner, setspinner] = useState(false);
+    //const [smsMessage, setsmsMessage] = useState(null);
+
+    // useEffect(() => {
+    //     getsmsMessage();
+    // }, []);
 
     useEffect(() => {
     }, [username, loading, usererror, mobile_number, mobile_numbererror, verifyOtpNumber,
         inputOtpNumber, verifybtnDisable, sendbtnDisable, sendEmailbtnDisable, showModalVisible,
-        showMessageModalVisible, spinner])
+        showMessageModalVisible, spinner]);
+
+    // const getsmsMessage = async () => {
+    //     const response = await OrganizationSetting();
+    //     setsmsMessage(response.data[0].property);
+    // }
 
     const showModal = (visible) => {
         setshowModalVisible(visible);
@@ -269,10 +280,14 @@ const forgotpasswordScreen = (props) => {
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
     const onPressSubmit = async (verifyOtpNumber, member) => {
-        axiosConfig('606abd8799e17f1678300c12');
+        axiosConfig('5e899bb161eb802d6037c4d7');
         let mobilebody;
         let emailbody;
-        let body;
+        // let smscontent;
+        // smsMessage.otpmessages.forEach(element => {
+        //     if (element.otptype === 'password')
+        //         smscontent = element.message
+        // });
 
         if (member && member.mobile) {
             mobilebody = {
@@ -280,7 +295,7 @@ const forgotpasswordScreen = (props) => {
                 "message": {
                     "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to reset your password for Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
                     "to": member.mobile,
-                    "subject": "Reset Password OTP Verification E-QUEST CONSULTING"
+                    "subject": "Password Reset OTP - Vervitude | Find a Consultant"
                 }
             }
         }
@@ -289,9 +304,16 @@ const forgotpasswordScreen = (props) => {
             emailbody = {
                 "messagetype": "EMAIL",
                 "message": {
-                    "content": `Dear User, Use this 4 digit OTP ${verifyOtpNumber} to reset your password for Vervitude app. Please note this code is valid for 2 minutes. A brand by E-QUEST CONSULTING SOLUTIONS.`,
+                    "content": `Dear User, 
+
+                    Your One Time Password(OTP) is ${verifyOtpNumber} Use this to reset your password for Vervitude app. 
+                    
+                    Please note this OTP is valid for 2 minutes.Do not share your otp with anyone. For any queries or clarifications please write to us at info@vervitude.co 
+                    
+                    With Regards, 
+                    Team Vervitude`,
                     "to": member.primaryemail,
-                    "subject": "Reset Password OTP Verification E-QUEST CONSULTING"
+                    "subject": "Password Reset OTP - Vervitude | Find a Consultant"
                 }
             }
         }
@@ -299,13 +321,15 @@ const forgotpasswordScreen = (props) => {
         setloading(true);
         try {
             if (member && member.primaryemail) {
-                const response = await SendEmailandSmsService(body);
+                const response = await SendEmailandSmsService(emailbody);
+                console.log(`response email`, response);
                 if (response.data != 'undefind' && response.status == 200) {
                     setloading(false);
                 }
             }
 
             if (member && member.mobile) {
+                console.log(`response sms`, response1);
                 const response1 = await SendSmsService(mobilebody);
                 if (response1.data != 'undefind' && response1.status == 200) {
                     setloading(false);

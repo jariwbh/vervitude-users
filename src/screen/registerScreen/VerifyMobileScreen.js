@@ -72,7 +72,7 @@ export default function VerifyMobileScreen(props) {
 
     // generate OTP function 
     const createOtp = async () => {
-        axiosConfig('606abd8799e17f1678300c12')
+        axiosConfig('5e899bb161eb802d6037c4d7')
         if (!mobile_number) {
             setMobileNumber(mobile_number);
             return;
@@ -165,7 +165,7 @@ export default function VerifyMobileScreen(props) {
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
     const onPressSubmit = async (verifyOtpNumber) => {
-        axiosConfig('606abd8799e17f1678300c12');
+        axiosConfig('5e899bb161eb802d6037c4d7');
         let body;
         if (mobile_number) {
             body = {

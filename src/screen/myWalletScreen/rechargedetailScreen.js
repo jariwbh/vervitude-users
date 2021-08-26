@@ -10,6 +10,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import { Paymentgateway } from '../../services/OrganizationSetting/OrganizationSetting';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const rechargedetailScreen = (props) => {
@@ -153,21 +154,24 @@ const rechargedetailScreen = (props) => {
             if (response.data != null && response.data != 'undefind' && response.status === 200) {
                 setloading(true);
                 setbillRes(response.data);
-                var options = {
-                    description: 'Wallet Recharge',
-                    image: userDetails && userDetails.profilepic ? userDetails.profilepic : noProfile,
-                    currency: 'INR',
-                    key: 'rzp_test_ab33l8rxSjcnJZ', // Your api key
-                    amount: rechargeDetails.amount,
-                    name: userDetails.fullname,
-                    prefill: {
-                        email: userDetails.property.primaryemail,
-                        contact: userDetails.property.mobile,
-                        name: userDetails.fullname
-                    },
-                    theme: { color: '#04DE71' }
+                const PaymentgatewayResponse = await Paymentgateway(response.data._id);
+                if (PaymentgatewayResponse.data.paymentgateways[0].property.key_id) {
+                    var options = {
+                        description: 'Wallet Recharge',
+                        image: userDetails && userDetails.profilepic ? userDetails.profilepic : noProfile,
+                        currency: 'INR',
+                        key: PaymentgatewayResponse.data.paymentgateways[0].property.key_id, //'rzp_test_ab33l8rxSjcnJZ' // Your api key
+                        amount: rechargeDetails.amount,
+                        name: userDetails.fullname,
+                        prefill: {
+                            email: userDetails.property.primaryemail,
+                            contact: userDetails.property.mobile,
+                            name: userDetails.fullname
+                        },
+                        theme: { color: '#04DE71' }
+                    }
+                    razorPay(options, response.data)
                 }
-                razorPay(options, response.data)
             }
         } catch (error) {
             setloading(false);

@@ -203,7 +203,7 @@ export default class registerScreen extends Component {
         const { mobile_number } = this.state;
         const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
         this.setState({ loading: true });
-        axiosConfig('606abd8799e17f1678300c12');
+        axiosConfig('5e899bb161eb802d6037c4d7');
         let body;
         if (mobile_number) {
             body = {
