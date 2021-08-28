@@ -8,6 +8,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 export default class LoginWithPasswordScreen extends Component {
     constructor(props) {
@@ -92,6 +93,7 @@ export default class LoginWithPasswordScreen extends Component {
                 }
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             this.resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Username and Password Invalid', ToastAndroid.LONG);

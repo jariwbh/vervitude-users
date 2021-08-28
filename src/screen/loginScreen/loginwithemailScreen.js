@@ -11,6 +11,7 @@ import Loader from '../../components/loader/index';
 import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 //import SendSmsService from '../../services/SendSmsService/SendSmsService';
 
 const loginwithemailScreen = (props) => {
@@ -114,7 +115,7 @@ const loginwithemailScreen = (props) => {
                     "username": mobile_number
                 }
             }
-            console.log('call');
+            //console.log('call');
             const CheckUserResponse = await CheckUser(body);
             if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
@@ -154,10 +155,10 @@ const loginwithemailScreen = (props) => {
         if (username && mobile_number) {
             return;
         }
-        setloading(true);
+
         try {
             if (Number(inputOtpNumber) === Number(verifyOtpNumber)) {
-                setloading(false);
+                setloading(true);
                 let userValue;
                 if (username) {
                     userValue = username
@@ -181,6 +182,7 @@ const loginwithemailScreen = (props) => {
                         props.navigation.navigate(SCREEN.HOMESCREEN);
                     }
                     else {
+                        setloading(false);
                         props.navigation.navigate(SCREEN.VERIFYMOBILESCREEN, { user: response.data[0] });
                     }
                 }
@@ -195,6 +197,7 @@ const loginwithemailScreen = (props) => {
             }
         }
         catch (error) {
+            firebase.crashlytics().recordError(error);
             AsyncStorage.removeItem(AUTHUSER);
             resetScreen();
             if (Platform.OS === 'android') {
@@ -245,12 +248,13 @@ const loginwithemailScreen = (props) => {
         setloading(true);
         try {
             const response = await SendEmailandSmsService(body);
-            console.log(`response`, response)
+            //console.log(`response`, response)
             if (response.data != 'undefind' && response.status == 200) {
                 setloading(false);
             }
         }
         catch (error) {
+            firebase.crashlytics().recordError(error);
             AsyncStorage.removeItem(AUTHUSER);
             resetScreen();
             if (Platform.OS === 'android') {

@@ -16,6 +16,7 @@ import Loader from '../../components/loader/index';
 import RNFetchBlob from 'rn-fetch-blob';
 import * as STYLE from './styles';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const editScreen = (props) => {
 
@@ -229,6 +230,7 @@ const editScreen = (props) => {
         catch (error) {
             // console.log(`error`, error)
             setloading(false);
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Profile Not Update!', ToastAndroid.SHORT);
             } else {
@@ -306,6 +308,7 @@ const editScreen = (props) => {
         }
         catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show("Your Profile Not Update!", ToastAndroid.SHORT);
             } else { alert('Your Profile Not Update!') }

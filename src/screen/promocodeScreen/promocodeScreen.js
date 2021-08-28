@@ -10,6 +10,7 @@ import Loader from '../../components/loader/index';
 import HTML from 'react-native-render-html';
 import * as STYLES from './styles';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const promocodeScreen = (props) => {
     const [SearchPromoCode, setSearchPromoCode] = useState([]);
@@ -47,6 +48,7 @@ const promocodeScreen = (props) => {
                 setloading(false);
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             //  console.log(`error`, error);
         }
     }

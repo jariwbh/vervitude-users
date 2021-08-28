@@ -16,6 +16,7 @@ import axiosConfig from '../../helpers/axiosConfig';
 import { NotificationService } from '../../services/NotificationService/NotificationService';
 import { useFocusEffect } from '@react-navigation/native';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const myProfileScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -159,6 +160,7 @@ const myProfileScreen = (props) => {
         }
         catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
             } else {

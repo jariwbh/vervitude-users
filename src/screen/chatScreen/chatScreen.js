@@ -31,6 +31,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 //import { captureScreen ,captureRef} from "react-native-view-shot";
 import * as UPLOADKEY from '../../context/actions/type';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const chatScreen = (props, { navigation }) => {
 	//chat variable
@@ -148,12 +149,15 @@ const chatScreen = (props, { navigation }) => {
 
 		ImagePicker.showImagePicker({}, (response) => {
 			if (response.didCancel) {
+				firebase.crashlytics().recordError(response.didCancel);
 				setloading(false);
 				// console.log('User cancelled image picker');
 			} else if (response.error) {
+				firebase.crashlytics().recordError(response.error);
 				setloading(false);
 				// console.log('ImagePicker Error: ', response.error);
 			} else if (response.customButton) {
+				firebase.crashlytics().recordError(response.customButton);
 				setloading(false);
 				//  console.log('User tapped custom button: ', response.customButton);
 			} else {
@@ -267,6 +271,7 @@ const chatScreen = (props, { navigation }) => {
 			}
 		}
 		catch (error) {
+			firebase.crashlytics().recordError(error);
 			//console.log(`error`, error);
 			setloading(false);
 		}
@@ -413,7 +418,7 @@ const chatScreen = (props, { navigation }) => {
 		if (chatId) {
 			body.property.fierbasechatid = chatId
 		}
-		console.log(`formdatas`, formdatas.property.livechat);
+		//console.log(`formdatas`, formdatas.property.livechat);
 		try {
 			const response = await EndChatService(formdatas._id, body);
 			if (response.data != null && response.data != 'undefind' && response.status == 200) {
@@ -426,6 +431,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 		} catch (error) {
+			firebase.crashlytics().recordError(error);
 			//console.log(`error updateChatId`, error);
 			setloading(false);
 			if (Platform.OS === 'android') {
@@ -465,6 +471,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 		} catch (error) {
+			firebase.crashlytics().recordError(error);
 			//console.log(`error updateChatId`, error);
 			setloading(false);
 			if (Platform.OS === 'android') {
@@ -519,6 +526,7 @@ const chatScreen = (props, { navigation }) => {
 				setloading(false);
 			}
 		} catch (error) {
+			firebase.crashlytics().recordError(error);
 			//console.log(`error FindChatByIdService`, error);
 			setloading(false);
 		}
@@ -532,7 +540,7 @@ const chatScreen = (props, { navigation }) => {
 
 	//end chat menu click to call function(END CHAT API CALL)
 	const onpressDoneBtn = async () => {
-		console.log(`formdataDetails`, formdataDetails);
+		//console.log(`formdataDetails`, formdataDetails);
 		if (formdataDetails) {
 			setSpinner(true);
 			let endtime = moment().format();
@@ -559,7 +567,7 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 
-			console.log(`body EndChatService`, body);
+			//console.log(`body EndChatService`, body);
 			let generateBill = {
 				"customerid": sender,
 				"onModel": "Member",
@@ -591,14 +599,14 @@ const chatScreen = (props, { navigation }) => {
 					"totalcost": charges * minsDiff
 				}]
 			}
-			console.log(`generateBill`, generateBill);
+			//console.log(`generateBill`, generateBill);
 			try {
-				console.log(`body formdataDetails`, body)
+				//console.log(`body formdataDetails`, body)
 				const response = await EndChatService(formdataDetails._id, body);
 				if (response.data != null && response.data != 'undefind' && response.status == 200) {
 					//firestore().collection('chat').doc(chatId).update({ member: [[sender, item._id, 'chatend']], createdAt: createdAt.toString() });
 					firestore().collection('chat').doc(chatId).update({ 'endat': endtime });
-					console.log(`EndChatService response`, response);
+					//console.log(`EndChatService response`, response);
 					const billResponse = await BillService(generateBill);
 					if (billResponse.data != null && billResponse.data != 'undefind' && billResponse.status == 200) {
 						//console.log(`billResponse`, billResponse);
@@ -669,7 +677,8 @@ const chatScreen = (props, { navigation }) => {
 				}
 			}
 			catch (error) {
-				console.log(`error`, error);
+				firebase.crashlytics().recordError(error);
+				//console.log(`error`, error);
 				setSpinner(false);
 				//console.log(`error`, error);
 				if (Platform.OS === 'android') {
@@ -758,6 +767,7 @@ const chatScreen = (props, { navigation }) => {
 				showModalVisibleSubmit(!showStartProjectVisible)
 			}
 		} catch (error) {
+			firebase.crashlytics().recordError(error);
 			//console.log(`error`, error);
 		}
 	}
@@ -821,6 +831,7 @@ const chatScreen = (props, { navigation }) => {
 				setSpinner(false);
 			}
 		} catch (error) {
+			firebase.crashlytics().recordError(error);
 			setSpinner(false);
 			//console.log(`error`, error);
 		}
@@ -854,6 +865,7 @@ const chatScreen = (props, { navigation }) => {
 			}
 		}
 		catch (error) {
+			firebase.crashlytics().recordError(error);
 			setloading(false);
 		}
 	}

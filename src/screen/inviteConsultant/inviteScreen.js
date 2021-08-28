@@ -9,6 +9,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const inviteScreen = (props) => {
     const [fullname, setfullname] = useState(null);
@@ -110,6 +111,7 @@ const inviteScreen = (props) => {
         }
         catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('SignUp Failed!', ToastAndroid.SHORT);
             } else {

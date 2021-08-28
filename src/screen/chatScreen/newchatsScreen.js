@@ -15,6 +15,7 @@ import { WalletDetailService } from '../../services/BillService/BillService';
 import { AUTHUSER } from '../../context/actions/type';
 import AsyncStorage from '@react-native-community/async-storage';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const WIDTH = Dimensions.get('window').width;
 
 const newchatsScreen = (props) => {
@@ -38,6 +39,7 @@ const newchatsScreen = (props) => {
                     setwalletBalance(response.data[0].walletbalance);
                 }
             } catch (error) {
+                firebase.crashlytics().recordError(error);
                 // console.log(`error`, error);
             }
         });
@@ -69,6 +71,7 @@ const newchatsScreen = (props) => {
             }
             // axiosConfig(userId);
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             //console.log(`error`, error);
         }
     }

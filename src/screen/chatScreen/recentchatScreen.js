@@ -15,6 +15,7 @@ const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const recentchatScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -74,6 +75,7 @@ const recentchatScreen = (props) => {
         }
         catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             // console.log(`error`, error);
         }
     }

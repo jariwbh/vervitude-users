@@ -10,6 +10,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import { useFocusEffect } from '@react-navigation/native';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const disputesScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -59,8 +60,9 @@ const disputesScreen = (props) => {
             setDisputeList(response.data);
             setloading(false);
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             setloading(false);
-            console.log(`error`, error);
+            //console.log(`error`, error);
         }
     }
 

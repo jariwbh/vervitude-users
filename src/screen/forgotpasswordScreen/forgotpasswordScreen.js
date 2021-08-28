@@ -13,6 +13,7 @@ import * as STYLE from './styles';
 import SendSmsService from '../../services/SendSmsService/SendSmsService';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 //import OrganizationSetting from '../../services/OrganizationSetting/OrganizationSetting';
 
 const forgotpasswordScreen = (props) => {
@@ -114,6 +115,7 @@ const forgotpasswordScreen = (props) => {
         }
         catch (error) {
             setspinner(false);
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Message Sending Failed!', ToastAndroid.SHORT);
             } else {
@@ -229,7 +231,8 @@ const forgotpasswordScreen = (props) => {
             }
         }
         catch (error) {
-            console.log(`error`, error)
+            //console.log(`error`, error)
+            firebase.crashlytics().recordError(error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
@@ -268,7 +271,8 @@ const forgotpasswordScreen = (props) => {
             }
         }
         catch (error) {
-            console.log(`error`, error);
+            //console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);
@@ -337,7 +341,8 @@ const forgotpasswordScreen = (props) => {
             }
         }
         catch (error) {
-            console.log(`error`, error);
+            //console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits!', ToastAndroid.LONG);

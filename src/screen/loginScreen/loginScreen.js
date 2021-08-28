@@ -12,6 +12,8 @@ import * as STYLES from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor'
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+
 function loginScreen(props) {
     const [loading, setloading] = useState(false);
 
@@ -45,17 +47,21 @@ function loginScreen(props) {
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 setloading(false);
+                firebase.crashlytics().recordError(error);
                 // user cancelled the login flow
             } else if (error.code === statusCodes.IN_PROGRESS) {
                 setloading(false);
+                firebase.crashlytics().recordError(error);
                 // operation (e.g. sign in) is in progress already
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 setloading(false);
+                firebase.crashlytics().recordError(error);
                 // play services not available or outdated
             } else {
                 setloading(false);
                 // some other error happened
-                console.log(`error`, error);
+                //console.log(`error`, error);
+                firebase.crashlytics().recordError(error);
             }
         }
     };
@@ -95,6 +101,7 @@ function loginScreen(props) {
         }
         catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User Not Valid', ToastAndroid.LONG);
             } else {

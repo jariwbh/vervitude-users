@@ -16,6 +16,7 @@ import ActionButton from 'react-native-circular-action-menu';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { useFocusEffect } from '@react-navigation/native';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const WIDTH = Dimensions.get('window').width;
 
 function selectCategoryScreen(props) {
@@ -69,6 +70,7 @@ function selectCategoryScreen(props) {
             }
         } catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             //  console.log(`error`, error);
         }
     }
@@ -85,6 +87,7 @@ function selectCategoryScreen(props) {
             }
         } catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             // console.log(`error`, error);
         }
     }

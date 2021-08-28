@@ -6,6 +6,7 @@ import Loader from '../../components/loader/index';
 import * as STYLES from './styles';
 import axiosConfig from '../../helpers/axiosConfig';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const NewPasswordScreen = (props) => {
     const userName = props.route.params.userValue;
@@ -70,7 +71,7 @@ const NewPasswordScreen = (props) => {
             "username": userName
         }
 
-        console.log(`body`, body);
+        //console.log(`body`, body);
         setloading(true);
         try {
             const response = await ForgetPasswordService(body);
@@ -84,7 +85,8 @@ const NewPasswordScreen = (props) => {
                 props.navigation.navigate(SCREEN.LOGINWITHPASSWORDSCREEN);
             }
         } catch (error) {
-            console.log(`error`, error);
+            //console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Something wrong, try again letter!', ToastAndroid.LONG);

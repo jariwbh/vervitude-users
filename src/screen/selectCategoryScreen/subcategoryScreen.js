@@ -19,6 +19,7 @@ import { WalletDetailService } from '../../services/BillService/BillService';
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 import { useFocusEffect } from '@react-navigation/native';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const WIDTH = Dimensions.get('window').width;
 
 const subcategoryScreen = (props) => {
@@ -59,6 +60,7 @@ const subcategoryScreen = (props) => {
                 setwalletBalance(response.data[0].walletbalance)
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             // console.log(`error`, error);
         }
     }
@@ -72,6 +74,7 @@ const subcategoryScreen = (props) => {
                 setSubCategory(response.data);
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             // console.log(`error`, error);
         }
     }

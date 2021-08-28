@@ -12,6 +12,7 @@ const WIDTH = Dimensions.get('window').width;
 import Loader from '../../components/loader/index';
 import FeedBackService from '../../services/FeedBackService/FeedBackService';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const RateingScreen = (props) => {
@@ -56,6 +57,7 @@ const RateingScreen = (props) => {
                     props.navigation.navigate(SCREEN.HOMESCREEN);
                 }
             } catch (error) {
+                firebase.crashlytics().recordError(error);
                 console.log(`error`, error);
             }
         } else {

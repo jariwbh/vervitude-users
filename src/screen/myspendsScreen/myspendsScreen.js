@@ -10,6 +10,7 @@ import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import moment from 'moment';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 const WIDTH = Dimensions.get('window').width;
 
@@ -34,6 +35,7 @@ const myspendsScreen = (props) => {
                     }
                 } catch (error) {
                     setloading(false);
+                    firebase.crashlytics().recordError(error);
                     // console.log(`error`, error);
                 }
             });
@@ -54,6 +56,7 @@ const myspendsScreen = (props) => {
             }
         } catch (error) {
             setloading(false);
+            firebase.crashlytics().recordError(error);
             //  console.log(`error`, error);
         }
     }

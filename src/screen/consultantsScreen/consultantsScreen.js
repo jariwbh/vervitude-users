@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { StartProject } from '../../services/ChatService/ChatService';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const consultantsScreen = (props) => {
@@ -45,6 +46,7 @@ const consultantsScreen = (props) => {
             setwalletBalance(response.data[0].walletbalance)
           }
         } catch (error) {
+          firebase.crashlytics().recordError(error);
           // console.log(`error`, error);
         }
       });
@@ -53,7 +55,6 @@ const consultantsScreen = (props) => {
   )
 
   useEffect(() => {
-    console.log(`consultanDetails`, consultanDetails)
   }, [walletBalance])
 
   //render Brand Photo 
@@ -169,6 +170,7 @@ const consultantsScreen = (props) => {
         setProjectMobile(null);
       }
     } catch (error) {
+      firebase.crashlytics().recordError(error);
       //console.log(`error`, error);
     }
   }

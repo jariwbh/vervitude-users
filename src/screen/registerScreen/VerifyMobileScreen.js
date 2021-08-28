@@ -13,6 +13,7 @@ import OtpInputs from 'react-native-otp-inputs';
 import * as STYLE from './styles';
 import { UserPatchService } from '../../services/UserService/UserService';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 export default function VerifyMobileScreen(props) {
     let userDetails = props.route.params.user;
@@ -103,6 +104,7 @@ export default function VerifyMobileScreen(props) {
         }
         catch (error) {
             resetScreen();
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
             } else {
@@ -155,6 +157,7 @@ export default function VerifyMobileScreen(props) {
         }
         catch (error) {
             resetScreen();
+            firebase.crashlytics().recordError(error);
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);
             } else {
@@ -186,6 +189,7 @@ export default function VerifyMobileScreen(props) {
             }
         }
         catch (error) {
+            firebase.crashlytics().recordError(error);
             resetScreen();
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User not exits', ToastAndroid.LONG);

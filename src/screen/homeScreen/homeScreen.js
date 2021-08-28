@@ -31,6 +31,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics from "@react-native-firebase/crashlytics";
 
 const homeScreen = (props) => {
     const [consultant, setConsultant] = useState([]);
@@ -78,6 +79,7 @@ const homeScreen = (props) => {
             const response = await SliderService();
             setsliderData(response.data);
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             // console.log(`error`, error);
         }
     }
@@ -210,7 +212,8 @@ const homeScreen = (props) => {
             }
         }
         catch (error) {
-            console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
+            //console.log(`error`, error);
             setloading(false);
         }
     }
@@ -223,6 +226,7 @@ const homeScreen = (props) => {
                 authenticateUser(response.data);
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             setloading(false);
         }
     }
@@ -235,6 +239,7 @@ const homeScreen = (props) => {
             const slice = uniqueValues.slice(0, 4);
             setCategory([...slice, { add: true }]);
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             // console.log(`error`, error);
         }
     }
@@ -272,6 +277,7 @@ const homeScreen = (props) => {
             setConsultant(slice);
             setloading(false);
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             //  console.log(`error`, error);
         }
     }

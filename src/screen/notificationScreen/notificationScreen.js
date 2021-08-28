@@ -9,6 +9,7 @@ import { AUTHUSER } from '../../context/actions/type';
 import { getByIdNotificationDeleteService, NotificationService, deleteAllNotificationService } from '../../services/NotificationService/NotificationService';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const notificationScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -46,11 +47,11 @@ const notificationScreen = (props) => {
     const getNotification = async (id) => {
         try {
             const response = await NotificationService(id);
-            console.log(`response.data`, response.data);
             setNotification(response.data.length);
             setNotificationList(response.data);
         } catch (error) {
-            console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
+            //console.log(`error`, error);
         }
     }
 
@@ -83,6 +84,7 @@ const notificationScreen = (props) => {
             if (response.data != null && response.data != undefined && response.status == 200)
                 getNotification(UserId);
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             console.log(`error`, error);
         }
     }
@@ -99,6 +101,7 @@ const notificationScreen = (props) => {
                 getNotification(UserId);
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             console.log(`error`, error);
         }
     }

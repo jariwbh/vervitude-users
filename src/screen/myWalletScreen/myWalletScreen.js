@@ -14,6 +14,7 @@ import Loader from '../../components/loader/index';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const myWalletScreen = (props) => {
     let couponDetails = props.route.params == undefined ? null : props.route.params.coupon;
@@ -46,6 +47,7 @@ const myWalletScreen = (props) => {
                 setloading(false);
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             //(`error`, error);
         }
     }
@@ -73,6 +75,7 @@ const myWalletScreen = (props) => {
                 setwallateHistory(response.data);
             }
         } catch (error) {
+            firebase.crashlytics().recordError(error);
             console.log(`error`, error);
         }
     }

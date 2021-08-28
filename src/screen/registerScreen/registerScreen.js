@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import HelpSupportService from '../../services/HelpSupportService/HelpSupportService';
 import Spinner from 'react-native-loading-spinner-overlay';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 
 export default class registerScreen extends Component {
@@ -128,6 +129,7 @@ export default class registerScreen extends Component {
             })
         }
         catch (error) {
+            firebase.crashlytics().recordError(error);
             this.setState({ spinner: false });
             if (Platform.OS === 'android') {
                 ToastAndroid.show('Requested Sending Failed!', ToastAndroid.SHORT);
@@ -229,7 +231,8 @@ export default class registerScreen extends Component {
                 }
             }
             catch (error) {
-                //console.log(`error`, error);              
+                //console.log(`error`, error);   
+                firebase.crashlytics().recordError(error);
                 if (Platform.OS === 'android') {
                     ToastAndroid.show('User not exits', ToastAndroid.LONG);
                 } else {
@@ -253,15 +256,19 @@ export default class registerScreen extends Component {
             this.onPressSubmitGoogle(info.user);
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                firebase.crashlytics().recordError(error);
                 this.setState({ loading: false });
                 // user cancelled the login flow
             } else if (error.code === statusCodes.IN_PROGRESS) {
+                firebase.crashlytics().recordError(error);
                 this.setState({ loading: false });
                 // operation (e.g. sign in) is in progress already
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                firebase.crashlytics().recordError(error);
                 this.setState({ loading: false });
                 // play services not available or outdated
             } else {
+                firebase.crashlytics().recordError(error);
                 this.setState({ loading: false });
                 // some other error happened
                 //console.log(`error`, error);
@@ -291,6 +298,7 @@ export default class registerScreen extends Component {
             }
         }
         catch (error) {
+            firebase.crashlytics().recordError(error);
             this.setState({ loading: false });
             if (Platform.OS === 'android') {
                 ToastAndroid.show('User Not Valid', ToastAndroid.LONG);
@@ -350,6 +358,7 @@ export default class registerScreen extends Component {
             }
         }
         catch (error) {
+            firebase.crashlytics().recordError(error);
             //console.log(`error`, error);
             this.resetScreen();
             if (Platform.OS === 'android') {
@@ -361,7 +370,8 @@ export default class registerScreen extends Component {
     }
 
     render() {
-        const { loading, usererror, mobile_numbererror, fullnameError, showModalVisible, showMessageModalVisible, subject, subjecterror, description, descriptionerror } = this.state;
+        const { loading, usererror, mobile_numbererror, fullnameError, showModalVisible, showMessageModalVisible,
+            subject, subjecterror, description, descriptionerror, spinner } = this.state;
         return (
             <SafeAreaView style={STYLES.styles.container} >
                 <GeneralStatusBarColor hidden={false} translucent={true} backgroundColor="transparent" barStyle="dark-content" />
@@ -475,6 +485,7 @@ export default class registerScreen extends Component {
                     </ScrollView>
                 </ImageBackground>
                 {loading ? <Loader /> : null}
+                {spinner ? <Spinner /> : null}
 
                 {/* Help & Support model Pop */}
                 <Modal

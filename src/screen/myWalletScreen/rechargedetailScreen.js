@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { AUTHUSER } from '../../context/actions/type';
 import GeneralStatusBarColor from '../../components/StatusBarStyle/GeneralStatusBarColor';
 import { Paymentgateway } from '../../services/OrganizationSetting/OrganizationSetting';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const noProfile = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1613538969/profile1_xspwoy.png';
 
 const rechargedetailScreen = (props) => {
@@ -51,7 +52,8 @@ const rechargedetailScreen = (props) => {
                 setloading(false);
             }
         } catch (error) {
-            console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
+            //console.log(`error`, error);
         }
     }
 
@@ -69,13 +71,14 @@ const rechargedetailScreen = (props) => {
         setloading(false);
         RazorpayCheckout.open(options).then((data) => {
             // handle success
-            console.log(`Success`, data.razorpay_payment_id);
+            //console.log(`Success`, data.razorpay_payment_id);
             genratebill(res)
         }).catch((error) => {
             // handle failure
             setloading(false);
             props.navigation.navigate(SCREEN.MYWALLETSCREEN);
-            console.log(`error`, error)
+            firebase.crashlytics().recordError(error);
+            //console.log(`error`, error)
         });
     }
 
@@ -175,7 +178,8 @@ const rechargedetailScreen = (props) => {
             }
         } catch (error) {
             setloading(false);
-            console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
+            //console.log(`error`, error);
         }
     }
 
